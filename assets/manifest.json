@@ -1,0 +1,189 @@
+{
+  "format_version": 1,
+  "release_reference": "v0.5.1",
+  "target_rom_sha256": "f96fe0ecac53cc586eac19b53fe1b50cef3fd1751261ae273c2356b2c6c62795",
+  "role": "editable reference only; release builder reads source/resources, not these PNG or glyph JSON files",
+  "fonts": [
+    {
+      "file": "fonts/jpzh-bitmap-12.json",
+      "glyph_count": 150,
+      "sha256": "1539a432054396b9dd35016a34025444f15408d64583ea019514fa8fcd6e2171",
+      "license": "OFL-1.1"
+    },
+    {
+      "file": "fonts/jpzh-bitmap-hud-8.json",
+      "glyph_count": 5,
+      "sha256": "1bff0ffb6977a0f7311a3c5b57c1b463b1e4cffdec0174f9af334f809795a8c8",
+      "license": "OFL-1.1"
+    }
+  ],
+  "artwork": [
+    {
+      "file": "artwork/title-logo.png",
+      "description": "标题中文标志最终稿；已按 Game Boy 四级灰度规范化",
+      "size": [
+        160,
+        120
+      ],
+      "mode": "RGBA",
+      "sha256": "74172af77b207d0e66c05e288bf589c7fcd8bb8644e54b822daa225c1db8e431",
+      "approved_input_sha256": "dc6cbce31eb859b53841aa60d83d7a546ee206f58f68ff114926e5180ebc034f",
+      "rgba_sha256": "5766cb5c439536b507c98e1f2a10c8f568e63ad7b748af8b84e0c8925c003439",
+      "rgba_pixels_preserved": true,
+      "metadata_removed": true,
+      "rights": "game-derived-user-edited; see ../THIRD_PARTY_NOTICES.md"
+    },
+    {
+      "file": "artwork/corner-logo.png",
+      "description": "场景介绍右下角中文标志最终稿",
+      "size": [
+        32,
+        16
+      ],
+      "mode": "RGBA",
+      "sha256": "e03022512fd1445aae874f68c62e8045d4e0198f73a9e853934ccbc1dc7a3482",
+      "approved_input_sha256": "8d9454e812d0b72557c6401a322a4edbe8771319b5609cc2cc51437a6850a7cd",
+      "rgba_sha256": "8a972388b284f3bb52374080cda68368f54a4064c7c87047d77b4d954e09dd53",
+      "rgba_pixels_preserved": true,
+      "metadata_removed": true,
+      "rights": "game-derived-user-edited; see ../THIRD_PARTY_NOTICES.md"
+    },
+    {
+      "file": "artwork/configuration-background.png",
+      "description": "配置页中文平铺背景最终稿",
+      "size": [
+        160,
+        144
+      ],
+      "mode": "RGBA",
+      "sha256": "02b986a2f78c072f281f4cfdd16d55554428bbe0236d04103952ad3ab2fb8fbd",
+      "approved_input_sha256": "9de5de52f2bcd2bcd78e0002ea9538ccdc5b2832d97ea75b9df00dc1034978ea",
+      "rgba_sha256": "548194855b3b4c66280432e18b91f3d72532e0f7a3d1d957f5d5493761703280",
+      "rgba_pixels_preserved": true,
+      "metadata_removed": true,
+      "rights": "game-derived-user-edited; see ../THIRD_PARTY_NOTICES.md"
+    },
+    {
+      "file": "artwork/ending-sign.png",
+      "description": "结尾“剧终”牌最终稿",
+      "size": [
+        32,
+        32
+      ],
+      "mode": "RGBA",
+      "sha256": "3a380099608dc9334024360bfd91371d72291d81b605d89f8541884017017bd3",
+      "approved_input_sha256": "fa4401f804930e577fc6c839a9a6457d9da5a44c9e838e26e83d82d5f519ceed",
+      "rgba_sha256": "22f93d801d34fb127cc81c0273a767869f649746a9c4acb93e8fabdddac7b9f5",
+      "rgba_pixels_preserved": true,
+      "metadata_removed": true,
+      "rights": "game-derived-user-edited; see ../THIRD_PARTY_NOTICES.md"
+    },
+    {
+      "file": "artwork/ending-hint-normal.png",
+      "description": "普通通关提示：最终核准的 8px 中文排版",
+      "size": [
+        160,
+        144
+      ],
+      "mode": "RGBA",
+      "sha256": "b25c340c1a1b55ca1856794a02a941d8384e9bd6e1b58a2d297c8056c9459681",
+      "approved_input_sha256": "1b0fcc4c5c466e26f05b83432e369517fa472c09fb7c71d706b9b2da0ff90eb5",
+      "rgba_sha256": "70e74d575421c8b8e19659741be56e13b6e56a3dc63f60e8db7076ae47981c73",
+      "rgba_pixels_preserved": true,
+      "metadata_removed": true,
+      "rights": "game-derived-user-edited; see ../THIRD_PARTY_NOTICES.md"
+    },
+    {
+      "file": "artwork/ending-hint-extra.png",
+      "description": "额外模式通关提示：最终核准的 8px 中文排版",
+      "size": [
+        160,
+        144
+      ],
+      "mode": "RGBA",
+      "sha256": "f55e40d430c9cfbc115a8a0752dc1822ed32a467e2700d64ac18534d4d7e8a88",
+      "approved_input_sha256": "ded782a8f98ad382974a73ebcf78396952bfe940b198821ccb897a861f0360c8",
+      "rgba_sha256": "69c7dadecc57cc2e72ff6bcbf26c68093e5a59454cc64fd52c1b91336781b02a",
+      "rgba_pixels_preserved": true,
+      "metadata_removed": true,
+      "rights": "game-derived-user-edited; see ../THIRD_PARTY_NOTICES.md"
+    },
+    {
+      "file": "artwork/stage-01-background.png",
+      "description": "第 1 关手工补全背景最终稿",
+      "size": [
+        160,
+        144
+      ],
+      "mode": "RGBA",
+      "sha256": "b3ac82ba8ed35eaf02f9012107c7600af11a5ec39c4a2f0f928cfff1894a80cd",
+      "approved_input_sha256": "a0049805e877ba4faade4c84378cd903e032bbb81f7a75f30b3d37e182f2bc27",
+      "rgba_sha256": "93ef74773aef371157070ac816a703e0fc1d90112214513d14e97194d1082124",
+      "rgba_pixels_preserved": true,
+      "metadata_removed": true,
+      "rights": "game-derived-user-edited; see ../THIRD_PARTY_NOTICES.md"
+    },
+    {
+      "file": "artwork/stage-02-background.png",
+      "description": "第 2 关手工补全背景最终稿",
+      "size": [
+        160,
+        144
+      ],
+      "mode": "RGBA",
+      "sha256": "c7f5f260a25bb9856f1a0846511e58c46340594a8dabacecf447df982780116b",
+      "approved_input_sha256": "0ce7d99ca2a045d6e027ec20cfa5d9c38b0be025189a5bd02551ac78575a5c52",
+      "rgba_sha256": "be394f470bdb112e07e403fb7e8ba807711fb9dea1e636774730e705a0b74425",
+      "rgba_pixels_preserved": true,
+      "metadata_removed": true,
+      "rights": "game-derived-user-edited; see ../THIRD_PARTY_NOTICES.md"
+    },
+    {
+      "file": "artwork/gallery-03-background.png",
+      "description": "图鉴第 3 页第 2 次修订最终稿；已规范化为 Game Boy 四级灰度",
+      "size": [
+        160,
+        144
+      ],
+      "mode": "RGBA",
+      "sha256": "d2f6e34935bfafcba62370e16257afeefe9f2106726a9f8bb4a0a738713b780b",
+      "approved_input_sha256": "4c1811cf667181afa393c1f12df71407c5e2824cad5ae1a868927637d541afff",
+      "rgba_sha256": "cdd6924bcf88f7f52c41220696a5ce4a65dd60c23e3e4b9296fb254c22c7f62b",
+      "rgba_pixels_preserved": true,
+      "metadata_removed": true,
+      "rights": "game-derived-user-edited; see ../THIRD_PARTY_NOTICES.md"
+    }
+  ],
+  "license_copies": [
+    {
+      "path": "LICENSES/Fusion-Pixel-OFL.txt",
+      "sha256": "bc518cf64b8032c07690f33cc270c35c179255a6ac8efa7c165ebae7e8f76a63",
+      "copied_verbatim": true
+    },
+    {
+      "path": "LICENSES/Fusion-Pixel-upstream/BoutiqueBitmap7x7-OFL.txt",
+      "sha256": "ad588b5ce58a02179b806381339fd380e5110771f2fa91279af026fd3ab97002",
+      "copied_verbatim": true
+    },
+    {
+      "path": "LICENSES/Fusion-Pixel-upstream/Galmuri-LICENSE.txt",
+      "sha256": "86a3ee9495f942f0243f18c103da9faca27adb88142613edb8bb852e56c892c1",
+      "copied_verbatim": true
+    },
+    {
+      "path": "LICENSES/Fusion-Pixel-upstream/Misaki-misaki.txt",
+      "sha256": "82929cc3b34c79b6a67f21fe137c7bb165589c9e34ba1441611e493afd67dfca",
+      "copied_verbatim": true
+    },
+    {
+      "path": "LICENSES/Fusion-Pixel-upstream/MisekiBitmap-LICENSE.txt",
+      "sha256": "e855b45b384d37c9a778119271bd9c32706e3f1f9f278de0ad47347606eea846",
+      "copied_verbatim": true
+    },
+    {
+      "path": "LICENSES/ZLabs-Pixel-12px-OFL.txt",
+      "sha256": "1b4d4877cb561c1800e3a2eacdbcd024760d20971656cec042d434ae9ee33c1d",
+      "copied_verbatim": true
+    }
+  ]
+}

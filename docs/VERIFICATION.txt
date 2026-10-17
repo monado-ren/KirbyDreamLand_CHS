@@ -1,0 +1,58 @@
+KirbyDreamLand_CHS v0.5.1 / Monado
+Verification date: 2026-10-18
+
+The public source tree plus one user-provided Japanese Rev1 baserom.gb
+rebuilds the existing kirby_jp_rev1_zh_v0.5.1_stage5_up2.gb byte for byte.
+No original ROM, localized ROM, emulator or save state is distributed.
+
+BASELINE (repository root; Python 3 standard library):
+  python -B -S tools/check_base.py
+  Input: baserom.gb, 262144 bytes
+  Literal output:
+BASELINE=PASS MD5=995ce81fe91162cff295badd94e366f3 SHA1=5fe35fab25299b6c53b40decfe2b1827b4a64d2a SHA256=c4c6aff6242116c4f26bdcf3343b6c27836010853b8753da8b0cb953a200834a
+  Exit status: 0
+
+MODIFIED (xdelta3 3.2.2 in PATH):
+  python -B -S tools/release.py
+  Input: same verified baserom.gb + source/manifest.json + 71 raw resources
+  Literal output:
+RELEASE=PASS VERSION=v0.5.1 XDELTA=3.2.2
+ROM_SHA256=f96fe0ecac53cc586eac19b53fe1b50cef3fd1751261ae273c2356b2c6c62795
+PATCH_SHA256=6e1357d1f3b1d1279342cfe903eb1330a8849611a482c70c5adb85bf1e207373
+XDELTA_REPLAY=PASS BASE_UNCHANGED=PASS
+  Exit status: 0
+  ROM size: 524288 bytes
+  Patch size: 34852 bytes
+
+ROLLBACK (a separate copy; main build output remains localized):
+  Preparation: copy KirbyDreamLand_CHS-Monado.gb to build/rollback-test.gb
+  bash ROLLBACK.sh --base baserom.gb --target build/rollback-test.gb
+  Input: verified original + separate localized copy
+  Literal output:
+ROLLBACK=PASS RESTORED=JAPAN_REV1_UNLOCALIZED SHA256=c4c6aff6242116c4f26bdcf3343b6c27836010853b8753da8b0cb953a200834a
+  Exit status: 0
+  Restored copy is byte-identical to original Japanese Rev1 (unlocalized).
+  baserom.gb, the historical reference ROM, and the main localized output
+  remain unchanged by rollback. No new emulator run is claimed here.
+
+Additional executed checks:
+- Public unit tests: 84 passed, exit 0.
+- Selftest: HAL_CASES=6 MALFORMED_HAL=3 IPS_CASES=3 RESOURCES=71 NO_ROM=YES.
+- Fresh Git-index checkout + only baserom.gb: same ROM AND patch bytes.
+- Separate xdelta3decode executable: exact target replay, exit 0.
+- Wrong 262144-byte input: rejected with exit 1; neither ROM nor patch written.
+- git check-ignore: baserom.gb and KirbyDreamLand_CHS-Monado.gb are ignored.
+- Tracked content audit: PASS, no ROM/header, runtime, private path or token.
+- 71/71 HAL recompressed streams match; Rev1 native fixes remain present.
+
+Changed project fields:
+  standalone_rev1_build, tracked_xdelta3, ignored_rom_outputs,
+  revision_tracking_repository
+Initial source branch: codex/release-v0.5.1 -> origin/main
+Build source: source/manifest.json + source/resources/
+Modified output: KirbyDreamLand_CHS-Monado.gb (local only)
+Published delta: KirbyDreamLand_CHS-Monado.xdelta3
+Executable rollback: ROLLBACK.sh
+
+Original header revision remains 1; size code is 4 (512 KiB).
+The public CI runs its own synthetic/resource tests, not historical BGB tests.

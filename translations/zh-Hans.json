@@ -1,0 +1,1104 @@
+{
+  "format_version": 1,
+  "language": "zh-Hans",
+  "release_reference": "v0.5.1",
+  "baseline": "Hoshi no Kirby (Japan) (Rev 1)",
+  "role": "reviewed editorial reference only; not an automatic renderer input",
+  "reviewed_entry_count": 121,
+  "integrated_entry_count": 84,
+  "not_localized_entry_count": 37,
+  "project_item_count": 86,
+  "count_note": "86 工程项 = 84 条核稿文本（含标题 Logo 与剧终牌）+ 右下 Logo 与配置背景 2 项贴图。未把 121 条核稿记录等同于已汉化。",
+  "render_note": "\n 保留核稿单元格内换行；最终图像的缩进、位置、像素以已审定 artwork 和 source/resources 为准。此表不承诺自动排版，也不保留旧版 ROM 偏移。",
+  "entries": [
+    {
+      "id": "stage_1_number",
+      "section": "stage",
+      "source_text": "STAGE 1",
+      "translation_zh_hans": "场景1",
+      "review_status": "approved",
+      "integration_status": "integrated",
+      "note": "当前版本已接入"
+    },
+    {
+      "id": "stage_1_name",
+      "section": "stage",
+      "source_text": "GREEN GREENS",
+      "translation_zh_hans": "葛绿谷绿",
+      "review_status": "approved",
+      "integration_status": "integrated",
+      "note": "当前版本已接入"
+    },
+    {
+      "id": "stage_2_number",
+      "section": "stage",
+      "source_text": "STAGE 2",
+      "translation_zh_hans": "场景2",
+      "review_status": "approved",
+      "integration_status": "integrated",
+      "note": "当前版本已接入"
+    },
+    {
+      "id": "stage_2_name",
+      "section": "stage",
+      "source_text": "CASTLE LOLOLO",
+      "translation_zh_hans": "箩箩箩的城堡",
+      "review_status": "approved",
+      "integration_status": "integrated",
+      "note": "当前版本已接入"
+    },
+    {
+      "id": "stage_3_number",
+      "section": "stage",
+      "source_text": "STAGE 3",
+      "translation_zh_hans": "场景3",
+      "review_status": "approved",
+      "integration_status": "integrated",
+      "note": "当前版本已接入"
+    },
+    {
+      "id": "stage_3_name",
+      "section": "stage",
+      "source_text": "FLOAT ISLANDS",
+      "translation_zh_hans": "漂浮岛屿",
+      "review_status": "approved",
+      "integration_status": "integrated",
+      "note": "当前版本已接入"
+    },
+    {
+      "id": "stage_4_number",
+      "section": "stage",
+      "source_text": "STAGE 4",
+      "translation_zh_hans": "场景4",
+      "review_status": "approved",
+      "integration_status": "integrated",
+      "note": "当前版本已接入"
+    },
+    {
+      "id": "stage_4_name",
+      "section": "stage",
+      "source_text": "BUBBLY CLOUDS",
+      "translation_zh_hans": "泡泡云层",
+      "review_status": "approved",
+      "integration_status": "integrated",
+      "note": "当前版本已接入"
+    },
+    {
+      "id": "stage_5_number",
+      "section": "stage",
+      "source_text": "STAGE 5",
+      "translation_zh_hans": "场景5",
+      "review_status": "approved",
+      "integration_status": "integrated",
+      "note": "当前版本已接入"
+    },
+    {
+      "id": "stage_5_name",
+      "section": "stage",
+      "source_text": "Mt. DeDeDe",
+      "translation_zh_hans": "帝帝帝山",
+      "review_status": "approved",
+      "integration_status": "integrated",
+      "note": "当前版本已接入"
+    },
+    {
+      "id": "configuration",
+      "section": "menu",
+      "source_text": "CONFIGURATION",
+      "translation_zh_hans": "配置",
+      "review_status": "approved",
+      "integration_status": "integrated",
+      "note": "当前版本已接入"
+    },
+    {
+      "id": "configuration_mode",
+      "section": "menu",
+      "source_text": "MODE",
+      "translation_zh_hans": "模式",
+      "review_status": "approved",
+      "integration_status": "integrated",
+      "note": "当前版本已接入"
+    },
+    {
+      "id": "vital",
+      "section": "menu",
+      "source_text": "VITAL:",
+      "translation_zh_hans": "体力：",
+      "review_status": "approved",
+      "integration_status": "integrated",
+      "note": "当前版本已接入"
+    },
+    {
+      "id": "configuration_kirby",
+      "section": "menu",
+      "source_text": "KIRBY:",
+      "translation_zh_hans": "卡比：",
+      "review_status": "approved",
+      "integration_status": "integrated",
+      "note": "当前版本已接入"
+    },
+    {
+      "id": "configuration_sound",
+      "section": "menu",
+      "source_text": "SOUND",
+      "translation_zh_hans": "声音",
+      "review_status": "approved",
+      "integration_status": "integrated",
+      "note": "当前版本已接入"
+    },
+    {
+      "id": "configuration_test",
+      "section": "menu",
+      "source_text": "TEST",
+      "translation_zh_hans": "测试",
+      "review_status": "approved",
+      "integration_status": "integrated",
+      "note": "当前版本已接入"
+    },
+    {
+      "id": "configuration_exit",
+      "section": "menu",
+      "source_text": "EXIT",
+      "translation_zh_hans": "退出",
+      "review_status": "approved",
+      "integration_status": "integrated",
+      "note": "当前版本已接入"
+    },
+    {
+      "id": "sound_test",
+      "section": "menu",
+      "source_text": "SOUND TEST",
+      "translation_zh_hans": "声音测试",
+      "review_status": "approved",
+      "integration_status": "integrated",
+      "note": "当前版本已接入"
+    },
+    {
+      "id": "music",
+      "section": "menu",
+      "source_text": "MUSIC",
+      "translation_zh_hans": "音乐",
+      "review_status": "approved",
+      "integration_status": "integrated",
+      "note": "当前版本已接入"
+    },
+    {
+      "id": "sound",
+      "section": "menu",
+      "source_text": "SOUND",
+      "translation_zh_hans": "音效",
+      "review_status": "approved",
+      "integration_status": "integrated",
+      "note": "当前版本已接入"
+    },
+    {
+      "id": "game_over",
+      "section": "menu",
+      "source_text": "GAME  OVER",
+      "translation_zh_hans": "游戏结束",
+      "review_status": "approved",
+      "integration_status": "integrated",
+      "note": "当前版本已接入"
+    },
+    {
+      "id": "continue",
+      "section": "menu",
+      "source_text": "CONTINUE",
+      "translation_zh_hans": "继续",
+      "review_status": "approved",
+      "integration_status": "integrated",
+      "note": "当前版本已接入"
+    },
+    {
+      "id": "end",
+      "section": "menu",
+      "source_text": "END",
+      "translation_zh_hans": "结束",
+      "review_status": "approved",
+      "integration_status": "integrated",
+      "note": "当前版本已接入"
+    },
+    {
+      "id": "copyright_year",
+      "section": "copyright",
+      "source_text": "©1992",
+      "translation_zh_hans": "©1992",
+      "review_status": "approved",
+      "integration_status": "not_localized",
+      "note": "版权文字按原样保留；不是新增汉化"
+    },
+    {
+      "id": "copyright_hal",
+      "section": "copyright",
+      "source_text": "HAL LABORATORY,INC.",
+      "translation_zh_hans": "HAL LABORATORY,INC.",
+      "review_status": "approved",
+      "integration_status": "not_localized",
+      "note": "版权文字按原样保留；不是新增汉化"
+    },
+    {
+      "id": "copyright_nintendo",
+      "section": "copyright",
+      "source_text": "LICENSED TO NINTENDO",
+      "translation_zh_hans": "LICENSED TO NINTENDO",
+      "review_status": "approved",
+      "integration_status": "not_localized",
+      "note": "版权文字按原样保留；不是新增汉化"
+    },
+    {
+      "id": "title_menu_start",
+      "section": "title",
+      "source_text": "GAME START",
+      "translation_zh_hans": "开始游戏",
+      "review_status": "approved",
+      "integration_status": "not_localized",
+      "note": "该标题菜单资源条目未新增汉化"
+    },
+    {
+      "id": "title_menu_sound_test",
+      "section": "title",
+      "source_text": "SOUND TEST",
+      "translation_zh_hans": "声音测试",
+      "review_status": "approved",
+      "integration_status": "not_localized",
+      "note": "该标题菜单资源条目未新增汉化"
+    },
+    {
+      "id": "extra_game",
+      "section": "title",
+      "source_text": "EXTRA GAME",
+      "translation_zh_hans": "额外游戏",
+      "review_status": "approved",
+      "integration_status": "integrated",
+      "note": "当前版本已接入"
+    },
+    {
+      "id": "logo",
+      "section": "title",
+      "source_text": "星のカービィ",
+      "translation_zh_hans": "星之卡比",
+      "review_status": "approved",
+      "integration_status": "integrated",
+      "note": "当前版本已接入"
+    },
+    {
+      "id": "hud_kirby",
+      "section": "hud",
+      "source_text": "KIRBY",
+      "translation_zh_hans": "卡比",
+      "review_status": "approved",
+      "integration_status": "integrated",
+      "note": "当前版本已接入"
+    },
+    {
+      "id": "hud_score",
+      "section": "hud",
+      "source_text": "Sc:",
+      "translation_zh_hans": "积分",
+      "review_status": "approved",
+      "integration_status": "integrated",
+      "note": "当前版本已接入"
+    },
+    {
+      "id": "graphic_ending_01_01",
+      "section": "gallery",
+      "source_text": "GORDO",
+      "translation_zh_hans": "黑刺球",
+      "review_status": "approved",
+      "integration_status": "integrated",
+      "note": "当前版本已接入"
+    },
+    {
+      "id": "graphic_ending_01_02",
+      "section": "gallery",
+      "source_text": "WADDLE\nDEE",
+      "translation_zh_hans": "瓦豆鲁迪",
+      "review_status": "approved",
+      "integration_status": "integrated",
+      "note": "当前版本已接入"
+    },
+    {
+      "id": "graphic_ending_01_03",
+      "section": "gallery",
+      "source_text": "BRONTO\nBURT",
+      "translation_zh_hans": "飞翅球球",
+      "review_status": "approved",
+      "integration_status": "integrated",
+      "note": "当前版本已接入"
+    },
+    {
+      "id": "graphic_ending_01_04",
+      "section": "gallery",
+      "source_text": "WADDLE\nDOO",
+      "translation_zh_hans": "瓦豆鲁笃",
+      "review_status": "approved",
+      "integration_status": "integrated",
+      "note": "当前版本已接入"
+    },
+    {
+      "id": "graphic_ending_01_05",
+      "section": "gallery",
+      "source_text": "SHOTZO",
+      "translation_zh_hans": "黑大炮",
+      "review_status": "approved",
+      "integration_status": "integrated",
+      "note": "当前版本已接入"
+    },
+    {
+      "id": "graphic_ending_02_01",
+      "section": "gallery",
+      "source_text": "TWIZZY",
+      "translation_zh_hans": "喳喳鸟",
+      "review_status": "approved",
+      "integration_status": "integrated",
+      "note": "当前版本已接入"
+    },
+    {
+      "id": "graphic_ending_02_02",
+      "section": "gallery",
+      "source_text": "GRIZZO",
+      "translation_zh_hans": "头带熊",
+      "review_status": "approved",
+      "integration_status": "integrated",
+      "note": "当前版本已接入"
+    },
+    {
+      "id": "graphic_ending_02_03",
+      "section": "gallery",
+      "source_text": "CAPPY",
+      "translation_zh_hans": "蘑菇怪",
+      "review_status": "approved",
+      "integration_status": "integrated",
+      "note": "当前版本已接入"
+    },
+    {
+      "id": "graphic_ending_02_04",
+      "section": "gallery",
+      "source_text": "POPPY\nBROS. JR.",
+      "translation_zh_hans": "小波比兄弟",
+      "review_status": "approved",
+      "integration_status": "integrated",
+      "note": "当前版本已接入"
+    },
+    {
+      "id": "graphic_ending_03_01",
+      "section": "gallery",
+      "source_text": "POPPY\nBROS. SR.",
+      "translation_zh_hans": "大波比兄弟",
+      "review_status": "approved",
+      "integration_status": "integrated",
+      "note": "当前版本已接入"
+    },
+    {
+      "id": "graphic_ending_03_02",
+      "section": "gallery",
+      "source_text": "WHISPY\nWOODS",
+      "translation_zh_hans": "风语大树",
+      "review_status": "approved",
+      "integration_status": "integrated",
+      "note": "当前版本已接入"
+    },
+    {
+      "id": "graphic_ending_04_01",
+      "section": "gallery",
+      "source_text": "FLAPPER",
+      "translation_zh_hans": "振翅蝙蝠",
+      "review_status": "approved",
+      "integration_status": "integrated",
+      "note": "当前版本已接入"
+    },
+    {
+      "id": "graphic_ending_04_02",
+      "section": "gallery",
+      "source_text": "GLUNK",
+      "translation_zh_hans": "绿海葵",
+      "review_status": "approved",
+      "integration_status": "integrated",
+      "note": "当前版本已接入"
+    },
+    {
+      "id": "graphic_ending_04_03",
+      "section": "gallery",
+      "source_text": "MUMBIES",
+      "translation_zh_hans": "芒比尸",
+      "review_status": "approved",
+      "integration_status": "integrated",
+      "note": "当前版本已接入"
+    },
+    {
+      "id": "graphic_ending_04_04",
+      "section": "gallery",
+      "source_text": "BROOM\nHATTER",
+      "translation_zh_hans": "魔扫把",
+      "review_status": "approved",
+      "integration_status": "integrated",
+      "note": "当前版本已接入"
+    },
+    {
+      "id": "graphic_ending_04_05",
+      "section": "gallery",
+      "source_text": "TWO\nFACE",
+      "translation_zh_hans": "两面派",
+      "review_status": "approved",
+      "integration_status": "integrated",
+      "note": "当前版本已接入"
+    },
+    {
+      "id": "graphic_ending_04_06",
+      "section": "gallery",
+      "source_text": "HURLY",
+      "translation_zh_hans": "吐舌箱",
+      "review_status": "approved",
+      "integration_status": "integrated",
+      "note": "当前版本已接入"
+    },
+    {
+      "id": "graphic_ending_04_07",
+      "section": "gallery",
+      "source_text": "BOOLER",
+      "translation_zh_hans": "惊吓幽灵",
+      "review_status": "approved",
+      "integration_status": "integrated",
+      "note": "当前版本已接入"
+    },
+    {
+      "id": "graphic_ending_05_01",
+      "section": "gallery",
+      "source_text": "LOLOLO",
+      "translation_zh_hans": "箩箩箩",
+      "review_status": "approved",
+      "integration_status": "integrated",
+      "note": "当前版本已接入"
+    },
+    {
+      "id": "graphic_ending_05_02",
+      "section": "gallery",
+      "source_text": "LALALA",
+      "translation_zh_hans": "菈菈菈",
+      "review_status": "approved",
+      "integration_status": "integrated",
+      "note": "当前版本已接入"
+    },
+    {
+      "id": "graphic_ending_06_01",
+      "section": "gallery",
+      "source_text": "BLIPPER",
+      "translation_zh_hans": "蛙镜鱼",
+      "review_status": "approved",
+      "integration_status": "integrated",
+      "note": "当前版本已接入"
+    },
+    {
+      "id": "graphic_ending_06_02",
+      "section": "gallery",
+      "source_text": "KABU",
+      "translation_zh_hans": "石像怪",
+      "review_status": "approved",
+      "integration_status": "integrated",
+      "note": "当前版本已接入"
+    },
+    {
+      "id": "graphic_ending_06_03",
+      "section": "gallery",
+      "source_text": "SQUISHY",
+      "translation_zh_hans": "乌贼怪",
+      "review_status": "approved",
+      "integration_status": "integrated",
+      "note": "当前版本已接入"
+    },
+    {
+      "id": "graphic_ending_06_04",
+      "section": "gallery",
+      "source_text": "CONER",
+      "translation_zh_hans": "圆锥寄居蟹",
+      "review_status": "approved",
+      "integration_status": "integrated",
+      "note": "当前版本已接入"
+    },
+    {
+      "id": "graphic_ending_06_05",
+      "section": "gallery",
+      "source_text": "WIZZER",
+      "translation_zh_hans": "光束贝",
+      "review_status": "approved",
+      "integration_status": "integrated",
+      "note": "当前版本已接入"
+    },
+    {
+      "id": "graphic_ending_07_01",
+      "section": "gallery",
+      "source_text": "KABOOLA",
+      "translation_zh_hans": "卡钸拉",
+      "review_status": "approved",
+      "integration_status": "integrated",
+      "note": "当前版本已接入"
+    },
+    {
+      "id": "graphic_ending_08_01",
+      "section": "gallery",
+      "source_text": "PUFFY",
+      "translation_zh_hans": "膨胀云",
+      "review_status": "approved",
+      "integration_status": "integrated",
+      "note": "当前版本已接入"
+    },
+    {
+      "id": "graphic_ending_08_02",
+      "section": "gallery",
+      "source_text": "KOOKLER",
+      "translation_zh_hans": "疯狂鬼面",
+      "review_status": "approved",
+      "integration_status": "integrated",
+      "note": "当前版本已接入"
+    },
+    {
+      "id": "graphic_ending_08_03",
+      "section": "gallery",
+      "source_text": "SCARFY",
+      "translation_zh_hans": "尖耳怪",
+      "review_status": "approved",
+      "integration_status": "integrated",
+      "note": "当前版本已接入"
+    },
+    {
+      "id": "graphic_ending_08_04",
+      "section": "gallery",
+      "source_text": "DIZZY",
+      "translation_zh_hans": "晕晕怪",
+      "review_status": "approved",
+      "integration_status": "integrated",
+      "note": "当前版本已接入"
+    },
+    {
+      "id": "graphic_ending_08_05",
+      "section": "gallery",
+      "source_text": "SIR\nKIBBLE",
+      "translation_zh_hans": "弯刀骑士",
+      "review_status": "approved",
+      "integration_status": "integrated",
+      "note": "当前版本已接入"
+    },
+    {
+      "id": "graphic_ending_09_01",
+      "section": "gallery",
+      "source_text": "KRACKO",
+      "translation_zh_hans": "独眼云",
+      "review_status": "approved",
+      "integration_status": "integrated",
+      "note": "当前版本已接入"
+    },
+    {
+      "id": "graphic_ending_10_01",
+      "section": "gallery",
+      "source_text": "TOOKEY",
+      "translation_zh_hans": "喔喔鸡",
+      "review_status": "approved",
+      "integration_status": "integrated",
+      "note": "当前版本已接入"
+    },
+    {
+      "id": "graphic_ending_10_02",
+      "section": "gallery",
+      "source_text": "KOOZER",
+      "translation_zh_hans": "振翅球球",
+      "review_status": "approved",
+      "integration_status": "integrated",
+      "note": "当前版本已接入"
+    },
+    {
+      "id": "graphic_ending_10_03",
+      "section": "gallery",
+      "source_text": "BLOPPER",
+      "translation_zh_hans": "蛋糕怪",
+      "review_status": "approved",
+      "integration_status": "integrated",
+      "note": "当前版本已接入"
+    },
+    {
+      "id": "graphic_ending_11_01",
+      "section": "gallery",
+      "source_text": "MR.\nP. UMPKIN",
+      "translation_zh_hans": "P瓜先生",
+      "review_status": "approved",
+      "integration_status": "integrated",
+      "note": "当前版本已接入"
+    },
+    {
+      "id": "graphic_ending_11_02",
+      "section": "gallery",
+      "source_text": "GASPAR",
+      "translation_zh_hans": "睡帽幽灵",
+      "review_status": "approved",
+      "integration_status": "integrated",
+      "note": "当前版本已接入"
+    },
+    {
+      "id": "graphic_ending_11_03",
+      "section": "gallery",
+      "source_text": "CHUCKIE",
+      "translation_zh_hans": "冒出箱",
+      "review_status": "approved",
+      "integration_status": "integrated",
+      "note": "当前版本已接入"
+    },
+    {
+      "id": "graphic_ending_11_04",
+      "section": "gallery",
+      "source_text": "SKULLER",
+      "translation_zh_hans": "骷髅头",
+      "review_status": "approved",
+      "integration_status": "integrated",
+      "note": "当前版本已接入"
+    },
+    {
+      "id": "graphic_ending_12_01",
+      "section": "gallery",
+      "source_text": "FLOTZO",
+      "translation_zh_hans": "章鱼怪",
+      "review_status": "approved",
+      "integration_status": "integrated",
+      "note": "当前版本已接入"
+    },
+    {
+      "id": "graphic_ending_12_02",
+      "section": "gallery",
+      "source_text": "GRUMPLES",
+      "translation_zh_hans": "暴躁石像",
+      "review_status": "approved",
+      "integration_status": "integrated",
+      "note": "当前版本已接入"
+    },
+    {
+      "id": "graphic_ending_12_03",
+      "section": "gallery",
+      "source_text": "PEEZER",
+      "translation_zh_hans": "独眼蟹",
+      "review_status": "approved",
+      "integration_status": "integrated",
+      "note": "当前版本已接入"
+    },
+    {
+      "id": "graphic_ending_12_04",
+      "section": "gallery",
+      "source_text": "BLATZY",
+      "translation_zh_hans": "连射炮",
+      "review_status": "approved",
+      "integration_status": "integrated",
+      "note": "当前版本已接入"
+    },
+    {
+      "id": "graphic_ending_13_01",
+      "section": "gallery",
+      "source_text": "CAWCUN",
+      "translation_zh_hans": "子弹鹈鹕",
+      "review_status": "approved",
+      "integration_status": "integrated",
+      "note": "当前版本已接入"
+    },
+    {
+      "id": "graphic_ending_13_02",
+      "section": "gallery",
+      "source_text": "WHISKERS",
+      "translation_zh_hans": "胡须猫",
+      "review_status": "approved",
+      "integration_status": "integrated",
+      "note": "当前版本已接入"
+    },
+    {
+      "id": "graphic_ending_13_03",
+      "section": "gallery",
+      "source_text": "BENNY",
+      "translation_zh_hans": "本尼",
+      "review_status": "approved",
+      "integration_status": "integrated",
+      "note": "当前版本已接入"
+    },
+    {
+      "id": "graphic_ending_13_04",
+      "section": "gallery",
+      "source_text": "BOOMER",
+      "translation_zh_hans": "武魔",
+      "review_status": "approved",
+      "integration_status": "integrated",
+      "note": "当前版本已接入"
+    },
+    {
+      "id": "graphic_ending_14_01",
+      "section": "gallery",
+      "source_text": "KING DeDeDe",
+      "translation_zh_hans": "帝帝帝大王",
+      "review_status": "approved",
+      "integration_status": "integrated",
+      "note": "当前版本已接入"
+    },
+    {
+      "id": "jp_credits_01",
+      "section": "credits",
+      "source_text": "THE CREDITS",
+      "translation_zh_hans": "THE CREDITS",
+      "review_status": "approved",
+      "integration_status": "not_localized",
+      "note": "演职人员表保留日版原文；尚未接入中文"
+    },
+    {
+      "id": "jp_credits_04",
+      "section": "credits",
+      "source_text": "DIRECTOR",
+      "translation_zh_hans": "DIRECTOR",
+      "review_status": "approved",
+      "integration_status": "not_localized",
+      "note": "演职人员表保留日版原文；尚未接入中文"
+    },
+    {
+      "id": "jp_credits_05",
+      "section": "credits",
+      "source_text": "CHIEF DESIGNER",
+      "translation_zh_hans": "CHIEF DESIGNER",
+      "review_status": "approved",
+      "integration_status": "not_localized",
+      "note": "演职人员表保留日版原文；尚未接入中文"
+    },
+    {
+      "id": "jp_credits_06",
+      "section": "credits",
+      "source_text": "MASA SAKURAI",
+      "translation_zh_hans": "MASA SAKURAI",
+      "review_status": "approved",
+      "integration_status": "not_localized",
+      "note": "演职人员表保留日版原文；尚未接入中文"
+    },
+    {
+      "id": "jp_credits_08",
+      "section": "credits",
+      "source_text": "CHIEF PROGRAMMER",
+      "translation_zh_hans": "CHIEF PROGRAMMER",
+      "review_status": "approved",
+      "integration_status": "not_localized",
+      "note": "演职人员表保留日版原文；尚未接入中文"
+    },
+    {
+      "id": "jp_credits_10",
+      "section": "credits",
+      "source_text": "KYOUHEI MIYABI",
+      "translation_zh_hans": "KYOUHEI MIYABI",
+      "review_status": "approved",
+      "integration_status": "not_localized",
+      "note": "演职人员表保留日版原文；尚未接入中文"
+    },
+    {
+      "id": "jp_credits_12",
+      "section": "credits",
+      "source_text": "PROGRAMMER",
+      "translation_zh_hans": "PROGRAMMER",
+      "review_status": "approved",
+      "integration_status": "not_localized",
+      "note": "演职人员表保留日版原文；尚未接入中文"
+    },
+    {
+      "id": "jp_credits_14",
+      "section": "credits",
+      "source_text": "SUNDAY RAIN",
+      "translation_zh_hans": "SUNDAY RAIN",
+      "review_status": "approved",
+      "integration_status": "not_localized",
+      "note": "演职人员表保留日版原文；尚未接入中文"
+    },
+    {
+      "id": "jp_credits_16",
+      "section": "credits",
+      "source_text": "GDV PROGRAMMER",
+      "translation_zh_hans": "GDV PROGRAMMER",
+      "review_status": "approved",
+      "integration_status": "not_localized",
+      "note": "演职人员表保留日版原文；尚未接入中文"
+    },
+    {
+      "id": "jp_credits_18",
+      "section": "credits",
+      "source_text": "MAMMY PRECO",
+      "translation_zh_hans": "MAMMY PRECO",
+      "review_status": "approved",
+      "integration_status": "not_localized",
+      "note": "演职人员表保留日版原文；尚未接入中文"
+    },
+    {
+      "id": "jp_credits_20",
+      "section": "credits",
+      "source_text": "GDV PROGRAMMER",
+      "translation_zh_hans": "GDV PROGRAMMER",
+      "review_status": "approved",
+      "integration_status": "not_localized",
+      "note": "演职人员表保留日版原文；尚未接入中文"
+    },
+    {
+      "id": "jp_credits_22",
+      "section": "credits",
+      "source_text": "TETSUYA NOTOYA",
+      "translation_zh_hans": "TETSUYA NOTOYA",
+      "review_status": "approved",
+      "integration_status": "not_localized",
+      "note": "演职人员表保留日版原文；尚未接入中文"
+    },
+    {
+      "id": "jp_credits_24",
+      "section": "credits",
+      "source_text": "DESIGNER",
+      "translation_zh_hans": "DESIGNER",
+      "review_status": "approved",
+      "integration_status": "not_localized",
+      "note": "演职人员表保留日版原文；尚未接入中文"
+    },
+    {
+      "id": "jp_credits_26",
+      "section": "credits",
+      "source_text": "MOGAMI KURAND",
+      "translation_zh_hans": "MOGAMI KURAND",
+      "review_status": "approved",
+      "integration_status": "not_localized",
+      "note": "演职人员表保留日版原文；尚未接入中文"
+    },
+    {
+      "id": "jp_credits_28",
+      "section": "credits",
+      "source_text": "SOUND COMPOSER",
+      "translation_zh_hans": "SOUND COMPOSER",
+      "review_status": "approved",
+      "integration_status": "not_localized",
+      "note": "演职人员表保留日版原文；尚未接入中文"
+    },
+    {
+      "id": "jp_credits_30",
+      "section": "credits",
+      "source_text": "JUN ISHIKAWA",
+      "translation_zh_hans": "JUN ISHIKAWA",
+      "review_status": "approved",
+      "integration_status": "not_localized",
+      "note": "演职人员表保留日版原文；尚未接入中文"
+    },
+    {
+      "id": "jp_credits_32",
+      "section": "credits",
+      "source_text": "SPECIAL THANKS",
+      "translation_zh_hans": "SPECIAL THANKS",
+      "review_status": "approved",
+      "integration_status": "not_localized",
+      "note": "演职人员表保留日版原文；尚未接入中文"
+    },
+    {
+      "id": "jp_credits_34",
+      "section": "credits",
+      "source_text": "BUBBY",
+      "translation_zh_hans": "BUBBY",
+      "review_status": "approved",
+      "integration_status": "not_localized",
+      "note": "演职人员表保留日版原文；尚未接入中文"
+    },
+    {
+      "id": "jp_credits_36",
+      "section": "credits",
+      "source_text": "SPECIAL THANKS",
+      "translation_zh_hans": "SPECIAL THANKS",
+      "review_status": "approved",
+      "integration_status": "not_localized",
+      "note": "演职人员表保留日版原文；尚未接入中文"
+    },
+    {
+      "id": "jp_credits_38",
+      "section": "credits",
+      "source_text": "CIPHER",
+      "translation_zh_hans": "CIPHER",
+      "review_status": "approved",
+      "integration_status": "not_localized",
+      "note": "演职人员表保留日版原文；尚未接入中文"
+    },
+    {
+      "id": "jp_credits_40",
+      "section": "credits",
+      "source_text": "SUPERVISOR",
+      "translation_zh_hans": "SUPERVISOR",
+      "review_status": "approved",
+      "integration_status": "not_localized",
+      "note": "演职人员表保留日版原文；尚未接入中文"
+    },
+    {
+      "id": "jp_credits_42",
+      "section": "credits",
+      "source_text": "BOU NAKAJIMA",
+      "translation_zh_hans": "BOU NAKAJIMA",
+      "review_status": "approved",
+      "integration_status": "not_localized",
+      "note": "演职人员表保留日版原文；尚未接入中文"
+    },
+    {
+      "id": "jp_credits_44",
+      "section": "credits",
+      "source_text": "PRODUCER",
+      "translation_zh_hans": "PRODUCER",
+      "review_status": "approved",
+      "integration_status": "not_localized",
+      "note": "演职人员表保留日版原文；尚未接入中文"
+    },
+    {
+      "id": "jp_credits_46",
+      "section": "credits",
+      "source_text": "MAKOTO KANAI",
+      "translation_zh_hans": "MAKOTO KANAI",
+      "review_status": "approved",
+      "integration_status": "not_localized",
+      "note": "演职人员表保留日版原文；尚未接入中文"
+    },
+    {
+      "id": "jp_credits_48",
+      "section": "credits",
+      "source_text": "AND",
+      "translation_zh_hans": "AND",
+      "review_status": "approved",
+      "integration_status": "not_localized",
+      "note": "演职人员表保留日版原文；尚未接入中文"
+    },
+    {
+      "id": "jp_credits_50",
+      "section": "credits",
+      "source_text": "SO MANY PLAYERS.",
+      "translation_zh_hans": "SO MANY PLAYERS.",
+      "review_status": "approved",
+      "integration_status": "not_localized",
+      "note": "演职人员表保留日版原文；尚未接入中文"
+    },
+    {
+      "id": "jp_credits_52",
+      "section": "credits",
+      "source_text": "PRESENTED BY",
+      "translation_zh_hans": "PRESENTED BY",
+      "review_status": "approved",
+      "integration_status": "not_localized",
+      "note": "演职人员表保留日版原文；尚未接入中文"
+    },
+    {
+      "id": "jp_credits_54",
+      "section": "credits",
+      "source_text": "HAL LABORATORY,INC.",
+      "translation_zh_hans": "HAL LABORATORY,INC.",
+      "review_status": "approved",
+      "integration_status": "not_localized",
+      "note": "演职人员表保留日版原文；尚未接入中文"
+    },
+    {
+      "id": "jp_credits_56",
+      "section": "credits",
+      "source_text": "LICENSED TO",
+      "translation_zh_hans": "LICENSED TO",
+      "review_status": "approved",
+      "integration_status": "not_localized",
+      "note": "演职人员表保留日版原文；尚未接入中文"
+    },
+    {
+      "id": "jp_credits_58",
+      "section": "credits",
+      "source_text": "NINTENDO",
+      "translation_zh_hans": "NINTENDO",
+      "review_status": "approved",
+      "integration_status": "not_localized",
+      "note": "演职人员表保留日版原文；尚未接入中文"
+    },
+    {
+      "id": "jp_credits_60",
+      "section": "credits",
+      "source_text": "THANK YOU FOR",
+      "translation_zh_hans": "THANK YOU FOR",
+      "review_status": "approved",
+      "integration_status": "not_localized",
+      "note": "演职人员表保留日版原文；尚未接入中文"
+    },
+    {
+      "id": "jp_credits_62",
+      "section": "credits",
+      "source_text": "PLAYING.",
+      "translation_zh_hans": "PLAYING.",
+      "review_status": "approved",
+      "integration_status": "not_localized",
+      "note": "演职人员表保留日版原文；尚未接入中文"
+    },
+    {
+      "id": "graphic_ending_15_01",
+      "section": "ending_hint",
+      "source_text": "コンフィグ\nモード",
+      "translation_zh_hans": "配置\n模式",
+      "review_status": "approved",
+      "integration_status": "integrated",
+      "note": "当前版本已接入"
+    },
+    {
+      "id": "graphic_ending_15_02",
+      "section": "ending_hint",
+      "source_text": "すごい\nうでまえだね",
+      "translation_zh_hans": "水平\n真不错呢，",
+      "review_status": "approved",
+      "integration_status": "integrated",
+      "note": "当前版本已接入"
+    },
+    {
+      "id": "graphic_ending_15_03",
+      "section": "ending_hint",
+      "source_text": "きみにとくべつ\nプレゼント♪",
+      "translation_zh_hans": "送你一份\n特别的礼物♪",
+      "review_status": "approved",
+      "integration_status": "integrated",
+      "note": "当前版本已接入"
+    },
+    {
+      "id": "graphic_ending_15_04",
+      "section": "ending_hint",
+      "source_text": "あそんでくれて\nありがとう！",
+      "translation_zh_hans": "感谢\n您的游玩！",
+      "review_status": "approved",
+      "integration_status": "integrated",
+      "note": "当前版本已接入"
+    },
+    {
+      "id": "graphic_ending_16_01",
+      "section": "ending_hint",
+      "source_text": "エクストラ\nゲーム",
+      "translation_zh_hans": "额外\n游戏",
+      "review_status": "approved",
+      "integration_status": "integrated",
+      "note": "当前版本已接入"
+    },
+    {
+      "id": "graphic_ending_16_02",
+      "section": "ending_hint",
+      "source_text": "クリア\nおめでとう！",
+      "translation_zh_hans": "恭喜\n通关！",
+      "review_status": "approved",
+      "integration_status": "integrated",
+      "note": "当前版本已接入"
+    },
+    {
+      "id": "graphic_ending_16_03",
+      "section": "ending_hint",
+      "source_text": "タイトルがめんで\n←コマンドをおして",
+      "translation_zh_hans": "在标题界面\n输入左侧指令，",
+      "review_status": "approved",
+      "integration_status": "integrated",
+      "note": "当前版本已接入"
+    },
+    {
+      "id": "graphic_ending_16_04",
+      "section": "ending_hint",
+      "source_text": "あたらしい\nぼうけんに\nでかけよう！",
+      "translation_zh_hans": "踏上\n新的\n冒险吧！",
+      "review_status": "approved",
+      "integration_status": "integrated",
+      "note": "当前版本已接入"
+    },
+    {
+      "id": "ending_sign_oshimai",
+      "section": "ending",
+      "source_text": "おしまい",
+      "translation_zh_hans": "剧终",
+      "review_status": "approved",
+      "integration_status": "integrated",
+      "note": "当前版本已接入"
+    }
+  ]
+}

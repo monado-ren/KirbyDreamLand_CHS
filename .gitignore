@@ -1,0 +1,23 @@
+# User-supplied input and generated game images (never publish ROMs).
+*.gb
+*.gbc
+*.rom
+*.sna
+*.sav
+*.state
+*.rtc
+*.zip
+*.7z
+*.rar
+*.exe
+*.dll
+baserom.*
+build/
+.vendor/
+.venv/
+__pycache__/
+*.py[cod]
+.DS_Store
+Thumbs.db
+# The named xdelta3 output is deliberately tracked.
+!KirbyDreamLand_CHS-Monado.xdelta3

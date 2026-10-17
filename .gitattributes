@@ -1,0 +1,13 @@
+* text=auto eol=lf
+*.py text eol=lf
+*.sh text eol=lf
+*.md text eol=lf
+*.json text eol=lf
+*.tsv text eol=lf
+*.bin binary
+*.png binary
+*.xdelta3 binary
+# Preserve frozen asset/provenance digests and verbatim upstream licenses.
+assets/** -text
+translations/** -text
+LICENSES/** -text

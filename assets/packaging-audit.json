@@ -1,0 +1,157 @@
+{
+  "scope": "assets/translations/licenses packaging only",
+  "status": "PASS",
+  "release": "v0.5.1",
+  "baseline": "Japan Rev 1",
+  "target_rom_sha256": "f96fe0ecac53cc586eac19b53fe1b50cef3fd1751261ae273c2356b2c6c62795",
+  "checks": [
+    "license_verbatim:LICENSES/Fusion-Pixel-OFL.txt",
+    "license_verbatim:LICENSES/Fusion-Pixel-upstream/BoutiqueBitmap7x7-OFL.txt",
+    "license_verbatim:LICENSES/Fusion-Pixel-upstream/Galmuri-LICENSE.txt",
+    "license_verbatim:LICENSES/Fusion-Pixel-upstream/Misaki-misaki.txt",
+    "license_verbatim:LICENSES/Fusion-Pixel-upstream/MisekiBitmap-LICENSE.txt",
+    "license_verbatim:LICENSES/ZLabs-Pixel-12px-OFL.txt",
+    "font_bitmap_and_license:fonts/jpzh-bitmap-12.json",
+    "font_bitmap_and_license:fonts/jpzh-bitmap-hud-8.json",
+    "png_pixels_and_no_metadata:artwork/title-logo.png",
+    "png_pixels_and_no_metadata:artwork/corner-logo.png",
+    "png_pixels_and_no_metadata:artwork/configuration-background.png",
+    "png_pixels_and_no_metadata:artwork/ending-sign.png",
+    "png_pixels_and_no_metadata:artwork/ending-hint-normal.png",
+    "png_pixels_and_no_metadata:artwork/ending-hint-extra.png",
+    "png_pixels_and_no_metadata:artwork/stage-01-background.png",
+    "png_pixels_and_no_metadata:artwork/stage-02-background.png",
+    "png_pixels_and_no_metadata:artwork/gallery-03-background.png",
+    "translations:121_reviewed_84_integrated_37_not_localized",
+    "no_private_paths_no_ROM_savestates_workbooks_fonts_archives"
+  ],
+  "summary": {
+    "font_glyphs_12px": 150,
+    "font_glyphs_8px": 5,
+    "artwork_pngs": 9,
+    "verbatim_font_license_files": 6,
+    "reviewed_text_entries": 121,
+    "integrated_text_entries": 84,
+    "not_localized_text_entries": 37,
+    "historical_project_items": 86,
+    "derived_artwork_has_separate_rights_notice": true,
+    "reference_assets_not_automatic_build_inputs": true
+  },
+  "files": [
+    {
+      "path": "assets/artwork/configuration-background.png",
+      "sha256": "02b986a2f78c072f281f4cfdd16d55554428bbe0236d04103952ad3ab2fb8fbd",
+      "bytes": 2042
+    },
+    {
+      "path": "assets/artwork/corner-logo.png",
+      "sha256": "e03022512fd1445aae874f68c62e8045d4e0198f73a9e853934ccbc1dc7a3482",
+      "bytes": 505
+    },
+    {
+      "path": "assets/artwork/ending-hint-extra.png",
+      "sha256": "f55e40d430c9cfbc115a8a0752dc1822ed32a467e2700d64ac18534d4d7e8a88",
+      "bytes": 2730
+    },
+    {
+      "path": "assets/artwork/ending-hint-normal.png",
+      "sha256": "b25c340c1a1b55ca1856794a02a941d8384e9bd6e1b58a2d297c8056c9459681",
+      "bytes": 2782
+    },
+    {
+      "path": "assets/artwork/ending-sign.png",
+      "sha256": "3a380099608dc9334024360bfd91371d72291d81b605d89f8541884017017bd3",
+      "bytes": 404
+    },
+    {
+      "path": "assets/artwork/gallery-03-background.png",
+      "sha256": "d2f6e34935bfafcba62370e16257afeefe9f2106726a9f8bb4a0a738713b780b",
+      "bytes": 1758
+    },
+    {
+      "path": "assets/artwork/stage-01-background.png",
+      "sha256": "b3ac82ba8ed35eaf02f9012107c7600af11a5ec39c4a2f0f928cfff1894a80cd",
+      "bytes": 2173
+    },
+    {
+      "path": "assets/artwork/stage-02-background.png",
+      "sha256": "c7f5f260a25bb9856f1a0846511e58c46340594a8dabacecf447df982780116b",
+      "bytes": 1565
+    },
+    {
+      "path": "assets/artwork/title-logo.png",
+      "sha256": "74172af77b207d0e66c05e288bf589c7fcd8bb8644e54b822daa225c1db8e431",
+      "bytes": 3113
+    },
+    {
+      "path": "assets/fonts/jpzh-bitmap-12.json",
+      "sha256": "1539a432054396b9dd35016a34025444f15408d64583ea019514fa8fcd6e2171",
+      "bytes": 55747
+    },
+    {
+      "path": "assets/fonts/jpzh-bitmap-hud-8.json",
+      "sha256": "1bff0ffb6977a0f7311a3c5b57c1b463b1e4cffdec0174f9af334f809795a8c8",
+      "bytes": 2186
+    },
+    {
+      "path": "assets/manifest.json",
+      "sha256": "02bbbe40fd788534ccb5f5105eda39676e220f237b00abe0be7ebe9d38d03da3",
+      "bytes": 7620
+    },
+    {
+      "path": "assets/README.md",
+      "sha256": "adb77f012e6c04a7c069148b81477b1c4769a3b66e07b38af24b2dd63b8bd8cd",
+      "bytes": 2715
+    },
+    {
+      "path": "LICENSES/Fusion-Pixel-OFL.txt",
+      "sha256": "bc518cf64b8032c07690f33cc270c35c179255a6ac8efa7c165ebae7e8f76a63",
+      "bytes": 4418
+    },
+    {
+      "path": "LICENSES/Fusion-Pixel-upstream/BoutiqueBitmap7x7-OFL.txt",
+      "sha256": "ad588b5ce58a02179b806381339fd380e5110771f2fa91279af026fd3ab97002",
+      "bytes": 5463
+    },
+    {
+      "path": "LICENSES/Fusion-Pixel-upstream/Galmuri-LICENSE.txt",
+      "sha256": "86a3ee9495f942f0243f18c103da9faca27adb88142613edb8bb852e56c892c1",
+      "bytes": 4360
+    },
+    {
+      "path": "LICENSES/Fusion-Pixel-upstream/Misaki-misaki.txt",
+      "sha256": "82929cc3b34c79b6a67f21fe137c7bb165589c9e34ba1441611e493afd67dfca",
+      "bytes": 9016
+    },
+    {
+      "path": "LICENSES/Fusion-Pixel-upstream/MisekiBitmap-LICENSE.txt",
+      "sha256": "e855b45b384d37c9a778119271bd9c32706e3f1f9f278de0ad47347606eea846",
+      "bytes": 4358
+    },
+    {
+      "path": "LICENSES/README.md",
+      "sha256": "1db847caa94de4f86ea941198207b3bbed1b903ffcb5420b2b289633bb46b369",
+      "bytes": 736
+    },
+    {
+      "path": "LICENSES/ZLabs-Pixel-12px-OFL.txt",
+      "sha256": "1b4d4877cb561c1800e3a2eacdbcd024760d20971656cec042d434ae9ee33c1d",
+      "bytes": 4508
+    },
+    {
+      "path": "THIRD_PARTY_NOTICES.md",
+      "sha256": "997109b046c90b6be13df22bc52eeb8bf0b0180a9b65352517d6c3e4e1020333",
+      "bytes": 4026
+    },
+    {
+      "path": "translations/README.md",
+      "sha256": "1168001a1e559a2c6f5d949f6256a731b0d7f30585362e35e1f6e188680ca417",
+      "bytes": 1585
+    },
+    {
+      "path": "translations/zh-Hans.json",
+      "sha256": "b040620f606dca8394e284fe7fd822941d43cfb4600a709886006ca7b0e34538",
+      "bytes": 35547
+    }
+  ]
+}
