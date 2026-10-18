@@ -1,5 +1,26 @@
 # 版本记录
 
+## v0.5.1 装载成本 — 静态审计
+
+- 新增 `00_Tools/audit_loader_timing.py`：从 `baserom.gb` 解出每个 loader 原版载荷大小，
+  与汉化资源对比，量化“装载变慢”的来源：41 个 loader 总载荷 66,720 → 81,056 字节
+  （**+21%**），标题/配置各 +4096，声音测试/失败/继续各 +2048，其余不变。
+- 生成 `docs/LOADER_TIMING.md`；并在 `docs/PLAYTHROUGH.md` 说明为什么外部 TAS/逐帧截图
+  不能按固定帧偏移对齐（装载循环每帧吞吐固定，但总数据量变大，且每次装载都会多花帧）。
+
+
+## v0.5.1 文本层扩展 — 76 条 / 26 页
+
+- 文本层从 11 条 / 8 页扩到 **76 条 / 26 页**：新增图鉴 14 页 48 条角色名、
+  2 张通关提示 8 条（含 7 处用户核定标点的逐格覆盖）、HUD 2 页的“卡比/积分”、
+  5 个“场景”序号。
+- 新增权威排版数据 `02_Text/gallery-layout.json`、`hint-layout.json`、`hud-layout.json`
+  （来自已批准的开发工作区布局，坐标不是 ROM 数据）。
+- `text_layout.py` 支持两种模式：`page`（bundle 页提交去字底图）与 `edit`
+  （图鉴/提示/HUD 不提交底图，按 Rev1 重建后验证/回写）。
+- 验证：`TEXT_RENDER=PASS ENTRIES=76 PAGES=26 BASE_PAGES=8`；ROM、补丁、页面哈希不变。
+
+
 ## v0.5.1 文档 — 工序与修改内容清单
 
 - `00_Tools/change_surface.py` 新增 `report` / `report --check`：从符号层和清单生成

@@ -65,6 +65,13 @@ PYTHONPATH=build/pylibs python 00_Tools/analyze_playthrough.py --capture-dir bui
 而且外部 movie 不带 VRAM/BG map 数据。若要在 BizHawk 里录，需要另外用 Lua 每帧导出
 `0x8000–0x9FFF` 和寄存器，再离线分析。
 
+**为什么不能按固定帧偏移对齐**：汉化把标题/配置/失败页整包改从高 bank 装载，携带的
+图块更多，静态审计（`00_Tools/audit_loader_timing.py`，报告见 `docs/LOADER_TIMING.md`）
+显示装载器总载荷 66,720 → 81,056 字节（**+21%**），标题/配置各 +4096、声音测试/失败/
+继续各 +2048。装载循环本身没变慢，但每帧吞吐固定（~28 图块/帧），所以装载帧数变多，
+且**每次装载都会多花帧**，累计偏差持续增长。因此外部 TAS、逐帧截图都必须按事件
+（stage 卡片/Boss 房间）重新对齐，不能整体平移。
+
 ## 分析
 
 ```sh
