@@ -73,6 +73,20 @@ PYTHONPATH=build/pylibs python 00_Tools/analyze_playthrough.py --capture-dir bui
 （stage 卡片/Boss 房间）重新对齐，不能整体平移。
 载荷里有多少是“可省”的、为什么不能简单省掉，见 `docs/LOADER_PAYLOAD.md`。
 
+### 外部 TAS 的迭代重对齐
+
+既然偏差是累计的，可行的做法不是“算一个偏移”，而是**逐个分叉点重对齐**：
+
+1. 用原版跑一遍 movie，逐帧记录 WRAM/OAM/VRAM 哈希；
+2. 用汉化版跑同一 movie，找到第一个 WRAM 哈希不一致的帧 `N`；
+3. 在 `N` 处试探“汉化版落后多少帧”（用 `base[N+i]` 与 `loc[N+i+lag]` 的窗口匹配打分），
+   在汉化版输入流里插入 `lag` 个空白帧；
+4. 重新跑，若在更后面的帧再次分叉，回到第 3 步；直到能跑完全程。
+
+驱动脚本是 `build/tas/tas_iterate.py`（本地工具，不入库：它依赖下载的 `.bk2` 和 BizHawk）。
+`docs/LOADER_TIMING.md` 解释了为什么每轮都要重跑而不是一次算清——每次装载的额外帧数
+取决于该场景装载了哪些资源。
+
 ## 分析
 
 ```sh
