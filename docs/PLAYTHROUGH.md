@@ -39,6 +39,32 @@ PYTHONPATH=build/pylibs python tools/play_capture.py
 当前装载的 30 个页面清单见 `docs/PLAYTHROUGH_AUDIT.md` 生成后的覆盖表；不必手动核对，
 没玩到的页面会在报告里列为 MISSING。
 
+## TAS 式重放（可选，推荐保留）
+
+录制时 `play_capture.py` 会同时把逐帧按键写进 `index.json` 的 `inputs` 字段
+（`{frame, event}`，PyBoy 的 window event 名称）。因此这次游玩本身就是一份
+可确定性重放的输入记录：
+
+```sh
+# 重放到与原始捕获相同的帧，并核对 VRAM 哈希
+PYTHONPATH=build/pylibs python tools/replay_inputs.py --verify
+
+# 或者逐帧重采（用于补抓一闪而过的画面）
+PYTHONPATH=build/pylibs python tools/replay_inputs.py --capture-every 1 --out build/replay
+```
+
+`REPLAY=PASS ... SYNC=YES` 表示重放帧与原始记录的 VRAM 逐字节一致。重放输出
+`build/replay/index.json` 可直接交给 `analyze_playthrough.py` 分析：
+
+```sh
+PYTHONPATH=build/pylibs python tools/analyze_playthrough.py --capture-dir build/replay --write
+```
+
+说明：这是 **PyBoy 自己的输入记录/重放**，不是 BizHawk `.bk2` 等外部 TAS 格式。
+外部 TAS 不能直接用于这里：本地化 ROM 的字节、bank 布局和 loader 时序与日版不同，
+而且外部 movie 不带 VRAM/BG map 数据。若要在 BizHawk 里录，需要另外用 Lua 每帧导出
+`0x8000–0x9FFF` 和寄存器，再离线分析。
+
 ## 分析
 
 ```sh

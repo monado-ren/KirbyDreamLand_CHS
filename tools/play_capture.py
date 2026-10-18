@@ -54,10 +54,28 @@ def main(argv=None):
     common.require(args.interval > 0, '--interval must be positive')
     try:
         from pyboy import PyBoy
+        from pyboy.utils import WindowEvent
     except ImportError as exc:
         raise common.ProjectError(
             'PyBoy is required; install it into the gitignored build/pylibs and '
             'run with PYTHONPATH=build/pylibs') from exc
+
+    event_names = {getattr(WindowEvent, name): name for name in dir(WindowEvent)
+                   if name.isupper() and isinstance(getattr(WindowEvent, name), int)}
+
+    class RecordingPyBoy(PyBoy):
+        """PyBoy that logs button events for deterministic replay."""
+
+        def __init__(self, *args, **kwargs):
+            super().__init__(*args, **kwargs)
+            self.input_log = []
+
+        def send_input(self, event, *args, **kwargs):
+            name = event_names.get(event, str(event))
+            if name.startswith(('PRESS_BUTTON', 'RELEASE_BUTTON',
+                                'PRESS_ARROW', 'RELEASE_ARROW')):
+                self.input_log.append({'frame': int(self.frame_count), 'event': name})
+            return super().send_input(event, *args, **kwargs)
 
     out = args.out
     out.mkdir(parents=True, exist_ok=True)
@@ -74,8 +92,8 @@ def main(argv=None):
     }
     print('PLAY_CAPTURE=START OUT=%s INTERVAL=%d' % (out, args.interval))
     print('controls: arrows=D-pad A=A S=B Return=Start Backspace=Select Esc=quit')
-    pyboy = PyBoy(str(args.rom), window=args.window, scale=args.scale,
-                  sound_emulated=False)
+    pyboy = RecordingPyBoy(str(args.rom), window=args.window, scale=args.scale,
+                           sound_emulated=False)
     capture_count = 0
     try:
         while True:
@@ -115,13 +133,16 @@ def main(argv=None):
         manifest['finished_at'] = time.strftime('%Y-%m-%dT%H:%M:%S')
         manifest['frames'] = int(pyboy.frame_count)
         manifest['capture_count'] = len(manifest['captures'])
+        manifest['inputs'] = pyboy.input_log
+        manifest['input_count'] = len(pyboy.input_log)
         (out / 'index.json').write_text(json.dumps(manifest, indent=1) + '\n')
         try:
             pyboy.stop(save=False)
         except Exception:
             pass
-    print('PLAY_CAPTURE=PASS FRAMES=%d CAPTURES=%d OUT=%s'
-          % (manifest['frames'], manifest['capture_count'], out))
+    print('PLAY_CAPTURE=PASS FRAMES=%d CAPTURES=%d INPUTS=%d OUT=%s'
+          % (manifest['frames'], manifest['capture_count'],
+             manifest['input_count'], out))
     print('next: PYTHONPATH=build/pylibs python tools/analyze_playthrough.py')
     return 0
 

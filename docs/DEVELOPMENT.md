@@ -88,7 +88,7 @@ bundle 页面仍在 `source/pages/<id>.png` 直接编辑并 `python tools/pages.
 
 页面预算审计：`python tools/audit_pages.py --write` 生成 `docs/PAGE_BUDGET.md`（48 页的 tile 数、地图码、外部基线引用、装载目的、容量余量）；`--check` 在容量等硬约束不成立时失败。静态审计不替代实机验证。
 
-运行时抽检：`docs/PLAYTHROUGH.md` 描述用 PyBoy 完整游玩一次、自动记录 VRAM/BG map 并匹配页面的流程（`tools/play_capture.py` + `tools/analyze_playthrough.py`）；这是本地可选验证，不进入公开 CI。
+运行时抽检：`docs/PLAYTHROUGH.md` 描述用 PyBoy 完整游玩一次、自动记录 VRAM/BG map 并匹配页面的流程（`tools/play_capture.py` 录制输入+VRAM，`tools/replay_inputs.py` 确定性重放，`tools/analyze_playthrough.py` 匹配页面）；这是本地可选验证，不进入公开 CI。
 
 ## 地址与 Rev 1 约束
 
