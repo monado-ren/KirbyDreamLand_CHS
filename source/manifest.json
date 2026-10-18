@@ -730,8 +730,8 @@
       "packed_sha256": "663d6277c981eb63f5549e3ee40ca95529e45f355cd671efc212c4a42a1d799d",
       "referenced_by_current_localized_loaders": true,
       "retained_for_byte_exact_release": true,
-      "page": "source/pages/rom_041000.png",
-      "page_kind": "sheet"
+      "page_kind": "sheet",
+      "edit": "source/edits/rom_041000.json"
     },
     {
       "id": "rom_041103",
@@ -753,8 +753,8 @@
       "packed_sha256": "663d6277c981eb63f5549e3ee40ca95529e45f355cd671efc212c4a42a1d799d",
       "referenced_by_current_localized_loaders": true,
       "retained_for_byte_exact_release": true,
-      "page": "source/pages/rom_041103.png",
-      "page_kind": "sheet"
+      "page_kind": "sheet",
+      "edit": "source/edits/rom_041103.json"
     },
     {
       "id": "rom_041206",
@@ -1089,8 +1089,8 @@
       "packed_sha256": "08087cd968915aa7cdad846989295685f4ded8c860156480df1d0f72375091aa",
       "referenced_by_current_localized_loaders": true,
       "retained_for_byte_exact_release": true,
-      "page": "source/pages/rom_048462.png",
-      "page_kind": "tilemap"
+      "page_kind": "tilemap",
+      "edit": "source/edits/rom_048462.json"
     },
     {
       "id": "rom_0485b1",
@@ -1135,8 +1135,8 @@
       "packed_sha256": "984df0864ec32de4c9b5f3e49f8cdd46b637d8ee48044ee039925bf8cd9e3eec",
       "referenced_by_current_localized_loaders": false,
       "retained_for_byte_exact_release": true,
-      "page": "source/pages/rom_048ab2.png",
-      "page_kind": "tilemap"
+      "page_kind": "tilemap",
+      "edit": "source/edits/rom_048ab2.json"
     },
     {
       "id": "rom_048bc5",
@@ -1181,8 +1181,8 @@
       "packed_sha256": "a07ce50fea87b83ff47b2a73f669c3ed872a11cc00d8242fbbb68bb2448fa3b2",
       "referenced_by_current_localized_loaders": false,
       "retained_for_byte_exact_release": true,
-      "page": "source/pages/rom_048e5c.png",
-      "page_kind": "tilemap"
+      "page_kind": "tilemap",
+      "edit": "source/edits/rom_048e5c.json"
     },
     {
       "id": "rom_048f4a",
@@ -1227,8 +1227,8 @@
       "packed_sha256": "3f95227572924fb8e1fe93c0a1e0c71b1310e8e014ca13b8036d9181dbdffdf2",
       "referenced_by_current_localized_loaders": false,
       "retained_for_byte_exact_release": true,
-      "page": "source/pages/rom_049433.png",
-      "page_kind": "tilemap"
+      "page_kind": "tilemap",
+      "edit": "source/edits/rom_049433.json"
     },
     {
       "id": "rom_04954a",
@@ -1273,8 +1273,8 @@
       "packed_sha256": "d22bcebb7b34e0244d1b3c626bcfbb0a63287809591fee2612a673b86d3f7f52",
       "referenced_by_current_localized_loaders": true,
       "retained_for_byte_exact_release": true,
-      "page": "source/pages/rom_0496d4.png",
-      "page_kind": "tilemap"
+      "page_kind": "tilemap",
+      "edit": "source/edits/rom_0496d4.json"
     },
     {
       "id": "rom_049769",
@@ -1319,8 +1319,8 @@
       "packed_sha256": "c396ae5eb125ac81236f450f2541ac62958dc65d37eb4feff8187437a1a10344",
       "referenced_by_current_localized_loaders": true,
       "retained_for_byte_exact_release": true,
-      "page": "source/pages/rom_049bf8.png",
-      "page_kind": "tilemap"
+      "page_kind": "tilemap",
+      "edit": "source/edits/rom_049bf8.json"
     },
     {
       "id": "rom_049d15",
@@ -1365,8 +1365,8 @@
       "packed_sha256": "0d8aa9e3172461fd1e5d20886ab659712a014296a32d1225d36bde57c8860041",
       "referenced_by_current_localized_loaders": false,
       "retained_for_byte_exact_release": true,
-      "page": "source/pages/rom_049eaf.png",
-      "page_kind": "tilemap"
+      "page_kind": "tilemap",
+      "edit": "source/edits/rom_049eaf.json"
     },
     {
       "id": "rom_049f9a",
@@ -1411,8 +1411,8 @@
       "packed_sha256": "c3324c422e5d53c81f1035b35860704e5951b454df2677b51fac832e5ea64775",
       "referenced_by_current_localized_loaders": true,
       "retained_for_byte_exact_release": true,
-      "page": "source/pages/rom_04a3a1.png",
-      "page_kind": "tilemap"
+      "page_kind": "tilemap",
+      "edit": "source/edits/rom_04a3a1.json"
     },
     {
       "id": "rom_04a4c6",
@@ -1457,8 +1457,8 @@
       "packed_sha256": "5f86aab3b46e140dd642469c896c0860503f53105bf3570ea2f0f45fb651748e",
       "referenced_by_current_localized_loaders": false,
       "retained_for_byte_exact_release": true,
-      "page": "source/pages/rom_04a6f0.png",
-      "page_kind": "tilemap"
+      "page_kind": "tilemap",
+      "edit": "source/edits/rom_04a6f0.json"
     },
     {
       "id": "rom_04a7e9",
@@ -1503,8 +1503,8 @@
       "packed_sha256": "b204b02898320098848ad3f3d38e73a73a5ab08670d959043d1ee59fc16e75c1",
       "referenced_by_current_localized_loaders": true,
       "retained_for_byte_exact_release": true,
-      "page": "source/pages/rom_04ab1b.png",
-      "page_kind": "tilemap"
+      "page_kind": "tilemap",
+      "edit": "source/edits/rom_04ab1b.json"
     },
     {
       "id": "rom_04ac23",
@@ -1549,8 +1549,8 @@
       "packed_sha256": "270ed2ccb5fa8a376c7acbe0cd47be5bc7e36224d78e0b7846ee630558e08314",
       "referenced_by_current_localized_loaders": false,
       "retained_for_byte_exact_release": true,
-      "page": "source/pages/rom_04afee.png",
-      "page_kind": "tilemap"
+      "page_kind": "tilemap",
+      "edit": "source/edits/rom_04afee.json"
     },
     {
       "id": "rom_04b11e",
@@ -1595,8 +1595,8 @@
       "packed_sha256": "62b07fba33a9f472300a51315f3dcb1bf953834b8b52c12952b932e55035a574",
       "referenced_by_current_localized_loaders": true,
       "retained_for_byte_exact_release": true,
-      "page": "source/pages/rom_04b4db.png",
-      "page_kind": "tilemap"
+      "page_kind": "tilemap",
+      "edit": "source/edits/rom_04b4db.json"
     },
     {
       "id": "rom_04b5dd",
@@ -1641,8 +1641,8 @@
       "packed_sha256": "f781444184a9dc249c5ebc00e483e6cbff8eb9b2c2ea4d6802aac7d7bbc93da1",
       "referenced_by_current_localized_loaders": true,
       "retained_for_byte_exact_release": true,
-      "page": "source/pages/rom_04b943.png",
-      "page_kind": "tilemap"
+      "page_kind": "tilemap",
+      "edit": "source/edits/rom_04b943.json"
     },
     {
       "id": "rom_04ba75",
@@ -1687,8 +1687,8 @@
       "packed_sha256": "bc4108d409cd19d2e5df924b76305e15be6552c8af9ff0a297dbd7660901f279",
       "referenced_by_current_localized_loaders": false,
       "retained_for_byte_exact_release": true,
-      "page": "source/pages/rom_04bcd1.png",
-      "page_kind": "tilemap"
+      "page_kind": "tilemap",
+      "edit": "source/edits/rom_04bcd1.json"
     },
     {
       "id": "rom_04c000",
@@ -1733,8 +1733,8 @@
       "packed_sha256": "be304b2e97f483e5a7a7697b849fecf02ac01a8971d6922a057a9520831f8139",
       "referenced_by_current_localized_loaders": true,
       "retained_for_byte_exact_release": true,
-      "page": "source/pages/rom_04c4f4.png",
-      "page_kind": "tilemap"
+      "page_kind": "tilemap",
+      "edit": "source/edits/rom_04c4f4.json"
     },
     {
       "id": "rom_04c609",
@@ -1779,8 +1779,8 @@
       "packed_sha256": "e1371441fc907263bc1b9b4e4ec6723fefd1d49a15d184cf7dbea0af77920279",
       "referenced_by_current_localized_loaders": true,
       "retained_for_byte_exact_release": true,
-      "page": "source/pages/rom_04caf2.png",
-      "page_kind": "tilemap"
+      "page_kind": "tilemap",
+      "edit": "source/edits/rom_04caf2.json"
     },
     {
       "id": "rom_04cc04",
@@ -1825,8 +1825,8 @@
       "packed_sha256": "a3cd1ad2365239880041df31a0c5a5dd1bce2ce7c678fd1eeabdda81fee80069",
       "referenced_by_current_localized_loaders": true,
       "retained_for_byte_exact_release": true,
-      "page": "source/pages/rom_04cd98.png",
-      "page_kind": "tilemap"
+      "page_kind": "tilemap",
+      "edit": "source/edits/rom_04cd98.json"
     },
     {
       "id": "rom_04ce8c",
@@ -1871,8 +1871,8 @@
       "packed_sha256": "521d932db777bea006a47564b11e14208da886e475987674198a6e937c378334",
       "referenced_by_current_localized_loaders": true,
       "retained_for_byte_exact_release": true,
-      "page": "source/pages/rom_04d0bb.png",
-      "page_kind": "tilemap"
+      "page_kind": "tilemap",
+      "edit": "source/edits/rom_04d0bb.json"
     },
     {
       "id": "rom_04d1b8",
@@ -1917,8 +1917,8 @@
       "packed_sha256": "08a6e62b54483eec3448087c6420069bf4b1d89dee902d85a65e09609b5758ef",
       "referenced_by_current_localized_loaders": true,
       "retained_for_byte_exact_release": true,
-      "page": "source/pages/rom_04d586.png",
-      "page_kind": "tilemap"
+      "page_kind": "tilemap",
+      "edit": "source/edits/rom_04d586.json"
     },
     {
       "id": "rom_04d6b7",
@@ -1963,8 +1963,8 @@
       "packed_sha256": "0b5a7bc68fcbb04c3c81abbfe6089ec477b6ae2fc5cb961c24ed4790ebaeea9b",
       "referenced_by_current_localized_loaders": true,
       "retained_for_byte_exact_release": true,
-      "page": "source/pages/rom_04d918.png",
-      "page_kind": "tilemap"
+      "page_kind": "tilemap",
+      "edit": "source/edits/rom_04d918.json"
     },
     {
       "id": "rom_050000",
@@ -1986,8 +1986,8 @@
       "packed_sha256": "c65bcfbae5cab70cafcd83fb3e4e3a74d2824824f79a0e2acce8460b75b3f18e",
       "referenced_by_current_localized_loaders": true,
       "retained_for_byte_exact_release": true,
-      "page": "source/pages/rom_050000.png",
-      "page_kind": "sheet"
+      "page_kind": "sheet",
+      "edit": "source/edits/rom_050000.json"
     },
     {
       "id": "rom_054000",
@@ -2032,8 +2032,8 @@
       "packed_sha256": "7e8f1e3d43d66f41a692dd49eb8eb2562cd41908ae202bcda1160f70354dba18",
       "referenced_by_current_localized_loaders": true,
       "retained_for_byte_exact_release": true,
-      "page": "source/pages/rom_055050.png",
-      "page_kind": "tilemap"
+      "page_kind": "tilemap",
+      "edit": "source/edits/rom_055050.json"
     },
     {
       "id": "rom_055130",
@@ -2078,8 +2078,8 @@
       "packed_sha256": "9aa4ef510981e1d648cd983a5c971a5b69b12acf4eaf64ef40128a1d82e97895",
       "referenced_by_current_localized_loaders": true,
       "retained_for_byte_exact_release": true,
-      "page": "source/pages/rom_056110.png",
-      "page_kind": "tilemap"
+      "page_kind": "tilemap",
+      "edit": "source/edits/rom_056110.json"
     },
     {
       "id": "rom_058000",
@@ -2101,8 +2101,8 @@
       "packed_sha256": "66ad92047edba71e87a1a9afd9e29b044e40002d8474ade25f327dbfc0d8fe91",
       "referenced_by_current_localized_loaders": true,
       "retained_for_byte_exact_release": true,
-      "page": "source/pages/rom_058000.png",
-      "page_kind": "sheet"
+      "page_kind": "sheet",
+      "edit": "source/edits/rom_058000.json"
     },
     {
       "id": "rom_05c000",
@@ -2437,12 +2437,12 @@
       "packed_sha256": "892ad05f3f38dbc7ead729bd4de1ff7ddde615e84437af47eaa6ae1d97884557",
       "referenced_by_current_localized_loaders": true,
       "retained_for_byte_exact_release": true,
-      "page": "source/pages/rom_0742b3.png",
-      "page_kind": "tilemap"
+      "page_kind": "tilemap",
+      "edit": "source/edits/rom_0742b3.json"
     }
   ],
   "source_format_note": "Editable PNG sources for the decoded 2bpp tile/map bytes. Each resource is a lossless PNG: tilesets are 4-colour indexed images (8x8 pixels per tile, row-major), tilemaps are 32x32 8-bit grayscale images whose pixel value is the raw tile index. tools/build.py derives the game bytes from these PNGs and verifies the pinned decoded/packed SHA-256 values. All HAL streams, including earlier unreferenced allocations, are retained for exact published SHA-256. This is a localization release-source snapshot, not a complete game disassembly.",
   "editing_note": "Edit source/graphics/*.png tile atlases without changing tile counts or image dimensions, or edit the readable full-page PNGs in source/pages/ and run tools/pages.py retile; then run tools/repack.py with a new --version. Avoid anti-aliasing, transparency and off-palette colours. Existing pointers are preserved; a grown resource is relocated into free expanded-ROM space and its loader patches are rewritten. Translation JSON and assets/ PNGs are reference material only.",
   "asset_license_note": "Original tool code uses MIT; game-derived resources and font-derived glyphs are not relicensed as MIT. See third-party notices.",
-  "page_note": "source/pages/<id>.png are the human-readable pages: 23 tilemap pages, 21 bundle pages (tiles+map in one resource) and 4 tile-sheet pages. They are rendered from the tracked PNG sources; edit a page and run tools/pages.py retile to split it back, then tools/repack.py. Bundle cells that reference original-ROM tiles are drawn as a placeholder and stay read-only."
+  "page_note": "source/pages/<id>.png are the 21 bundle pages (tiles+map in one resource). The other 27 pages (23 tilemap + 4 sheet) are stored as baseline+overlay edits under source/edits/<id>.json with a <id>_cells.png overlay atlas: the baseline is rebuilt from the user-provided Rev1 ROM, so only changed 8x8 cells are tracked. Run tools/page_edits.py render to rebuild them into build/pages/; tools/pages.py render checks both storage modes. Bundle cells that reference original-ROM tiles are drawn as a placeholder and stay read-only."
 }

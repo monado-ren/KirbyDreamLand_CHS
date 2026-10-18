@@ -106,7 +106,7 @@ python tools/change_surface.py dump
 
 ## 修改流程
 
-1. 编辑 `source/graphics/` 或 `source/pages/`，按现有流程 `retile` → `repack.py` 生成新版本清单；
+1. 编辑 `source/graphics/`、`source/pages/`（21 张 bundle 页）或 `build/pages/`（27 个基线+覆盖层页），按现有流程 `retile` → `repack.py` 生成新版本清单；
 2. 同步更新 `source/change_surface.json`：改资源条目的 `bank/offset/capacity/purpose`，
    以及在对应 `sites[].patches[]` 里改 `old/new`（新地址尽量用 `{"resource": ...}` 符号引用）；
 3. `python tools/change_surface.py sync-manifest --write` 用符号层重写 manifest 的 patches 段，

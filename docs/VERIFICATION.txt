@@ -53,10 +53,15 @@ Additional executed checks:
 - Graphics sources: 71/71 PNGs in source/graphics/ re-derive the pinned
   decoded and packed SHA-256 values; the ROM rebuilt from PNG bytes is
   byte-identical to the ROM rebuilt from the retired source/resources/.
-- Page layer: 48/48 source/pages/ previews match their sources (23 tilemap,
-  21 bundle, 4 sheet); retiling an unedited page reproduces the underlying
-  graphics and map bytes byte for byte.  BUNDLE=TILES+MAP is validated by the
-  unchanged release hash.
+- Page layer: 48 pages in two storage modes.  21 bundle pages are full PNGs in
+  source/pages/ and 27 tilemap/sheet pages are baseline+overlay edits in
+  source/edits/ (baseline rebuilt from Rev1, only changed 8x8 cells tracked).
+  python -B -S tools/page_edits.py check
+    PAGE_EDITS=PASS PAGES=27
+  python -B -S tools/pages.py render --check
+    PAGES=PASS PREVIEWS=48 PNG_PAGES=21 EDIT_PAGES=27 EDIT_SKIPPED=0
+  Retiling an unedited page reproduces the underlying graphics and map bytes
+  byte for byte.  BUNDLE=TILES+MAP is validated by the unchanged release hash.
 - Selftest: HAL_CASES=6 MALFORMED_HAL=3 IPS_CASES=3 RESOURCES=71 SURFACE=110P/198B NO_ROM=YES.
 - Fresh Git-index checkout + only baserom.gb: same ROM AND patch bytes.
 - Separate xdelta3decode executable: exact target replay, exit 0.

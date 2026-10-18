@@ -1,5 +1,18 @@
 # 版本记录
 
+## v0.5.1 源码工程改进 — 页面层改为基线+覆盖层（ROM 与补丁不变）
+
+- 27 个页面（23 张图鉴/通关提示 + 4 张图块画布）不再存整页 PNG，改为
+  `source/edits/<id>.json` + `<id>_cells.png`：基线由用户自备的 Rev1 ROM 重建（原始图块/地图
+  + 少量 pinned 外部图块），仓库只保存改动的 8×8 格子。21 张 bundle 页（关卡介绍、标题、配置、
+  声音测试、GAME OVER、CONTINUE）保持整页 PNG。
+- 新增 `tools/page_edits.py`（render/check/extract）：在 gitignored 的 `build/pages/` 重建整页、
+  校验基线+覆盖层 == 由 `source/graphics` 渲染的页面，并把编辑后的页面折回覆盖层。
+- `tools/pages.py` 同时处理两种页面；编辑 `build/pages/<id>.png` 后 retile 会回写图块集/地图并
+  刷新覆盖层。`source/pages` + `source/edits` 合计约 51 KB（原 72 KB），页面语义不变。
+- ROM、xdelta3 补丁与目标哈希（`f96fe0ec…2795`）完全不变；公开测试仍为 125 项。
+
+
 ## v0.5.1 源码工程改进 — 改动面符号化（ROM 与补丁不变）
 
 - 新增 `source/change_surface.json`：把 110 处原银行补丁（198 字节）和 71 个扩展资源从原始 hex

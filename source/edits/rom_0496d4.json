@@ -1,0 +1,50 @@
+{
+ "id": "rom_0496d4",
+ "kind": "tilemap",
+ "page_size": [
+  32,
+  32
+ ],
+ "baseline": {
+  "tiles": {
+   "bank": 13,
+   "cpu": "0x5A89",
+   "tiles": 128
+  },
+  "map": {
+   "bank": 13,
+   "cpu": "0x5FD2",
+   "cells": 1024
+  },
+  "addressing": "linear",
+  "external": {
+   "254": "3737784f586fd0bff09f607fc0bfc0bf"
+  }
+ },
+ "cells": [
+  196,
+  197,
+  198,
+  199,
+  200,
+  201,
+  228,
+  229,
+  230,
+  231,
+  232,
+  332,
+  333,
+  334,
+  335,
+  336,
+  337,
+  364,
+  365,
+  366,
+  367,
+  368,
+  369
+ ],
+ "overlay_atlas": "source/edits/rom_0496d4_cells.png"
+}

@@ -1,85 +1,78 @@
-# 可读页面索引（source/pages）
+# 可读页面索引（source/pages + source/edits）
 
-`source/pages/` 共 **48 张 PNG**，对应 `source/graphics/` 的 48 个图块集。页面都是 4 色索引 PNG（灰度 255/170/85/0），GitHub、浏览器、GIMP 均可直接预览和编辑。
+`source/` 下共有 **48 个页面**，分两种存储方式：
 
-三类页面：
-
-| 类型 | 数量 | 页面尺寸 | 含义 |
+| 存储 | 数量 | 路径 | 说明 |
 | --- | --- | --- | --- |
-| `tilemap` | 23 | 256×256 | 独立图块集 + 独立 32×32 索引表（图鉴、通关提示） |
-| `bundle` | 21 | 256×144 / 256×240 | 单资源 = 图块块 + 地图块，游戏一次性拷入 VRAM（标题、场景介绍、配置、声音测试、GAME OVER、CONTINUE） |
-| `sheet` | 4 | 128×16 / 128×112 / 128×48 | 纯图块集画布（HUD、结局精灵、开场装饰） |
+| 基线+覆盖层（edit） | **27** | `source/edits/<id>.json` + `source/edits/<id>_cells.png` | 页面 = 用户自备 Rev1 ROM 的原始图块/地图（基线）+ 改动格子（覆盖层）。仓库不存原版美术，只存改动；用 `python tools/page_edits.py render` 在 gitignored 的 `build/pages/` 重建整页。 |
+| 整页 PNG（bundle） | **21** | `source/pages/<id>.png` | 关卡介绍、标题、配置、声音测试、GAME OVER、CONTINUE：单资源=图块+地图，整页图直接可读可编辑。 |
 
-编辑页面后运行：
-
+编辑流程：
 ```sh
-python tools/pages.py retile source/pages/<id>.png
-python tools/repack.py --version <new-version>
+python tools/pages.py render                 # 整页 PNG 写到 source/pages，edit 页重建到 build/pages
+# 编辑 build/pages/<id>.png 后：
+python tools/pages.py retile build/pages/<id>.png   # 回写图块集/地图，并刷新 source/edits 覆盖层
+python tools/pages.py render --check         # 两种页面都与 source/graphics 一致
+python tools/page_edits.py check             # 覆盖层+基线 == 由 graphics 渲染的页面（需要 baserom.gb）
 ```
 
-未编辑的页面 retile 后与原始资源逐字节一致；bundle 页面里显示为横条占位图案的格子引用的是原始 ROM 图块，属于只读区域。图块槽位由游戏加载器固定，新增图案会通过压缩去重腾出槽位。
+`source/edits/<id>.json` 记录基线来源（Rev1 bank/CPU）、页面尺寸、改动格子索引与覆盖层图集；bundle 页面中引用原始 ROM 图块而无法归属本资源的格子仍显示为占位图案、retile 时只读。
 
-标记“历史副本”的资源当前不被载入器引用，仅为保持 v0.5.1 发布哈希而保留。
+## 基线+覆盖层页（27 张）
 
-## 背景页（独立图块集 + 32×32 索引表）：23 张
-
-| 页面 PNG | 尺寸 | id | 内容 |
+| 页面 | 尺寸 | id | 内容 |
 | --- | --- | --- | --- |
-| [`rom_048462.png`](../source/pages/rom_048462.png) | 256×256 | `rom_048462` | 黑刺球、飞翅球球、瓦豆鲁迪、瓦豆鲁笃、黑大炮 + 蘑菇林 |
-| [`rom_048ab2.png`](../source/pages/rom_048ab2.png) | 256×256 | `rom_048ab2` | 图鉴页（早期版本，保留以维持发布哈希） ·历史副本 |
-| [`rom_048e5c.png`](../source/pages/rom_048e5c.png) | 256×256 | `rom_048e5c` | 图鉴页（早期版本，保留以维持发布哈希） ·历史副本 |
-| [`rom_049433.png`](../source/pages/rom_049433.png) | 256×256 | `rom_049433` | 图鉴页（早期版本，保留以维持发布哈希） ·历史副本 |
-| [`rom_0496d4.png`](../source/pages/rom_0496d4.png) | 256×256 | `rom_0496d4` | 箩箩箩、菈菈菈 + 城堡 |
-| [`rom_049bf8.png`](../source/pages/rom_049bf8.png) | 256×256 | `rom_049bf8` | 蛙镜鱼、石像怪、乌贼怪、圆锥寄居蟹、光束贝 + 树林 |
-| [`rom_049eaf.png`](../source/pages/rom_049eaf.png) | 256×256 | `rom_049eaf` | 图鉴页（早期版本，保留以维持发布哈希） ·历史副本 |
-| [`rom_04a3a1.png`](../source/pages/rom_04a3a1.png) | 256×256 | `rom_04a3a1` | 疯狂鬼面、膨胀云、晕晕怪、尖耳怪、弯刀骑士 + 城市 |
-| [`rom_04a6f0.png`](../source/pages/rom_04a6f0.png) | 256×256 | `rom_04a6f0` | 图鉴页（早期版本，保留以维持发布哈希） ·历史副本 |
-| [`rom_04ab1b.png`](../source/pages/rom_04ab1b.png) | 256×256 | `rom_04ab1b` | 喔喔鸡、振翅球球、蛋糕怪 + 树林 |
-| [`rom_04afee.png`](../source/pages/rom_04afee.png) | 256×256 | `rom_04afee` | 图鉴页（早期版本，保留以维持发布哈希） ·历史副本 |
-| [`rom_04b4db.png`](../source/pages/rom_04b4db.png) | 256×256 | `rom_04b4db` | 章鱼怪、暴躁石像、独眼蟹、连射炮 + 海与船 |
-| [`rom_04b943.png`](../source/pages/rom_04b943.png) | 256×256 | `rom_04b943` | 子弹鹈鹕、胡须猫、武魔、本尼 + 星空 |
-| [`rom_04bcd1.png`](../source/pages/rom_04bcd1.png) | 256×256 | `rom_04bcd1` | 图鉴页（早期版本，保留以维持发布哈希） ·历史副本 |
-| [`rom_04c4f4.png`](../source/pages/rom_04c4f4.png) | 256×256 | `rom_04c4f4` | 喳喳鸟、蘑菇怪、头带熊、小波比兄弟 + 山丘 |
-| [`rom_04caf2.png`](../source/pages/rom_04caf2.png) | 256×256 | `rom_04caf2` | 振翅蝙蝠、绿海葵、芒比尸、魔扫把、两面派、吐舌箱、惊吓幽灵 + 城堡 |
-| [`rom_04cd98.png`](../source/pages/rom_04cd98.png) | 256×256 | `rom_04cd98` | 卡钸拉 + 云 |
-| [`rom_04d0bb.png`](../source/pages/rom_04d0bb.png) | 256×256 | `rom_04d0bb` | 独眼云 + 星空 |
-| [`rom_04d586.png`](../source/pages/rom_04d586.png) | 256×256 | `rom_04d586` | 睡帽幽灵、冒出箱、P瓜先生、骷髅头 + 砖墙 |
-| [`rom_04d918.png`](../source/pages/rom_04d918.png) | 256×256 | `rom_04d918` | 帝帝帝大王 + 王冠舞台 |
-| [`rom_055050.png`](../source/pages/rom_055050.png) | 256×256 | `rom_055050` | 额外模式通关提示（★额外 游戏 / ♡恭喜 通关！…） |
-| [`rom_056110.png`](../source/pages/rom_056110.png) | 256×256 | `rom_056110` | 普通模式通关提示（★配置 模式 / 送您一份特别的礼物…） |
-| [`rom_0742b3.png`](../source/pages/rom_0742b3.png) | 256×256 | `rom_0742b3` | 大波比兄弟、风语大树（双页布局） |
+| [edit](../source/edits/rom_041000.json) · [cells](../source/edits/rom_041000_cells.png) | 128×16 | `rom_041000` | 普通模式 HUD 字形条 |
+| [edit](../source/edits/rom_041103.json) · [cells](../source/edits/rom_041103_cells.png) | 128×16 | `rom_041103` | 额外模式 HUD 字形条 |
+| [edit](../source/edits/rom_048462.json) · [cells](../source/edits/rom_048462_cells.png) | 256×256 | `rom_048462` | 图鉴页·黑刺球等 + 蘑菇林 地图 |
+| [edit](../source/edits/rom_048ab2.json) · [cells](../source/edits/rom_048ab2_cells.png) | 256×256 | `rom_048ab2` | 图鉴早期版本（历史副本） |
+| [edit](../source/edits/rom_048e5c.json) · [cells](../source/edits/rom_048e5c_cells.png) | 256×256 | `rom_048e5c` | 图鉴早期版本（历史副本） |
+| [edit](../source/edits/rom_049433.json) · [cells](../source/edits/rom_049433_cells.png) | 256×256 | `rom_049433` | 图鉴早期版本（历史副本） |
+| [edit](../source/edits/rom_0496d4.json) · [cells](../source/edits/rom_0496d4_cells.png) | 256×256 | `rom_0496d4` | 图鉴页·箩箩箩/菈菈菈 + 城堡 地图 |
+| [edit](../source/edits/rom_049bf8.json) · [cells](../source/edits/rom_049bf8_cells.png) | 256×256 | `rom_049bf8` | 图鉴页·蛙镜鱼等 + 树林 地图 |
+| [edit](../source/edits/rom_049eaf.json) · [cells](../source/edits/rom_049eaf_cells.png) | 256×256 | `rom_049eaf` | 图鉴早期版本（历史副本） |
+| [edit](../source/edits/rom_04a3a1.json) · [cells](../source/edits/rom_04a3a1_cells.png) | 256×256 | `rom_04a3a1` | 图鉴页·疯狂鬼面等 + 城市 地图 |
+| [edit](../source/edits/rom_04a6f0.json) · [cells](../source/edits/rom_04a6f0_cells.png) | 256×256 | `rom_04a6f0` | 图鉴早期版本（历史副本） |
+| [edit](../source/edits/rom_04ab1b.json) · [cells](../source/edits/rom_04ab1b_cells.png) | 256×256 | `rom_04ab1b` | 图鉴页·喔喔鸡等 + 树林 地图 |
+| [edit](../source/edits/rom_04afee.json) · [cells](../source/edits/rom_04afee_cells.png) | 256×256 | `rom_04afee` | 图鉴早期版本（历史副本） |
+| [edit](../source/edits/rom_04b4db.json) · [cells](../source/edits/rom_04b4db_cells.png) | 256×256 | `rom_04b4db` | 图鉴页·章鱼怪等 + 海与船 地图 |
+| [edit](../source/edits/rom_04b943.json) · [cells](../source/edits/rom_04b943_cells.png) | 256×256 | `rom_04b943` | 图鉴页·子弹鹈鹕等 + 星空 地图 |
+| [edit](../source/edits/rom_04bcd1.json) · [cells](../source/edits/rom_04bcd1_cells.png) | 256×256 | `rom_04bcd1` | 图鉴早期版本（历史副本） |
+| [edit](../source/edits/rom_04c4f4.json) · [cells](../source/edits/rom_04c4f4_cells.png) | 256×256 | `rom_04c4f4` | 图鉴页·喳喳鸟等 + 山丘 地图 |
+| [edit](../source/edits/rom_04caf2.json) · [cells](../source/edits/rom_04caf2_cells.png) | 256×256 | `rom_04caf2` | 图鉴页·振翅蝙蝠等 + 城堡 地图（蝙蝠页） |
+| [edit](../source/edits/rom_04cd98.json) · [cells](../source/edits/rom_04cd98_cells.png) | 256×256 | `rom_04cd98` | 图鉴页·卡钸拉 + 云 地图 |
+| [edit](../source/edits/rom_04d0bb.json) · [cells](../source/edits/rom_04d0bb_cells.png) | 256×256 | `rom_04d0bb` | 图鉴页·独眼云 + 星空 地图 |
+| [edit](../source/edits/rom_04d586.json) · [cells](../source/edits/rom_04d586_cells.png) | 256×256 | `rom_04d586` | 图鉴页·睡帽幽灵等 + 砖墙 地图 |
+| [edit](../source/edits/rom_04d918.json) · [cells](../source/edits/rom_04d918_cells.png) | 256×256 | `rom_04d918` | 图鉴页·帝帝帝大王 + 王冠舞台 地图 |
+| [edit](../source/edits/rom_050000.json) · [cells](../source/edits/rom_050000_cells.png) | 128×112 | `rom_050000` | 结局/通关提示精灵表（剧终牌等） |
+| [edit](../source/edits/rom_055050.json) · [cells](../source/edits/rom_055050_cells.png) | 256×256 | `rom_055050` | 额外模式通关提示 地图 |
+| [edit](../source/edits/rom_056110.json) · [cells](../source/edits/rom_056110_cells.png) | 256×256 | `rom_056110` | 普通模式通关提示 地图 |
+| [edit](../source/edits/rom_058000.json) · [cells](../source/edits/rom_058000_cells.png) | 128×48 | `rom_058000` | 关卡介绍右下角 32×16 中文角标（开场装饰） |
+| [edit](../source/edits/rom_0742b3.json) · [cells](../source/edits/rom_0742b3_cells.png) | 256×256 | `rom_0742b3` | 图鉴第 3 页·大波比兄弟/风语大树 地图 |
 
-## Bundle 页（单资源 = 图块 + 地图）：21 张
+## 整页 PNG 页（21 张）
 
-| 页面 PNG | 尺寸 | id | 内容 |
+| 页面 | 尺寸 | id | 内容 |
 | --- | --- | --- | --- |
-| [`rom_040000.png`](../source/pages/rom_040000.png) | 256×144 | `rom_040000` | 标题画面（中文 Logo + 菜单文字） ·历史副本 |
-| [`rom_041206.png`](../source/pages/rom_041206.png) | 256×144 | `rom_041206` | 场景 1 介绍页（旧版本） ·历史副本 |
-| [`rom_04190d.png`](../source/pages/rom_04190d.png) | 256×144 | `rom_04190d` | 场景 2 介绍页（旧版本） ·历史副本 |
-| [`rom_041f98.png`](../source/pages/rom_041f98.png) | 256×144 | `rom_041f98` | 场景 3 介绍页（旧版本） ·历史副本 |
-| [`rom_04266d.png`](../source/pages/rom_04266d.png) | 256×144 | `rom_04266d` | 场景 4 介绍页（旧版本） ·历史副本 |
-| [`rom_042d5d.png`](../source/pages/rom_042d5d.png) | 256×240 | `rom_042d5d` | 场景 5 介绍页（旧版本） ·历史副本 |
-| [`rom_0433c5.png`](../source/pages/rom_0433c5.png) | 256×144 | `rom_0433c5` | 配置页（旧版本） ·历史副本 |
-| [`rom_0438f6.png`](../source/pages/rom_0438f6.png) | 256×144 | `rom_0438f6` | 声音测试页面 |
-| [`rom_044000.png`](../source/pages/rom_044000.png) | 256×144 | `rom_044000` | 配置页（旧版本） ·历史副本 |
-| [`rom_04454c.png`](../source/pages/rom_04454c.png) | 256×144 | `rom_04454c` | GAME OVER 画面 |
-| [`rom_044734.png`](../source/pages/rom_044734.png) | 256×144 | `rom_044734` | CONTINUE 画面 |
-| [`rom_05c000.png`](../source/pages/rom_05c000.png) | 256×144 | `rom_05c000` | 配置页（声音测试/水平调整/操作说明） |
-| [`rom_060000.png`](../source/pages/rom_060000.png) | 256×144 | `rom_060000` | 标题画面（中文 Logo + 菜单文字） ·历史副本 |
-| [`rom_064000.png`](../source/pages/rom_064000.png) | 256×144 | `rom_064000` | 场景 1 介绍页（场景1 / 葛绿谷绿） ·历史副本 |
-| [`rom_0646fa.png`](../source/pages/rom_0646fa.png) | 256×144 | `rom_0646fa` | 场景 2 介绍页（场景2 / 箩箩箩的城堡） ·历史副本 |
-| [`rom_06c000.png`](../source/pages/rom_06c000.png) | 256×144 | `rom_06c000` | 场景 1 介绍页（场景1 / 葛绿谷绿） |
-| [`rom_06c70b.png`](../source/pages/rom_06c70b.png) | 256×144 | `rom_06c70b` | 场景 2 介绍页（场景2 / 箩箩箩的城堡） |
-| [`rom_06cda8.png`](../source/pages/rom_06cda8.png) | 256×144 | `rom_06cda8` | 场景 3 介绍页（场景3 / 漂浮岛屿） |
-| [`rom_06d490.png`](../source/pages/rom_06d490.png) | 256×144 | `rom_06d490` | 场景 4 介绍页（场景4 / 泡泡云层） |
-| [`rom_06db85.png`](../source/pages/rom_06db85.png) | 256×240 | `rom_06db85` | 场景 5 介绍页（场景5 / 帝帝帝山） |
-| [`rom_070000.png`](../source/pages/rom_070000.png) | 256×144 | `rom_070000` | 标题画面（中文 Logo + 菜单文字） |
+| [rom_040000.png](../source/pages/rom_040000.png) | 256×144 | `rom_040000` | 标题画面·初版整包（历史副本） |
+| [rom_041206.png](../source/pages/rom_041206.png) | 256×144 | `rom_041206` | 场景 1 介绍·初版地图流（历史副本） |
+| [rom_04190d.png](../source/pages/rom_04190d.png) | 256×144 | `rom_04190d` | 场景 2 介绍·初版地图流（历史副本） |
+| [rom_041f98.png](../source/pages/rom_041f98.png) | 256×144 | `rom_041f98` | 场景 3 介绍·初版地图流（历史副本） |
+| [rom_04266d.png](../source/pages/rom_04266d.png) | 256×144 | `rom_04266d` | 场景 4 介绍·初版地图流（历史副本） |
+| [rom_042d5d.png](../source/pages/rom_042d5d.png) | 256×240 | `rom_042d5d` | 场景 5 介绍·初版地图流（历史副本） |
+| [rom_0433c5.png](../source/pages/rom_0433c5.png) | 256×144 | `rom_0433c5` | 配置页·初版地图（历史副本） |
+| [rom_0438f6.png](../source/pages/rom_0438f6.png) | 256×144 | `rom_0438f6` | 声音测试页 |
+| [rom_044000.png](../source/pages/rom_044000.png) | 256×144 | `rom_044000` | 配置页·初版地图（历史副本） |
+| [rom_04454c.png](../source/pages/rom_04454c.png) | 256×144 | `rom_04454c` | GAME OVER 画面 |
+| [rom_044734.png](../source/pages/rom_044734.png) | 256×144 | `rom_044734` | CONTINUE 画面 |
+| [rom_05c000.png](../source/pages/rom_05c000.png) | 256×144 | `rom_05c000` | 配置页整包（256 图块 + 地图） |
+| [rom_060000.png](../source/pages/rom_060000.png) | 256×144 | `rom_060000` | 标题画面·第二版整包（历史副本） |
+| [rom_064000.png](../source/pages/rom_064000.png) | 256×144 | `rom_064000` | 场景 1 介绍·早期整包（历史副本） |
+| [rom_0646fa.png](../source/pages/rom_0646fa.png) | 256×144 | `rom_0646fa` | 场景 2 介绍·早期整包（历史副本） |
+| [rom_06c000.png](../source/pages/rom_06c000.png) | 256×144 | `rom_06c000` | 场景 1 介绍整包（128 图块 + 地图） |
+| [rom_06c70b.png](../source/pages/rom_06c70b.png) | 256×144 | `rom_06c70b` | 场景 2 介绍整包 |
+| [rom_06cda8.png](../source/pages/rom_06cda8.png) | 256×144 | `rom_06cda8` | 场景 3 介绍整包 |
+| [rom_06d490.png](../source/pages/rom_06d490.png) | 256×144 | `rom_06d490` | 场景 4 介绍整包 |
+| [rom_06db85.png](../source/pages/rom_06db85.png) | 256×240 | `rom_06db85` | 场景 5 介绍整包（240 px 高） |
+| [rom_070000.png](../source/pages/rom_070000.png) | 256×144 | `rom_070000` | 标题画面整包（中文 Logo + 额外游戏 + 菜单） |
 
-## 图块画布页（纯图块集）：4 张
-
-| 页面 PNG | 尺寸 | id | 内容 |
-| --- | --- | --- | --- |
-| [`rom_041000.png`](../source/pages/rom_041000.png) | 128×16 | `rom_041000` | 普通模式 HUD 字形条（分/卡/比/积、数字、图标） |
-| [`rom_041103.png`](../source/pages/rom_041103.png) | 128×16 | `rom_041103` | 额外模式 HUD 字形条 |
-| [`rom_050000.png`](../source/pages/rom_050000.png) | 128×112 | `rom_050000` | 结局/通关提示精灵表 |
-| [`rom_058000.png`](../source/pages/rom_058000.png) | 128×48 | `rom_058000` | 开场装饰图块 |

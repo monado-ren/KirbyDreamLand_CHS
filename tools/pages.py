@@ -1,11 +1,13 @@
 # SPDX-License-Identifier: MIT
 """Render, check and retile the human-readable page PNG layer.
 
-A page is one of two kinds:
+A page can be stored in two ways:
 
-``tilemap``
-    A resource that is a pure 32x32 background map, paired with a separate
-    tileset resource (the gallery and ending-hint pages).
+``edit``
+    Tilemap and sheet pages are stored as a small baseline+overlay edit under
+    ``source/edits/`` (see tools/page_edits.py).  ``render`` rebuilds them from
+    the Rev1 ROM into gitignored ``build/pages/``; retile the edited PNG in
+    ``build/pages/`` to refresh both the graphics and the overlay.
 
 ``bundle``
     A single resource holding a tile block followed by a background map, which
@@ -28,6 +30,10 @@ import common
 import graphics_png as gp
 import hal_codec
 import page_image
+import page_edits
+
+
+_base = None
 
 
 def _index(manifest):
@@ -35,7 +41,13 @@ def _index(manifest):
 
 
 def _pages(manifest):
-    return [entry for entry in manifest['resources'] if entry.get('page')]
+    return [entry for entry in manifest['resources'] if entry.get('page') or entry.get('edit')]
+
+
+def _page_target(entry):
+    if entry.get('edit'):
+        return common.ROOT / 'build' / 'pages' / (entry['id'] + '.png')
+    return common.ROOT / entry['page']
 
 
 def _layout(by_id, entry):
@@ -64,26 +76,48 @@ def _render_png(layout):
                                map_spec['addressing'], placeholders)
 
 
-def render(manifest, check_only=False):
+def render(manifest, check_only=False, base=None):
     by_id = _index(manifest)
     pages = _pages(manifest)
     mismatched = []
+    rendered = 0
+    skipped = 0
     for entry in pages:
         payload = _render_png(_layout(by_id, entry))
-        target = common.ROOT / entry['page']
+        if entry.get('edit'):
+            if base is None:
+                skipped += 1
+                continue
+            edit = page_edits.load_edit(entry)
+            reconstructed = page_edits.render_png(entry, edit, base)
+            if check_only:
+                if reconstructed != payload:
+                    mismatched.append(entry['id'])
+            else:
+                target = _page_target(entry)
+                target.parent.mkdir(parents=True, exist_ok=True)
+                target.write_bytes(reconstructed)
+                rendered += 1
+            continue
+        target = _page_target(entry)
         if check_only:
             if not target.is_file() or target.read_bytes() != payload:
                 mismatched.append(entry['page'])
         else:
             target.parent.mkdir(parents=True, exist_ok=True)
             target.write_bytes(payload)
+            rendered += 1
     if check_only:
         common.require(not mismatched,
                        'Page previews are stale; run tools/pages.py render: '
                        + ', '.join(mismatched))
-        print('PAGES=PASS PREVIEWS=' + str(len(pages)))
+        print('PAGES=PASS PREVIEWS=%d PNG_PAGES=%d EDIT_PAGES=%d EDIT_SKIPPED=%d'
+              % (len(pages), len([e for e in pages if not e.get('edit')]),
+                 len([e for e in pages if e.get('edit')]), skipped))
     else:
-        print('PAGES=PASS RENDERED=' + str(len(pages)))
+        print('PAGES=PASS RENDERED=%d BUNDLES=%d EDITS=%d'
+              % (len(pages), len(pages) - len([e for e in pages if e.get('edit')]),
+                 len([e for e in pages if e.get('edit')])))
     return 0
 
 
@@ -96,7 +130,7 @@ def _write_candidate(layout, entry, tiles, tilemap, added, strategy):
         gp.write_resource(common.ROOT / map_png, tilemap, map_spec)
         page_payload = page_image.page_png(tiles, tilemap, map_spec['width'],
                                            map_spec['height'], map_spec['addressing'], True)
-        (common.ROOT / entry['page']).write_bytes(page_payload)
+        _page_target(entry).write_bytes(page_payload)
         print('RETILE=PASS PAGE=' + entry['id'] + ' KIND=bundle TILES='
               + str(len(tiles) // 16) + ' ADDED=' + str(len(added))
               + ' STRATEGY=' + strategy)
@@ -105,7 +139,7 @@ def _write_candidate(layout, entry, tiles, tilemap, added, strategy):
         gp.write_resource(common.ROOT / map_png, tilemap, map_spec)
         page_payload = page_image.page_png(tiles, tilemap, map_spec['width'],
                                            map_spec['height'], map_spec['addressing'], False)
-        (common.ROOT / entry['page']).write_bytes(page_payload)
+        _page_target(entry).write_bytes(page_payload)
         print('RETILE=PASS PAGE=' + entry['id'] + ' KIND=tilemap TILES='
               + str(len(tiles) // 16) + ' ADDED=' + str(len(added))
               + ' STRATEGY=' + strategy)
@@ -114,10 +148,16 @@ def _write_candidate(layout, entry, tiles, tilemap, added, strategy):
 def retile(manifest, manifest_path, page_path):
     page_path = page_path.resolve()
     page_rel = page_path.relative_to(common.ROOT.resolve()).as_posix()
-    common.validate_page_path(page_rel)
     by_id = _index(manifest)
-    entry = next((item for item in _pages(manifest) if item['page'] == page_rel), None)
-    common.require(entry is not None, 'Page is not listed in the manifest: ' + page_rel)
+    if page_rel.startswith('build/pages/'):
+        common.validate_build_page_path(page_rel)
+        entry = next((item for item in _pages(manifest)
+                      if item.get('edit') and item['id'] == page_path.stem), None)
+        common.require(entry is not None, 'Page is not an edit-backed page: ' + page_rel)
+    else:
+        common.validate_page_path(page_rel)
+        entry = next((item for item in _pages(manifest) if item.get('page') == page_rel), None)
+        common.require(entry is not None, 'Page is not listed in the manifest: ' + page_rel)
     layout = _layout(by_id, entry)
     kind, tileset = layout[0], layout[1]
     tiles_png, map_png, tiles_spec, map_spec = layout[2], layout[3], layout[4], layout[5]
@@ -130,8 +170,12 @@ def retile(manifest, manifest_path, page_path):
         if packed > entry['capacity']:
             allocation.relocate(manifest, entry, max(packed, 16))
         gp.write_resource(common.ROOT / tiles_png, tiles, tiles_spec)
-        (common.ROOT / entry['page']).write_bytes(
-            gp.tiles_to_png(tiles, tiles_spec['tiles_per_row']))
+        target = _page_target(entry)
+        target.parent.mkdir(parents=True, exist_ok=True)
+        target.write_bytes(gp.tiles_to_png(tiles, tiles_spec['tiles_per_row']))
+        if entry.get('edit'):
+            common.require(_base is not None, 'baserom.gb is required to refresh a page edit')
+            page_edits.extract(entry, target.read_bytes(), _base)
         manifest_path.write_text(json.dumps(manifest, ensure_ascii=False, indent=2) + '\n',
                                  encoding='utf-8')
         print('RETILE=PASS PAGE=' + entry['id'] + ' KIND=sheet TILES='
@@ -196,6 +240,9 @@ def retile(manifest, manifest_path, page_path):
             if len(hal_codec.pack(tilemap)) > map_capacity:
                 allocation.relocate(manifest, entry, max(len(hal_codec.pack(tilemap)), 16))
         _write_candidate(layout, entry, tiles, tilemap, added, name)
+    if entry.get('edit'):
+        common.require(_base is not None, 'baserom.gb is required to refresh a page edit')
+        page_edits.extract(entry, _page_target(entry).read_bytes(), _base)
     manifest_path.write_text(json.dumps(manifest, ensure_ascii=False, indent=2) + '\n',
                              encoding='utf-8')
     print('NEXT=python tools/repack.py --version <new-version>')
@@ -205,6 +252,7 @@ def retile(manifest, manifest_path, page_path):
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--manifest', type=Path, default=common.DEFAULT_MANIFEST)
+    parser.add_argument('--base', type=Path, default=common.ROOT / 'baserom.gb')
     sub = parser.add_subparsers(dest='command', required=True)
     render_parser = sub.add_parser('render', help='write page previews from tracked sources')
     render_parser.add_argument('--check', action='store_true',
@@ -212,9 +260,13 @@ def main():
     retile_parser = sub.add_parser('retile', help='split an edited page back into resources')
     retile_parser.add_argument('page', type=Path)
     args = parser.parse_args()
+    global _base
     manifest = common.load_manifest(args.manifest)
+    _base = args.base.read_bytes() if args.base.is_file() else None
+    if _base is not None:
+        common.validate_input(_base, manifest)
     if args.command == 'render':
-        return render(manifest, args.check)
+        return render(manifest, args.check, _base)
     return retile(manifest, args.manifest, args.page)
 
 

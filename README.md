@@ -65,7 +65,8 @@ Python 包装工具在写入前校验输入和重建结果；若已有同名输�
 
 ```text
 source/         71 份无损 PNG 图形源：48 份图块集、23 份背景索引表、21 份 bundle 地图；构建清单及符号化改动面
-source/pages/   48 张可读页面 PNG（23 张背景页 + 21 张 bundle 页 + 4 张图块画布），索引见 docs/PAGES.md
+source/pages/   21 张 bundle 整页 PNG（关卡介绍、标题、配置、声音测试、GAME OVER、CONTINUE）
+source/edits/   27 个「基线+覆盖层」页面（23 图鉴/提示页 + 4 图块画布）：基线与图块从 Rev1 ROM 重建，仓库只存改动格子；索引见 docs/PAGES.md
 tools/          独立构建、HAL 编解码、修订封装、xdelta3、校验工具
 translations/   核稿文本与接入状态
 assets/         选定的用户修订素材、可复用字形及来源信息
@@ -76,7 +77,7 @@ LICENSES/       第三方字体许可和署名
 
 构建不读取旧日版、美版、旧汉化 ROM、模拟器或开发者本机目录。
 今后的汉化修订在本仓库提交；请同时更新源码资源、版本清单、补丁与测试。
-[页面索引](docs/PAGES.md) 列出全部 48 张页面及其内容。`translations/` 与 `assets/` 是编辑素材，**仅编辑这些文件不会自动重排整个游戏**；真正参与构建的是 `source/graphics/` 下的 PNG 源，详见 [开发说明](docs/DEVELOPMENT.md)；改动面的语义索引见 [符号化改动面](docs/CHANGE_SURFACE.md)。
+[页面索引](docs/PAGES.md) 列出全部 48 个页面及其内容（21 张整页 PNG + 27 个基线+覆盖层页面）。`translations/` 与 `assets/` 是编辑素材，**仅编辑这些文件不会自动重排整个游戏**；真正参与构建的是 `source/graphics/` 下的 PNG 源，详见 [开发说明](docs/DEVELOPMENT.md)；改动面的语义索引见 [符号化改动面](docs/CHANGE_SURFACE.md)。
 
 ```sh
 python -m unittest discover -s tests -v
@@ -93,7 +94,8 @@ python tools/derive_resources.py
 # 整页编辑：重新生成/校验可读页面，或把编辑过的页面拆回图块集+索引表
 python tools/pages.py render
 python tools/pages.py render --check
-python tools/pages.py retile source/pages/rom_048462.png
+python tools/page_edits.py render             # 基线+覆盖层页重建到 gitignored 的 build/pages/
+python tools/pages.py retile build/pages/rom_048462.png   # 编辑后回写图块集/地图并刷新覆盖层
 ```
 
 原创工具代码及有权授权的文档采用 [MIT](LICENSE)。游戏及派生美术、字体不被重新授权为 MIT，参见 [第三方与资源声明](THIRD_PARTY_NOTICES.md)。本项目为非官方汉化项目。

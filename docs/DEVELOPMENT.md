@@ -59,25 +59,27 @@ python tools/release.py --manifest build/manifest.edited.json --output build/che
 
 审核通过后，将开发清单的完整内容作为新的 `source/manifest.json`，使用新版本号，更新 `CHANGELOG.md` 和目标哈希，再运行 `python tools/release.py`。新源码资源、清单与命名 xdelta3 补丁在同一提交中更新。原版的三个输入哈希保持不变。
 
-### 整页编辑（source/pages）
+### 整页编辑（source/pages + source/edits）
 
-`source/pages/<id>.png` 是整页合成图，共 48 张，按资源结构分三类：
+`source/` 下共 48 个页面，按存储方式分两类：
 
-| 类型 | 数量 | 页面尺寸 | 资源结构 |
+| 存储 | 数量 | 页面结构 | 说明 |
 | --- | --- | --- | --- |
-| `tilemap` | 23 | 256×256 | 独立图块集 + 独立 32×32 索引表（图鉴、通关提示） |
-| `bundle` | 21 | 地图宽×8 × 地图高×8 | 单个资源 = 图块块 + 地图块（场景介绍 128+32×18、场景 5 128+32×30、配置 256+32×18、标题 292+32×18 等） |
-| `sheet` | 4 | 图块网格 | 纯图块集（HUD、结局精灵、开场装饰）的画布页 |
+| `source/pages/<id>.png` | 21 | `bundle`：单资源 = 图块块 + 地图块（场景介绍 128+32×18、场景 5 128+32×30、配置 256+32×18、标题 292+32×18 等） | 整页 PNG 直接可读可编辑 |
+| `source/edits/<id>.json` + `<id>_cells.png` | 27 | `tilemap`（23：图鉴/通关提示，独立图块集 + 32×32 索引表）与 `sheet`（4：HUD、结局精灵、开场装饰） | **基线+覆盖层**：基线由用户自备的 Rev1 ROM 重建（原始图块/地图，加少量 pinned 外部图块），仓库只保存改动的 8×8 格子 |
 
-bundle 页面里，地图字节指向本资源之外（原始 ROM 的 0x8000 区图块）的格子会显示为横条占位图案，并且在 retile 时只读；只有本资源拥有的格子可以编辑。图块槽位数由游戏加载器固定，新增图案通过压缩去重腾出槽位，不会擅自增加加载长度。
+基线+覆盖层页的编辑流程：
 
-编辑页面后运行 `python tools/pages.py retile source/pages/<id>.png`：
+1. `python tools/page_edits.py render` 把 27 个页面重建到 gitignored 的 `build/pages/`；
+2. 编辑 `build/pages/<id>.png`；
+3. `python tools/pages.py retile build/pages/<id>.png`：把编辑后的页面拆回 `source/graphics/` 图块集/索引表，并刷新 `source/edits/` 的覆盖层图集与格子索引；
+4. `python tools/pages.py render --check` 与 `python tools/page_edits.py check` 校验两种页面都与 `source/graphics` 一致（后两者需要 `baserom.gb`）。
 
-- `python tools/pages.py render` 从图块集+索引表重新生成页面；`--check` 只校验页面是否与资源同步（公开测试会做）。
-- 编辑页面后运行 `python tools/pages.py retile source/pages/<id>.png`：未改动的格子保留原索引，改动的格子优先复用已有图块，必要时追加新图块；命令会打印所用策略与容量余量。
-- 若资源超出原分配容量，retile 会先用更紧凑的编码，并把仍放不下的资源重分配到扩展 ROM 的空闲空间（如 bank 24–29 的空隙），同时自动改写清单中对应的加载指针补丁。输出中的 `RELOCATE=…` 报告新 bank/CPU 地址与改写补丁数；这会改变 ROM 布局与哈希，属于自定义修订，发布前必须重新生成补丁。
-- 之后按本节前面的流程运行 `tools/repack.py` 生成开发清单，再构建、验证、发布。
-- 限制：使用 `0x8800` 寻址的两页通关提示只能复用可寻址图块或整体压缩重排；指针改写只覆盖清单中已登记的加载点，模拟器/真实硬件验证仍不可省略。
+bundle 页面仍在 `source/pages/<id>.png` 直接编辑并 `python tools/pages.py retile source/pages/<id>.png`。bundle 页面里引用原始 ROM 图块（无法归属本资源）的格子显示为占位图案、retile 时只读；图块槽位数由游戏加载器固定，新增图案通过压缩去重腾出槽位，不会擅自增加加载长度。
+
+若资源超出原分配容量，retile 会先用更紧凑的编码，并把仍放不下的资源重分配到扩展 ROM 的空闲空间（如 bank 24–29 的空隙），同时自动改写清单中对应的加载指针补丁。输出中的 `RELOCATE=…` 报告新 bank/CPU 地址与改写补丁数；这会改变 ROM 布局与哈希，属于自定义修订，发布前必须重新生成补丁。之后按本节前面的流程运行 `tools/repack.py` 生成开发清单，再构建、验证、发布。
+
+限制：使用 `0x8800` 寻址的两页通关提示只能复用可寻址图块或整体压缩重排；指针改写只覆盖清单中已登记的加载点，模拟器/真实硬件验证仍不可省略。
 
 ## 地址与 Rev 1 约束
 

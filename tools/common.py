@@ -65,6 +65,39 @@ def validate_page_path(value):
     page_path(value)
 
 
+def edit_path(value):
+    require(isinstance(value, str), 'Edit path must be a string')
+    require(not PureWindowsPath(value).is_absolute() and not PureWindowsPath(value).drive,
+            'Absolute edit paths are not accepted')
+    relative = PurePosixPath(value)
+    require(not relative.is_absolute() and '..' not in relative.parts,
+            'Edit path must remain inside this project')
+    require(relative.parts[:2] == ('source', 'edits'),
+            'Edits must be JSON files in source/edits')
+    require(relative.suffix.lower() == '.json', 'Edits must be JSON files')
+    result = (ROOT / value).resolve()
+    require(result.is_relative_to((ROOT / 'source/edits').resolve()),
+            'Edit path escapes the edit directory')
+    return result
+
+
+def validate_edit_path(value):
+    edit_path(value)
+
+
+def validate_build_page_path(value):
+    require(isinstance(value, str), 'Build page path must be a string')
+    relative = PurePosixPath(value)
+    require(not PureWindowsPath(value).is_absolute() and not PureWindowsPath(value).drive,
+            'Absolute page paths are not accepted')
+    require(relative.parts[:2] == ('build', 'pages'), 'Build pages live in build/pages')
+    require(relative.suffix.lower() == '.png', 'Pages must be PNG files')
+    result = (ROOT / value).resolve()
+    require(result.is_relative_to((ROOT / 'build/pages').resolve()),
+            'Build page path escapes build/pages')
+    return result
+
+
 def validate_manifest(manifest):
     require(manifest.get('schema_version') == 1, 'Unsupported manifest schema')
     require(manifest.get('fill_byte') == 255, 'Expansion padding must be FF')
@@ -117,9 +150,15 @@ def validate_manifest(manifest):
                     'Tilemap PNG needs a supported addressing mode')
             require(png.get('tileset') in resource_ids,
                     'Tilemap PNG must reference an existing tileset resource')
-            require(r.get('page') == 'source/pages/' + r['id'] + '.png',
-                    'Tilemap page path must be source/pages/<id>.png')
-            validate_page_path(r['page'])
+            if r.get('edit') is not None:
+                require(r.get('page') is None, 'Edit-backed pages must not also carry a page path')
+                require(r['edit'] == 'source/edits/' + r['id'] + '.json',
+                        'Tilemap edit path must be source/edits/<id>.json')
+                validate_edit_path(r['edit'])
+            else:
+                require(r.get('page') == 'source/pages/' + r['id'] + '.png',
+                        'Tilemap page path must be source/pages/<id>.png')
+                validate_page_path(r['page'])
         bundle = r.get('bundle')
         if bundle is not None:
             require(mode == graphics_png.TILES_MODE, 'Bundles must use the tileset PNG mode')
@@ -133,9 +172,20 @@ def validate_manifest(manifest):
                     + bundle['width'] * bundle['height'],
                     'Bundle decoded size must equal tiles + map bytes')
             resource_path(bundle.get('map_png'))
+            require(r.get('edit') is None, 'Bundle pages stay as full PNG pages')
             require(r.get('page') == 'source/pages/' + r['id'] + '.png',
                     'Bundle page path must be source/pages/<id>.png')
             validate_page_path(r['page'])
+        if r.get('page_kind') == 'sheet':
+            if r.get('edit') is not None:
+                require(r.get('page') is None, 'Edit-backed pages must not also carry a page path')
+                require(r['edit'] == 'source/edits/' + r['id'] + '.json',
+                        'Sheet edit path must be source/edits/<id>.json')
+                validate_edit_path(r['edit'])
+            else:
+                require(r.get('page') == 'source/pages/' + r['id'] + '.png',
+                        'Sheet page path must be source/pages/<id>.png')
+                validate_page_path(r['page'])
         require(isinstance(at,int) and isinstance(capacity,int) and capacity > 0,
                 'Invalid resource allocation')
         require(0x40000 <= at < at+capacity <= 0x80000, 'Resource outside expanded ROM')
