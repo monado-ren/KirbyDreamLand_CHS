@@ -14,8 +14,10 @@
 - 编辑用字形子集不再入库：`assets/fonts/*.json` 由 `tools/fetch_fonts.py` 从上游 pinned
   ZLabs Pixel 12px `.kbitx` 与 Fusion Pixel 8px BDF 发行包（SHA-256 固定）生成，glyphs 与
   既有文件逐项一致；上游字体许可与声明保留。开发侧新增 `requirements-dev.txt`（kbitfont）。
+- 新增 `tools/audit_pages.py`：静态审计 48 个页面的 VRAM/tile/地图预算、外部基线图块引用、
+  装载目的与容量余量，生成 `docs/PAGE_BUDGET.md`；`--check` 纳入验证，但不替代实机验证。
 - CI 增加 `pip install -r requirements.txt` 与 `python tools/build_rgbds.py`；
-  ROM、xdelta3 补丁与目标哈希（`f96fe0ec…2795`）不变。公开测试 126 项。
+  ROM、xdelta3 补丁与目标哈希（`f96fe0ec…2795`）不变。公开测试 130 项。
 
 
 ## v0.5.1 源码工程改进 — PNG 编解码改用 Pillow（ROM 与补丁不变）

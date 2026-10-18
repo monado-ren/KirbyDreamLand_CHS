@@ -75,6 +75,12 @@ Additional executed checks:
     PAGES=PASS PREVIEWS=48 PNG_PAGES=21 EDIT_PAGES=27 EDIT_SKIPPED=0
   Retiling an unedited page reproduces the underlying graphics and map bytes
   byte for byte.  BUNDLE=TILES+MAP is validated by the unchanged release hash.
+- Page budget audit: 48 pages (30 active, 18 legacy), 21 bundle + 27 edit, 0 hard
+  errors; warnings cover baseline-tile references and the title page's custom
+  segmented layout.
+    python -B tools/audit_pages.py --check
+    PAGE_AUDIT=PASS PAGES=48 ACTIVE_PAGES=30 LEGACY_PAGES=18 BUNDLES=21 EDITS=27
+      ACTIVE_RES=46 ZERO_SLACK=19 WARN=9 HARD=0
 - Selftest: HAL_CASES=6 MALFORMED_HAL=3 IPS_CASES=3 RESOURCES=71 SURFACE=110P/198B NO_ROM=YES.
 - Fresh Git-index checkout + only baserom.gb: same ROM AND patch bytes.
 - Separate xdelta3decode executable: exact target replay, exit 0.

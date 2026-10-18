@@ -86,6 +86,8 @@ bundle 页面仍在 `source/pages/<id>.png` 直接编辑并 `python tools/pages.
 
 限制：使用 `0x8800` 寻址的两页通关提示只能复用可寻址图块或整体压缩重排；指针改写只覆盖清单中已登记的加载点，模拟器/真实硬件验证仍不可省略。
 
+页面预算审计：`python tools/audit_pages.py --write` 生成 `docs/PAGE_BUDGET.md`（48 页的 tile 数、地图码、外部基线引用、装载目的、容量余量）；`--check` 在容量等硬约束不成立时失败。静态审计不替代实机验证。
+
 ## 地址与 Rev 1 约束
 
 | 项目 | ROM 偏移与字节 |
