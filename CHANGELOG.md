@@ -1,5 +1,16 @@
 # 版本记录
 
+## v0.5.1 文本层 — 字体 + 译文 + 布局生成页面
+
+- 新增 `00_Tools/text_layout.py` 与 `02_Text/layout.json`、`03_Image/text-base/*.png`：
+  8 个页面 / 11 条文本（场景 1–5 关卡名、声音测试、GAME OVER、CONTINUE）不再只存结果像素，
+  而是“底图 + 字体 + 译文 + 锚点”可重排；`text_layout.py check` 验证
+  `base + font(translation, layout)` 与已提交页面逐像素一致。
+- `05_Font/generated` 的 8px 子集扩展到 56 个字形（覆盖通关提示文本），字形摘要仍为 pinned。
+- 其余页面（配置、标题、图鉴、通关提示等）文字仍为人工排版像素，继续按页面/覆盖层维护；
+  ROM、补丁与目标哈希不变。
+
+
 ## v0.5.1 工程组织 — 按工序编号目录（参考 PKMN_GSCHS）
 
 - 目录改为 `00_Tools/`、`01_Export/`、`02_Text/`、`03_Image/`、`04_Data/`、`05_Font/`、

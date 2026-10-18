@@ -28,7 +28,7 @@ EXPECTED_GLYPHS_SHA256 = {
     'jpzh-bitmap-12.json':
         '5e14f4d8957e15fb7cabe2d1dd9284e6fc2ff7f31ab7f19c1719de52ab3a0af9',
     'jpzh-bitmap-hud-8.json':
-        '6c1f78b9e605bd99c4c85d1b0a83a0390068836661e0ac2b5921cb7d4ff8b64f',
+        '8c23b2845a80a51134e34523d84520dbbd344e2213e3e0192df87a652430ce3d',
 }
 
 ZL_KBITX_URL = ('https://raw.githubusercontent.com/Astro-2539/ZLabs-Pixel-12px/'
@@ -77,7 +77,7 @@ FUSION_META = {
 
 # Project character sets (which characters are drawn with each bitmap font).
 CHARSET_12 = 'P两乌乐云体像兄先光冒出刀刺力卡吐吓喔喳圆场城堡士声外大头子寄射小尖尸尼层居山屿岛帝带帽幽式弟弯弹怪惊戏扫把拉振效晕景暴本束树模武比泡波派测浮海游漂灵炮熊狂独猫王球瓜瓦生疯的眼睡石章笃箩箱糕结继续绿置翅耳胀胡膨舌芒菇菈葛葵蘑蛋蛙蝙蝠蟹试语谷豆贝贼躁连迪退配钸锥镜面音须额风飞骑骷髅鬼魔鱼鲁鸟鸡鹈鹕黑：'
-CHARSET_HUD8 = ' 分卡比积'  # HUD glyphs incl. space
+CHARSET_HUD8 = ' 分卡比积♪一上不令份你侧入关冒别吧呢喜在外左平式恭您感戏指新标模水游物特玩界的真礼置谢踏输送通配错险面题额！，'  # HUD + ending-hint glyphs
 
 
 def _sha256_bytes(payload):

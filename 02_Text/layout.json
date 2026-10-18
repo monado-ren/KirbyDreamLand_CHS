@@ -1,0 +1,227 @@
+{
+ "format_version": 1,
+ "font_sources": {
+  "12px": "05_Font/generated/jpzh-bitmap-12.json",
+  "8px": "05_Font/generated/jpzh-bitmap-hud-8.json"
+ },
+ "pages": {
+  "rom_06c000": {
+   "base_png": "03_Image/text-base/rom_06c000.png",
+   "width": 256,
+   "height": 144
+  },
+  "rom_06c70b": {
+   "base_png": "03_Image/text-base/rom_06c70b.png",
+   "width": 256,
+   "height": 144
+  },
+  "rom_06cda8": {
+   "base_png": "03_Image/text-base/rom_06cda8.png",
+   "width": 256,
+   "height": 144
+  },
+  "rom_06d490": {
+   "base_png": "03_Image/text-base/rom_06d490.png",
+   "width": 256,
+   "height": 144
+  },
+  "rom_06db85": {
+   "base_png": "03_Image/text-base/rom_06db85.png",
+   "width": 256,
+   "height": 240
+  },
+  "rom_0438f6": {
+   "base_png": "03_Image/text-base/rom_0438f6.png",
+   "width": 256,
+   "height": 144
+  },
+  "rom_04454c": {
+   "base_png": "03_Image/text-base/rom_04454c.png",
+   "width": 256,
+   "height": 144
+  },
+  "rom_044734": {
+   "base_png": "03_Image/text-base/rom_044734.png",
+   "width": 256,
+   "height": 144
+  }
+ },
+ "entries": {
+  "stage_1_name": {
+   "id": "stage_1_name",
+   "page": "rom_06c000",
+   "page_png": "03_Image/pages/rom_06c000.png",
+   "font": "12px",
+   "line_height": 12,
+   "translation_sha256": "8a297be3405c72f571855a8151e8145db8cb2c0b2af3948850544164d796ecb8",
+   "anchor": {
+    "x": 56,
+    "y": 38,
+    "lines": 1,
+    "width": 48,
+    "height": 12,
+    "candidates": 1
+   }
+  },
+  "stage_2_name": {
+   "id": "stage_2_name",
+   "page": "rom_06c70b",
+   "page_png": "03_Image/pages/rom_06c70b.png",
+   "font": "12px",
+   "line_height": 12,
+   "translation_sha256": "7f34c0524e7cccdb41bb17ae50fce8202a04f90d2c322689b9f0dc11c5d4e5e3",
+   "anchor": {
+    "x": 44,
+    "y": 38,
+    "lines": 1,
+    "width": 72,
+    "height": 12,
+    "candidates": 1
+   }
+  },
+  "stage_3_name": {
+   "id": "stage_3_name",
+   "page": "rom_06cda8",
+   "page_png": "03_Image/pages/rom_06cda8.png",
+   "font": "12px",
+   "line_height": 12,
+   "translation_sha256": "44ea88ae7929cb2de9e1e3191c5154eb4449b80519cbec0b45f083b4cc797f7d",
+   "anchor": {
+    "x": 56,
+    "y": 38,
+    "lines": 1,
+    "width": 48,
+    "height": 12,
+    "candidates": 1
+   }
+  },
+  "stage_4_name": {
+   "id": "stage_4_name",
+   "page": "rom_06d490",
+   "page_png": "03_Image/pages/rom_06d490.png",
+   "font": "12px",
+   "line_height": 12,
+   "translation_sha256": "ff22ada67912e4c0c64243f2e4ddfb587d97bf69700ca1fc3174dad0c327394e",
+   "anchor": {
+    "x": 56,
+    "y": 38,
+    "lines": 1,
+    "width": 48,
+    "height": 12,
+    "candidates": 1
+   }
+  },
+  "stage_5_name": {
+   "id": "stage_5_name",
+   "page": "rom_06db85",
+   "page_png": "03_Image/pages/rom_06db85.png",
+   "font": "12px",
+   "line_height": 12,
+   "translation_sha256": "fcfaa55cd10aacad6b97dd3917be6a9405cc897fd8d5b25992e460da4c4fe548",
+   "anchor": {
+    "x": 56,
+    "y": 36,
+    "lines": 1,
+    "width": 48,
+    "height": 12,
+    "candidates": 1
+   }
+  },
+  "sound_test": {
+   "id": "sound_test",
+   "page": "rom_0438f6",
+   "page_png": "03_Image/pages/rom_0438f6.png",
+   "font": "12px",
+   "line_height": 12,
+   "translation_sha256": "71d9ee464f2bc1604f811c7a41110831ad62acc3b0fea7daf7d42e0a1c8348f0",
+   "anchor": {
+    "x": 56,
+    "y": 30,
+    "lines": 1,
+    "width": 48,
+    "height": 12,
+    "candidates": 1
+   }
+  },
+  "music": {
+   "id": "music",
+   "page": "rom_0438f6",
+   "page_png": "03_Image/pages/rom_0438f6.png",
+   "font": "12px",
+   "line_height": 12,
+   "translation_sha256": "db95142124934467ce25ba303416ab0a336497c498e709e2f522d789b76fb030",
+   "anchor": {
+    "x": 56,
+    "y": 54,
+    "lines": 1,
+    "width": 24,
+    "height": 12,
+    "candidates": 1
+   }
+  },
+  "sound": {
+   "id": "sound",
+   "page": "rom_0438f6",
+   "page_png": "03_Image/pages/rom_0438f6.png",
+   "font": "12px",
+   "line_height": 12,
+   "translation_sha256": "5e9d80d0e3c3953a8a5bc76ad143ed44ff5d0d3efab74de5bb49209c63373f2b",
+   "anchor": {
+    "x": 56,
+    "y": 70,
+    "lines": 1,
+    "width": 24,
+    "height": 12,
+    "candidates": 1
+   }
+  },
+  "game_over": {
+   "id": "game_over",
+   "page": "rom_04454c",
+   "page_png": "03_Image/pages/rom_04454c.png",
+   "font": "12px",
+   "line_height": 12,
+   "translation_sha256": "9113fed68dd53ff92f7d691b13c454ff496b2091a1ba83ef3cf6074157a3a1c6",
+   "anchor": {
+    "x": 56,
+    "y": 46,
+    "lines": 1,
+    "width": 48,
+    "height": 12,
+    "candidates": 1
+   }
+  },
+  "continue": {
+   "id": "continue",
+   "page": "rom_044734",
+   "page_png": "03_Image/pages/rom_044734.png",
+   "font": "12px",
+   "line_height": 12,
+   "translation_sha256": "7c9691192f1b73408bbe4c0cb6d00db94375ca9d8fce0a0d5985e7a5178f083f",
+   "anchor": {
+    "x": 56,
+    "y": 30,
+    "lines": 1,
+    "width": 24,
+    "height": 12,
+    "candidates": 1
+   }
+  },
+  "end": {
+   "id": "end",
+   "page": "rom_044734",
+   "page_png": "03_Image/pages/rom_044734.png",
+   "font": "12px",
+   "line_height": 12,
+   "translation_sha256": "c7b24e7997e96eaa17a73b054f63dab3bf3ce8e38b2e1ab1d87a68cca5d09f4a",
+   "anchor": {
+    "x": 56,
+    "y": 46,
+    "lines": 1,
+    "width": 24,
+    "height": 12,
+    "candidates": 1
+   }
+  }
+ }
+}
