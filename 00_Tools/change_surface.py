@@ -2,7 +2,7 @@
 """Symbolic source of truth for the localization change surface.
 
 `06_ProgramFix/change_surface.json` names every loader site, resource, old/new value
-and code region.  The release manifest no longer stores 110 hex patch pairs:
+and code region.  The release manifest no longer stores hex patch pairs:
 patches are derived from this file (assembling the RGBDS sources under
 `06_ProgramFix/patches/`) whenever a manifest is loaded.  A single digest pins the
 derived patch list so drift is still detected.
@@ -80,6 +80,13 @@ def encode_patch(patch, resources):
         return old, new
     if kind == 'loader.bank':
         return _u8(patch['old'], kind), _u8(_resolve(patch['new'], resources, kind), kind)
+    if kind == 'code.nop':
+        # Neutralise a call by overwriting it with NOPs.  `length` bytes of
+        # `expected_hex` are replaced by the same number of 0x00 bytes so the
+        # surrounding instruction stream keeps its original offsets.
+        old = bytes.fromhex(patch['expected_hex'])
+        require(len(old) == patch['length'], kind + ': expected_hex must match length')
+        return old, b'\x00' * patch['length']
     if kind == 'stage.pointer_table':
         old = b''.join(bytes([e['old']['bank'], int(e['old']['addr'], 16) >> 8,
                               int(e['old']['addr'], 16) & 0xFF]) for e in patch['entries'])
@@ -230,7 +237,13 @@ def verify(spec, manifest=None, rgbds=None, base=None):
             'legacy resources must not be referenced by any loader site')
     missing = {r['id'] for r in spec['resources'] if r['role'] == 'active'} - referenced
     require(not missing, 'active resources without a loader site: ' + repr(sorted(missing)))
-    require(total == 198, 'replacement byte count changed: %d' % total)
+    # The change surface pins its own size so an accidental edit cannot slip
+    # through; update `expected_bytes` in the spec (and the tests) whenever the
+    # surface legitimately grows or shrinks.
+    expected_bytes = spec.get('expected_bytes')
+    require(expected_bytes is not None, 'spec must declare expected_bytes')
+    require(total == expected_bytes,
+            'replacement byte count changed: %d (spec says %d)' % (total, expected_bytes))
     header = spec['header']
     require(header['rom_size_code']['new'] == 4, 'target ROM size code must be 4')
     require(header['checksums']['policy'] == 'recompute', 'checksums must be recomputed')
@@ -409,7 +422,7 @@ def report(spec, manifest=None, rgbds=None):
                                     record['mode'], anchor['x'], anchor['y']))
                 lines.append('')
         if number == '09':
-            lines += ['- `python 00_Tools/build.py`：按清单装载 71 个资源、写入 110 处补丁、重算校验和；',
+            lines += ['- `python 00_Tools/build.py`：按清单装载 71 个资源、写入 %d 处补丁、重算校验和；' % len(derived),
                       '- `python 00_Tools/verify.py`：核对 524288 字节与目标 SHA-256；',
                       '- `python 00_Tools/release.py`：生成相对 `baserom.gb` 的 xdelta3；',
                       '- `SHA256SUMS.txt`：固定 ROM / 补丁 / baserom 三个哈希。', '']
@@ -514,6 +527,8 @@ def summarize(spec, manifest=None, rgbds=None):
 
 
 def _old_text(patch):
+    if patch['kind'] == 'code.nop':
+        return '0x' + patch['expected_hex']
     if patch['kind'] == 'stage.pointer_table':
         return ', '.join('%s 6:%s' % (e['stage'], e['old']['addr']) for e in patch['entries'])
     if patch['kind'] == 'loader.source_addr':
@@ -522,6 +537,8 @@ def _old_text(patch):
 
 
 def _new_text(patch, resources):
+    if patch['kind'] == 'code.nop':
+        return '0x' + '00' * patch['length'] + '  (NOP x%d)' % patch['length']
     if patch['kind'] == 'stage.pointer_table':
         return ', '.join('%s %d:%s' % (e['stage'], e['new']['bank'], e['new']['addr'])
                          for e in patch['entries'])

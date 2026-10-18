@@ -17,6 +17,7 @@ jobs:
       - run: python 00_Tools/selftest.py
       - run: python 00_Tools/audit_pages.py --check
       - run: python 00_Tools/audit_loader_timing.py
+      - run: python 00_Tools/audit_dead_loads.py
       - run: python 00_Tools/audit_loader_payload.py
       - run: python 00_Tools/audit_public_tree.py
       # No original or localized ROM is fetched or uploaded by CI.

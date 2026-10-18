@@ -16,7 +16,7 @@ import graphics_png
 import hal_codec
 
 BASE_SHA256 = 'c4c6aff6242116c4f26bdcf3343b6c27836010853b8753da8b0cb953a200834a'
-TARGET_SHA256 = 'f96fe0ecac53cc586eac19b53fe1b50cef3fd1751261ae273c2356b2c6c62795'
+TARGET_SHA256 = '959835314b684dded38752a6df9fc349d38a4d70fa83633d971c84972a5755dd'
 REV1_FIXES = ((0x37B1, bytes.fromhex('fa14d4a7c0')),
               (0x434B, bytes.fromhex('ea14d4')),
               (0x1418C, bytes.fromhex('3807')))
@@ -47,8 +47,8 @@ class ReleaseContractTests(unittest.TestCase):
         self.assertNotIn(0x3DA22, used)
 
     def test_patches_are_small_preimage_checked_changes(self):
-        self.assertEqual(len(self.manifest['patches']), 110)
-        self.assertEqual(sum(len(bytes.fromhex(p['replacement_hex'])) for p in self.manifest['patches']), 198)
+        self.assertEqual(len(self.manifest['patches']), 116)
+        self.assertEqual(sum(len(bytes.fromhex(p['replacement_hex'])) for p in self.manifest['patches']), 216)
         for item in self.manifest['patches']:
             self.assertEqual(len(item['expected_hex']), len(item['replacement_hex']))
 

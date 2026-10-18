@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "release": "v0.5.1",
+  "release": "v0.5.2",
   "edition": "Monado",
   "baseline_name": "Hoshi no Kirby (Japan) (Rev 1)",
   "default_input": "baserom.gb",
@@ -11,13 +11,13 @@
   },
   "target": {
     "size": 524288,
-    "sha256": "f96fe0ecac53cc586eac19b53fe1b50cef3fd1751261ae273c2356b2c6c62795"
+    "sha256": "959835314b684dded38752a6df9fc349d38a4d70fa83633d971c84972a5755dd"
   },
   "fill_byte": 255,
   "change_surface": {
-    "sha256": "219d7545deda60928b16974e4e90b2231fadcc5b382067d3c28977bb0eac542c",
-    "patches": 110,
-    "bytes": 198
+    "sha256": "0c7de82245a543123dede497a096b2fba36b2a5d4dad7b4d5d54813db1bc6487",
+    "patches": 116,
+    "bytes": 216
   },
   "resources": [
     {

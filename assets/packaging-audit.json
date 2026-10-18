@@ -1,9 +1,9 @@
 {
   "scope": "assets/02_Text/licenses packaging only",
   "status": "PASS",
-  "release": "v0.5.1",
+  "release": "v0.5.2",
   "baseline": "Japan Rev 1",
-  "target_rom_sha256": "f96fe0ecac53cc586eac19b53fe1b50cef3fd1751261ae273c2356b2c6c62795",
+  "target_rom_sha256": "959835314b684dded38752a6df9fc349d38a4d70fa83633d971c84972a5755dd",
   "checks": [
     "license_verbatim:LICENSES/Fusion-Pixel-OFL.txt",
     "license_verbatim:LICENSES/Fusion-Pixel-upstream/BoutiqueBitmap7x7-OFL.txt",

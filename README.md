@@ -51,7 +51,7 @@ python 00_Tools/verify.py
 v0.5.1 输出为 **524288 字节**，与开发工程的 `kirby_jp_rev1_zh_v0.5.1_stage5_up2.gb` 逐字节一致：
 
 ```text
-SHA-256 f96fe0ecac53cc586eac19b53fe1b50cef3fd1751261ae273c2356b2c6c62795
+SHA-256 959835314b684dded38752a6df9fc349d38a4d70fa83633d971c84972a5755dd
 ```
 
 ## 直接应用补丁
@@ -88,7 +88,7 @@ LICENSES/        第三方字体许可和署名
 
 构建不读取旧日版、美版、旧汉化 ROM、模拟器或开发者本机目录。
 今后的汉化修订在本仓库提交；请同时更新源码资源、版本清单、补丁与测试。
-[页面索引](docs/PAGES.md) 列出全部 48 个页面及其内容（21 张整页 PNG + 27 个基线+覆盖层页面）。`02_Text/` 与 `assets/` 是编辑素材，**仅编辑这些文件不会自动重排整个游戏**；真正参与构建的是 `03_Image/graphics/` 下的 PNG 源，详见 [开发说明](docs/DEVELOPMENT.md)；改动面的语义索引见 [符号化改动面](docs/CHANGE_SURFACE.md)，分层构成见 [改动面构成](docs/CHANGE_SURFACE_COMPOSITION.md)，逐工序/逐补丁清单见 [工序与修改内容](docs/WORK_ITEMS.md)，装载帧成本见 [装载器成本](docs/LOADER_TIMING.md)。
+[页面索引](docs/PAGES.md) 列出全部 48 个页面及其内容（21 张整页 PNG + 27 个基线+覆盖层页面）。`02_Text/` 与 `assets/` 是编辑素材，**仅编辑这些文件不会自动重排整个游戏**；真正参与构建的是 `03_Image/graphics/` 下的 PNG 源，详见 [开发说明](docs/DEVELOPMENT.md)；改动面的语义索引见 [符号化改动面](docs/CHANGE_SURFACE.md)，分层构成见 [改动面构成](docs/CHANGE_SURFACE_COMPOSITION.md)，逐工序/逐补丁清单见 [工序与修改内容](docs/WORK_ITEMS.md)，装载帧成本见 [装载器成本](docs/LOADER_TIMING.md)，被消除的死装载见 [死装载审计](docs/DEAD_LOADS.md)。
 
 ```sh
 python -m unittest discover -s tests -v

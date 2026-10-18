@@ -28,10 +28,10 @@ class WorkItemReportTests(unittest.TestCase):
         self.assertIn('## 00 操作工序', text)
         for number in ('01', '02', '03', '04', '05', '06', '07', '08', '09'):
             self.assertIn('## %s ' % number, text)
-        self.assertIn('## 附录 A：全部 110 处补丁', text)
+        self.assertIn('## 附录 A：全部 116 处补丁', text)
         self.assertIn('## 附录 B：文本条目（121 条）', text)
         self.assertIn('## 附录 C：页面层（48 页）', text)
-        self.assertIn('全部 110 处补丁', text)
+        self.assertIn('全部 116 处补丁', text)
         self.assertIn('0x00148', text)
         self.assertIn('two_row_vblank_queue_writer', text)
         self.assertIn('stage_1_bundle_pointer', text)

@@ -25,9 +25,9 @@ class ChangeSurfaceTests(unittest.TestCase):
 
     def test_spec_derives_the_authoritative_manifest(self):
         stats = change_surface.verify(self.spec, self.manifest, rgbds=self.rgbds)
-        self.assertEqual(stats['patches'], 110)
-        self.assertEqual(stats['bytes'], 198)
-        self.assertEqual(stats['sites'], 47)
+        self.assertEqual(stats['patches'], 116)
+        self.assertEqual(stats['bytes'], 216)
+        self.assertEqual(stats['sites'], 49)
         self.assertEqual(stats['resources'], 71)
         self.assertEqual(stats['active'], 46)
         self.assertEqual(stats['legacy'], 25)
@@ -36,28 +36,29 @@ class ChangeSurfaceTests(unittest.TestCase):
 
     def test_manifest_no_longer_stores_hex_patches(self):
         self.assertNotIn('patches', self.raw_manifest)
-        self.assertEqual(self.raw_manifest['change_surface']['patches'], 110)
-        self.assertEqual(self.raw_manifest['change_surface']['bytes'], 198)
+        self.assertEqual(self.raw_manifest['change_surface']['patches'], 116)
+        self.assertEqual(self.raw_manifest['change_surface']['bytes'], 216)
         self.assertEqual(self.manifest['patches'],
                          change_surface.derive_patches(self.spec, self.rgbds))
 
     def test_every_patch_is_semantically_named_and_typed(self):
         allowed = {'rom.size', 'hud.label_tile', 'loader.vram_base', 'sprite.x',
-                   'loader.source_addr', 'loader.bank', 'stage.pointer_table'}
+                   'loader.source_addr', 'loader.bank', 'stage.pointer_table', 'code.nop'}
         for site in self.spec['sites']:
             self.assertTrue(site['site'], site)
             self.assertTrue(site['purpose'], site)
             for patch in site['patches']:
                 self.assertIn(patch['kind'], allowed, patch)
         derived = change_surface.derive_patches(self.spec, self.rgbds)
-        self.assertEqual(len(derived), 110)
-        self.assertEqual(sum(len(bytes.fromhex(p['replacement_hex'])) for p in derived), 198)
-        self.assertEqual(len({p['offset'] for p in derived}), 110)
+        self.assertEqual(len(derived), 116)
+        self.assertEqual(sum(len(bytes.fromhex(p['replacement_hex'])) for p in derived), 216)
+        self.assertEqual(len({p['offset'] for p in derived}), 116)
 
     def test_loader_sites_name_actual_resources(self):
         sites = [s for s in self.spec['sites'] if s['site'] not in
                  ('rom_size_512KiB', 'HUD_score_label_x16', 'stage_bundle_destination',
                   'two_row_vblank_queue_writer', 'gallery_page4_bat_x_only',
+                  'title_dead_loads', 'configuration_dead_loads',
                   'stage_1_bundle_pointer')]
         self.assertEqual(len(sites), 41)
         for site in sites:

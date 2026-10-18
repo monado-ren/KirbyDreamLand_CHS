@@ -97,6 +97,41 @@ def summarize(rows):
     }
 
 
+def _dead_load_section(rows):
+    """Extra section describing the v0.5.2 dead-load removal, if present."""
+    try:
+        import audit_dead_loads
+    except ImportError:
+        return []
+    try:
+        dead = audit_dead_loads.summarize(audit_dead_loads.collect())
+    except Exception:
+        return []
+    if not dead['saved_bytes']:
+        return []
+    base = ROOT / 'baserom.gb'
+    if not base.is_file():
+        return []
+    original = sum(r['old_decoded'] for r in rows if r['old_decoded'] is not None)
+    designed = sum(r['new_decoded'] for r in rows if r['old_decoded'] is not None)
+    actual = designed - dead['saved_bytes']
+    return ['', '## 删除死装载后的实际成本（v0.5.2）', '',
+            '标题页与配置页的整包会完全覆盖同一段代码里前面几次装载的 VRAM 区间，',
+            '因此那 %d 次 `CALL $20C1` 已改为 NOP（详见 `DEAD_LOADS.md`）。上表列的是' % dead['calls'],
+            '“装载器设计载荷”；实际执行的字节数要扣除这些看不到结果的装载：', '',
+            '| | 原版 | v0.5.1 | v0.5.2 |',
+            '| --- | ---: | ---: | ---: |',
+            '| 实际解压字节 | %s | %s | **%s** |' % (f'{original:,}', f'{designed:,}', f'{actual:,}'),
+            '| 相对原版 | — | +%s（+%.0f%%） | **+%s（+%.0f%%）** |'
+            % (f'{designed-original:,}', 100.0*(designed-original)/original,
+               f'{actual-original:,}', 100.0*(actual-original)/original),
+            '| 折合帧数（约 585 B/帧） | — | +%.1f | **+%.1f** |'
+            % ((designed-original)/585.0, (actual-original)/585.0), '',
+            '省下的 %s 字节（约 %.1f 帧）来自被整包覆盖的死装载，与中文内容无关。'
+            % (f"{dead['saved_bytes']:,}", dead['saved_bytes']/585.0),
+            '剩下的增量是中文图块复杂度的固有成本，不改图无法消除。', '']
+
+
 def render_markdown(rows):
     stats = summarize(rows)
     lines = ['# 装载器成本（静态审计）', '',
@@ -133,6 +168,7 @@ def render_markdown(rows):
               '- 标题/配置/失败页从 0x9800 改到 0x8800/0x9000 后，整包携带了更多图块，',
               '  这是字节增长的来源；代码本身没有变慢（VBlank 补丁与装载循环无关）。',
               '']
+    lines += _dead_load_section(rows)
     return '\n'.join(lines) + '\n'
 
 

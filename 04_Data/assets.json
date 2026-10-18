@@ -1,7 +1,7 @@
 {
   "format_version": 1,
-  "release_reference": "v0.5.1",
-  "target_rom_sha256": "f96fe0ecac53cc586eac19b53fe1b50cef3fd1751261ae273c2356b2c6c62795",
+  "release_reference": "v0.5.2",
+  "target_rom_sha256": "959835314b684dded38752a6df9fc349d38a4d70fa83633d971c84972a5755dd",
   "role": "editable reference only; release builder reads 03_Image/graphics, not these PNG or glyph JSON files",
   "artwork": [
     {
