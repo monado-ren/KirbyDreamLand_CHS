@@ -266,6 +266,179 @@ def sync_manifest(spec, manifest, path=None, write=False):
     return len(derived), digest
 
 
+STAGES = (
+    ('01', '容器扩容', '把 256 KiB 卡带扩成 512 KiB，并让头部声明正确。',
+     ('rom.size',)),
+    ('02', '代码区域', '唯一改游戏逻辑的补丁：VBlank 里“每帧写一行 BG map”改成“每帧写两行”。',
+     ('code.region',)),
+    ('03', '图块/整包装载器', '把 HUD、开场装饰、结局精灵、整包页、图鉴页的装载源改到扩展 bank 的新资源。',
+     ('loader.sheet', 'loader.tileset', 'loader.tilemap', 'loader.bundle')),
+    ('04', '装载目的地址', '改装载到 VRAM 的高字节，让新图块集/地图落在正确的 0x8000/0x8800/0x9000。',
+     ('loader.vram_base',)),
+    ('05', '指针表与目的基址', '五关介绍整包的三字节指针表，以及关卡整包的 VRAM 基址。',
+     ('stage.pointer_table',)),
+    ('06', 'UI/精灵微调', 'HUD 标签图块号重排、图鉴蝙蝠精灵 X 坐标 -9px。',
+     ('hud.label_tile', 'sprite.x')),
+    ('07', '资源内容', '新增/替换的压缩图块集、地图、整包页（构建输入是 PNG，不是 hex）。',
+     ()),
+    ('08', '文本层', '可由“字体 + 译文 + 布局”重排的文本（当前 11 条 / 8 页）。',
+     ()),
+    ('09', '构建与发布', '构建→校验→xdelta3 增量→发布校验和。', ()),
+)
+
+
+def _patch_table(spec, manifest, rgbds, kinds):
+    """Patches for sites whose site.kind or patch.kind is in *kinds*."""
+    resources = {r['id']: r for r in spec['resources']}
+    derived = derive_patches(spec, rgbds)
+    by_offset = {patch['offset']: patch for patch in derived}
+    rows = []
+    for site in spec['sites']:
+        site_matches = bool(kinds) and site.get('kind') in kinds
+        target = site.get('resource') or '-'
+        fields = []
+        if site.get('region'):
+            if kinds and 'code.region' not in kinds and not site_matches:
+                continue
+            runs, _old, _new = derive_region(site, rgbds)
+            notes = site['region'].get('notes', [])
+            for index, run in enumerate(runs):
+                fields.append((run['offset'], 'code.region', run, None,
+                               notes[index] if index < len(notes) else ''))
+        else:
+            for patch in site.get('patches', []):
+                if kinds and not site_matches and patch['kind'] not in kinds:
+                    continue
+                fields.append((int(patch['offset'], 16), patch['kind'], None, patch, ''))
+        for offset, kind, run, original, note in fields:
+            derived_patch = by_offset[offset]
+            size = len(bytes.fromhex(derived_patch['replacement_hex']))
+            if original is None:
+                old = '0x' + derived_patch['expected_hex']
+                new = '0x' + derived_patch['replacement_hex']
+            else:
+                old = _old_text(original)
+                new = _new_text(original, resources)
+                note = original.get('note', '')
+            rows.append({'site': site['site'], 'kind': kind, 'offset': offset, 'bytes': size,
+                         'target': target, 'note': note,
+                         'purpose': site.get('purpose') or '', 'old': old, 'new': new})
+    rows.sort(key=lambda row: row['offset'])
+    return rows
+
+
+def report(spec, manifest=None, rgbds=None):
+    manifest = manifest or common.load_manifest()
+    rgbds = rgbds or _require_rgbds()
+    resources = {r['id']: r for r in spec['resources']}
+    manifest_resources = {r['id']: r for r in manifest['resources']}
+    derived = derive_patches(spec, rgbds)
+    lines = ['# 工序与修改内容（细粒度）', '',
+             '由 `python 00_Tools/change_surface.py report --write` 生成；补丁由符号层派生并核对，',
+             '不要手改本文件。总览见 `CHANGE_SURFACE_COMPOSITION.md`。', '',
+             '## 00 操作工序（从素材到发布）', '',
+             '| # | 动作 | 命令/工具 | 输入 | 输出 | 校验 |',
+             '| ---: | --- | --- | --- | --- | --- |',
+             '| 1 | 改译文 | 编辑 `02_Text/zh-Hans.json` | 审稿文本 | 译文条目 | `text_layout.py check` 前会显示差异 |',
+             '| 2 | 重排文本页 | `00_Tools/text_layout.py render --write` | `02_Text/layout.json` + 字体 + 译文 + `03_Image/text-base/` | `03_Image/pages/<page>.png` | `text_layout.py check` |',
+             '| 3 | 改整页图 | 编辑 `03_Image/pages/*.png` | 页面 PNG | 页面 PNG | `pages.py render --check` |',
+             '| 4 | 回写图块/地图 | `00_Tools/pages.py retile <page>.png` | 页面 PNG | `03_Image/graphics/*.png` | `pages.py render --check` |',
+             '| 5 | 改覆盖层页 | 编辑 `build/pages/<page>.png` 后 `page_edits.py extract` | 基线+覆盖层 | `03_Image/edits/*` | `page_edits.py check` |',
+             '| 6 | 刷清单 | `00_Tools/repack.py --version vX.Y.Z` | `03_Image/graphics` | `04_Data/manifest.json` | `verify.py` |',
+             '| 7 | 改补丁语义 | 编辑 `06_ProgramFix/change_surface.json` / `patches/*.asm` | 符号层 | 派生补丁 | `change_surface.py check --base baserom.gb` |',
+             '| 8 | 同步摘要 | `change_surface.py sync-manifest --write` | 派生补丁 | manifest `change_surface.sha256` | `change_surface.py check` |',
+             '| 9 | 构建 | `00_Tools/build.py` | `baserom.gb` + manifest + 资源 | `KirbyDreamLand_CHS-Monado.gb` | `verify.py` |',
+             '| 10 | 发布 | `00_Tools/release.py` | 构建 ROM + `baserom.gb` | `patches/*.xdelta3` | `SHA256SUMS.txt` |',
+             '']
+    for number, title, blurb, kinds in STAGES:
+        lines += ['## %s %s' % (number, title), '', blurb, '']
+        if number == '01':
+            lines += ['| 偏移 | kind | 旧 → 新 | 说明 |', '| --- | --- | --- | --- |']
+            for site in spec['sites']:
+                for patch in site.get('patches', []):
+                    if patch['kind'] == 'rom.size':
+                        lines.append('| `%s` | `rom.size` | `%s` → `%s` | 256 KiB→512 KiB，MBC1 size code 3→4 |'
+                                     % (patch['offset'], patch['old'], patch['new']))
+            lines.append('')
+        elif kinds:
+            rows = _patch_table(spec, manifest, rgbds, kinds)
+            lines += ['| 偏移 | site | kind | 字节 | 资源 | 旧 → 新 | 说明 |',
+                      '| --- | --- | --- | ---: | --- | --- | --- |']
+            for row in rows:
+                lines.append('| `0x%05X` | `%s` | `%s` | %d | `%s` | `%s` → `%s` | %s |'
+                             % (row['offset'], row['site'], row['kind'], row['bytes'],
+                                row['target'], row['old'], row['new'],
+                                (row['note'] or row['purpose']).replace('|', '/')))
+            lines.append('')
+        if number == '07':
+            lines += ['| id | label | format | role | bank | offset | capacity | packed | 页面 | 用途 |',
+                      '| --- | --- | --- | --- | ---: | --- | ---: | ---: | --- | --- |']
+            for resource in spec['resources']:
+                entry = manifest_resources[resource['id']]
+                page = entry.get('page') or entry.get('edit') or '-'
+                lines.append('| `%s` | `%s` | %s | %s | %d | `%s` | %d | %d | `%s` | %s |'
+                             % (resource['id'], resource['label'], resource['format'],
+                                resource['role'], resource['bank'], resource['offset'],
+                                resource['capacity'], entry['packed_size'], page,
+                                resource['purpose'].replace('|', '/')))
+            lines.append('')
+        if number == '08':
+            layout_path = common.ROOT / '02_Text' / 'layout.json'
+            if layout_path.is_file():
+                layout = json.loads(layout_path.read_text(encoding='utf-8'))
+                translations = {e['id']: e for e in json.loads(
+                    (common.ROOT / '02_Text' / 'zh-Hans.json').read_text(encoding='utf-8'))['entries']}
+                lines += ['| 页面 | 文本 id | 译文 | 字体 | 锚点 |',
+                          '| --- | --- | --- | --- | --- |']
+                for entry_id, record in sorted(layout['entries'].items(),
+                                               key=lambda item: (item[1]['page'], item[0])):
+                    text = translations[entry_id]['translation_zh_hans'].replace('\n', '⏎')
+                    lines.append('| `%s` | `%s` | %s | %s | (%d, %d) |'
+                                 % (record['page'], entry_id, text, record['font'],
+                                    record['anchor']['x'], record['anchor']['y']))
+                lines.append('')
+        if number == '09':
+            lines += ['- `python 00_Tools/build.py`：按清单装载 71 个资源、写入 110 处补丁、重算校验和；',
+                      '- `python 00_Tools/verify.py`：核对 524288 字节与目标 SHA-256；',
+                      '- `python 00_Tools/release.py`：生成相对 `baserom.gb` 的 xdelta3；',
+                      '- `SHA256SUMS.txt`：固定 ROM / 补丁 / baserom 三个哈希。', '']
+    # Appendix: all patches
+    lines += ['## 附录 A：全部 %d 处补丁' % len(derived), '',
+              '| # | 偏移 | kind | 字节 | 旧字节 → 新字节 |', '| ---: | --- | --- | ---: | --- |']
+    offset_to_kind = {}
+    for site in spec['sites']:
+        for patch in site.get('patches', []):
+            offset_to_kind[int(patch['offset'], 16)] = patch['kind']
+    for index, patch in enumerate(derived, 1):
+        kind = offset_to_kind.get(patch['offset'], 'code.region')
+        old = '0x' + patch['expected_hex'] if 'expected_hex' in patch else ''
+        new = '0x' + patch['replacement_hex'] if 'replacement_hex' in patch else ''
+        lines.append('| %d | `0x%05X` | `%s` | %d | `%s` → `%s` |'
+                     % (index, patch['offset'], kind,
+                        len(bytes.fromhex(patch['replacement_hex'])), old, new))
+    lines += ['', '## 附录 B：文本条目（%d 条）' % len(json.loads(
+        (common.ROOT / '02_Text' / 'zh-Hans.json').read_text(encoding='utf-8'))['entries']), '',
+              '| id | section | 状态 | 译文 |', '| --- | --- | --- | --- |']
+    for entry in json.loads((common.ROOT / '02_Text' / 'zh-Hans.json')
+                            .read_text(encoding='utf-8'))['entries']:
+        lines.append('| `%s` | %s | %s | %s |'
+                     % (entry['id'], entry['section'], entry.get('integration_status', ''),
+                        entry['translation_zh_hans'].replace('\n', '⏎').replace('|', '/')))
+    lines += ['', '## 附录 C：页面层（%d 页）' % sum(
+        1 for r in manifest_resources.values() if r.get('page') or r.get('edit')),
+              '', '| id | 存储 | 角色 | 文件 | 用途 |', '| --- | --- | --- | --- | --- |']
+    for resource_id, entry in manifest_resources.items():
+        if not (entry.get('page') or entry.get('edit')):
+            continue
+        storage = 'page' if entry.get('page') else 'edit'
+        file_path = entry.get('page') or entry.get('edit')
+        purpose = resources.get(resource_id, {}).get('purpose', '')
+        role = 'active' if entry['referenced_by_current_localized_loaders'] else 'legacy'
+        lines.append('| `%s` | %s | %s | `%s` | %s |'
+                     % (resource_id, storage, role, file_path, purpose.replace('|', '/')))
+    return '\n'.join(lines) + '\n'
+
+
 def summarize(spec, manifest=None, rgbds=None):
     """Layered composition of the change surface (for docs and CI output)."""
     resources = {r['id']: r for r in spec['resources']}
@@ -390,13 +563,14 @@ def explain(spec, only_site=None, rgbds=None):
 
 def main(argv=None):
     p = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    p.add_argument('command', choices=('check', 'explain', 'resources', 'dump', 'summary', 'sync-manifest'))
+    p.add_argument('command', choices=('check', 'explain', 'resources', 'dump', 'summary', 'report', 'sync-manifest'))
     p.add_argument('--spec', type=Path, default=DEFAULT_SPEC)
     p.add_argument('--manifest', type=Path, default=common.DEFAULT_MANIFEST)
     p.add_argument('--base', type=Path, help='Also verify preimages against this Rev1 ROM')
     p.add_argument('--site', help='Only explain one site')
     p.add_argument('--rgbds', type=Path, help='Directory containing rgbasm and rgblink')
-    p.add_argument('--write', action='store_true', help='With sync-manifest: rewrite the manifest')
+    p.add_argument('--write', action='store_true', help='With sync-manifest: rewrite the manifest; with report: write docs/WORK_ITEMS.md')
+    p.add_argument('--check', action='store_true', help='With report: verify docs/WORK_ITEMS.md is current')
     a = p.parse_args(argv)
     spec = load_spec(a.spec)
     rgbds = find_rgbds(a.rgbds)
@@ -417,6 +591,23 @@ def main(argv=None):
         print('PAGES=BUNDLE:%d EDIT:%d ACTIVE:%d LEGACY:%d GRAPHICS:%d TEXT_ENTRIES:%d'
               % (stats['page_bundles'], stats['page_edits'], stats['active_pages'],
                  stats['legacy_pages'], stats['graphics'], stats['text_entries']))
+        return 0
+    if a.command == 'report':
+        text = report(spec, common.load_manifest(), rgbds)
+        target = common.ROOT / 'docs' / 'WORK_ITEMS.md'
+        if a.write:
+            target.write_text(text, encoding='utf-8')
+            print('REPORT=WROTE %s' % target.relative_to(common.ROOT))
+            return 0
+        if a.check:
+            current = target.read_text(encoding='utf-8') if target.is_file() else ''
+            if current != text:
+                print('REPORT=FAIL stale %s; run: python 00_Tools/change_surface.py report --write'
+                      % target.relative_to(common.ROOT), file=sys.stderr)
+                return 1
+            print('REPORT=PASS %s' % target.relative_to(common.ROOT))
+            return 0
+        print(text, end='')
         return 0
     if a.command == 'dump':
         print(json.dumps(derive_patches(spec, rgbds), ensure_ascii=False, indent=1))

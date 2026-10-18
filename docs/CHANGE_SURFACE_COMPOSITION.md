@@ -1,7 +1,7 @@
 # 改动面构成（v0.5.1 相对日版 Rev 1）
 
 本文件回答“这个项目到底改了哪些面、各占多少”，是 [`CHANGE_SURFACE.md`](CHANGE_SURFACE.md)
-的总览版。所有数字可由下面命令复算：
+的总览版；逐工序、逐补丁、逐资源的细粒度清单见 [`WORK_ITEMS.md`](WORK_ITEMS.md)。所有数字可由下面命令复算：
 
 ```sh
 python 00_Tools/change_surface.py summary

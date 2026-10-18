@@ -1,6 +1,6 @@
 # 符号化改动面（06_ProgramFix/change_surface.json）
 
-> 分层总览与数字构成见 [改动面构成](CHANGE_SURFACE_COMPOSITION.md)。
+> 分层总览与数字构成见 [改动面构成](CHANGE_SURFACE_COMPOSITION.md)；细粒度工序与逐条修改见 [工序与修改内容](WORK_ITEMS.md)。
 
 v0.5.1 相对日版 Rev 1 的全部改动（110 处补丁、198 字节，71 个扩展资源）以语义层
 `06_ProgramFix/change_surface.json` 为源：装载点名称、目标资源、旧值→新值、用途、历史副本原因、

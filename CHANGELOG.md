@@ -1,5 +1,13 @@
 # 版本记录
 
+## v0.5.1 文档 — 工序与修改内容清单
+
+- `00_Tools/change_surface.py` 新增 `report` / `report --check`：从符号层和清单生成
+  `docs/WORK_ITEMS.md`（9 道工序 + 110 处补丁逐条 + 71 个资源 + 11 条文本层 + 48 页 + 121 条译文；
+  另含从素材到发布的 10 步操作工序），CI 校验文档与符号层同步。
+- `change_surface.py summary` 输出分层构成单行摘要。
+
+
 ## v0.5.1 文本层 — 字体 + 译文 + 布局生成页面
 
 - 新增 `00_Tools/text_layout.py` 与 `02_Text/layout.json`、`03_Image/text-base/*.png`：
