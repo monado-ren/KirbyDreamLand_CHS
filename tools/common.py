@@ -1,8 +1,9 @@
 # SPDX-License-Identifier: MIT
 """Portable release-snapshot compiler. Only the user's Rev1 base ROM is input.
 
-The raw resources are editable Game Boy tile/map bytes, not executable code.
-Changing translation JSON does not automatically rerasterize these resources.
+The graphics resources are lossless PNG sources that derive exact 2bpp Game Boy
+tile/map bytes; they are not executable code.  Changing translation JSON or the
+assets/ reference artwork does not automatically rerasterize these resources.
 """
 from __future__ import annotations
 import copy
@@ -11,6 +12,7 @@ import json
 from pathlib import Path, PurePosixPath, PureWindowsPath
 import re
 from hal_codec import decode, pack
+import graphics_png
 
 ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_MANIFEST = ROOT / 'source/manifest.json'
@@ -37,10 +39,30 @@ def resource_path(value):
     relative = PurePosixPath(value)
     require(not relative.is_absolute() and '..' not in relative.parts,
             'Resource path must remain inside this project')
-    require(relative.parts[:2] == ('source', 'resources'), 'Resources must be in source/resources')
+    require(relative.parts[:2] == ('source', 'graphics'), 'Resources must be PNG files in source/graphics')
+    require(relative.suffix.lower() == '.png', 'Graphics resources must be PNG files')
     result = (ROOT / value).resolve()
-    require(result.is_relative_to((ROOT / 'source/resources').resolve()), 'Resource path escapes resource directory')
+    require(result.is_relative_to((ROOT / 'source/graphics').resolve()), 'Resource path escapes graphics directory')
     return result
+
+
+def page_path(value):
+    require(isinstance(value, str), 'Page path must be a string')
+    require(not PureWindowsPath(value).is_absolute() and not PureWindowsPath(value).drive,
+            'Absolute page paths are not accepted')
+    relative = PurePosixPath(value)
+    require(not relative.is_absolute() and '..' not in relative.parts,
+            'Page path must remain inside this project')
+    require(relative.parts[:2] == ('source', 'pages'), 'Pages must be PNG files in source/pages')
+    require(relative.suffix.lower() == '.png', 'Pages must be PNG files')
+    result = (ROOT / value).resolve()
+    require(result.is_relative_to((ROOT / 'source/pages').resolve()),
+            'Page path escapes the page directory')
+    return result
+
+
+def validate_page_path(value):
+    page_path(value)
 
 
 def validate_manifest(manifest):
@@ -63,12 +85,57 @@ def validate_manifest(manifest):
         cells = set(range(at, at+len(before)))
         require(not cells & ({0x14C, 0x14D, 0x14E, 0x14F} | used), 'Overlapping or reserved header patch')
         used |= cells
-    resource_ids = set(); reserved = []
+    resource_ids = set()
     for r in manifest['resources']:
         require(r['id'] not in resource_ids, 'Duplicate resource id')
-        resource_ids.add(r['id']); resource_path(r['source'])
+        resource_ids.add(r['id'])
+    reserved = []
+    for r in manifest['resources']:
+        resource_path(r['source'])
         at, capacity = r['offset'], r['capacity']
         require(r['format'] == 'hal-greedy-v1', 'Unknown resource codec')
+        png = r.get('png')
+        require(isinstance(png, dict), 'Resource is missing its PNG description')
+        mode = png.get('mode')
+        require(mode in (graphics_png.TILES_MODE, graphics_png.TILEMAP_MODE),
+                'Unknown PNG resource mode')
+        if mode == graphics_png.TILES_MODE:
+            require(isinstance(png.get('tiles_per_row'), int) and png['tiles_per_row'] > 0,
+                    'Tileset PNG needs a positive tiles_per_row')
+            require(isinstance(png.get('tile_count'), int) and png['tile_count'] > 0,
+                    'Tileset PNG needs a positive tile_count')
+            if r.get('bundle') is None:
+                require(r['decoded_size'] == png['tile_count'] * 16,
+                        'Tileset decoded size must equal tile_count * 16')
+        else:
+            require(isinstance(png.get('width'), int) and isinstance(png.get('height'), int)
+                    and png['width'] > 0 and png['height'] > 0,
+                    'Tilemap PNG needs positive width and height')
+            require(png['width'] * png['height'] == r['decoded_size'],
+                    'Tilemap PNG dimensions must match the decoded size')
+            require(png.get('addressing') in graphics_png.TILEMAP_ADDRESSING,
+                    'Tilemap PNG needs a supported addressing mode')
+            require(png.get('tileset') in resource_ids,
+                    'Tilemap PNG must reference an existing tileset resource')
+            require(r.get('page') == 'source/pages/' + r['id'] + '.png',
+                    'Tilemap page path must be source/pages/<id>.png')
+            validate_page_path(r['page'])
+        bundle = r.get('bundle')
+        if bundle is not None:
+            require(mode == graphics_png.TILES_MODE, 'Bundles must use the tileset PNG mode')
+            require(isinstance(bundle, dict), 'Invalid bundle description')
+            require(bundle.get('addressing') in graphics_png.TILEMAP_ADDRESSING,
+                    'Bundle needs a supported addressing mode')
+            require(isinstance(bundle.get('width'), int) and isinstance(bundle.get('height'), int)
+                    and bundle['width'] > 0 and bundle['height'] > 0,
+                    'Bundle needs positive map dimensions')
+            require(r['decoded_size'] == png['tile_count'] * 16
+                    + bundle['width'] * bundle['height'],
+                    'Bundle decoded size must equal tiles + map bytes')
+            resource_path(bundle.get('map_png'))
+            require(r.get('page') == 'source/pages/' + r['id'] + '.png',
+                    'Bundle page path must be source/pages/<id>.png')
+            validate_page_path(r['page'])
         require(isinstance(at,int) and isinstance(capacity,int) and capacity > 0,
                 'Invalid resource allocation')
         require(0x40000 <= at < at+capacity <= 0x80000, 'Resource outside expanded ROM')
@@ -97,7 +164,18 @@ def validate_input(data, manifest):
 def prepare_resources(manifest, strict=True):
     results = []
     for r in manifest['resources']:
-        raw = resource_path(r['source']).read_bytes()
+        spec = dict(r['png'])
+        try:
+            raw = graphics_png.load_resource(resource_path(r['source']), spec)
+            bundle = r.get('bundle')
+            if bundle is not None:
+                map_spec = {'mode': graphics_png.TILEMAP_MODE,
+                            'width': bundle['width'], 'height': bundle['height']}
+                raw = raw + graphics_png.png_to_tilemap(
+                    resource_path(bundle['map_png']).read_bytes(),
+                    bundle['width'], bundle['height'])
+        except graphics_png.GraphicsError as exc:
+            raise ProjectError(f"Graphics PNG rejected for {r['id']}: {exc}") from exc
         require(len(raw) == r['decoded_size'], 'Resource raw size changed: '+r['id'])
         packed = pack(raw)
         require(len(packed) <= r['capacity'], 'Resource exceeds fixed capacity: '+r['id'])
@@ -159,7 +237,8 @@ def refreshed_manifest(base, manifest, version):
                                 old_decoded_sha256=r['decoded_sha256'],new_decoded_sha256=new_raw,
                                 old_packed_sha256=r['packed_sha256'],new_packed_sha256=new_packed,
                                 old_packed_size=r['packed_size'],new_packed_size=len(packed)))
-        r.update(decoded_sha256=new_raw,packed_sha256=new_packed,packed_size=len(packed))
+        r.update(decoded_size=len(raw),decoded_sha256=new_raw,
+                 packed_sha256=new_packed,packed_size=len(packed))
     require(changes, 'No raw resources changed; no edited manifest was created')
     updated['parent_release'] = manifest['release']; updated['release'] = version
     updated['resource_edits'] = changes

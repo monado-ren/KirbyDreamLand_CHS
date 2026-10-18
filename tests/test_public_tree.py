@@ -96,7 +96,7 @@ class ScannerFixtures(unittest.TestCase):
         self.assertIn('ENCODED_CARTRIDGE_HEADER', self.rules(self.scan_file('source/sample.json', text)))
 
     def test_small_resource_binary_accepted(self):
-        self.assertEqual(self.scan_file('source/resources/tile.bin', bytes(range(256)))['status'], 'PASS')
+        self.assertEqual(self.scan_file('source/graphics/tile.png', bytes(range(256)))['status'], 'PASS')
 
     def test_pe_content_rejected_without_executable_suffix(self):
         data = bytearray(96); data[:2] = b'MZ'; struct.pack_into('<I', data, 60, 64); data[64:68] = b'PE\0\0'

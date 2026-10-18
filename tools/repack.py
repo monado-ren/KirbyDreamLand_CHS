@@ -1,9 +1,9 @@
 # SPDX-License-Identifier: MIT
-"""Explicitly accept edited raw tile/map resources into a separate dev manifest.
+"""Explicitly accept edited PNG tile/map sources into a separate dev manifest.
 
-This does not rasterize translations, move pointers, resize raw resources or
-change tile counts. Each recompressed resource must fit its fixed bank capacity.
-The official release manifest is preserved. Keep the modified resource files
+This does not rasterize translations, move pointers, resize decoded resources
+or change tile counts. Each recompressed resource must fit its fixed bank capacity.
+The official release manifest is preserved. Keep the modified PNG sources
 alongside the generated dev manifest to reproduce that development build.
 """
 import argparse

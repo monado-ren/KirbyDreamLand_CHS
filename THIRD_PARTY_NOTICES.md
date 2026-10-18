@@ -12,7 +12,7 @@
 
 原作及其标志、角色和美术中的权利归 Nintendo、HAL Laboratory 及各自权利人所有。本项目保留用户最终审定的中文 Logo、背景补全、通关提示与“剧终”牌，用于维护汉化修改；这些图稿中可能仍含原作元素，**不声明为全部原创，也不纳入 MIT 授权**。
 
-`assets/artwork/` 是必要的最终编辑参考，而非原版图像导出集合。`source/resources/` 中供构建使用的图块和贴图可能包含同样的原作派生内容，也不适用 MIT 的代码授权范围。`translations/zh-Hans.json` 中的原作文字及相关翻译单独列示，不以代码许可证重新授权原作文本。
+`assets/artwork/` 是必要的最终编辑参考，而非原版图像导出集合。`source/graphics/` 与 `source/pages/` 中供构建和编辑使用的 PNG 图块、bundle 地图、贴图与合成页面可能包含同样的原作派生内容，也不适用 MIT 的代码授权范围。`translations/zh-Hans.json` 中的原作文字及相关翻译单独列示，不以代码许可证重新授权原作文本。
 
 ## 3. JPZH Bitmap 12：12px 字形子集
 
@@ -46,4 +46,4 @@
 
 ## 6. 素材目录与构建边界
 
-`assets/`、`translations/` 是清理后的编辑参考。当前可重现构建以 `source/resources/` 中已编码资源为准，**不宣称从 PNG、字形 JSON 或核稿文本自动渲染全部汉化画面**。更新编辑参考后需另行重新编码和验证资源，再更新补丁。来源哈希及元数据清理记录见 [`assets/manifest.json`](assets/manifest.json)。
+`assets/`、`translations/` 是清理后的编辑参考。当前可重现构建以 `source/graphics/` 中的 PNG 图形源为准（构建时无损派生为 2bpp 图块/图块表），**不宣称从 assets/ 图稿、字形 JSON 或核稿文本自动渲染全部汉化画面**。更新编辑参考后需另行重新编码和验证资源，再更新补丁。来源哈希及元数据清理记录见 [`assets/manifest.json`](assets/manifest.json)。

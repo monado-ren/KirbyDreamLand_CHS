@@ -12,6 +12,7 @@ from unittest.mock import patch
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / 'tools'))
 import common
+import graphics_png
 import hal_codec
 
 BASE_SHA256 = 'c4c6aff6242116c4f26bdcf3343b6c27836010853b8753da8b0cb953a200834a'
@@ -108,8 +109,10 @@ class ReleaseContractTests(unittest.TestCase):
 class SyntheticCompilerTests(unittest.TestCase):
     def setUp(self):
         self.tmp = tempfile.TemporaryDirectory(); self.root = Path(self.tmp.name)
-        resource = self.root/'source/resources/example.bin'; resource.parent.mkdir(parents=True)
-        self.raw = bytes(range(16))*4; resource.write_bytes(self.raw); packed = hal_codec.pack(self.raw)
+        resource = self.root/'source/graphics/example.png'; resource.parent.mkdir(parents=True)
+        self.raw = bytes(range(16))*4
+        self.png = graphics_png.tiles_to_png(self.raw, 4); resource.write_bytes(self.png)
+        packed = hal_codec.pack(self.raw)
         base = bytearray(0x40000); base[0x14C] = 1; base[0x148] = 3
         for offset, value in REV1_FIXES:base[offset:offset + len(value)] = value
         base[0x3DA1D:0x3DA27] = BAT
@@ -122,7 +125,8 @@ class SyntheticCompilerTests(unittest.TestCase):
             'baseline': common.fingerprints(self.base), 'target': common.fingerprints(self.expected),
             'patches': [{'offset': 0x148, 'expected_hex': '03', 'replacement_hex': '04', 'field': 'test'}],
             'resources': [{'id': 'test', 'offset': 0x40000, 'capacity': 256, 'bank': 16, 'cpu_address': 0x4000,
-                'format': 'hal-greedy-v1', 'source': 'source/resources/example.bin',
+                'format': 'hal-greedy-v1', 'source': 'source/graphics/example.png',
+                'png': {'mode': graphics_png.TILES_MODE, 'tiles_per_row': 4, 'tile_count': 4},
                 'decoded_size': len(self.raw), 'decoded_sha256': hashlib.sha256(self.raw).hexdigest(),
                 'packed_size': len(packed), 'packed_sha256': hashlib.sha256(packed).hexdigest()}],
         }
@@ -150,7 +154,8 @@ class SyntheticCompilerTests(unittest.TestCase):
             common.construct(self.base, m)
 
     def test_changed_resource_rejected_in_strict_build(self):
-        (self.root/'source/resources/example.bin').write_bytes(bytes(reversed(self.raw)))
+        (self.root/'source/graphics/example.png').write_bytes(
+            graphics_png.tiles_to_png(bytes(reversed(self.raw)), 4))
         with self.assertRaisesRegex(common.ProjectError, 'Resource changed'):
             common.construct(self.base, self.manifest)
 
@@ -201,7 +206,7 @@ class SyntheticCompilerTests(unittest.TestCase):
             common.validate_manifest(m)
 
     def test_resource_path_escape_rejected(self):
-        for path in ('../outside.bin', 'source/resources/../../../outside.bin', '/' + 'tmp/outside.bin', 'C' + ':' + '/outside.bin'):
+        for path in ('../outside.png', 'source/graphics/../../../outside.png', '/' + 'tmp/outside.png', 'C' + ':' + '/outside.png', 'source/graphics/example.bin'):
             with self.subTest(path=path), self.assertRaises(common.ProjectError):common.resource_path(path)
 
     def test_write_does_not_overwrite_inputs(self):
@@ -222,7 +227,8 @@ class SyntheticCompilerTests(unittest.TestCase):
         self.assertEqual(target.read_bytes(), modified)
 
     def test_explicit_resource_repack_records_new_target(self):
-        changed = bytes(reversed(self.raw)); (self.root/'source/resources/example.bin').write_bytes(changed)
+        changed = bytes(reversed(self.raw))
+        (self.root/'source/graphics/example.png').write_bytes(graphics_png.tiles_to_png(changed, 4))
         m, output = common.refreshed_manifest(self.base, self.manifest, 'test-edit')
         self.assertEqual(m['parent_release'], 'test')
         self.assertEqual(m['release'], 'test-edit')

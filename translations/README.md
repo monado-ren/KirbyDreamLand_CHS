@@ -10,6 +10,6 @@
 
 `review_status: approved` 只表示文本已核稿；`integration_status: integrated` 才表示该条已接入本版本。`not_localized` 不代表缺少核稿，亦不表示该原文在游戏里不存在。原文英文不强行替换成推测的日文名字；演职人员表仍保留原始文字，汉化署名尚未接入日版。
 
-JSON 字符串中的 `\n` 保留核稿表格单元格换行。最终提示图片还包含已确认的缩进和图形布局，实际画面以 [`assets/artwork/`](../assets/artwork/) 与 `source/resources/` 为准。
+JSON 字符串中的 `\n` 保留核稿表格单元格换行。最终提示图片还包含已确认的缩进和图形布局，实际画面以 [`assets/artwork/`](../assets/artwork/) 与 [`source/graphics/`](../source/graphics/) 为准。
 
 此表是维护和复核参考，不是自动渲染器输入。仅修改表格不会更新发布补丁；需要另行更新字形／图块资源并验证画面。原作文本及其译文的权利范围参见 [第三方声明](../THIRD_PARTY_NOTICES.md)，不把整个游戏文本重新许可为 MIT。

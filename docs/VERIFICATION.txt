@@ -36,7 +36,14 @@ ROLLBACK=PASS RESTORED=JAPAN_REV1_UNLOCALIZED SHA256=c4c6aff6242116c4f26bdcf3343
   remain unchanged by rollback. No new emulator run is claimed here.
 
 Additional executed checks:
-- Public unit tests: 84 passed, exit 0.
+- Public unit tests: 113 passed, exit 0.
+- Graphics sources: 71/71 PNGs in source/graphics/ re-derive the pinned
+  decoded and packed SHA-256 values; the ROM rebuilt from PNG bytes is
+  byte-identical to the ROM rebuilt from the retired source/resources/.
+- Page layer: 48/48 source/pages/ previews match their sources (23 tilemap,
+  21 bundle, 4 sheet); retiling an unedited page reproduces the underlying
+  graphics and map bytes byte for byte.  BUNDLE=TILES+MAP is validated by the
+  unchanged release hash.
 - Selftest: HAL_CASES=6 MALFORMED_HAL=3 IPS_CASES=3 RESOURCES=71 NO_ROM=YES.
 - Fresh Git-index checkout + only baserom.gb: same ROM AND patch bytes.
 - Separate xdelta3decode executable: exact target replay, exit 0.
@@ -49,7 +56,7 @@ Changed project fields:
   standalone_rev1_build, tracked_xdelta3, ignored_rom_outputs,
   revision_tracking_repository
 Initial source branch: codex/release-v0.5.1 -> origin/main
-Build source: source/manifest.json + source/resources/
+Build source: source/manifest.json + source/graphics/*.png
 Modified output: KirbyDreamLand_CHS-Monado.gb (local only)
 Published delta: KirbyDreamLand_CHS-Monado.xdelta3
 Executable rollback: ROLLBACK.sh
