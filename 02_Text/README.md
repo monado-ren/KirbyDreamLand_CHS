@@ -14,10 +14,17 @@
 - `00_Tools/text_layout.py`：`extract` 从现有页面反解布局，`check` 验证
   `base + font(translation, layout)` 与页面逐像素一致，`render --write` 重新生成页面。
 
-当前覆盖 8 个页面 / 11 条文本（场景 1–5 关卡名、声音测试、GAME OVER、CONTINUE）。
+当前覆盖 **26 个页面 / 76 条文本**：
+
+- `page` 模式（8 页，提交去字底图）：场景 1–5 的关卡名与“场景”序号、声音测试/音乐/音效、GAME OVER、CONTINUE/结束；
+- `edit` 模式（18 页，不提交底图，按 Rev1 重建）：图鉴 14 页 48 条角色名、2 张通关提示共 8 条（含 7 处用户核定标点的逐格覆盖）、HUD 2 页的“卡比/积分”。
+
+权威排版坐标在 `gallery-layout.json` / `hint-layout.json` / `hud-layout.json`，`layout.json` 由
+`extract --write` 生成。
 改译文后运行：
 
 ```sh
+python 00_Tools/text_layout.py check            # 逐页验证 底图+字体+译文 == 当前页面（0 像素差）
 python 00_Tools/text_layout.py render --write   # 由底图+字体+译文重排页面
 python 00_Tools/pages.py retile 03_Image/pages/<page>.png
 python 00_Tools/repack.py --version v0.5.2

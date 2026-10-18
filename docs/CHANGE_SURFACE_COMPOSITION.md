@@ -10,7 +10,7 @@ python 00_Tools/change_surface.py summary
 当前输出：
 
 ```text
-SURFACE=PASS PATCHES=110 BYTES=198 SITES=47 RESOURCES=71 PAGES=48 ACTIVE_PAGES=30 TEXT_LAYER=11/8
+SURFACE=PASS PATCHES=110 BYTES=198 SITES=47 RESOURCES=71 PAGES=48 ACTIVE_PAGES=30 TEXT_LAYER=76/8
 ```
 
 ## 1. 分层总览
@@ -22,7 +22,7 @@ SURFACE=PASS PATCHES=110 BYTES=198 SITES=47 RESOURCES=71 PAGES=48 ACTIVE_PAGES=3
 | 装载器/指针 | 41 个 loader site + 5 个特殊 site / 100 + 15 + 4 B | `change_surface.json` 的 `sites` | 把资源重定向到扩展 bank、改 VRAM 基址、改关卡指针表、HUD/精灵微调 |
 | 资源 | 71 个（46 活跃 + 25 历史副本） | `04_Data/manifest.json` + `03_Image/graphics/*.png` | 新增/替换的压缩图块集、地图、整包页；活跃包 44,760 B / 容量 156,669 B |
 | 页面/图形 | 48 页（21 bundle PNG + 27 覆盖层页） | `03_Image/pages/`、`03_Image/edits/` | 30 个活跃页 + 18 个 v0.5.1 复现用历史页；92 张 PNG 源 |
-| 文本 | 121 条（84 已接入 / 37 未汉化） | `02_Text/zh-Hans.json` | 审稿文本；其中 11 条 / 8 页已由字体+译文+布局生成 |
+| 文本 | 121 条（84 已接入 / 37 未汉化） | `02_Text/zh-Hans.json` | 审稿文本；其中 76 条 / 26 页已由字体+译文+布局生成 |
 | 字库/美术 | 12px 150 字形 + 8px 56 字形；9 张最终图稿 | `05_Font/`、`03_Image/artwork/` | 字形从 pinned 上游生成（gitignored）；Logo/背景/剧终牌是人工图 |
 | 发布 | ROM 512 KiB / 32 bank；xdelta3 34,852 B | `patches/`、`SHA256SUMS.txt` | 相对 `baserom.gb` 的发布增量，字节级可复现 |
 
@@ -91,15 +91,16 @@ SURFACE=PASS PATCHES=110 BYTES=198 SITES=47 RESOURCES=71 PAGES=48 ACTIVE_PAGES=3
 | ending | 1 |
 | **合计** | **121**（integrated 84 / not_localized 37） |
 
-已数据化（可由字体+译文+布局重排）的 11 条 / 8 页：
+已数据化（可由字体+译文+布局重排）的 76 条 / 26 页：
 
-- 5 个关卡名（葛绿谷绿、箩箩箩的城堡、漂浮岛屿、泡泡云层、帝帝帝山）
-- 声音测试、音乐、音效
-- 游戏结束
-- 继续、结束
+- 5 个关卡名（葛绿谷绿、箩箩箩的城堡、漂浮岛屿、泡泡云层、帝帝帝山）+ 5 个“场景”序号；
+- 声音测试、音乐、音效；游戏结束；继续、结束；
+- 图鉴 14 页 48 条角色名；
+- 2 张通关提示共 8 条（含 7 处用户核定标点的逐格覆盖）；
+- HUD 2 页的“卡比”“积分”。
 
-其余文字仍是人工排版像素（配置页、标题页、图鉴 14 页、2 张通关提示等），原因见
-`docs/IMAGE_PROVENANCE.md`：字形与边框/背景穿插，或当前 pinned 字体与当年排版不完全一致。
+其中 8 个 bundle 页提交去字底图（`03_Image/text-base/`），18 个 edit 页不提交底图、由 Rev1 重建。
+其余文字仍是人工排版像素（配置页、标题页、Logo、剧终牌等），原因见 `docs/IMAGE_PROVENANCE.md`。
 
 ## 6. 字库与美术
 
@@ -129,4 +130,4 @@ python -m unittest discover -s tests
 ```
 
 固定值：`PATCHES=110 BYTES=198`、目标 ROM SHA-256 `f96fe0ec…2795`、
-`change_surface.sha256 = 219d7545…`、页面 48、活跃页 30、文本层 11/8。
+`change_surface.sha256 = 219d7545…`、页面 48、活跃页 30、文本层 76 条 / 26 页 / 8 底图页。

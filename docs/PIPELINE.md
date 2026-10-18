@@ -23,7 +23,7 @@ patches/         发布 xdelta3 补丁
 | 03_Image | `03_Image/`（PNG + 页面/覆盖层 + provenance） |
 | 04_Data | `04_Data/`（JSON 清单，替代 xlsx） |
 | 05_Font | `05_Font/`（pinned 上游生成，字体二进制不入库） |
-| 02_Text | `02_Text/`（审稿 + `layout.json` 文本层；11 条文本已可重排） |
+| 02_Text | `02_Text/`（审稿 + 文本层：76 条 / 26 页可由字体+译文重排） |
 | 06_ProgramFix | `06_ProgramFix/change_surface.json + patches/*.asm`（符号 + 汇编；构成见 CHANGE_SURFACE_COMPOSITION.md，逐条见 WORK_ITEMS.md） |
 | patches/ | `patches/`（xdelta3，非 IPS） |
 

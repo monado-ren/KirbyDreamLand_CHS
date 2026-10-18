@@ -1,5 +1,5 @@
 {
- "format_version": 1,
+ "format_version": 2,
  "font_sources": {
   "12px": "05_Font/generated/jpzh-bitmap-12.json",
   "8px": "05_Font/generated/jpzh-bitmap-hud-8.json"
@@ -47,181 +47,1065 @@
   }
  },
  "entries": {
-  "stage_1_name": {
+  "rom_06c000:stage_1_name": {
    "id": "stage_1_name",
    "page": "rom_06c000",
-   "page_png": "03_Image/pages/rom_06c000.png",
+   "mode": "page",
    "font": "12px",
    "line_height": 12,
-   "translation_sha256": "8a297be3405c72f571855a8151e8145db8cb2c0b2af3948850544164d796ecb8",
+   "typeset": "葛绿谷绿",
    "anchor": {
     "x": 56,
-    "y": 38,
-    "lines": 1,
-    "width": 48,
-    "height": 12,
-    "candidates": 1
-   }
+    "y": 38
+   },
+   "translation_sha256": "8a297be3405c72f571855a8151e8145db8cb2c0b2af3948850544164d796ecb8"
   },
-  "stage_2_name": {
+  "rom_06c000:stage_1_number": {
+   "id": "stage_1_number",
+   "page": "rom_06c000",
+   "mode": "page",
+   "font": "12px",
+   "line_height": 12,
+   "typeset": "场景",
+   "anchor": {
+    "x": 62,
+    "y": 12
+   },
+   "translation_sha256": "08d39e68d5301c842ad0e29ce07a0407c1056b7fb93d675ff2b0d34a88a48644"
+  },
+  "rom_06c70b:stage_2_name": {
    "id": "stage_2_name",
    "page": "rom_06c70b",
-   "page_png": "03_Image/pages/rom_06c70b.png",
+   "mode": "page",
    "font": "12px",
    "line_height": 12,
-   "translation_sha256": "7f34c0524e7cccdb41bb17ae50fce8202a04f90d2c322689b9f0dc11c5d4e5e3",
+   "typeset": "箩箩箩的城堡",
    "anchor": {
     "x": 44,
-    "y": 38,
-    "lines": 1,
-    "width": 72,
-    "height": 12,
-    "candidates": 1
-   }
+    "y": 38
+   },
+   "translation_sha256": "7f34c0524e7cccdb41bb17ae50fce8202a04f90d2c322689b9f0dc11c5d4e5e3"
   },
-  "stage_3_name": {
+  "rom_06c70b:stage_2_number": {
+   "id": "stage_2_number",
+   "page": "rom_06c70b",
+   "mode": "page",
+   "font": "12px",
+   "line_height": 12,
+   "typeset": "场景",
+   "anchor": {
+    "x": 62,
+    "y": 12
+   },
+   "translation_sha256": "579c78c0a9c5049ad7cf0c581d98ff3a7eae05bc18b49a6159d87ca28570ba1b"
+  },
+  "rom_06cda8:stage_3_name": {
    "id": "stage_3_name",
    "page": "rom_06cda8",
-   "page_png": "03_Image/pages/rom_06cda8.png",
+   "mode": "page",
    "font": "12px",
    "line_height": 12,
-   "translation_sha256": "44ea88ae7929cb2de9e1e3191c5154eb4449b80519cbec0b45f083b4cc797f7d",
+   "typeset": "漂浮岛屿",
    "anchor": {
     "x": 56,
-    "y": 38,
-    "lines": 1,
-    "width": 48,
-    "height": 12,
-    "candidates": 1
-   }
+    "y": 38
+   },
+   "translation_sha256": "44ea88ae7929cb2de9e1e3191c5154eb4449b80519cbec0b45f083b4cc797f7d"
   },
-  "stage_4_name": {
+  "rom_06cda8:stage_3_number": {
+   "id": "stage_3_number",
+   "page": "rom_06cda8",
+   "mode": "page",
+   "font": "12px",
+   "line_height": 12,
+   "typeset": "场景",
+   "anchor": {
+    "x": 62,
+    "y": 12
+   },
+   "translation_sha256": "1d6bd2aa9a45eed6f2353895e0a565dd8b825d906903b3ef33709be8ff908226"
+  },
+  "rom_06d490:stage_4_name": {
    "id": "stage_4_name",
    "page": "rom_06d490",
-   "page_png": "03_Image/pages/rom_06d490.png",
+   "mode": "page",
    "font": "12px",
    "line_height": 12,
-   "translation_sha256": "ff22ada67912e4c0c64243f2e4ddfb587d97bf69700ca1fc3174dad0c327394e",
+   "typeset": "泡泡云层",
    "anchor": {
     "x": 56,
-    "y": 38,
-    "lines": 1,
-    "width": 48,
-    "height": 12,
-    "candidates": 1
-   }
+    "y": 38
+   },
+   "translation_sha256": "ff22ada67912e4c0c64243f2e4ddfb587d97bf69700ca1fc3174dad0c327394e"
   },
-  "stage_5_name": {
+  "rom_06d490:stage_4_number": {
+   "id": "stage_4_number",
+   "page": "rom_06d490",
+   "mode": "page",
+   "font": "12px",
+   "line_height": 12,
+   "typeset": "场景",
+   "anchor": {
+    "x": 62,
+    "y": 12
+   },
+   "translation_sha256": "4ff5f51524ce27cd6e1c0a366a8cbc773049aa535aeb41b92243a48c173fc017"
+  },
+  "rom_06db85:stage_5_name": {
    "id": "stage_5_name",
    "page": "rom_06db85",
-   "page_png": "03_Image/pages/rom_06db85.png",
+   "mode": "page",
    "font": "12px",
    "line_height": 12,
-   "translation_sha256": "fcfaa55cd10aacad6b97dd3917be6a9405cc897fd8d5b25992e460da4c4fe548",
+   "typeset": "帝帝帝山",
    "anchor": {
     "x": 56,
-    "y": 36,
-    "lines": 1,
-    "width": 48,
-    "height": 12,
-    "candidates": 1
-   }
+    "y": 36
+   },
+   "translation_sha256": "fcfaa55cd10aacad6b97dd3917be6a9405cc897fd8d5b25992e460da4c4fe548"
   },
-  "sound_test": {
+  "rom_06db85:stage_5_number": {
+   "id": "stage_5_number",
+   "page": "rom_06db85",
+   "mode": "page",
+   "font": "12px",
+   "line_height": 12,
+   "typeset": "场景",
+   "anchor": {
+    "x": 62,
+    "y": 18
+   },
+   "translation_sha256": "a6fe0c51886613f95360cd150e1c9c1ccf40c8f248c8754253bb1e281428f8e1"
+  },
+  "rom_0438f6:sound_test": {
    "id": "sound_test",
    "page": "rom_0438f6",
-   "page_png": "03_Image/pages/rom_0438f6.png",
+   "mode": "page",
    "font": "12px",
    "line_height": 12,
-   "translation_sha256": "71d9ee464f2bc1604f811c7a41110831ad62acc3b0fea7daf7d42e0a1c8348f0",
    "anchor": {
     "x": 56,
-    "y": 30,
-    "lines": 1,
-    "width": 48,
-    "height": 12,
-    "candidates": 1
-   }
+    "y": 30
+   },
+   "translation_sha256": "71d9ee464f2bc1604f811c7a41110831ad62acc3b0fea7daf7d42e0a1c8348f0"
   },
-  "music": {
+  "rom_0438f6:music": {
    "id": "music",
    "page": "rom_0438f6",
-   "page_png": "03_Image/pages/rom_0438f6.png",
+   "mode": "page",
    "font": "12px",
    "line_height": 12,
-   "translation_sha256": "db95142124934467ce25ba303416ab0a336497c498e709e2f522d789b76fb030",
    "anchor": {
     "x": 56,
-    "y": 54,
-    "lines": 1,
-    "width": 24,
-    "height": 12,
-    "candidates": 1
-   }
+    "y": 54
+   },
+   "translation_sha256": "db95142124934467ce25ba303416ab0a336497c498e709e2f522d789b76fb030"
   },
-  "sound": {
+  "rom_0438f6:sound": {
    "id": "sound",
    "page": "rom_0438f6",
-   "page_png": "03_Image/pages/rom_0438f6.png",
+   "mode": "page",
    "font": "12px",
    "line_height": 12,
-   "translation_sha256": "5e9d80d0e3c3953a8a5bc76ad143ed44ff5d0d3efab74de5bb49209c63373f2b",
    "anchor": {
     "x": 56,
-    "y": 70,
-    "lines": 1,
-    "width": 24,
-    "height": 12,
-    "candidates": 1
-   }
+    "y": 70
+   },
+   "translation_sha256": "5e9d80d0e3c3953a8a5bc76ad143ed44ff5d0d3efab74de5bb49209c63373f2b"
   },
-  "game_over": {
+  "rom_04454c:game_over": {
    "id": "game_over",
    "page": "rom_04454c",
-   "page_png": "03_Image/pages/rom_04454c.png",
+   "mode": "page",
    "font": "12px",
    "line_height": 12,
-   "translation_sha256": "9113fed68dd53ff92f7d691b13c454ff496b2091a1ba83ef3cf6074157a3a1c6",
    "anchor": {
     "x": 56,
-    "y": 46,
-    "lines": 1,
-    "width": 48,
-    "height": 12,
-    "candidates": 1
-   }
+    "y": 46
+   },
+   "translation_sha256": "9113fed68dd53ff92f7d691b13c454ff496b2091a1ba83ef3cf6074157a3a1c6"
   },
-  "continue": {
+  "rom_044734:continue": {
    "id": "continue",
    "page": "rom_044734",
-   "page_png": "03_Image/pages/rom_044734.png",
+   "mode": "page",
    "font": "12px",
    "line_height": 12,
-   "translation_sha256": "7c9691192f1b73408bbe4c0cb6d00db94375ca9d8fce0a0d5985e7a5178f083f",
    "anchor": {
     "x": 56,
-    "y": 30,
-    "lines": 1,
-    "width": 24,
-    "height": 12,
-    "candidates": 1
-   }
+    "y": 30
+   },
+   "translation_sha256": "7c9691192f1b73408bbe4c0cb6d00db94375ca9d8fce0a0d5985e7a5178f083f"
   },
-  "end": {
+  "rom_044734:end": {
    "id": "end",
    "page": "rom_044734",
-   "page_png": "03_Image/pages/rom_044734.png",
+   "mode": "page",
    "font": "12px",
    "line_height": 12,
-   "translation_sha256": "c7b24e7997e96eaa17a73b054f63dab3bf3ce8e38b2e1ab1d87a68cca5d09f4a",
    "anchor": {
     "x": 56,
-    "y": 46,
-    "lines": 1,
-    "width": 24,
-    "height": 12,
-    "candidates": 1
-   }
+    "y": 46
+   },
+   "translation_sha256": "c7b24e7997e96eaa17a73b054f63dab3bf3ce8e38b2e1ab1d87a68cca5d09f4a"
+  },
+  "rom_048462:graphic_ending_01_01": {
+   "id": "graphic_ending_01_01",
+   "page": "rom_048462",
+   "mode": "edit",
+   "font": "12px",
+   "line_height": 12,
+   "anchor": {
+    "x": 14,
+    "y": 42
+   },
+   "translation_sha256": "5c7129b9d61ca26044c0c017b2262ffdc20c84c7307e6a6714dacfba596fedf7"
+  },
+  "rom_048462:graphic_ending_01_02": {
+   "id": "graphic_ending_01_02",
+   "page": "rom_048462",
+   "mode": "edit",
+   "font": "12px",
+   "line_height": 12,
+   "anchor": {
+    "x": 104,
+    "y": 50
+   },
+   "translation_sha256": "c28b073d960e05b3467a0c1c23fa7f12c06f684bb62af9f24826c35f8ccd8181"
+  },
+  "rom_048462:graphic_ending_01_03": {
+   "id": "graphic_ending_01_03",
+   "page": "rom_048462",
+   "mode": "edit",
+   "font": "12px",
+   "line_height": 12,
+   "anchor": {
+    "x": 52,
+    "y": 58
+   },
+   "translation_sha256": "b9926fa0260197c57a2d8a01a8ba78a47475a40914d4e8b7c991f9aa97181dc3"
+  },
+  "rom_048462:graphic_ending_01_04": {
+   "id": "graphic_ending_01_04",
+   "page": "rom_048462",
+   "mode": "edit",
+   "font": "12px",
+   "line_height": 12,
+   "anchor": {
+    "x": 24,
+    "y": 82
+   },
+   "translation_sha256": "c4c58d81fc214316eb1051dc6802bd6ff4a68e71df3b18ccff32a37d61970388"
+  },
+  "rom_048462:graphic_ending_01_05": {
+   "id": "graphic_ending_01_05",
+   "page": "rom_048462",
+   "mode": "edit",
+   "font": "12px",
+   "line_height": 12,
+   "anchor": {
+    "x": 78,
+    "y": 98
+   },
+   "translation_sha256": "72413e589b9e9b65eb0605862fc675c3a48e1c0922de0c4ef0082d094f97f196"
+  },
+  "rom_04c4f4:graphic_ending_02_01": {
+   "id": "graphic_ending_02_01",
+   "page": "rom_04c4f4",
+   "mode": "edit",
+   "font": "12px",
+   "line_height": 12,
+   "anchor": {
+    "x": 30,
+    "y": 50
+   },
+   "translation_sha256": "f8f7dc40e7172868f95a5164536133d5e8bb5ad3fa854d91565e92dac5bb288b"
+  },
+  "rom_04c4f4:graphic_ending_02_02": {
+   "id": "graphic_ending_02_02",
+   "page": "rom_04c4f4",
+   "mode": "edit",
+   "font": "12px",
+   "line_height": 12,
+   "anchor": {
+    "x": 94,
+    "y": 76
+   },
+   "translation_sha256": "e16f3aa8a699712e3b7d11d133d95ac4a7ffc57e4098629a3f9003289ed07cb2"
+  },
+  "rom_04c4f4:graphic_ending_02_03": {
+   "id": "graphic_ending_02_03",
+   "page": "rom_04c4f4",
+   "mode": "edit",
+   "font": "12px",
+   "line_height": 12,
+   "anchor": {
+    "x": 52,
+    "y": 90
+   },
+   "translation_sha256": "8ba5fc2e365179f31bea719c91dbea4b97fb7edbdb452125ffd69493ebef4bef"
+  },
+  "rom_04c4f4:graphic_ending_02_04": {
+   "id": "graphic_ending_02_04",
+   "page": "rom_04c4f4",
+   "mode": "edit",
+   "font": "12px",
+   "line_height": 12,
+   "anchor": {
+    "x": 4,
+    "y": 106
+   },
+   "translation_sha256": "2fa36c7537e6ab94451ff7f500a7ff0c7092d1264c97a15b8dec8c00dc00973f"
+  },
+  "rom_0742b3:graphic_ending_03_01": {
+   "id": "graphic_ending_03_01",
+   "page": "rom_0742b3",
+   "mode": "edit",
+   "font": "12px",
+   "line_height": 12,
+   "anchor": {
+    "x": 12,
+    "y": 92
+   },
+   "translation_sha256": "f3d912428fccf6b9add4da9cc2f7ed0f76ca526c1a283f4a235c10cb2eb35588"
+  },
+  "rom_0742b3:graphic_ending_03_02": {
+   "id": "graphic_ending_03_02",
+   "page": "rom_0742b3",
+   "mode": "edit",
+   "font": "12px",
+   "line_height": 12,
+   "anchor": {
+    "x": 80,
+    "y": 114
+   },
+   "translation_sha256": "5b02289c51be96a2a393dfb0918e1da99b73286df83b79faa4235d083f4b0465"
+  },
+  "rom_04caf2:graphic_ending_04_01": {
+   "id": "graphic_ending_04_01",
+   "page": "rom_04caf2",
+   "mode": "edit",
+   "font": "12px",
+   "line_height": 12,
+   "anchor": {
+    "x": 16,
+    "y": 42
+   },
+   "translation_sha256": "ad7eee1831e736570a76c74dfbe91f9e84ba0432ed0a1867bc17e316af2328db"
+  },
+  "rom_04caf2:graphic_ending_04_02": {
+   "id": "graphic_ending_04_02",
+   "page": "rom_04caf2",
+   "mode": "edit",
+   "font": "12px",
+   "line_height": 12,
+   "anchor": {
+    "x": 110,
+    "y": 50
+   },
+   "translation_sha256": "72a9a5d277e608d4a02b6c1e5e808bff22cd65ff1e092a0b2a5603d397c654bf"
+  },
+  "rom_04caf2:graphic_ending_04_03": {
+   "id": "graphic_ending_04_03",
+   "page": "rom_04caf2",
+   "mode": "edit",
+   "font": "12px",
+   "line_height": 12,
+   "anchor": {
+    "x": 54,
+    "y": 66
+   },
+   "translation_sha256": "81542aeb96ca03cc433b4949ffb562b08e8faec476ef56c14cf64b4511620a24"
+  },
+  "rom_04caf2:graphic_ending_04_04": {
+   "id": "graphic_ending_04_04",
+   "page": "rom_04caf2",
+   "mode": "edit",
+   "font": "12px",
+   "line_height": 12,
+   "anchor": {
+    "x": 14,
+    "y": 82
+   },
+   "translation_sha256": "f888ad0de3c03e58efac0dd149e5392bbdd9c128f3cb40ecf4576166a6ce6d30"
+  },
+  "rom_04caf2:graphic_ending_04_05": {
+   "id": "graphic_ending_04_05",
+   "page": "rom_04caf2",
+   "mode": "edit",
+   "font": "12px",
+   "line_height": 12,
+   "anchor": {
+    "x": 110,
+    "y": 82
+   },
+   "translation_sha256": "29e5d4fbf7b9a987609a5847ab4758ab27eb5425dc1ebcf32614744735566c7f"
+  },
+  "rom_04caf2:graphic_ending_04_06": {
+   "id": "graphic_ending_04_06",
+   "page": "rom_04caf2",
+   "mode": "edit",
+   "font": "12px",
+   "line_height": 12,
+   "anchor": {
+    "x": 62,
+    "y": 98
+   },
+   "translation_sha256": "6fe1d3c82d1d4d2583055f6652e1319b367839123e0b5150e32173e114806ad0"
+  },
+  "rom_04caf2:graphic_ending_04_07": {
+   "id": "graphic_ending_04_07",
+   "page": "rom_04caf2",
+   "mode": "edit",
+   "font": "12px",
+   "line_height": 12,
+   "anchor": {
+    "x": 96,
+    "y": 114
+   },
+   "translation_sha256": "0f162e30ea05831436b0127351cc6e17240791472a2f4b2a9ae5cc1feec04e39"
+  },
+  "rom_0496d4:graphic_ending_05_01": {
+   "id": "graphic_ending_05_01",
+   "page": "rom_0496d4",
+   "mode": "edit",
+   "font": "12px",
+   "line_height": 12,
+   "anchor": {
+    "x": 38,
+    "y": 50
+   },
+   "translation_sha256": "54f8e2f4e12badcc6bb9b8546cc2bef35d7bc8a3e4893437f79fce27c0ac881c"
+  },
+  "rom_0496d4:graphic_ending_05_02": {
+   "id": "graphic_ending_05_02",
+   "page": "rom_0496d4",
+   "mode": "edit",
+   "font": "12px",
+   "line_height": 12,
+   "anchor": {
+    "x": 102,
+    "y": 82
+   },
+   "translation_sha256": "98667ee43d578752552d0264e62dbaa3b373d2869278fd2a7539da2c07b0bcc0"
+  },
+  "rom_049bf8:graphic_ending_06_01": {
+   "id": "graphic_ending_06_01",
+   "page": "rom_049bf8",
+   "mode": "edit",
+   "font": "12px",
+   "line_height": 12,
+   "anchor": {
+    "x": 70,
+    "y": 42
+   },
+   "translation_sha256": "6d5245cad9f8368532bb77bfe8a653528efb88728cf2a69771f86d5afa2d4570"
+  },
+  "rom_049bf8:graphic_ending_06_02": {
+   "id": "graphic_ending_06_02",
+   "page": "rom_049bf8",
+   "mode": "edit",
+   "font": "12px",
+   "line_height": 12,
+   "anchor": {
+    "x": 22,
+    "y": 58
+   },
+   "translation_sha256": "bbda9f2e312fdfcbd5f4d95849f1fe8684182cf90983efe8fc00147d31788805"
+  },
+  "rom_049bf8:graphic_ending_06_03": {
+   "id": "graphic_ending_06_03",
+   "page": "rom_049bf8",
+   "mode": "edit",
+   "font": "12px",
+   "line_height": 12,
+   "anchor": {
+    "x": 110,
+    "y": 66
+   },
+   "translation_sha256": "e1e4a85f6dbb937116f2d00193d3a3e6f44d63717ab67192911232a4090b3406"
+  },
+  "rom_049bf8:graphic_ending_06_04": {
+   "id": "graphic_ending_06_04",
+   "page": "rom_049bf8",
+   "mode": "edit",
+   "font": "12px",
+   "line_height": 12,
+   "anchor": {
+    "x": 10,
+    "y": 98
+   },
+   "translation_sha256": "1cd04816ec9fb61b2b6c48eef063295c756e83da15efd642324fbae29bcdb211"
+  },
+  "rom_049bf8:graphic_ending_06_05": {
+   "id": "graphic_ending_06_05",
+   "page": "rom_049bf8",
+   "mode": "edit",
+   "font": "12px",
+   "line_height": 12,
+   "anchor": {
+    "x": 86,
+    "y": 98
+   },
+   "translation_sha256": "c77b623618f52b6e9eb138c1312fd2859f02e662e598e1fc03ede5cb4a3b1e49"
+  },
+  "rom_04cd98:graphic_ending_07_01": {
+   "id": "graphic_ending_07_01",
+   "page": "rom_04cd98",
+   "mode": "edit",
+   "font": "12px",
+   "line_height": 12,
+   "anchor": {
+    "x": 74,
+    "y": 78
+   },
+   "translation_sha256": "bf9705a5b9217ee2801094f72fd605ee7e7a5b109ac126150ccc64dea73633bf"
+  },
+  "rom_04a3a1:graphic_ending_08_01": {
+   "id": "graphic_ending_08_01",
+   "page": "rom_04a3a1",
+   "mode": "edit",
+   "font": "12px",
+   "line_height": 12,
+   "anchor": {
+    "x": 94,
+    "y": 50
+   },
+   "translation_sha256": "fa3230f956ee90d2d4a6f25b11554898443a0fe9f95d2f9c70d487e09dc25496"
+  },
+  "rom_04a3a1:graphic_ending_08_02": {
+   "id": "graphic_ending_08_02",
+   "page": "rom_04a3a1",
+   "mode": "edit",
+   "font": "12px",
+   "line_height": 12,
+   "anchor": {
+    "x": 40,
+    "y": 58
+   },
+   "translation_sha256": "22b2f28422f4bd04538dd6acc758cf942ef3165ccfa07976886b2caa683f893f"
+  },
+  "rom_04a3a1:graphic_ending_08_03": {
+   "id": "graphic_ending_08_03",
+   "page": "rom_04a3a1",
+   "mode": "edit",
+   "font": "12px",
+   "line_height": 12,
+   "anchor": {
+    "x": 102,
+    "y": 82
+   },
+   "translation_sha256": "3711a091326137d068dbad868890fb4b4673e6178122e5e973aa11e8b03d624f"
+  },
+  "rom_04a3a1:graphic_ending_08_04": {
+   "id": "graphic_ending_08_04",
+   "page": "rom_04a3a1",
+   "mode": "edit",
+   "font": "12px",
+   "line_height": 12,
+   "anchor": {
+    "x": 30,
+    "y": 90
+   },
+   "translation_sha256": "5704b8c9beeb07c1740806209a1593d80887effc8f3d91d010ecb18b6ed711fa"
+  },
+  "rom_04a3a1:graphic_ending_08_05": {
+   "id": "graphic_ending_08_05",
+   "page": "rom_04a3a1",
+   "mode": "edit",
+   "font": "12px",
+   "line_height": 12,
+   "anchor": {
+    "x": 64,
+    "y": 106
+   },
+   "translation_sha256": "a770f6aa32957046154a299cd032cf8aa9a68c0879f5a639e37f189a1fb7f8fa"
+  },
+  "rom_04d0bb:graphic_ending_09_01": {
+   "id": "graphic_ending_09_01",
+   "page": "rom_04d0bb",
+   "mode": "edit",
+   "font": "12px",
+   "line_height": 12,
+   "anchor": {
+    "x": 44,
+    "y": 74
+   },
+   "translation_sha256": "bdeee78b508a76de2676688cc5351ed4a04227154e196221721e01ff953989a1"
+  },
+  "rom_04ab1b:graphic_ending_10_01": {
+   "id": "graphic_ending_10_01",
+   "page": "rom_04ab1b",
+   "mode": "edit",
+   "font": "12px",
+   "line_height": 12,
+   "anchor": {
+    "x": 62,
+    "y": 42
+   },
+   "translation_sha256": "9a0f50bf5fb2178a19cab5d3e30273337c4d5214c029e7dc121ede6b220b9328"
+  },
+  "rom_04ab1b:graphic_ending_10_02": {
+   "id": "graphic_ending_10_02",
+   "page": "rom_04ab1b",
+   "mode": "edit",
+   "font": "12px",
+   "line_height": 12,
+   "anchor": {
+    "x": 32,
+    "y": 82
+   },
+   "translation_sha256": "98addbdbbbfcc2e3b4619669bc38866322e91c305cb82b3f37fc53d09524d84a"
+  },
+  "rom_04ab1b:graphic_ending_10_03": {
+   "id": "graphic_ending_10_03",
+   "page": "rom_04ab1b",
+   "mode": "edit",
+   "font": "12px",
+   "line_height": 12,
+   "anchor": {
+    "x": 100,
+    "y": 106
+   },
+   "translation_sha256": "c82e7fcc3e95b8f15592f4c3ff63b131df16c390211381ac7012ded2445f6b40"
+  },
+  "rom_04d586:graphic_ending_11_01": {
+   "id": "graphic_ending_11_01",
+   "page": "rom_04d586",
+   "mode": "edit",
+   "font": "12px",
+   "line_height": 12,
+   "anchor": {
+    "x": 99,
+    "y": 58
+   },
+   "translation_sha256": "33f1160127758189cd6ee1909228b71594b5fa0f65806da79ee93fe0ac9b2756"
+  },
+  "rom_04d586:graphic_ending_11_02": {
+   "id": "graphic_ending_11_02",
+   "page": "rom_04d586",
+   "mode": "edit",
+   "font": "12px",
+   "line_height": 12,
+   "anchor": {
+    "x": 8,
+    "y": 66
+   },
+   "translation_sha256": "803bd57981b21ec1adba102c1eceffd5c4386761eb9fce0575d51dc1c962eee1"
+  },
+  "rom_04d586:graphic_ending_11_03": {
+   "id": "graphic_ending_11_03",
+   "page": "rom_04d586",
+   "mode": "edit",
+   "font": "12px",
+   "line_height": 12,
+   "anchor": {
+    "x": 30,
+    "y": 98
+   },
+   "translation_sha256": "4e767b890466b5359add71efac5aef6ff26ab999b53f95b6b21abe9f9b3f81ca"
+  },
+  "rom_04d586:graphic_ending_11_04": {
+   "id": "graphic_ending_11_04",
+   "page": "rom_04d586",
+   "mode": "edit",
+   "font": "12px",
+   "line_height": 12,
+   "anchor": {
+    "x": 94,
+    "y": 90
+   },
+   "translation_sha256": "e64a000fa43a03f000875ed4cfe5a96a448a3545410cf479024978096090a4e5"
+  },
+  "rom_04b4db:graphic_ending_12_01": {
+   "id": "graphic_ending_12_01",
+   "page": "rom_04b4db",
+   "mode": "edit",
+   "font": "12px",
+   "line_height": 12,
+   "anchor": {
+    "x": 22,
+    "y": 42
+   },
+   "translation_sha256": "d64f2db7bef5ea325ed53970fcbbfb7755f13bf77afde1b350afca1d40737765"
+  },
+  "rom_04b4db:graphic_ending_12_02": {
+   "id": "graphic_ending_12_02",
+   "page": "rom_04b4db",
+   "mode": "edit",
+   "font": "12px",
+   "line_height": 12,
+   "anchor": {
+    "x": 88,
+    "y": 50
+   },
+   "translation_sha256": "0af994bae943b52cffade97ea75f6c3bb35b1023a4a086a2fc2097816e444255"
+  },
+  "rom_04b4db:graphic_ending_12_03": {
+   "id": "graphic_ending_12_03",
+   "page": "rom_04b4db",
+   "mode": "edit",
+   "font": "12px",
+   "line_height": 12,
+   "anchor": {
+    "x": 38,
+    "y": 74
+   },
+   "translation_sha256": "1933856dfe59de4a8e68aa8b5289ec4117aeafcafea94448e7ff93ad8ba3278b"
+  },
+  "rom_04b4db:graphic_ending_12_04": {
+   "id": "graphic_ending_12_04",
+   "page": "rom_04b4db",
+   "mode": "edit",
+   "font": "12px",
+   "line_height": 12,
+   "anchor": {
+    "x": 94,
+    "y": 90
+   },
+   "translation_sha256": "a34ef4b0c8b760884de486de19177d5225a6a7882b1aaebe7837df519488da07"
+  },
+  "rom_04b943:graphic_ending_13_01": {
+   "id": "graphic_ending_13_01",
+   "page": "rom_04b943",
+   "mode": "edit",
+   "font": "12px",
+   "line_height": 12,
+   "anchor": {
+    "x": 80,
+    "y": 42
+   },
+   "translation_sha256": "c3e05fedae1e8eab3f65f26fcccd7af9680132b5a26e2bd5374eb373deb07388"
+  },
+  "rom_04b943:graphic_ending_13_02": {
+   "id": "graphic_ending_13_02",
+   "page": "rom_04b943",
+   "mode": "edit",
+   "font": "12px",
+   "line_height": 12,
+   "anchor": {
+    "x": 30,
+    "y": 66
+   },
+   "translation_sha256": "20e4b24e22a57d0e5032e026e4b8af9c4afa520cd244cbf69512a5d022bd40c1"
+  },
+  "rom_04b943:graphic_ending_13_03": {
+   "id": "graphic_ending_13_03",
+   "page": "rom_04b943",
+   "mode": "edit",
+   "font": "12px",
+   "line_height": 12,
+   "anchor": {
+    "x": 116,
+    "y": 90
+   },
+   "translation_sha256": "15e8a8e174ab8726409f31ceae43cd925be42785681ba807e2ac3b10461a094e"
+  },
+  "rom_04b943:graphic_ending_13_04": {
+   "id": "graphic_ending_13_04",
+   "page": "rom_04b943",
+   "mode": "edit",
+   "font": "12px",
+   "line_height": 12,
+   "anchor": {
+    "x": 68,
+    "y": 98
+   },
+   "translation_sha256": "b070dabe0bc4755101624725fcf96e01d5341d0dc8017be974443ece533caf00"
+  },
+  "rom_04d918:graphic_ending_14_01": {
+   "id": "graphic_ending_14_01",
+   "page": "rom_04d918",
+   "mode": "edit",
+   "font": "12px",
+   "line_height": 12,
+   "anchor": {
+    "x": 50,
+    "y": 112
+   },
+   "translation_sha256": "82b38f3f890fd7d165123b3de8013b21e98eec02f7d650753a6981f895e476e2"
+  },
+  "rom_056110:graphic_ending_15_01": {
+   "id": "graphic_ending_15_01",
+   "page": "rom_056110",
+   "mode": "edit",
+   "font": "8px",
+   "line_height": 8,
+   "positions": [
+    [
+     24,
+     8
+    ],
+    [
+     48,
+     16
+    ]
+   ],
+   "translation_sha256": "8e6223d92d80cddf21dfabe9af47e78d2833026cbae2f9aae6c94dd103e39cff"
+  },
+  "rom_056110:graphic_ending_15_02": {
+   "id": "graphic_ending_15_02",
+   "page": "rom_056110",
+   "mode": "edit",
+   "font": "8px",
+   "line_height": 8,
+   "positions": [
+    [
+     88,
+     8
+    ],
+    [
+     112,
+     16
+    ]
+   ],
+   "overrides": {
+    "1:4": [
+     "00011000",
+     "00110000",
+     "01000000",
+     "00000110",
+     "00001001",
+     "00010110",
+     "00000000",
+     "00000000"
+    ]
+   },
+   "translation_sha256": "6649077751af916222999edd13f02081a7ff8bacb835dba2b066f9c3b72b5d22"
+  },
+  "rom_056110:graphic_ending_15_03": {
+   "id": "graphic_ending_15_03",
+   "page": "rom_056110",
+   "mode": "edit",
+   "font": "8px",
+   "line_height": 8,
+   "positions": [
+    [
+     88,
+     32
+    ],
+    [
+     112,
+     40
+    ]
+   ],
+   "overrides": {
+    "0:2": [
+     "00000000",
+     "00000000",
+     "00000000",
+     "00000000",
+     "11111110",
+     "00000000",
+     "00000000",
+     "00000000"
+    ],
+    "1:5": [
+     "00000000",
+     "00010000",
+     "00011000",
+     "00010100",
+     "00010100",
+     "00110000",
+     "01110000",
+     "01100000"
+    ]
+   },
+   "translation_sha256": "740ddb22c04c7ddfa3b405dd1bad932bcd44c8fbe15baf3b6f5d05c62ced9f68"
+  },
+  "rom_056110:graphic_ending_15_04": {
+   "id": "graphic_ending_15_04",
+   "page": "rom_056110",
+   "mode": "edit",
+   "font": "8px",
+   "line_height": 8,
+   "positions": [
+    [
+     88,
+     56
+    ],
+    [
+     112,
+     64
+    ]
+   ],
+   "overrides": {
+    "1:4": [
+     "00000000",
+     "01000000",
+     "01000000",
+     "01000000",
+     "01000000",
+     "01000000",
+     "00000000",
+     "01000000"
+    ]
+   },
+   "translation_sha256": "6314027d85b87991cf9034a8ae1fb8bcf1536a6f5ae6f169e64a5b54f64eda30"
+  },
+  "rom_055050:graphic_ending_16_01": {
+   "id": "graphic_ending_16_01",
+   "page": "rom_055050",
+   "mode": "edit",
+   "font": "8px",
+   "line_height": 8,
+   "positions": [
+    [
+     24,
+     8
+    ],
+    [
+     48,
+     16
+    ]
+   ],
+   "translation_sha256": "7a9566641b88eed173ddffe01fde63dc3e85019a2a3dfcf26a455cf49d5ea134"
+  },
+  "rom_055050:graphic_ending_16_02": {
+   "id": "graphic_ending_16_02",
+   "page": "rom_055050",
+   "mode": "edit",
+   "font": "8px",
+   "line_height": 8,
+   "positions": [
+    [
+     96,
+     8
+    ],
+    [
+     104,
+     16
+    ]
+   ],
+   "overrides": {
+    "1:2": [
+     "00000000",
+     "01000000",
+     "01000000",
+     "01000000",
+     "01000000",
+     "01000000",
+     "00000000",
+     "01000000"
+    ]
+   },
+   "translation_sha256": "f146301f671cdd46de111ace6fc9414a8cf17b2fbcb3fdbdc5f0e691ff319157"
+  },
+  "rom_055050:graphic_ending_16_03": {
+   "id": "graphic_ending_16_03",
+   "page": "rom_055050",
+   "mode": "edit",
+   "font": "8px",
+   "line_height": 8,
+   "positions": [
+    [
+     88,
+     32
+    ],
+    [
+     88,
+     40
+    ]
+   ],
+   "overrides": {
+    "1:6": [
+     "00000000",
+     "00000000",
+     "00000000",
+     "00000000",
+     "00000000",
+     "01100000",
+     "00100000",
+     "01000000"
+    ]
+   },
+   "translation_sha256": "1f2bd280abf3a9851466936a5ed1432e3ef8acf84fc3e9e6be45505f4f59d92d"
+  },
+  "rom_055050:graphic_ending_16_04": {
+   "id": "graphic_ending_16_04",
+   "page": "rom_055050",
+   "mode": "edit",
+   "font": "8px",
+   "line_height": 8,
+   "positions": [
+    [
+     88,
+     56
+    ],
+    [
+     104,
+     64
+    ],
+    [
+     112,
+     72
+    ]
+   ],
+   "overrides": {
+    "2:3": [
+     "00000000",
+     "01000000",
+     "01000000",
+     "01000000",
+     "01000000",
+     "01000000",
+     "00000000",
+     "01000000"
+    ]
+   },
+   "translation_sha256": "78828e65c9e81aaa37142bbc89937598a5a2b5b42cdc04af13809a95db98ad57"
+  },
+  "rom_041000:hud_score": {
+   "id": "hud_score",
+   "page": "rom_041000",
+   "mode": "edit",
+   "font": "8px",
+   "line_height": 8,
+   "anchor": {
+    "x": 40,
+    "y": 0
+   },
+   "same_id_multiple_pages": true,
+   "translation_sha256": "10939f5486458e14c42ac3eff14bd4e0cdeb193771c07bfebffb6571746deae7"
+  },
+  "rom_041000:hud_kirby": {
+   "id": "hud_kirby",
+   "page": "rom_041000",
+   "mode": "edit",
+   "font": "8px",
+   "line_height": 8,
+   "anchor": {
+    "x": 64,
+    "y": 0
+   },
+   "same_id_multiple_pages": true,
+   "translation_sha256": "9fa020608ae94a319fd881449f8b2a3bce014ffbe2f31548fc54bc5baeeff84c"
+  },
+  "rom_041103:hud_score": {
+   "id": "hud_score",
+   "page": "rom_041103",
+   "mode": "edit",
+   "font": "8px",
+   "line_height": 8,
+   "anchor": {
+    "x": 40,
+    "y": 0
+   },
+   "same_id_multiple_pages": true,
+   "translation_sha256": "10939f5486458e14c42ac3eff14bd4e0cdeb193771c07bfebffb6571746deae7"
+  },
+  "rom_041103:hud_kirby": {
+   "id": "hud_kirby",
+   "page": "rom_041103",
+   "mode": "edit",
+   "font": "8px",
+   "line_height": 8,
+   "anchor": {
+    "x": 64,
+    "y": 0
+   },
+   "same_id_multiple_pages": true,
+   "translation_sha256": "9fa020608ae94a319fd881449f8b2a3bce014ffbe2f31548fc54bc5baeeff84c"
   }
  }
 }

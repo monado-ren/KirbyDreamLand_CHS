@@ -21,53 +21,46 @@ class TextLayoutTests(unittest.TestCase):
         cls.fonts = text_layout.load_fonts()
         cls.translations = text_layout.load_translations()
 
-    def test_layout_covers_expected_pages(self):
-        pages = {record['page'] for record in self.layout['entries'].values()}
-        self.assertEqual(pages, {'rom_06c000', 'rom_06c70b', 'rom_06cda8',
-                                 'rom_06d490', 'rom_06db85', 'rom_0438f6',
-                                 'rom_04454c', 'rom_044734'})
-        self.assertEqual(len(self.layout['entries']), 11)
-        self.assertEqual(len(self.layout['pages']), 8)
+    def entries(self, page):
+        return {key: record for key, record in self.layout['entries'].items()
+                if record['page'] == page}
 
-    def test_layout_anchors_are_recorded(self):
-        for entry_id, record in self.layout['entries'].items():
-            with self.subTest(entry=entry_id):
+    def test_layout_covers_all_typeset_pages(self):
+        self.assertEqual(len(self.layout['entries']), 76)
+        self.assertEqual(len(self.layout['pages']), 8)
+        self.assertEqual(len({record['page'] for record in self.layout['entries'].values()}), 26)
+        pages = {record['page'] for record in self.layout['entries'].values()}
+        self.assertIn('rom_06c000', pages)       # stage 1
+        self.assertIn('rom_055050', pages)       # normal-clear hint
+        self.assertIn('rom_056110', pages)       # extra-clear hint
+        self.assertIn('rom_048462', pages)       # gallery 1
+        self.assertIn('rom_041000', pages)       # HUD
+        self.assertIn('rom_0742b3', pages)       # gallery 3
+
+    def test_layout_records_mode_and_anchors(self):
+        for key, record in self.layout['entries'].items():
+            with self.subTest(entry=key):
+                self.assertIn(record['mode'], ('page', 'edit'))
                 self.assertIn(record['font'], ('12px', '8px'))
-                self.assertGreaterEqual(record['anchor']['x'], 0)
-                self.assertGreaterEqual(record['anchor']['y'], 0)
-                self.assertEqual(record['anchor']['candidates'], 1)
+                if record['mode'] == 'page':
+                    self.assertIn(record['page'], self.layout['pages'])
+                self.assertTrue('anchor' in record or 'positions' in record)
+
+    def test_stage_numbers_typeset_only_chinese_part(self):
+        record = self.layout['entries']['rom_06c000:stage_1_number']
+        self.assertEqual(record['typeset'], '场景')
+        self.assertEqual(record['anchor'], {'x': 62, 'y': 12})
+
+    def test_gallery_entries_use_authoritative_boxes(self):
+        record = self.layout['entries']['rom_048462:graphic_ending_01_01']
+        self.assertEqual(record['anchor'], {'x': 14, 'y': 42})
+
+    def test_hint_entries_carry_glyph_overrides(self):
+        record = self.layout['entries']['rom_056110:graphic_ending_15_02']
+        self.assertIn('1:4', record['overrides'])
 
     def test_base_plus_font_plus_translation_reproduces_pages(self):
-        failures = []
-        for page_id, page in self.layout['pages'].items():
-            base_path = ROOT / page['base_png']
-            self.assertTrue(base_path.is_file(), base_path)
-            width, height, shades = text_layout.graphics_png.png_to_shades(base_path.read_bytes())
-            rendered = list(shades)
-            for entry_id, record in self.layout['entries'].items():
-                if record['page'] != page_id:
-                    continue
-                text = self.translations[entry_id]['translation_zh_hans']
-                rendered = text_layout.render_text(rendered, width,
-                                                   self.fonts[record['font']], text,
-                                                   record['anchor'], record['line_height'])
-            expected_path = ROOT / record['page_png'] if record.get('page_png') else None
-            resource = self._resource(page_id)
-            if resource.get('page'):
-                expected_path = ROOT / resource['page']
-            else:
-                self.skipTest('edit page rendering is not wired yet')
-            expected = text_layout.graphics_png.png_to_shades(expected_path.read_bytes())[2]
-            if list(rendered) != list(expected):
-                failures.append((page_id, sum(1 for left, right in zip(rendered, expected)
-                                              if left != right)))
-        self.assertEqual(failures, [])
-
-    @classmethod
-    def _resource(cls, page_id):
-        import common
-        manifest = common.load_manifest()
-        return next(item for item in manifest['resources'] if item['id'] == page_id)
+        self.assertTrue(text_layout.check(self.translations, self.fonts))
 
 
 if __name__ == '__main__':

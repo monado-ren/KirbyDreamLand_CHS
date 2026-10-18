@@ -255,21 +255,86 @@ HUD 标签图块号重排、图鉴蝙蝠精灵 X 坐标 -9px。
 
 ## 08 文本层
 
-可由“字体 + 译文 + 布局”重排的文本（当前 11 条 / 8 页）。
+可由“字体 + 译文 + 布局”重排的文本（76 条 / 26 页，其中 8 页提交去字底图）。
 
-| 页面 | 文本 id | 译文 | 字体 | 锚点 |
-| --- | --- | --- | --- | --- |
-| `rom_0438f6` | `music` | 音乐 | 12px | (56, 54) |
-| `rom_0438f6` | `sound` | 音效 | 12px | (56, 70) |
-| `rom_0438f6` | `sound_test` | 声音测试 | 12px | (56, 30) |
-| `rom_04454c` | `game_over` | 游戏结束 | 12px | (56, 46) |
-| `rom_044734` | `continue` | 继续 | 12px | (56, 30) |
-| `rom_044734` | `end` | 结束 | 12px | (56, 46) |
-| `rom_06c000` | `stage_1_name` | 葛绿谷绿 | 12px | (56, 38) |
-| `rom_06c70b` | `stage_2_name` | 箩箩箩的城堡 | 12px | (44, 38) |
-| `rom_06cda8` | `stage_3_name` | 漂浮岛屿 | 12px | (56, 38) |
-| `rom_06d490` | `stage_4_name` | 泡泡云层 | 12px | (56, 38) |
-| `rom_06db85` | `stage_5_name` | 帝帝帝山 | 12px | (56, 36) |
+| 页面 | 文本 id | 译文 | 字体 | 存储 | 锚点 |
+| --- | --- | --- | --- | --- | --- |
+| `rom_041000` | `hud_kirby` | 卡比 | 8px | edit | (64, 0) |
+| `rom_041000` | `hud_score` | 积分 | 8px | edit | (40, 0) |
+| `rom_041103` | `hud_kirby` | 卡比 | 8px | edit | (64, 0) |
+| `rom_041103` | `hud_score` | 积分 | 8px | edit | (40, 0) |
+| `rom_0438f6` | `music` | 音乐 | 12px | page | (56, 54) |
+| `rom_0438f6` | `sound` | 音效 | 12px | page | (56, 70) |
+| `rom_0438f6` | `sound_test` | 声音测试 | 12px | page | (56, 30) |
+| `rom_04454c` | `game_over` | 游戏结束 | 12px | page | (56, 46) |
+| `rom_044734` | `continue` | 继续 | 12px | page | (56, 30) |
+| `rom_044734` | `end` | 结束 | 12px | page | (56, 46) |
+| `rom_048462` | `graphic_ending_01_01` | 黑刺球 | 12px | edit | (14, 42) |
+| `rom_048462` | `graphic_ending_01_02` | 瓦豆鲁迪 | 12px | edit | (104, 50) |
+| `rom_048462` | `graphic_ending_01_03` | 飞翅球球 | 12px | edit | (52, 58) |
+| `rom_048462` | `graphic_ending_01_04` | 瓦豆鲁笃 | 12px | edit | (24, 82) |
+| `rom_048462` | `graphic_ending_01_05` | 黑大炮 | 12px | edit | (78, 98) |
+| `rom_0496d4` | `graphic_ending_05_01` | 箩箩箩 | 12px | edit | (38, 50) |
+| `rom_0496d4` | `graphic_ending_05_02` | 菈菈菈 | 12px | edit | (102, 82) |
+| `rom_049bf8` | `graphic_ending_06_01` | 蛙镜鱼 | 12px | edit | (70, 42) |
+| `rom_049bf8` | `graphic_ending_06_02` | 石像怪 | 12px | edit | (22, 58) |
+| `rom_049bf8` | `graphic_ending_06_03` | 乌贼怪 | 12px | edit | (110, 66) |
+| `rom_049bf8` | `graphic_ending_06_04` | 圆锥寄居蟹 | 12px | edit | (10, 98) |
+| `rom_049bf8` | `graphic_ending_06_05` | 光束贝 | 12px | edit | (86, 98) |
+| `rom_04a3a1` | `graphic_ending_08_01` | 膨胀云 | 12px | edit | (94, 50) |
+| `rom_04a3a1` | `graphic_ending_08_02` | 疯狂鬼面 | 12px | edit | (40, 58) |
+| `rom_04a3a1` | `graphic_ending_08_03` | 尖耳怪 | 12px | edit | (102, 82) |
+| `rom_04a3a1` | `graphic_ending_08_04` | 晕晕怪 | 12px | edit | (30, 90) |
+| `rom_04a3a1` | `graphic_ending_08_05` | 弯刀骑士 | 12px | edit | (64, 106) |
+| `rom_04ab1b` | `graphic_ending_10_01` | 喔喔鸡 | 12px | edit | (62, 42) |
+| `rom_04ab1b` | `graphic_ending_10_02` | 振翅球球 | 12px | edit | (32, 82) |
+| `rom_04ab1b` | `graphic_ending_10_03` | 蛋糕怪 | 12px | edit | (100, 106) |
+| `rom_04b4db` | `graphic_ending_12_01` | 章鱼怪 | 12px | edit | (22, 42) |
+| `rom_04b4db` | `graphic_ending_12_02` | 暴躁石像 | 12px | edit | (88, 50) |
+| `rom_04b4db` | `graphic_ending_12_03` | 独眼蟹 | 12px | edit | (38, 74) |
+| `rom_04b4db` | `graphic_ending_12_04` | 连射炮 | 12px | edit | (94, 90) |
+| `rom_04b943` | `graphic_ending_13_01` | 子弹鹈鹕 | 12px | edit | (80, 42) |
+| `rom_04b943` | `graphic_ending_13_02` | 胡须猫 | 12px | edit | (30, 66) |
+| `rom_04b943` | `graphic_ending_13_03` | 本尼 | 12px | edit | (116, 90) |
+| `rom_04b943` | `graphic_ending_13_04` | 武魔 | 12px | edit | (68, 98) |
+| `rom_04c4f4` | `graphic_ending_02_01` | 喳喳鸟 | 12px | edit | (30, 50) |
+| `rom_04c4f4` | `graphic_ending_02_02` | 头带熊 | 12px | edit | (94, 76) |
+| `rom_04c4f4` | `graphic_ending_02_03` | 蘑菇怪 | 12px | edit | (52, 90) |
+| `rom_04c4f4` | `graphic_ending_02_04` | 小波比兄弟 | 12px | edit | (4, 106) |
+| `rom_04caf2` | `graphic_ending_04_01` | 振翅蝙蝠 | 12px | edit | (16, 42) |
+| `rom_04caf2` | `graphic_ending_04_02` | 绿海葵 | 12px | edit | (110, 50) |
+| `rom_04caf2` | `graphic_ending_04_03` | 芒比尸 | 12px | edit | (54, 66) |
+| `rom_04caf2` | `graphic_ending_04_04` | 魔扫把 | 12px | edit | (14, 82) |
+| `rom_04caf2` | `graphic_ending_04_05` | 两面派 | 12px | edit | (110, 82) |
+| `rom_04caf2` | `graphic_ending_04_06` | 吐舌箱 | 12px | edit | (62, 98) |
+| `rom_04caf2` | `graphic_ending_04_07` | 惊吓幽灵 | 12px | edit | (96, 114) |
+| `rom_04cd98` | `graphic_ending_07_01` | 卡钸拉 | 12px | edit | (74, 78) |
+| `rom_04d0bb` | `graphic_ending_09_01` | 独眼云 | 12px | edit | (44, 74) |
+| `rom_04d586` | `graphic_ending_11_01` | P瓜先生 | 12px | edit | (99, 58) |
+| `rom_04d586` | `graphic_ending_11_02` | 睡帽幽灵 | 12px | edit | (8, 66) |
+| `rom_04d586` | `graphic_ending_11_03` | 冒出箱 | 12px | edit | (30, 98) |
+| `rom_04d586` | `graphic_ending_11_04` | 骷髅头 | 12px | edit | (94, 90) |
+| `rom_04d918` | `graphic_ending_14_01` | 帝帝帝大王 | 12px | edit | (50, 112) |
+| `rom_055050` | `graphic_ending_16_01` | 额外⏎游戏 | 8px | edit | (24, 8) |
+| `rom_055050` | `graphic_ending_16_02` | 恭喜⏎通关！ | 8px | edit | (96, 8) |
+| `rom_055050` | `graphic_ending_16_03` | 在标题界面⏎输入左侧指令， | 8px | edit | (88, 32) |
+| `rom_055050` | `graphic_ending_16_04` | 踏上⏎新的⏎冒险吧！ | 8px | edit | (88, 56) |
+| `rom_056110` | `graphic_ending_15_01` | 配置⏎模式 | 8px | edit | (24, 8) |
+| `rom_056110` | `graphic_ending_15_02` | 水平⏎真不错呢， | 8px | edit | (88, 8) |
+| `rom_056110` | `graphic_ending_15_03` | 送你一份⏎特别的礼物♪ | 8px | edit | (88, 32) |
+| `rom_056110` | `graphic_ending_15_04` | 感谢⏎您的游玩！ | 8px | edit | (88, 56) |
+| `rom_06c000` | `stage_1_name` | 葛绿谷绿 | 12px | page | (56, 38) |
+| `rom_06c000` | `stage_1_number` | 场景1 | 12px | page | (62, 12) |
+| `rom_06c70b` | `stage_2_name` | 箩箩箩的城堡 | 12px | page | (44, 38) |
+| `rom_06c70b` | `stage_2_number` | 场景2 | 12px | page | (62, 12) |
+| `rom_06cda8` | `stage_3_name` | 漂浮岛屿 | 12px | page | (56, 38) |
+| `rom_06cda8` | `stage_3_number` | 场景3 | 12px | page | (62, 12) |
+| `rom_06d490` | `stage_4_name` | 泡泡云层 | 12px | page | (56, 38) |
+| `rom_06d490` | `stage_4_number` | 场景4 | 12px | page | (62, 12) |
+| `rom_06db85` | `stage_5_name` | 帝帝帝山 | 12px | page | (56, 36) |
+| `rom_06db85` | `stage_5_number` | 场景5 | 12px | page | (62, 18) |
+| `rom_0742b3` | `graphic_ending_03_01` | 大波比兄弟 | 12px | edit | (12, 92) |
+| `rom_0742b3` | `graphic_ending_03_02` | 风语大树 | 12px | edit | (80, 114) |
 
 ## 09 构建与发布
 

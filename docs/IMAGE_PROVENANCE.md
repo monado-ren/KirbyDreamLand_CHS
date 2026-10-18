@@ -7,10 +7,11 @@
 - `03_Image/edits/*.json` 的 changed cells（人工改动面）；
 - `docs/PAGES.md`、`docs/CHANGELOG.md` 的历史修订记录。
 
-“字体排版”指用 12px / 8px 位图字形排出的文字像素。其中 8 个页面 / 11 条文本已
-**数据化**为 `02_Text/layout.json` + `03_Image/text-base/*.png`，可由
-`00_Tools/text_layout.py` 从“字体 + 译文 + 布局”重排并逐像素复现；其余页面仍是
-手工排版的像素，只能按页面 PNG / 覆盖层维护。
+“字体排版”指用 12px / 8px 位图字形排出的文字像素。其中 **26 个页面 / 76 条文本**已
+**数据化**为 `02_Text/layout.json`（+ 8 页 `03_Image/text-base/*.png`），可由
+`00_Tools/text_layout.py` 从“字体 + 译文 + 布局”重排并逐像素复现：5 关标题、
+声音测试、GAME OVER、CONTINUE、图鉴 14 页 48 名、2 张通关提示 8 行、HUD 2 页标签。
+其余页面（配置、标题、Logo、剧终牌等）仍是人工美术/排版像素。
 
 ## 字体排版部分（12px 字形）
 

@@ -281,7 +281,7 @@ STAGES = (
      ('hud.label_tile', 'sprite.x')),
     ('07', '资源内容', '新增/替换的压缩图块集、地图、整包页（构建输入是 PNG，不是 hex）。',
      ()),
-    ('08', '文本层', '可由“字体 + 译文 + 布局”重排的文本（当前 11 条 / 8 页）。',
+    ('08', '文本层', '可由“字体 + 译文 + 布局”重排的文本。',
      ()),
     ('09', '构建与发布', '构建→校验→xdelta3 增量→发布校验和。', ()),
 )
@@ -351,6 +351,14 @@ def report(spec, manifest=None, rgbds=None):
              '| 10 | 发布 | `00_Tools/release.py` | 构建 ROM + `baserom.gb` | `patches/*.xdelta3` | `SHA256SUMS.txt` |',
              '']
     for number, title, blurb, kinds in STAGES:
+        if number == '08':
+            layout_path = common.ROOT / '02_Text' / 'layout.json'
+            if layout_path.is_file():
+                layer = json.loads(layout_path.read_text(encoding='utf-8'))
+                blurb = ('可由“字体 + 译文 + 布局”重排的文本（%d 条 / %d 页，其中 %d 页提交去字底图）。'
+                         % (len(layer['entries']),
+                            len({record['page'] for record in layer['entries'].values()}),
+                            len(layer['pages'])))
         lines += ['## %s %s' % (number, title), '', blurb, '']
         if number == '01':
             lines += ['| 偏移 | kind | 旧 → 新 | 说明 |', '| --- | --- | --- | --- |']
@@ -388,14 +396,17 @@ def report(spec, manifest=None, rgbds=None):
                 layout = json.loads(layout_path.read_text(encoding='utf-8'))
                 translations = {e['id']: e for e in json.loads(
                     (common.ROOT / '02_Text' / 'zh-Hans.json').read_text(encoding='utf-8'))['entries']}
-                lines += ['| 页面 | 文本 id | 译文 | 字体 | 锚点 |',
-                          '| --- | --- | --- | --- | --- |']
-                for entry_id, record in sorted(layout['entries'].items(),
-                                               key=lambda item: (item[1]['page'], item[0])):
+                lines += ['| 页面 | 文本 id | 译文 | 字体 | 存储 | 锚点 |',
+                          '| --- | --- | --- | --- | --- | --- |']
+                for key, record in sorted(layout['entries'].items(),
+                                          key=lambda item: (item[1]['page'], item[0])):
+                    entry_id = record['id']
                     text = translations[entry_id]['translation_zh_hans'].replace('\n', '⏎')
-                    lines.append('| `%s` | `%s` | %s | %s | (%d, %d) |'
+                    anchor = record.get('anchor') or {'x': record['positions'][0][0],
+                                                      'y': record['positions'][0][1]}
+                    lines.append('| `%s` | `%s` | %s | %s | %s | (%d, %d) |'
                                  % (record['page'], entry_id, text, record['font'],
-                                    record['anchor']['x'], record['anchor']['y']))
+                                    record['mode'], anchor['x'], anchor['y']))
                 lines.append('')
         if number == '09':
             lines += ['- `python 00_Tools/build.py`：按清单装载 71 个资源、写入 110 处补丁、重算校验和；',
@@ -498,6 +509,7 @@ def summarize(spec, manifest=None, rgbds=None):
         'text_entries': text_entries,
         'text_layer_entries': text_layer,
         'text_layer_pages': text_pages,
+        'text_layer_base_pages': len(layout['pages']) if layout_path.is_file() else 0,
     }
 
 
