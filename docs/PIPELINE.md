@@ -24,7 +24,7 @@ patches/         发布 xdelta3 补丁
 | 04_Data | `04_Data/`（JSON 清单，替代 xlsx） |
 | 05_Font | `05_Font/`（pinned 上游生成，字体二进制不入库） |
 | 02_Text | `02_Text/`（审稿 + `layout.json` 文本层；11 条文本已可重排） |
-| 06_ProgramFix | `06_ProgramFix/change_surface.json + patches/*.asm`（符号 + 汇编） |
+| 06_ProgramFix | `06_ProgramFix/change_surface.json + patches/*.asm`（符号 + 汇编；构成见 CHANGE_SURFACE_COMPOSITION.md） |
 | patches/ | `patches/`（xdelta3，非 IPS） |
 
 刻意不照搬：Windows 工具、ROM 手工导入、xlsx/Numbers 数据源、二进制字体入仓、IPS-only 流程。

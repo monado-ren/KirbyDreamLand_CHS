@@ -1,5 +1,7 @@
 # 符号化改动面（06_ProgramFix/change_surface.json）
 
+> 分层总览与数字构成见 [改动面构成](CHANGE_SURFACE_COMPOSITION.md)。
+
 v0.5.1 相对日版 Rev 1 的全部改动（110 处补丁、198 字节，71 个扩展资源）以语义层
 `06_ProgramFix/change_surface.json` 为源：装载点名称、目标资源、旧值→新值、用途、历史副本原因、
 校验和策略，以及代码区域的 RGBDS 汇编源。
@@ -67,6 +69,7 @@ v0.5.1 相对日版 Rev 1 的全部改动（110 处补丁、198 字节，71 个�
 ```sh
 python 00_Tools/build_rgbds.py                     # 首次/更新：从 pinned 源码编译 RGBDS
 python 00_Tools/change_surface.py check --base baserom.gb
+python 00_Tools/change_surface.py summary      # 分层构成（补丁/资源/页面/文本层）
 python 00_Tools/change_surface.py explain
 python 00_Tools/change_surface.py explain --site two_row_vblank_queue_writer
 python 00_Tools/change_surface.py resources

@@ -88,12 +88,13 @@ LICENSES/        第三方字体许可和署名
 
 构建不读取旧日版、美版、旧汉化 ROM、模拟器或开发者本机目录。
 今后的汉化修订在本仓库提交；请同时更新源码资源、版本清单、补丁与测试。
-[页面索引](docs/PAGES.md) 列出全部 48 个页面及其内容（21 张整页 PNG + 27 个基线+覆盖层页面）。`02_Text/` 与 `assets/` 是编辑素材，**仅编辑这些文件不会自动重排整个游戏**；真正参与构建的是 `03_Image/graphics/` 下的 PNG 源，详见 [开发说明](docs/DEVELOPMENT.md)；改动面的语义索引见 [符号化改动面](docs/CHANGE_SURFACE.md)。
+[页面索引](docs/PAGES.md) 列出全部 48 个页面及其内容（21 张整页 PNG + 27 个基线+覆盖层页面）。`02_Text/` 与 `assets/` 是编辑素材，**仅编辑这些文件不会自动重排整个游戏**；真正参与构建的是 `03_Image/graphics/` 下的 PNG 源，详见 [开发说明](docs/DEVELOPMENT.md)；改动面的语义索引见 [符号化改动面](docs/CHANGE_SURFACE.md)，分层构成见 [改动面构成](docs/CHANGE_SURFACE_COMPOSITION.md)。
 
 ```sh
 python -m unittest discover -s tests -v
 python 00_Tools/selftest.py
 python 00_Tools/change_surface.py check --base baserom.gb
+python 00_Tools/change_surface.py summary
 python 00_Tools/change_surface.py explain
 python 00_Tools/change_surface.py sync-manifest
 # 编辑用字形子集不随仓库分发，从上游 pinned 源生成（需要 requirements-dev.txt）

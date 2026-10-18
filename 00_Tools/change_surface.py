@@ -266,6 +266,68 @@ def sync_manifest(spec, manifest, path=None, write=False):
     return len(derived), digest
 
 
+def summarize(spec, manifest=None, rgbds=None):
+    """Layered composition of the change surface (for docs and CI output)."""
+    resources = {r['id']: r for r in spec['resources']}
+    patches = derive_patches(spec, rgbds)
+    kind_by_offset = {}
+    for site in spec['sites']:
+        for patch in site.get('patches', []):
+            kind_by_offset[int(patch['offset'], 16)] = patch['kind']
+    patch_counts = {}
+    patch_bytes = {}
+    for patch in patches:
+        kind = kind_by_offset.get(patch['offset'], 'code.region')
+        patch_counts[kind] = patch_counts.get(kind, 0) + 1
+        patch_bytes[kind] = patch_bytes.get(kind, 0) + len(bytes.fromhex(patch['replacement_hex']))
+    site_counts = {}
+    for site in spec['sites']:
+        kind = site.get('kind') or 'special.' + site['site']
+        site_counts[kind] = site_counts.get(kind, 0) + 1
+    resource_formats = {}
+    resource_roles = {}
+    for resource in spec['resources']:
+        resource_formats[resource['format']] = resource_formats.get(resource['format'], 0) + 1
+        resource_roles[resource['role']] = resource_roles.get(resource['role'], 0) + 1
+    manifest = manifest or common.load_manifest()
+    resources_by_id = {r['id']: r for r in manifest['resources']}
+    page_bundles = sum(1 for r in resources_by_id.values() if r.get('page'))
+    page_edits = sum(1 for r in resources_by_id.values() if r.get('edit'))
+    active_pages = sum(1 for r in resources_by_id.values()
+                       if r['referenced_by_current_localized_loaders']
+                       and (r.get('page') or r.get('edit')))
+    legacy_pages = page_bundles + page_edits - active_pages
+    graphics = len(list((common.ROOT / '03_Image' / 'graphics').glob('*.png')))
+    text_entries = text_layer = text_pages = 0
+    text_path = common.ROOT / '02_Text' / 'zh-Hans.json'
+    layout_path = common.ROOT / '02_Text' / 'layout.json'
+    if text_path.is_file():
+        text_entries = len(json.loads(text_path.read_text(encoding='utf-8'))['entries'])
+    if layout_path.is_file():
+        layout = json.loads(layout_path.read_text(encoding='utf-8'))
+        text_layer = len(layout['entries'])
+        text_pages = len(layout['pages'])
+    return {
+        'patches': len(patches),
+        'bytes': sum(patch_bytes.values()),
+        'patch_kinds': patch_counts,
+        'patch_bytes': patch_bytes,
+        'sites': len(spec['sites']),
+        'site_kinds': site_counts,
+        'resources': len(spec['resources']),
+        'resource_formats': resource_formats,
+        'resource_roles': resource_roles,
+        'page_bundles': page_bundles,
+        'page_edits': page_edits,
+        'active_pages': active_pages,
+        'legacy_pages': legacy_pages,
+        'graphics': graphics,
+        'text_entries': text_entries,
+        'text_layer_entries': text_layer,
+        'text_layer_pages': text_pages,
+    }
+
+
 def _old_text(patch):
     if patch['kind'] == 'stage.pointer_table':
         return ', '.join('%s 6:%s' % (e['stage'], e['old']['addr']) for e in patch['entries'])
@@ -328,7 +390,7 @@ def explain(spec, only_site=None, rgbds=None):
 
 def main(argv=None):
     p = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    p.add_argument('command', choices=('check', 'explain', 'resources', 'dump', 'sync-manifest'))
+    p.add_argument('command', choices=('check', 'explain', 'resources', 'dump', 'summary', 'sync-manifest'))
     p.add_argument('--spec', type=Path, default=DEFAULT_SPEC)
     p.add_argument('--manifest', type=Path, default=common.DEFAULT_MANIFEST)
     p.add_argument('--base', type=Path, help='Also verify preimages against this Rev1 ROM')
@@ -340,6 +402,22 @@ def main(argv=None):
     rgbds = find_rgbds(a.rgbds)
     if rgbds is None:
         rgbds = _require_rgbds(a.rgbds)
+    if a.command == 'summary':
+        stats = summarize(spec, common.load_manifest(), rgbds)
+        print('SURFACE=PASS PATCHES=%d BYTES=%d SITES=%d RESOURCES=%d '
+              'PAGES=%d ACTIVE_PAGES=%d TEXT_LAYER=%d/%d'
+              % (stats['patches'], stats['bytes'], stats['sites'], stats['resources'],
+                 stats['page_bundles'] + stats['page_edits'], stats['active_pages'],
+                 stats['text_layer_entries'], stats['text_layer_pages']))
+        print('PATCH_KINDS=' + ','.join('%s:%d/%dB' % (kind, count,
+              stats['patch_bytes'][kind]) for kind, count in sorted(stats['patch_kinds'].items())))
+        print('SITE_KINDS=' + ','.join('%s:%d' % item for item in sorted(stats['site_kinds'].items())))
+        print('RESOURCE_FORMATS=' + ','.join('%s:%d' % item for item in sorted(stats['resource_formats'].items())))
+        print('RESOURCE_ROLES=' + ','.join('%s:%d' % item for item in sorted(stats['resource_roles'].items())))
+        print('PAGES=BUNDLE:%d EDIT:%d ACTIVE:%d LEGACY:%d GRAPHICS:%d TEXT_ENTRIES:%d'
+              % (stats['page_bundles'], stats['page_edits'], stats['active_pages'],
+                 stats['legacy_pages'], stats['graphics'], stats['text_entries']))
+        return 0
     if a.command == 'dump':
         print(json.dumps(derive_patches(spec, rgbds), ensure_ascii=False, indent=1))
         return 0
