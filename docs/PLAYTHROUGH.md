@@ -71,6 +71,7 @@ PYTHONPATH=build/pylibs python 00_Tools/analyze_playthrough.py --capture-dir bui
 继续各 +2048。装载循环本身没变慢，但每帧吞吐固定（~28 图块/帧），所以装载帧数变多，
 且**每次装载都会多花帧**，累计偏差持续增长。因此外部 TAS、逐帧截图都必须按事件
 （stage 卡片/Boss 房间）重新对齐，不能整体平移。
+载荷里有多少是“可省”的、为什么不能简单省掉，见 `docs/LOADER_PAYLOAD.md`。
 
 ## 分析
 

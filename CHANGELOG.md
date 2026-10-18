@@ -1,5 +1,14 @@
 # 版本记录
 
+## v0.5.1 装载载荷审计 — 可压缩空间
+
+- 新增 `00_Tools/audit_loader_payload.py` + `docs/LOADER_PAYLOAD.md`：量化 5 张变大的整包页里
+  有多少 tile 是地图从未引用的。结果：17,792 decoded 字节中只剩 5,776 是必需的（**-68%**），
+  重排后页面 PNG 逐像素不变（工具实际渲染比对）。
+- 但地图字节就是 VRAM tile 编号、OAM 精灵也指向同一块 VRAM，重排属于“改 tile ID 契约”，
+  不是纯数据优化；是否值得做见文档结论。
+
+
 ## v0.5.1 装载成本 — 静态审计
 
 - 新增 `00_Tools/audit_loader_timing.py`：从 `baserom.gb` 解出每个 loader 原版载荷大小，
