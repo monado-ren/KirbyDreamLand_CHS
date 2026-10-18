@@ -1,5 +1,7 @@
 # 可读页面索引（source/pages + source/edits）
 
+运行时页面核对见 [`VISUAL_REGRESSION_AUDIT.md`](VISUAL_REGRESSION_AUDIT.md)（外部 BGB 视觉回归包，30/30 活跃页面覆盖）。
+
 `source/` 下共有 **48 个页面**，分两种存储方式：
 
 | 存储 | 数量 | 路径 | 说明 |
