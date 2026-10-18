@@ -21,7 +21,13 @@
 
 ## 从源码构建
 
-需要 **Python 3.10+**（仅标准库）。构建并生成补丁还需要 [xdelta3](https://github.com/jmacd/xdelta/releases) 命令行工具；将其加入 PATH，或通过 `--xdelta` 指定路径。
+需要 **Python 3.11+** 与 [Pillow](https://python-pillow.org/)（PNG 编解码；版本见 `requirements.txt`）：
+
+```sh
+python -m pip install -r requirements.txt
+```
+
+构建并生成补丁还需要 [xdelta3](https://github.com/jmacd/xdelta/releases) 命令行工具；将其加入 PATH，或通过 `--xdelta` 指定路径。
 
 ```sh
 # 构建 ROM 并生成、重放验证 xdelta3 补丁

@@ -8,7 +8,7 @@ assembled from RGBDS sources under `source/patches/`.
 
 The release manifest stays the build authority for v0.5.1.  This tool proves
 that the symbolic layer derives the manifest exactly.  Code regions are
-pinned as bytes for the stdlib-only build, and are re-assembled from their
+pinned as bytes for the offline build, and are re-assembled from their
 `.asm` source when RGBDS is available.
 
 Usage:

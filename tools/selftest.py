@@ -1,5 +1,5 @@
 # SPDX-License-Identifier: MIT
-"""ROM-free codec and packaged-resource self-test using only the standard library."""
+"""ROM-free codec and packaged-resource self-test (stdlib + Pillow for PNG)."""
 import sys
 import change_surface
 import common

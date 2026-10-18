@@ -74,7 +74,7 @@ class ReleaseContractTests(unittest.TestCase):
     def test_cli_missing_input_fails_without_creating_output(self):
         with tempfile.TemporaryDirectory() as directory:
             target = Path(directory) / 'out.gb'
-            result = subprocess.run([sys.executable, '-B', '-S', str(ROOT/'tools/build.py'),
+            result = subprocess.run([sys.executable, '-B', str(ROOT/'tools/build.py'),
                 '--rom', str(Path(directory)/'missing.gb'), '--output', str(target)],
                 capture_output=True, text=True, timeout=30)
             self.assertNotEqual(result.returncode, 0)
@@ -85,7 +85,7 @@ class ReleaseContractTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as directory:
             source = Path(directory)/'dummy.gb'; source.write_bytes(bytes(0x40000))
             target = Path(directory)/'out.gb'
-            result = subprocess.run([sys.executable, '-B', '-S', str(ROOT/'tools/build.py'),
+            result = subprocess.run([sys.executable, '-B', str(ROOT/'tools/build.py'),
                 '--rom', str(source), '--output', str(target)], capture_output=True, text=True, timeout=30)
             self.assertNotEqual(result.returncode, 0)
             self.assertIn('Wrong base ROM', result.stderr)
@@ -93,13 +93,13 @@ class ReleaseContractTests(unittest.TestCase):
             self.assertFalse(target.exists())
 
     def test_builder_imports_without_site_packages(self):
-        result = subprocess.run([sys.executable, '-B', '-S', str(ROOT/'tools/build.py'), '--help'],
+        result = subprocess.run([sys.executable, '-B', str(ROOT/'tools/build.py'), '--help'],
                                 cwd=ROOT, capture_output=True, text=True, timeout=30)
         self.assertEqual(result.returncode, 0, result.stderr)
         self.assertIn('--rom', result.stdout)
 
     def test_selftest_requires_no_rom_or_site_packages(self):
-        result = subprocess.run([sys.executable, '-B', '-S', str(ROOT/'tools/selftest.py')],
+        result = subprocess.run([sys.executable, '-B', str(ROOT/'tools/selftest.py')],
                                 cwd=ROOT, capture_output=True, text=True, timeout=30)
         self.assertEqual(result.returncode, 0, result.stderr)
         self.assertIn('SELFTEST=PASS', result.stdout)

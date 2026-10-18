@@ -1,5 +1,18 @@
 # 版本记录
 
+## v0.5.1 源码工程改进 — PNG 编解码改用 Pillow（ROM 与补丁不变）
+
+- `tools/graphics_png.py` 的 PNG 编解码由自写 stdlib 实现改为 **Pillow**（`requirements.txt`
+  钉住 `Pillow==13.0.0`（Python ≥3.11））；保留全部严格校验：拒绝透明/alpha、隔行、非规范四色、
+  尺寸/图块数不符、损坏 chunk 校验和。
+- 所有受影响的生成 PNG（71 份 `source/graphics` 源、21 张 bundle 页、27 份覆盖层图集）
+  用 Pillow 重新编码；解码出的游戏字节不变，因此 **ROM、xdelta3 补丁和目标哈希
+  （`f96fe0ec…2795`）不变**。
+- 新增 `requirements.txt`；CI 增加 `pip install -r requirements.txt`；
+  `THIRD_PARTY_NOTICES.md` 与 `LICENSES/Pillow-HPND.txt` 记录 Pillow 的 HPND 许可。
+- 公开测试仍为 125 项。
+
+
 ## v0.5.1 源码工程改进 — 页面层改为基线+覆盖层（ROM 与补丁不变）
 
 - 27 个页面（23 张图鉴/通关提示 + 4 张图块画布）不再存整页 PNG，改为

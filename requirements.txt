@@ -1,0 +1,3 @@
+# PNG source layer and page/atlas encoding use Pillow.
+# Pinned because generated page/atlas PNG bytes are compared byte-for-byte.
+Pillow==13.0.0

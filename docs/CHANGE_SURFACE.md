@@ -65,7 +65,7 @@ tests/test_change_surface.py 符号层必须精确派生出清单
 - 符号层 `region` 里固定 `old_hex`（Rev1 41 字节）、`new_hex`（汇编结果 41 字节）、`runs` 与 `notes`；
 - manifest 的 4 处补丁（1 + 10 + 1 + 20 = 32 字节）由 `old_hex`/`new_hex` 的差异段自动派生，不是手写。
 
-外部汇编器只用于**开发期校验/修改**，不参与 stdlib 构建（`new_hex` 已固定，ROM 可复现）：
+外部汇编器只用于**开发期校验/修改**，不参与常规构建（`new_hex` 已固定，ROM 可复现）：
 
 ```sh
 # 下载 RGBDS（测试版本 1.0.4）解压到 build/rgbds 或加入 PATH

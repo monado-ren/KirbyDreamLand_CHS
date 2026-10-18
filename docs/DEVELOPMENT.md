@@ -2,7 +2,7 @@
 
 ## 唯一输入与构建方式
 
-只接受仓库根目录的 `baserom.gb`（日本 Rev 1、256 KiB）。源码构建的全部输入为它及 `source/`；不依赖旧 ROM、成品 ROM、旧开发工程或第三方 Python 库。
+只接受仓库根目录的 `baserom.gb`（日本 Rev 1、256 KiB）。源码构建的全部输入为它及 `source/`；不依赖旧 ROM、成品 ROM 或旧开发工程；Python 侧只额外依赖 Pillow（PNG 编解码，版本钉在 `requirements.txt`）。
 
 `source/manifest.json` 声明版本、三个输入/输出哈希、原银行修改的前置字节、扩展资源地址、银行号、容量、原始和压缩摘要。构建步骤：
 
@@ -22,7 +22,7 @@
 `tools/selftest.py` 都会核对，`python tools/change_surface.py check --base baserom.gb` 可单独检查，
 `explain` 可生成人话审阅列表。唯一的代码补丁是 RGBDS 汇编的 `source/patches/vblank_two_row.asm`
 （`code.region`，41 字节区域 → manifest 4 段差异）；安装外部 RGBDS 后可 `assemble --write` 同步、
-`check --rgbds ...` 重新汇编校验，但 stdlib 构建只依赖已固定的 `new_hex`。字段与修改流程见
+`check --rgbds ...` 重新汇编校验，但常规构建只依赖已固定的 `new_hex`。字段与修改流程见
 [符号化改动面](CHANGE_SURFACE.md)。
 
 ## 文件不是完整反汇编工程

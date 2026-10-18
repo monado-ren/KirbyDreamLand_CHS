@@ -5,15 +5,15 @@ The public source tree plus one user-provided Japanese Rev1 baserom.gb
 rebuilds the existing kirby_jp_rev1_zh_v0.5.1_stage5_up2.gb byte for byte.
 No original ROM, localized ROM, emulator or save state is distributed.
 
-BASELINE (repository root; Python 3 standard library):
-  python -B -S tools/check_base.py
+BASELINE (repository root; Python 3 + Pillow 13.0.0 from requirements.txt):
+  python -B tools/check_base.py
   Input: baserom.gb, 262144 bytes
   Literal output:
 BASELINE=PASS MD5=995ce81fe91162cff295badd94e366f3 SHA1=5fe35fab25299b6c53b40decfe2b1827b4a64d2a SHA256=c4c6aff6242116c4f26bdcf3343b6c27836010853b8753da8b0cb953a200834a
   Exit status: 0
 
 MODIFIED (xdelta3 3.2.2 in PATH):
-  python -B -S tools/release.py
+  python -B tools/release.py
   Input: same verified baserom.gb + source/manifest.json + 71 raw resources
   Literal output:
 RELEASE=PASS VERSION=v0.5.1 XDELTA=3.2.2
@@ -40,14 +40,14 @@ Additional executed checks:
 - Symbolic change surface: 47 sites / 110 patches / 198 bytes / 71 resources
   (46 active, 25 legacy), 1 instruction-level code region; check PASS against
   manifest and Rev1 preimages.
-    python -B -S tools/change_surface.py check --base baserom.gb --rgbds build/rgbds
+    python -B tools/change_surface.py check --base baserom.gb --rgbds build/rgbds
     CHANGE_SURFACE=PASS RELEASE=v0.5.1 SITES=47 PATCHES=110 BYTES=198 RESOURCES=71
       ACTIVE=46 LEGACY=25 REGIONS=1 ASM=PASS
     BASE=PASS SHA256=c4c6aff6...0834a
   RGBDS 1.0.4 (`rgbasm` + `rgblink`) reassembles source/patches/vblank_two_row.asm
-  to the pinned 41-byte region; the stdlib-only build uses the pinned bytes.
+  to the pinned 41-byte region; the regular build uses the pinned bytes.
 - Manifest patches are generated from the symbolic surface:
-    python -B -S tools/change_surface.py sync-manifest --write
+    python -B tools/change_surface.py sync-manifest --write
     SYNC=WROTE PATCHES=110
   and the rewritten source/manifest.json is byte-identical to the tracked file.
 - Graphics sources: 71/71 PNGs in source/graphics/ re-derive the pinned
@@ -56,9 +56,9 @@ Additional executed checks:
 - Page layer: 48 pages in two storage modes.  21 bundle pages are full PNGs in
   source/pages/ and 27 tilemap/sheet pages are baseline+overlay edits in
   source/edits/ (baseline rebuilt from Rev1, only changed 8x8 cells tracked).
-  python -B -S tools/page_edits.py check
+  python -B tools/page_edits.py check
     PAGE_EDITS=PASS PAGES=27
-  python -B -S tools/pages.py render --check
+  python -B tools/pages.py render --check
     PAGES=PASS PREVIEWS=48 PNG_PAGES=21 EDIT_PAGES=27 EDIT_SKIPPED=0
   Retiling an unedited page reproduces the underlying graphics and map bytes
   byte for byte.  BUNDLE=TILES+MAP is validated by the unchanged release hash.

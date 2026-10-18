@@ -40,10 +40,19 @@
 
 六份字体许可文件均逐字节复制，没有删改其中版权、名称或联络信息。OFL 适用于可复用字形数据，不因项目其他代码采用 MIT 而被替换。字体渲染后的图稿与字形数据分别归类；图稿所含游戏元素仍按第 2 节处理。
 
-## 5. 格式研究参考
+## 5. Pillow（PNG 编解码）
+
+- 依赖：`Pillow==13.0.0`（`requirements.txt`），用于无损 PNG 编解码。
+- 上游：<https://python-pillow.org/> / <https://github.com/python-pillow/Pillow>
+- 许可：Historical Permission Notice and Disclaimer（HPND），全文见
+  [`LICENSES/Pillow-HPND.txt`](LICENSES/Pillow-HPND.txt)。
+- 只作为 Python 运行时依赖，不复制其源码；Pillow 不改变本项目的 MIT 范围，
+  也不影响游戏派生素材的权利归属。
+
+## 6. 格式研究参考
 
 开发时参考了 [huderlem/kirbydreamland](https://github.com/huderlem/kirbydreamland) 对游戏数据结构及 HAL 压缩格式的说明／反汇编。此仓库不复制该参考仓库的汇编源码、ROM 或归档，也不将其内容重新许可为 MIT。项目中独立编写的资源编解码和补丁工具与参考反汇编分开维护。
 
-## 6. 素材目录与构建边界
+## 7. 素材目录与构建边界
 
 `assets/`、`translations/` 是清理后的编辑参考。当前可重现构建以 `source/graphics/` 中的 PNG 图形源为准（构建时无损派生为 2bpp 图块/图块表），**不宣称从 assets/ 图稿、字形 JSON 或核稿文本自动渲染全部汉化画面**。更新编辑参考后需另行重新编码和验证资源，再更新补丁。来源哈希及元数据清理记录见 [`assets/manifest.json`](assets/manifest.json)。
