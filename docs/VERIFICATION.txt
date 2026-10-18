@@ -81,6 +81,13 @@ Additional executed checks:
     python -B tools/audit_pages.py --check
     PAGE_AUDIT=PASS PAGES=48 ACTIVE_PAGES=30 LEGACY_PAGES=18 BUNDLES=21 EDITS=27
       ACTIVE_RES=46 ZERO_SLACK=19 WARN=9 HARD=0
+- External BGB visual-regression package (32 screens, BGB 1.6.6, same ROM
+  SHA-256): package reports 31 static screens / 714240 pixels / 0 differences;
+  tools/audit_visual_regression.py maps the captures back to the page sources:
+  30/30 active pages covered, 29 PASS + 2 PASS_DYNAMIC (menu cursor cells),
+  0 FAIL, 1 NOT_LOCALIZED (credits_bonus).
+    PYTHONPATH=build/pylibs python tools/audit_visual_regression.py --write
+    VISUAL_AUDIT=PASS SCREENS=32 PASS=29 FAIL=0 NOT_LOCALIZED=1 COVERED=30/30
 - Selftest: HAL_CASES=6 MALFORMED_HAL=3 IPS_CASES=3 RESOURCES=71 SURFACE=110P/198B NO_ROM=YES.
 - Fresh Git-index checkout + only baserom.gb: same ROM AND patch bytes.
 - Separate xdelta3decode executable: exact target replay, exit 0.

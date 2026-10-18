@@ -16,6 +16,9 @@
   既有文件逐项一致；上游字体许可与声明保留。开发侧新增 `requirements-dev.txt`（kbitfont）。
 - 新增 `tools/audit_pages.py`：静态审计 48 个页面的 VRAM/tile/地图预算、外部基线图块引用、
   装载目的与容量余量，生成 `docs/PAGE_BUDGET.md`；`--check` 纳入验证，但不替代实机验证。
+- 新增 `tools/audit_visual_regression.py`：核对 BGB 1.6.6 视觉回归包（32 屏、原生 state、
+  VRAM/BG map/OAM/IO）与页面源；30/30 活跃页面覆盖，29 PASS + 2 PASS_DYNAMIC，0 FAIL；
+  生成 `docs/VISUAL_REGRESSION_AUDIT.md`。
 - CI 增加 `pip install -r requirements.txt` 与 `python tools/build_rgbds.py`；
   ROM、xdelta3 补丁与目标哈希（`f96fe0ec…2795`）不变。公开测试 130 项。
 
