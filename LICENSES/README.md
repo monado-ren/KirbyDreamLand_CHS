@@ -9,6 +9,6 @@
 5. `Fusion-Pixel-upstream/Misaki-misaki.txt`
 6. `Fusion-Pixel-upstream/MisekiBitmap-LICENSE.txt`
 
-来源与适用文件见 [`THIRD_PARTY_NOTICES.md`](../THIRD_PARTY_NOTICES.md)。逐文件 SHA-256 见 [`assets/manifest.json`](../assets/manifest.json)。
+来源与适用文件见 [`THIRD_PARTY_NOTICES.md`](../THIRD_PARTY_NOTICES.md)。逐文件 SHA-256 见 [`04_Data/assets.json`](../04_Data/assets.json)。
 
 本仓库分发可复用的位图字形子集，故保留字体许可；不包含完整 TTF/BDF 字体及上游字体构建程序。

@@ -20,6 +20,6 @@ __pycache__/
 .DS_Store
 Thumbs.db
 # The named xdelta3 output is deliberately tracked.
-!KirbyDreamLand_CHS-Monado.xdelta3
+!patches/KirbyDreamLand_CHS-Monado.xdelta3
 # editable font subsets are generated from upstream sources
-assets/fonts/*.json
+05_Font/generated/*.json

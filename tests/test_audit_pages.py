@@ -7,7 +7,7 @@ import sys
 import unittest
 
 ROOT = Path(__file__).resolve().parents[1]
-sys.path.insert(0, str(ROOT / 'tools'))
+sys.path.insert(0, str(ROOT / '00_Tools'))
 import common
 import audit_pages
 
@@ -16,7 +16,7 @@ class PageBudgetAuditTests(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         cls.manifest = common.load_manifest()
-        cls.spec = json.loads((ROOT / 'source/change_surface.json').read_text())
+        cls.spec = json.loads((ROOT / '06_ProgramFix/change_surface.json').read_text())
         cls.result = audit_pages.audit(cls.manifest, cls.spec)
 
     def test_inventory_matches_page_layer(self):

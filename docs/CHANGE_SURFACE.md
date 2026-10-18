@@ -1,19 +1,19 @@
-# 符号化改动面（source/change_surface.json）
+# 符号化改动面（06_ProgramFix/change_surface.json）
 
 v0.5.1 相对日版 Rev 1 的全部改动（110 处补丁、198 字节，71 个扩展资源）以语义层
-`source/change_surface.json` 为源：装载点名称、目标资源、旧值→新值、用途、历史副本原因、
+`06_ProgramFix/change_surface.json` 为源：装载点名称、目标资源、旧值→新值、用途、历史副本原因、
 校验和策略，以及代码区域的 RGBDS 汇编源。
 
-**仓库不再存储补丁 hex。** `source/manifest.json` 只保留资源/布局和一个派生摘要
+**仓库不再存储补丁 hex。** `04_Data/manifest.json` 只保留资源/布局和一个派生摘要
 `change_surface.sha256`；加载清单时由符号层派生出 110 处补丁（代码区域用 RGBDS 汇编），
 并与摘要核对。因此改动面可用人话审阅，漂移仍会被检测。
 
 ```
-source/change_surface.json        47 个装载点/代码补丁 + 71 个资源（46 活跃 + 25 历史副本）
-source/patches/vblank_two_row.asm 本地化后的代码区域（RGBDS）
-source/patches/vblank_two_row.rev1.asm  Rev1 基线代码区域（RGBDS，用于派生 preimage）
-tools/change_surface.py           check / explain / resources / dump / sync-manifest
-tools/build_rgbds.py              从 pinned 源码下载并编译 RGBDS 到 build/rgbds
+06_ProgramFix/change_surface.json        47 个装载点/代码补丁 + 71 个资源（46 活跃 + 25 历史副本）
+06_ProgramFix/patches/vblank_two_row.asm 本地化后的代码区域（RGBDS）
+06_ProgramFix/patches/vblank_two_row.rev1.asm  Rev1 基线代码区域（RGBDS，用于派生 preimage）
+00_Tools/change_surface.py           check / explain / resources / dump / sync-manifest
+00_Tools/build_rgbds.py              从 pinned 源码下载并编译 RGBDS 到 build/rgbds
 ```
 
 ## 结构
@@ -38,8 +38,8 @@ tools/build_rgbds.py              从 pinned 源码下载并编译 RGBDS 到 bui
      ]},
     {"site": "two_row_vblank_queue_writer", "kind": "code.region",
      "region": {"offset": "0x180A0", "length": 41, "bank": 6,
-                "asm_rev1": "source/patches/vblank_two_row.rev1.asm",
-                "asm": "source/patches/vblank_two_row.asm",
+                "asm_rev1": "06_ProgramFix/patches/vblank_two_row.rev1.asm",
+                "asm": "06_ProgramFix/patches/vblank_two_row.asm",
                 "notes": ["...", "..."]},
      "patches": []}
   ]
@@ -65,19 +65,19 @@ tools/build_rgbds.py              从 pinned 源码下载并编译 RGBDS 到 bui
 ## 命令
 
 ```sh
-python tools/build_rgbds.py                     # 首次/更新：从 pinned 源码编译 RGBDS
-python tools/change_surface.py check --base baserom.gb
-python tools/change_surface.py explain
-python tools/change_surface.py explain --site two_row_vblank_queue_writer
-python tools/change_surface.py resources
-python tools/change_surface.py dump
-python tools/change_surface.py sync-manifest          # 只校验派生摘要
-python tools/change_surface.py sync-manifest --write  # 写入 digest（清单不存补丁 hex）
+python 00_Tools/build_rgbds.py                     # 首次/更新：从 pinned 源码编译 RGBDS
+python 00_Tools/change_surface.py check --base baserom.gb
+python 00_Tools/change_surface.py explain
+python 00_Tools/change_surface.py explain --site two_row_vblank_queue_writer
+python 00_Tools/change_surface.py resources
+python 00_Tools/change_surface.py dump
+python 00_Tools/change_surface.py sync-manifest          # 只校验派生摘要
+python 00_Tools/change_surface.py sync-manifest --write  # 写入 digest（清单不存补丁 hex）
 ```
 
 `check` 的保证：
 
-- 由符号层派生 110 处补丁（198 字节），摘要与 `source/manifest.json` 的
+- 由符号层派生 110 处补丁（198 字节），摘要与 `04_Data/manifest.json` 的
   `change_surface.sha256` 一致；
 - `asm_rev1` 与 `asm` 都能被 RGBDS 汇编，旧汇编字节与用户提供的 Rev1 前置字节一致；
 - 71 个资源 id、label、bank、offset、capacity、active/legacy 角色与清单一致；
@@ -86,12 +86,12 @@ python tools/change_surface.py sync-manifest --write  # 写入 digest（清单�
 
 ## 修改流程
 
-1. 编辑 `source/graphics/`、`source/pages/`（21 张 bundle 页）或 `build/pages/`（27 个基线+覆盖层页），
+1. 编辑 `03_Image/graphics/`、`03_Image/pages/`（21 张 bundle 页）或 `build/pages/`（27 个基线+覆盖层页），
    按现有流程 `retile` → `repack.py` 生成新版本清单；
-2. 改动代码补丁时编辑 `source/patches/*.asm`；改动加载/指针时更新 `source/change_surface.json` 的
+2. 改动代码补丁时编辑 `06_ProgramFix/patches/*.asm`；改动加载/指针时更新 `06_ProgramFix/change_surface.json` 的
    资源条目或 `sites[].patches[]`；
-3. `python tools/change_surface.py sync-manifest --write` 更新清单里的派生摘要；
-4. `python tools/change_surface.py check --base baserom.gb` 必须 PASS；
+3. `python 00_Tools/change_surface.py sync-manifest --write` 更新清单里的派生摘要；
+4. `python 00_Tools/change_surface.py check --base baserom.gb` 必须 PASS；
 5. 再构建、验证、发布。
 
 历史副本（25 个，`role: legacy`）保留只为复现 v0.5.1 ROM 哈希；删除它们会改变 ROM 布局与哈希，
@@ -99,7 +99,7 @@ python tools/change_surface.py sync-manifest --write  # 写入 digest（清单�
 
 ## RGBDS
 
-- 版本钉在 `tools/build_rgbds.py`：`RGBDS v1.0.4`，源码 tarball SHA-256 固定；
+- 版本钉在 `00_Tools/build_rgbds.py`：`RGBDS v1.0.4`，源码 tarball SHA-256 固定；
 - 脚本下载、校验、用 `make` 编译，把 `rgbasm/rgblink/rgbfix/rgbgfx` 放进 gitignored 的 `build/rgbds`；
 - 需要 C++ 工具链与 `make`；仓库不提交 RGBDS 源码或二进制。
 

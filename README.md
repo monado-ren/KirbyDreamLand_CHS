@@ -23,21 +23,21 @@
 
 ```sh
 python -m pip install -r requirements.txt
-python tools/build_rgbds.py     # 从 pinned 源码编译 RGBDS（代码补丁汇编/校验需要）
+python 00_Tools/build_rgbds.py     # 从 pinned 源码编译 RGBDS（代码补丁汇编/校验需要）
 ```
 
 构建并生成补丁还需要 [xdelta3](https://github.com/jmacd/xdelta/releases) 命令行工具；将其加入 PATH，或通过 `--xdelta` 指定路径。
 
 ```sh
 # 构建 ROM 并生成、重放验证 xdelta3 补丁
-python tools/release.py
+python 00_Tools/release.py
 
 # xdelta3 未加入 PATH 时
-python tools/release.py --xdelta /path/to/xdelta3
+python 00_Tools/release.py --xdelta /path/to/xdelta3
 
 # 仅从源码构建 ROM（不需要 xdelta3）
-python tools/build.py
-python tools/verify.py
+python 00_Tools/build.py
+python 00_Tools/verify.py
 ```
 
 产物均位于仓库根目录：
@@ -46,7 +46,7 @@ python tools/verify.py
 | --- | --- |
 | `baserom.gb` | 用户输入，忽略，保持不变 |
 | `KirbyDreamLand_CHS-Monado.gb` | 构建结果，忽略 |
-| `KirbyDreamLand_CHS-Monado.xdelta3` | 相对于 `baserom.gb` 的构建结果，**提交版本管理** |
+| `patches/KirbyDreamLand_CHS-Monado.xdelta3` | 相对于 `baserom.gb` 的构建结果，**提交版本管理**（根目录同名符号链接为兼容入口） |
 
 v0.5.1 输出为 **524288 字节**，与开发工程的 `kirby_jp_rev1_zh_v0.5.1_stage5_up2.gb` 逐字节一致：
 
@@ -57,10 +57,10 @@ SHA-256 f96fe0ecac53cc586eac19b53fe1b50cef3fd1751261ae273c2356b2c6c62795
 ## 直接应用补丁
 
 ```sh
-python tools/apply_patch.py
+python 00_Tools/apply_patch.py
 # 或原生 xdelta3 命令（输入须先按上表核验）
-xdelta3 -d -s baserom.gb KirbyDreamLand_CHS-Monado.xdelta3 KirbyDreamLand_CHS-Monado.gb
-python tools/verify.py
+xdelta3 -d -s baserom.gb patches/KirbyDreamLand_CHS-Monado.xdelta3 KirbyDreamLand_CHS-Monado.gb
+python 00_Tools/verify.py
 ```
 
 Python 包装工具在写入前校验输入和重建结果；若已有同名输出，请先另存需要保留的版本。
@@ -68,41 +68,48 @@ Python 包装工具在写入前校验输入和重建结果；若已有同名输�
 ## 维护与目录
 
 ```text
-source/         71 份无损 PNG 图形源：48 份图块集、23 份背景索引表、21 份 bundle 地图；构建清单及符号化改动面
-source/pages/   21 张 bundle 整页 PNG（关卡介绍、标题、配置、声音测试、GAME OVER、CONTINUE）
-source/edits/   27 个「基线+覆盖层」页面（23 图鉴/提示页 + 4 图块画布）：基线与图块从 Rev1 ROM 重建，仓库只存改动格子；索引见 docs/PAGES.md
-tools/          独立构建、HAL 编解码、修订封装、xdelta3、校验工具
-translations/   核稿文本与接入状态
-assets/         选定的用户修订素材、可复用字形及来源信息
-tests/          可公开重跑的工具测试
-docs/           开发方法、地址约束、发布状态
-LICENSES/       第三方字体许可和署名
+00_Tools/        构建、验证、HAL/PNG 编解码、页面、审计、字体/RGBDS 工具
+01_Export/       导出/溯源入口（实际 provenance 在 03_Image/edits、04_Data、06_ProgramFix）
+02_Text/         核稿文本与接入状态（非自动渲染输入）
+03_Image/        graphics（构建权威）、pages（21 张整页 PNG）、edits（27 个基线+覆盖层）、artwork
+04_Data/         manifest.json（71 资源/布局/哈希）、assets.json
+05_Font/         pinned 上游字体与生成说明（字形 JSON gitignored）
+06_ProgramFix/   change_surface.json + patches/*.asm（补丁唯一符号来源）
+patches/         发布 xdelta3 补丁
+00_Tools/           -> 00_Tools
+02_Text/    -> 02_Text
+tests/           可公开重跑的工具测试
+docs/            开发方法、地址约束、页面/预算/运行时报告
+LICENSES/        第三方字体许可和署名
 ```
+
+编号目录是真实内容；旧命令中的 `tools/` 已改为 `00_Tools/`，`translations/` 已改为 `02_Text/`。
+详见 [工序目录](docs/PIPELINE.md)。
 
 构建不读取旧日版、美版、旧汉化 ROM、模拟器或开发者本机目录。
 今后的汉化修订在本仓库提交；请同时更新源码资源、版本清单、补丁与测试。
-[页面索引](docs/PAGES.md) 列出全部 48 个页面及其内容（21 张整页 PNG + 27 个基线+覆盖层页面）。`translations/` 与 `assets/` 是编辑素材，**仅编辑这些文件不会自动重排整个游戏**；真正参与构建的是 `source/graphics/` 下的 PNG 源，详见 [开发说明](docs/DEVELOPMENT.md)；改动面的语义索引见 [符号化改动面](docs/CHANGE_SURFACE.md)。
+[页面索引](docs/PAGES.md) 列出全部 48 个页面及其内容（21 张整页 PNG + 27 个基线+覆盖层页面）。`02_Text/` 与 `assets/` 是编辑素材，**仅编辑这些文件不会自动重排整个游戏**；真正参与构建的是 `03_Image/graphics/` 下的 PNG 源，详见 [开发说明](docs/DEVELOPMENT.md)；改动面的语义索引见 [符号化改动面](docs/CHANGE_SURFACE.md)。
 
 ```sh
 python -m unittest discover -s tests -v
-python tools/selftest.py
-python tools/change_surface.py check --base baserom.gb
-python tools/change_surface.py explain
-python tools/change_surface.py sync-manifest
+python 00_Tools/selftest.py
+python 00_Tools/change_surface.py check --base baserom.gb
+python 00_Tools/change_surface.py explain
+python 00_Tools/change_surface.py sync-manifest
 # 编辑用字形子集不随仓库分发，从上游 pinned 源生成（需要 requirements-dev.txt）
 python -m pip install -r requirements-dev.txt
-python tools/fetch_fonts.py
-# 代码补丁的指令级源在 source/patches/*.asm，清单加载时会用 RGBDS 汇编
-python tools/change_surface.py check --base baserom.gb
-python tools/audit_public_tree.py
+python 00_Tools/fetch_fonts.py
+# 代码补丁的指令级源在 06_ProgramFix/patches/*.asm，清单加载时会用 RGBDS 汇编
+python 00_Tools/change_surface.py check --base baserom.gb
+python 00_Tools/audit_public_tree.py
 # 将 PNG 派生的实际字节导出到 gitignored 的 build/resources/ 供比对
-python tools/derive_resources.py
+python 00_Tools/derive_resources.py
 
 # 整页编辑：重新生成/校验可读页面，或把编辑过的页面拆回图块集+索引表
-python tools/pages.py render
-python tools/pages.py render --check
-python tools/page_edits.py render             # 基线+覆盖层页重建到 gitignored 的 build/pages/
-python tools/pages.py retile build/pages/rom_048462.png   # 编辑后回写图块集/地图并刷新覆盖层
+python 00_Tools/pages.py render
+python 00_Tools/pages.py render --check
+python 00_Tools/page_edits.py render             # 基线+覆盖层页重建到 gitignored 的 build/pages/
+python 00_Tools/pages.py retile build/pages/rom_048462.png   # 编辑后回写图块集/地图并刷新覆盖层
 ```
 
 原创工具代码及有权授权的文档采用 [MIT](LICENSE)。游戏及派生美术、字体不被重新授权为 MIT，参见 [第三方与资源声明](THIRD_PARTY_NOTICES.md)。本项目为非官方汉化项目。

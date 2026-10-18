@@ -10,7 +10,7 @@ import unittest
 from unittest.mock import patch
 
 ROOT = Path(__file__).resolve().parents[1]
-sys.path.insert(0, str(ROOT / 'tools'))
+sys.path.insert(0, str(ROOT / '00_Tools'))
 import common
 import graphics_png
 import hal_codec
@@ -73,7 +73,7 @@ class ReleaseContractTests(unittest.TestCase):
     def test_cli_missing_input_fails_without_creating_output(self):
         with tempfile.TemporaryDirectory() as directory:
             target = Path(directory) / 'out.gb'
-            result = subprocess.run([sys.executable, '-B', str(ROOT/'tools/build.py'),
+            result = subprocess.run([sys.executable, '-B', str(ROOT/'00_Tools/build.py'),
                 '--rom', str(Path(directory)/'missing.gb'), '--output', str(target)],
                 capture_output=True, text=True, timeout=30)
             self.assertNotEqual(result.returncode, 0)
@@ -84,7 +84,7 @@ class ReleaseContractTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as directory:
             source = Path(directory)/'dummy.gb'; source.write_bytes(bytes(0x40000))
             target = Path(directory)/'out.gb'
-            result = subprocess.run([sys.executable, '-B', str(ROOT/'tools/build.py'),
+            result = subprocess.run([sys.executable, '-B', str(ROOT/'00_Tools/build.py'),
                 '--rom', str(source), '--output', str(target)], capture_output=True, text=True, timeout=30)
             self.assertNotEqual(result.returncode, 0)
             self.assertIn('Wrong base ROM', result.stderr)
@@ -92,13 +92,13 @@ class ReleaseContractTests(unittest.TestCase):
             self.assertFalse(target.exists())
 
     def test_builder_imports_without_site_packages(self):
-        result = subprocess.run([sys.executable, '-B', str(ROOT/'tools/build.py'), '--help'],
+        result = subprocess.run([sys.executable, '-B', str(ROOT/'00_Tools/build.py'), '--help'],
                                 cwd=ROOT, capture_output=True, text=True, timeout=30)
         self.assertEqual(result.returncode, 0, result.stderr)
         self.assertIn('--rom', result.stdout)
 
     def test_selftest_requires_no_rom_or_site_packages(self):
-        result = subprocess.run([sys.executable, '-B', str(ROOT/'tools/selftest.py')],
+        result = subprocess.run([sys.executable, '-B', str(ROOT/'00_Tools/selftest.py')],
                                 cwd=ROOT, capture_output=True, text=True, timeout=30)
         self.assertEqual(result.returncode, 0, result.stderr)
         self.assertIn('SELFTEST=PASS', result.stdout)
@@ -108,7 +108,7 @@ class ReleaseContractTests(unittest.TestCase):
 class SyntheticCompilerTests(unittest.TestCase):
     def setUp(self):
         self.tmp = tempfile.TemporaryDirectory(); self.root = Path(self.tmp.name)
-        resource = self.root/'source/graphics/example.png'; resource.parent.mkdir(parents=True)
+        resource = self.root/'03_Image/graphics/example.png'; resource.parent.mkdir(parents=True)
         self.raw = bytes(range(16))*4
         self.png = graphics_png.tiles_to_png(self.raw, 4); resource.write_bytes(self.png)
         packed = hal_codec.pack(self.raw)
@@ -124,7 +124,7 @@ class SyntheticCompilerTests(unittest.TestCase):
             'baseline': common.fingerprints(self.base), 'target': common.fingerprints(self.expected),
             'patches': [{'offset': 0x148, 'expected_hex': '03', 'replacement_hex': '04', 'field': 'test'}],
             'resources': [{'id': 'test', 'offset': 0x40000, 'capacity': 256, 'bank': 16, 'cpu_address': 0x4000,
-                'format': 'hal-greedy-v1', 'source': 'source/graphics/example.png',
+                'format': 'hal-greedy-v1', 'source': '03_Image/graphics/example.png',
                 'png': {'mode': graphics_png.TILES_MODE, 'tiles_per_row': 4, 'tile_count': 4},
                 'decoded_size': len(self.raw), 'decoded_sha256': hashlib.sha256(self.raw).hexdigest(),
                 'packed_size': len(packed)}],
@@ -153,7 +153,7 @@ class SyntheticCompilerTests(unittest.TestCase):
             common.construct(self.base, m)
 
     def test_changed_resource_rejected_in_strict_build(self):
-        (self.root/'source/graphics/example.png').write_bytes(
+        (self.root/'03_Image/graphics/example.png').write_bytes(
             graphics_png.tiles_to_png(bytes(reversed(self.raw)), 4))
         with self.assertRaisesRegex(common.ProjectError, 'Resource changed'):
             common.construct(self.base, self.manifest)
@@ -205,7 +205,7 @@ class SyntheticCompilerTests(unittest.TestCase):
             common.validate_manifest(m)
 
     def test_resource_path_escape_rejected(self):
-        for path in ('../outside.png', 'source/graphics/../../../outside.png', '/' + 'tmp/outside.png', 'C' + ':' + '/outside.png', 'source/graphics/example.bin'):
+        for path in ('../outside.png', '03_Image/graphics/../../../outside.png', '/' + 'tmp/outside.png', 'C' + ':' + '/outside.png', '03_Image/graphics/example.bin'):
             with self.subTest(path=path), self.assertRaises(common.ProjectError):common.resource_path(path)
 
     def test_write_does_not_overwrite_inputs(self):
@@ -227,7 +227,7 @@ class SyntheticCompilerTests(unittest.TestCase):
 
     def test_explicit_resource_repack_records_new_target(self):
         changed = bytes(reversed(self.raw))
-        (self.root/'source/graphics/example.png').write_bytes(graphics_png.tiles_to_png(changed, 4))
+        (self.root/'03_Image/graphics/example.png').write_bytes(graphics_png.tiles_to_png(changed, 4))
         m, output = common.refreshed_manifest(self.base, self.manifest, 'test-edit')
         self.assertEqual(m['parent_release'], 'test')
         self.assertEqual(m['release'], 'test-edit')

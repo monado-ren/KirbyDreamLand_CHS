@@ -11,7 +11,7 @@ import unittest
 from unittest.mock import patch
 
 ROOT = Path(__file__).resolve().parents[1]
-sys.path.insert(0, str(ROOT / 'tools'))
+sys.path.insert(0, str(ROOT / '00_Tools'))
 import audit_public_tree as audit
 
 
@@ -25,12 +25,12 @@ class PublicTreeTests(unittest.TestCase):
         patterns = audit.read_ignore(ROOT)
         self.assertTrue(patterns, 'The source tree needs an explicit .gitignore')
         for path in ('baserom.gb', 'KirbyDreamLand_CHS-Monado.gb', 'local.gbc',
-                     'capture.sna', 'slot.sav', 'tools/__pycache__/common.pyc',
+                     'capture.sna', 'slot.sav', '00_Tools/__pycache__/common.pyc',
                      '.venv/python.exe', 'dist/generated.gb'):
             with self.subTest(path=path):
                 self.assertTrue(audit.is_ignored(path, patterns), path)
-        self.assertFalse(audit.is_ignored('KirbyDreamLand_CHS-Monado.xdelta3', patterns))
-        self.assertFalse(audit.is_ignored('source/manifest.json', patterns))
+        self.assertFalse(audit.is_ignored('patches/KirbyDreamLand_CHS-Monado.xdelta3', patterns))
+        self.assertFalse(audit.is_ignored('04_Data/manifest.json', patterns))
 
     def test_critical_local_files_not_selected(self):
         paths, _ = audit.public_paths(ROOT)
@@ -67,7 +67,7 @@ class ScannerFixtures(unittest.TestCase):
         return bytes(data)
 
     def test_plain_source_accepted(self):
-        self.assertEqual(self.scan_file('tools/example.py', 'print("ok")\n')['status'], 'PASS')
+        self.assertEqual(self.scan_file('00_Tools/example.py', 'print("ok")\n')['status'], 'PASS')
 
     def test_local_rom_extension_rejected_even_if_empty(self):
         self.assertIn('FORBIDDEN_FILE_TYPE', self.rules(self.scan_file('input.gb', b'')))
@@ -96,7 +96,7 @@ class ScannerFixtures(unittest.TestCase):
         self.assertIn('ENCODED_CARTRIDGE_HEADER', self.rules(self.scan_file('source/sample.json', text)))
 
     def test_small_resource_binary_accepted(self):
-        self.assertEqual(self.scan_file('source/graphics/tile.png', bytes(range(256)))['status'], 'PASS')
+        self.assertEqual(self.scan_file('03_Image/graphics/tile.png', bytes(range(256)))['status'], 'PASS')
 
     def test_pe_content_rejected_without_executable_suffix(self):
         data = bytearray(96); data[:2] = b'MZ'; struct.pack_into('<I', data, 60, 64); data[64:68] = b'PE\0\0'
@@ -137,7 +137,7 @@ class ScannerFixtures(unittest.TestCase):
 
     def test_private_import_rejected(self):
         value = 'import ' + 'localize_jp_example\n'
-        self.assertIn('PRIVATE_PROJECT_IMPORT', self.rules(self.scan_file('tools/example.py', value)))
+        self.assertIn('PRIVATE_PROJECT_IMPORT', self.rules(self.scan_file('00_Tools/example.py', value)))
 
     def test_malformed_json_rejected(self):
         self.assertIn('INVALID_JSON', self.rules(self.scan_file('source/example.json', '{')))
@@ -152,7 +152,7 @@ class ScannerFixtures(unittest.TestCase):
 
     def test_directory_ignore_and_negation(self):
         self.assertTrue(audit.is_ignored('dist/output.txt', ['dist/']))
-        self.assertTrue(audit.is_ignored('tools/__pycache__/test.pyc', ['__pycache__/']))
+        self.assertTrue(audit.is_ignored('00_Tools/__pycache__/test.pyc', ['__pycache__/']))
         self.assertFalse(audit.is_ignored('keep.gb', ['*.gb', '!keep.gb']))
 
     def test_git_root_uses_empty_prefix_not_cross_platform_absolute_path(self):
@@ -163,11 +163,11 @@ class ScannerFixtures(unittest.TestCase):
                 self.assertIn('--is-inside-work-tree', args)
                 self.assertIn('--show-prefix', args)
                 return subprocess.CompletedProcess(args, 0, 'true\r\n\r\n', '')
-            return subprocess.CompletedProcess(args, 0, b'README.md\0tools/example.py\0', b'')
+            return subprocess.CompletedProcess(args, 0, b'README.md\0' + b'00_Tools/example.py\0', b'')
         with patch.object(audit.subprocess, 'run', side_effect=fake_run) as command:
             paths, selection = audit.public_paths(self.root, tracked=True)
         self.assertEqual(selection, 'git-index')
-        self.assertEqual(paths, [self.root/'README.md', self.root/'tools/example.py'])
+        self.assertEqual(paths, [self.root/'00_Tools/example.py', self.root/'README.md'])
         self.assertEqual(command.call_count, 2)
         self.assertNotIn('--show-toplevel', command.call_args_list[0].args[0])
 

@@ -7,7 +7,7 @@ import sys
 import unittest
 
 ROOT = Path(__file__).resolve().parents[1]
-sys.path.insert(0, str(ROOT / 'tools'))
+sys.path.insert(0, str(ROOT / '00_Tools'))
 import common
 import change_surface
 
@@ -18,9 +18,9 @@ class ChangeSurfaceTests(unittest.TestCase):
         cls.spec = change_surface.load_spec()
         cls.rgbds = change_surface.find_rgbds()
         if cls.rgbds is None:
-            raise unittest.SkipTest('RGBDS not available; build it with tools/build_rgbds.py')
+            raise unittest.SkipTest('RGBDS not available; build it with 00_Tools/build_rgbds.py')
         cls.manifest = common.load_manifest()
-        cls.raw_manifest = json.loads((ROOT / 'source' / 'manifest.json').read_text())
+        cls.raw_manifest = json.loads((ROOT / '04_Data' / 'manifest.json').read_text())
         cls.by_id = {r['id']: r for r in cls.spec['resources']}
 
     def test_spec_derives_the_authoritative_manifest(self):
@@ -123,7 +123,7 @@ class ChangeSurfaceTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as tmp:
             out = Path(tmp) / 'manifest.json'
             change_surface.sync_manifest(self.spec, self.raw_manifest, path=out, write=True)
-            self.assertEqual(out.read_bytes(), (ROOT / 'source' / 'manifest.json').read_bytes())
+            self.assertEqual(out.read_bytes(), (ROOT / '04_Data' / 'manifest.json').read_bytes())
 
     def test_tampered_manifest_digest_is_rejected(self):
         broken = copy.deepcopy(self.raw_manifest)

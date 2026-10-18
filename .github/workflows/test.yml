@@ -11,9 +11,9 @@ jobs:
         with:
           python-version: '3.11'
       - run: python -m pip install -r requirements.txt
-      - run: python tools/build_rgbds.py
+      - run: python 00_Tools/build_rgbds.py
       - run: python -m unittest discover -s tests -v
-      - run: python tools/selftest.py
-      - run: python tools/audit_pages.py --check
-      - run: python tools/audit_public_tree.py
+      - run: python 00_Tools/selftest.py
+      - run: python 00_Tools/audit_pages.py --check
+      - run: python 00_Tools/audit_public_tree.py
       # No original or localized ROM is fetched or uploaded by CI.

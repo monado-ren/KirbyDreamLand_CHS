@@ -1,0 +1,2203 @@
+{
+ "schema": 1,
+ "release": "v0.5.1",
+ "baseline": {
+  "size": 262144,
+  "sha256": "c4c6aff6242116c4f26bdcf3343b6c27836010853b8753da8b0cb953a200834a"
+ },
+ "target": {
+  "size": 524288,
+  "fingerprint": {
+   "size": 524288,
+   "md5": "8b88da8006dd245bcecf87ee1d65b2c8",
+   "sha1": "14f48caa3482525e1c5611c3bcc8e682a809f8bf",
+   "sha256": "f96fe0ecac53cc586eac19b53fe1b50cef3fd1751261ae273c2356b2c6c62795"
+  },
+  "fill_byte": 255
+ },
+ "header": {
+  "rom_size_code": {
+   "offset": "0x00148",
+   "old": 3,
+   "new": 4,
+   "meaning": "256 KiB→512 KiB（32 bank）"
+  },
+  "checksums": {
+   "policy": "recompute",
+   "header": "0x014D",
+   "global": "0x014E-0x014F",
+   "excluded_from_global": [
+    "0x014E",
+    "0x014F"
+   ],
+   "note": "头校验和覆盖 0x0134–0x014C；全局校验和覆盖除 0x014E/0x014F 外全部字节"
+  }
+ },
+ "resources": [
+  {
+   "id": "rom_040000",
+   "label": "title_bundle",
+   "role": "legacy",
+   "purpose": "标题画面·初版整包（历史副本）",
+   "format": "bundle",
+   "bank": 16,
+   "offset": "0x40000",
+   "capacity": 4096,
+   "legacy_reason": "v0.5.1 字节级复现需要，当前加载器未引用"
+  },
+  {
+   "id": "rom_041000",
+   "label": "normal_hud",
+   "role": "active",
+   "purpose": "普通模式 HUD 字形条",
+   "format": "sheet",
+   "bank": 16,
+   "offset": "0x41000",
+   "capacity": 259
+  },
+  {
+   "id": "rom_041103",
+   "label": "extra_hud",
+   "role": "active",
+   "purpose": "额外模式 HUD 字形条",
+   "format": "sheet",
+   "bank": 16,
+   "offset": "0x41103",
+   "capacity": 259
+  },
+  {
+   "id": "rom_041206",
+   "label": "stage_1_map",
+   "role": "legacy",
+   "purpose": "场景 1 介绍·初版地图流（历史副本）",
+   "format": "bundle",
+   "bank": 16,
+   "offset": "0x41206",
+   "capacity": 1799,
+   "legacy_reason": "v0.5.1 字节级复现需要，当前加载器未引用"
+  },
+  {
+   "id": "rom_04190d",
+   "label": "stage_2_map",
+   "role": "legacy",
+   "purpose": "场景 2 介绍·初版地图流（历史副本）",
+   "format": "bundle",
+   "bank": 16,
+   "offset": "0x4190D",
+   "capacity": 1675,
+   "legacy_reason": "v0.5.1 字节级复现需要，当前加载器未引用"
+  },
+  {
+   "id": "rom_041f98",
+   "label": "stage_3_map",
+   "role": "legacy",
+   "purpose": "场景 3 介绍·初版地图流（历史副本）",
+   "format": "bundle",
+   "bank": 16,
+   "offset": "0x41F98",
+   "capacity": 1749,
+   "legacy_reason": "v0.5.1 字节级复现需要，当前加载器未引用"
+  },
+  {
+   "id": "rom_04266d",
+   "label": "stage_4_map",
+   "role": "legacy",
+   "purpose": "场景 4 介绍·初版地图流（历史副本）",
+   "format": "bundle",
+   "bank": 16,
+   "offset": "0x4266D",
+   "capacity": 1776,
+   "legacy_reason": "v0.5.1 字节级复现需要，当前加载器未引用"
+  },
+  {
+   "id": "rom_042d5d",
+   "label": "stage_5_map",
+   "role": "legacy",
+   "purpose": "场景 5 介绍·初版地图流（历史副本）",
+   "format": "bundle",
+   "bank": 16,
+   "offset": "0x42D5D",
+   "capacity": 1640,
+   "legacy_reason": "v0.5.1 字节级复现需要，当前加载器未引用"
+  },
+  {
+   "id": "rom_0433c5",
+   "label": "configuration_map",
+   "role": "legacy",
+   "purpose": "配置页·初版地图（历史副本）",
+   "format": "bundle",
+   "bank": 16,
+   "offset": "0x433C5",
+   "capacity": 1329,
+   "legacy_reason": "v0.5.1 字节级复现需要，当前加载器未引用"
+  },
+  {
+   "id": "rom_0438f6",
+   "label": "sound_test_map",
+   "role": "active",
+   "purpose": "声音测试页",
+   "format": "bundle",
+   "bank": 16,
+   "offset": "0x438F6",
+   "capacity": 1802
+  },
+  {
+   "id": "rom_044000",
+   "label": "configuration_map",
+   "role": "legacy",
+   "purpose": "配置页·初版地图（历史副本）",
+   "format": "bundle",
+   "bank": 17,
+   "offset": "0x44000",
+   "capacity": 1356,
+   "legacy_reason": "v0.5.1 字节级复现需要，当前加载器未引用"
+  },
+  {
+   "id": "rom_04454c",
+   "label": "gameover_map",
+   "role": "active",
+   "purpose": "GAME OVER 画面",
+   "format": "bundle",
+   "bank": 17,
+   "offset": "0x4454C",
+   "capacity": 488
+  },
+  {
+   "id": "rom_044734",
+   "label": "continue_map",
+   "role": "active",
+   "purpose": "CONTINUE 画面",
+   "format": "bundle",
+   "bank": 17,
+   "offset": "0x44734",
+   "capacity": 14540
+  },
+  {
+   "id": "rom_048000",
+   "label": "ending_034000",
+   "role": "active",
+   "purpose": "图鉴页·黑刺球等 + 蘑菇林 图块集",
+   "format": "tileset",
+   "bank": 18,
+   "offset": "0x48000",
+   "capacity": 1122
+  },
+  {
+   "id": "rom_048462",
+   "label": "ending_0345c0",
+   "role": "active",
+   "purpose": "图鉴页·黑刺球等 + 蘑菇林 地图",
+   "format": "tilemap",
+   "bank": 18,
+   "offset": "0x48462",
+   "capacity": 335
+  },
+  {
+   "id": "rom_0485b1",
+   "label": "ending_0346fb",
+   "role": "legacy",
+   "purpose": "图鉴早期版本（历史副本）",
+   "format": "tileset",
+   "bank": 18,
+   "offset": "0x485B1",
+   "capacity": 1281,
+   "legacy_reason": "v0.5.1 字节级复现需要，当前加载器未引用"
+  },
+  {
+   "id": "rom_048ab2",
+   "label": "ending_034cb4",
+   "role": "legacy",
+   "purpose": "图鉴早期版本（历史副本）",
+   "format": "tilemap",
+   "bank": 18,
+   "offset": "0x48AB2",
+   "capacity": 275,
+   "legacy_reason": "v0.5.1 字节级复现需要，当前加载器未引用"
+  },
+  {
+   "id": "rom_048bc5",
+   "label": "ending_034dc0",
+   "role": "legacy",
+   "purpose": "图鉴早期版本（历史副本）",
+   "format": "tileset",
+   "bank": 18,
+   "offset": "0x48BC5",
+   "capacity": 663,
+   "legacy_reason": "v0.5.1 字节级复现需要，当前加载器未引用"
+  },
+  {
+   "id": "rom_048e5c",
+   "label": "ending_03535c",
+   "role": "legacy",
+   "purpose": "图鉴早期版本（历史副本）",
+   "format": "tilemap",
+   "bank": 18,
+   "offset": "0x48E5C",
+   "capacity": 238,
+   "legacy_reason": "v0.5.1 字节级复现需要，当前加载器未引用"
+  },
+  {
+   "id": "rom_048f4a",
+   "label": "ending_03543e",
+   "role": "legacy",
+   "purpose": "图鉴早期版本（历史副本）",
+   "format": "tileset",
+   "bank": 18,
+   "offset": "0x48F4A",
+   "capacity": 1257,
+   "legacy_reason": "v0.5.1 字节级复现需要，当前加载器未引用"
+  },
+  {
+   "id": "rom_049433",
+   "label": "ending_035987",
+   "role": "legacy",
+   "purpose": "图鉴早期版本（历史副本）",
+   "format": "tilemap",
+   "bank": 18,
+   "offset": "0x49433",
+   "capacity": 279,
+   "legacy_reason": "v0.5.1 字节级复现需要，当前加载器未引用"
+  },
+  {
+   "id": "rom_04954a",
+   "label": "ending_035a89",
+   "role": "active",
+   "purpose": "图鉴页·箩箩箩/菈菈菈 + 城堡 图块集",
+   "format": "tileset",
+   "bank": 18,
+   "offset": "0x4954A",
+   "capacity": 394
+  },
+  {
+   "id": "rom_0496d4",
+   "label": "ending_035fd2",
+   "role": "active",
+   "purpose": "图鉴页·箩箩箩/菈菈菈 + 城堡 地图",
+   "format": "tilemap",
+   "bank": 18,
+   "offset": "0x496D4",
+   "capacity": 149
+  },
+  {
+   "id": "rom_049769",
+   "label": "ending_036063",
+   "role": "active",
+   "purpose": "图鉴页·蛙镜鱼等 + 树林 图块集",
+   "format": "tileset",
+   "bank": 18,
+   "offset": "0x49769",
+   "capacity": 1167
+  },
+  {
+   "id": "rom_049bf8",
+   "label": "ending_036553",
+   "role": "active",
+   "purpose": "图鉴页·蛙镜鱼等 + 树林 地图",
+   "format": "tilemap",
+   "bank": 18,
+   "offset": "0x49BF8",
+   "capacity": 285
+  },
+  {
+   "id": "rom_049d15",
+   "label": "ending_036658",
+   "role": "legacy",
+   "purpose": "图鉴早期版本（历史副本）",
+   "format": "tileset",
+   "bank": 18,
+   "offset": "0x49D15",
+   "capacity": 410,
+   "legacy_reason": "v0.5.1 字节级复现需要，当前加载器未引用"
+  },
+  {
+   "id": "rom_049eaf",
+   "label": "ending_036b80",
+   "role": "legacy",
+   "purpose": "图鉴早期版本（历史副本）",
+   "format": "tilemap",
+   "bank": 18,
+   "offset": "0x49EAF",
+   "capacity": 235,
+   "legacy_reason": "v0.5.1 字节级复现需要，当前加载器未引用"
+  },
+  {
+   "id": "rom_049f9a",
+   "label": "ending_036c7c",
+   "role": "active",
+   "purpose": "图鉴页·疯狂鬼面等 + 城市 图块集",
+   "format": "tileset",
+   "bank": 18,
+   "offset": "0x49F9A",
+   "capacity": 1031
+  },
+  {
+   "id": "rom_04a3a1",
+   "label": "ending_03717d",
+   "role": "active",
+   "purpose": "图鉴页·疯狂鬼面等 + 城市 地图",
+   "format": "tilemap",
+   "bank": 18,
+   "offset": "0x4A3A1",
+   "capacity": 293
+  },
+  {
+   "id": "rom_04a4c6",
+   "label": "ending_03729b",
+   "role": "legacy",
+   "purpose": "图鉴早期版本（历史副本）",
+   "format": "tileset",
+   "bank": 18,
+   "offset": "0x4A4C6",
+   "capacity": 554,
+   "legacy_reason": "v0.5.1 字节级复现需要，当前加载器未引用"
+  },
+  {
+   "id": "rom_04a6f0",
+   "label": "ending_03779c",
+   "role": "legacy",
+   "purpose": "图鉴早期版本（历史副本）",
+   "format": "tilemap",
+   "bank": 18,
+   "offset": "0x4A6F0",
+   "capacity": 249,
+   "legacy_reason": "v0.5.1 字节级复现需要，当前加载器未引用"
+  },
+  {
+   "id": "rom_04a7e9",
+   "label": "ending_038000",
+   "role": "active",
+   "purpose": "图鉴页·喔喔鸡等 + 树林 图块集",
+   "format": "tileset",
+   "bank": 18,
+   "offset": "0x4A7E9",
+   "capacity": 818
+  },
+  {
+   "id": "rom_04ab1b",
+   "label": "ending_0378cc",
+   "role": "active",
+   "purpose": "图鉴页·喔喔鸡等 + 树林 地图",
+   "format": "tilemap",
+   "bank": 18,
+   "offset": "0x4AB1B",
+   "capacity": 264
+  },
+  {
+   "id": "rom_04ac23",
+   "label": "ending_038582",
+   "role": "legacy",
+   "purpose": "图鉴早期版本（历史副本）",
+   "format": "tileset",
+   "bank": 18,
+   "offset": "0x4AC23",
+   "capacity": 971,
+   "legacy_reason": "v0.5.1 字节级复现需要，当前加载器未引用"
+  },
+  {
+   "id": "rom_04afee",
+   "label": "ending_038ac6",
+   "role": "legacy",
+   "purpose": "图鉴早期版本（历史副本）",
+   "format": "tilemap",
+   "bank": 18,
+   "offset": "0x4AFEE",
+   "capacity": 304,
+   "legacy_reason": "v0.5.1 字节级复现需要，当前加载器未引用"
+  },
+  {
+   "id": "rom_04b11e",
+   "label": "ending_038bf3",
+   "role": "active",
+   "purpose": "图鉴页·章鱼怪等 + 海与船 图块集",
+   "format": "tileset",
+   "bank": 18,
+   "offset": "0x4B11E",
+   "capacity": 957
+  },
+  {
+   "id": "rom_04b4db",
+   "label": "ending_03911e",
+   "role": "active",
+   "purpose": "图鉴页·章鱼怪等 + 海与船 地图",
+   "format": "tilemap",
+   "bank": 18,
+   "offset": "0x4B4DB",
+   "capacity": 258
+  },
+  {
+   "id": "rom_04b5dd",
+   "label": "ending_039206",
+   "role": "active",
+   "purpose": "图鉴页·子弹鹈鹕等 + 星空 图块集",
+   "format": "tileset",
+   "bank": 18,
+   "offset": "0x4B5DD",
+   "capacity": 870
+  },
+  {
+   "id": "rom_04b943",
+   "label": "ending_039707",
+   "role": "active",
+   "purpose": "图鉴页·子弹鹈鹕等 + 星空 地图",
+   "format": "tilemap",
+   "bank": 18,
+   "offset": "0x4B943",
+   "capacity": 306
+  },
+  {
+   "id": "rom_04ba75",
+   "label": "ending_039820",
+   "role": "legacy",
+   "purpose": "图鉴早期版本（历史副本）",
+   "format": "tileset",
+   "bank": 18,
+   "offset": "0x4BA75",
+   "capacity": 604,
+   "legacy_reason": "v0.5.1 字节级复现需要，当前加载器未引用"
+  },
+  {
+   "id": "rom_04bcd1",
+   "label": "ending_039be1",
+   "role": "legacy",
+   "purpose": "图鉴早期版本（历史副本）",
+   "format": "tilemap",
+   "bank": 18,
+   "offset": "0x4BCD1",
+   "capacity": 815,
+   "legacy_reason": "v0.5.1 字节级复现需要，当前加载器未引用"
+  },
+  {
+   "id": "rom_04c000",
+   "label": "ending_0346fb",
+   "role": "active",
+   "purpose": "图鉴页·喳喳鸟等 + 山丘 图块集",
+   "format": "tileset",
+   "bank": 19,
+   "offset": "0x4C000",
+   "capacity": 1268
+  },
+  {
+   "id": "rom_04c4f4",
+   "label": "ending_034cb4",
+   "role": "active",
+   "purpose": "图鉴页·喳喳鸟等 + 山丘 地图",
+   "format": "tilemap",
+   "bank": 19,
+   "offset": "0x4C4F4",
+   "capacity": 277
+  },
+  {
+   "id": "rom_04c609",
+   "label": "ending_03543e",
+   "role": "active",
+   "purpose": "图鉴页·振翅蝙蝠等 + 城堡 图块集",
+   "format": "tileset",
+   "bank": 19,
+   "offset": "0x4C609",
+   "capacity": 1257
+  },
+  {
+   "id": "rom_04caf2",
+   "label": "ending_035987",
+   "role": "active",
+   "purpose": "图鉴页·振翅蝙蝠等 + 城堡 地图（蝙蝠页）",
+   "format": "tilemap",
+   "bank": 19,
+   "offset": "0x4CAF2",
+   "capacity": 274
+  },
+  {
+   "id": "rom_04cc04",
+   "label": "ending_036658",
+   "role": "active",
+   "purpose": "图鉴页·卡钸拉 + 云 图块集",
+   "format": "tileset",
+   "bank": 19,
+   "offset": "0x4CC04",
+   "capacity": 404
+  },
+  {
+   "id": "rom_04cd98",
+   "label": "ending_036b80",
+   "role": "active",
+   "purpose": "图鉴页·卡钸拉 + 云 地图",
+   "format": "tilemap",
+   "bank": 19,
+   "offset": "0x4CD98",
+   "capacity": 244
+  },
+  {
+   "id": "rom_04ce8c",
+   "label": "ending_03729b",
+   "role": "active",
+   "purpose": "图鉴页·独眼云 + 星空 图块集",
+   "format": "tileset",
+   "bank": 19,
+   "offset": "0x4CE8C",
+   "capacity": 559
+  },
+  {
+   "id": "rom_04d0bb",
+   "label": "ending_03779c",
+   "role": "active",
+   "purpose": "图鉴页·独眼云 + 星空 地图",
+   "format": "tilemap",
+   "bank": 19,
+   "offset": "0x4D0BB",
+   "capacity": 253
+  },
+  {
+   "id": "rom_04d1b8",
+   "label": "ending_038582",
+   "role": "active",
+   "purpose": "图鉴页·睡帽幽灵等 + 砖墙 图块集",
+   "format": "tileset",
+   "bank": 19,
+   "offset": "0x4D1B8",
+   "capacity": 974
+  },
+  {
+   "id": "rom_04d586",
+   "label": "ending_038ac6",
+   "role": "active",
+   "purpose": "图鉴页·睡帽幽灵等 + 砖墙 地图",
+   "format": "tilemap",
+   "bank": 19,
+   "offset": "0x4D586",
+   "capacity": 305
+  },
+  {
+   "id": "rom_04d6b7",
+   "label": "ending_039820",
+   "role": "active",
+   "purpose": "图鉴页·帝帝帝大王 + 王冠舞台 图块集",
+   "format": "tileset",
+   "bank": 19,
+   "offset": "0x4D6B7",
+   "capacity": 609
+  },
+  {
+   "id": "rom_04d918",
+   "label": "ending_039be1",
+   "role": "active",
+   "purpose": "图鉴页·帝帝帝大王 + 王冠舞台 地图",
+   "format": "tilemap",
+   "bank": 19,
+   "offset": "0x4D918",
+   "capacity": 9960
+  },
+  {
+   "id": "rom_050000",
+   "label": "ending_sprites",
+   "role": "active",
+   "purpose": "结局/通关提示精灵表（剧终牌等）",
+   "format": "sheet",
+   "bank": 20,
+   "offset": "0x50000",
+   "capacity": 16384
+  },
+  {
+   "id": "rom_054000",
+   "label": "ending_03adda",
+   "role": "active",
+   "purpose": "普通模式通关提示 图块集（整屏 384 图块）",
+   "format": "tileset",
+   "bank": 21,
+   "offset": "0x54000",
+   "capacity": 4176
+  },
+  {
+   "id": "rom_055050",
+   "label": "ending_03be31",
+   "role": "active",
+   "purpose": "普通模式通关提示（提示如何进入额外模式） 地图",
+   "format": "tilemap",
+   "bank": 21,
+   "offset": "0x55050",
+   "capacity": 224
+  },
+  {
+   "id": "rom_055130",
+   "label": "ending_039cbf",
+   "role": "active",
+   "purpose": "额外模式通关提示 图块集（整屏 384 图块）",
+   "format": "tileset",
+   "bank": 21,
+   "offset": "0x55130",
+   "capacity": 4064
+  },
+  {
+   "id": "rom_056110",
+   "label": "ending_03acec",
+   "role": "active",
+   "purpose": "额外模式通关提示（提示如何进入配置模式） 地图",
+   "format": "tilemap",
+   "bank": 21,
+   "offset": "0x56110",
+   "capacity": 7920
+  },
+  {
+   "id": "rom_058000",
+   "label": "intro_decoration",
+   "role": "active",
+   "purpose": "关卡介绍右下角 32×16 中文角标（开场装饰）",
+   "format": "sheet",
+   "bank": 22,
+   "offset": "0x58000",
+   "capacity": 16384
+  },
+  {
+   "id": "rom_05c000",
+   "label": "configuration_bundle",
+   "role": "active",
+   "purpose": "配置页整包（256 图块 + 地图）",
+   "format": "bundle",
+   "bank": 23,
+   "offset": "0x5C000",
+   "capacity": 16384
+  },
+  {
+   "id": "rom_060000",
+   "label": "title_bundle",
+   "role": "legacy",
+   "purpose": "标题画面·第二版整包（历史副本）",
+   "format": "bundle",
+   "bank": 24,
+   "offset": "0x60000",
+   "capacity": 16384,
+   "legacy_reason": "v0.5.1 字节级复现需要，当前加载器未引用"
+  },
+  {
+   "id": "rom_064000",
+   "label": "stage_1",
+   "role": "legacy",
+   "purpose": "场景 1 介绍·早期整包（历史副本）",
+   "format": "bundle",
+   "bank": 25,
+   "offset": "0x64000",
+   "capacity": 1786,
+   "legacy_reason": "v0.5.1 字节级复现需要，当前加载器未引用"
+  },
+  {
+   "id": "rom_0646fa",
+   "label": "stage_2",
+   "role": "legacy",
+   "purpose": "场景 2 介绍·早期整包（历史副本）",
+   "format": "bundle",
+   "bank": 25,
+   "offset": "0x646FA",
+   "capacity": 14598,
+   "legacy_reason": "v0.5.1 字节级复现需要，当前加载器未引用"
+  },
+  {
+   "id": "rom_06c000",
+   "label": "stage_1",
+   "role": "active",
+   "purpose": "场景 1 介绍整包（128 图块 + 地图）",
+   "format": "bundle",
+   "bank": 27,
+   "offset": "0x6C000",
+   "capacity": 1803
+  },
+  {
+   "id": "rom_06c70b",
+   "label": "stage_2",
+   "role": "active",
+   "purpose": "场景 2 介绍整包",
+   "format": "bundle",
+   "bank": 27,
+   "offset": "0x6C70B",
+   "capacity": 1693
+  },
+  {
+   "id": "rom_06cda8",
+   "label": "stage_3",
+   "role": "active",
+   "purpose": "场景 3 介绍整包",
+   "format": "bundle",
+   "bank": 27,
+   "offset": "0x6CDA8",
+   "capacity": 1768
+  },
+  {
+   "id": "rom_06d490",
+   "label": "stage_4",
+   "role": "active",
+   "purpose": "场景 4 介绍整包",
+   "format": "bundle",
+   "bank": 27,
+   "offset": "0x6D490",
+   "capacity": 1781
+  },
+  {
+   "id": "rom_06db85",
+   "label": "stage_5",
+   "role": "active",
+   "purpose": "场景 5 介绍整包（240 px 高）",
+   "format": "bundle",
+   "bank": 27,
+   "offset": "0x6DB85",
+   "capacity": 9339
+  },
+  {
+   "id": "rom_070000",
+   "label": "title_bundle",
+   "role": "active",
+   "purpose": "标题画面整包（中文 Logo + 额外游戏 + 菜单）",
+   "format": "bundle",
+   "bank": 28,
+   "offset": "0x70000",
+   "capacity": 16384
+  },
+  {
+   "id": "rom_074000",
+   "label": "ending_034dc0",
+   "role": "active",
+   "purpose": "图鉴第 3 页·大波比兄弟/风语大树 图块集",
+   "format": "tileset",
+   "bank": 29,
+   "offset": "0x74000",
+   "capacity": 691
+  },
+  {
+   "id": "rom_0742b3",
+   "label": "ending_03535c",
+   "role": "active",
+   "purpose": "图鉴第 3 页·大波比兄弟/风语大树 地图",
+   "format": "tilemap",
+   "bank": 29,
+   "offset": "0x742B3",
+   "capacity": 15693
+  }
+ ],
+ "sites": [
+  {
+   "site": "rom_size_512KiB",
+   "aliases": [],
+   "purpose": "ROM 大小 256 KiB→512 KiB（MBC1 ROM size code 3→4）",
+   "patches": [
+    {
+     "offset": "0x00148",
+     "kind": "rom.size",
+     "old": 3,
+     "new": 4
+    }
+   ]
+  },
+  {
+   "site": "normal_hud_load",
+   "aliases": [],
+   "purpose": "普通 HUD 图块装载点（原代码重复 5 处，每处 2 字节）",
+   "patches": [
+    {
+     "offset": "0x01B44",
+     "kind": "loader.source_addr",
+     "old": "0x4855",
+     "new": {
+      "resource": "rom_041000",
+      "field": "cpu_address"
+     }
+    },
+    {
+     "offset": "0x01B4A",
+     "kind": "loader.bank",
+     "old": 2,
+     "new": {
+      "resource": "rom_041000",
+      "field": "bank"
+     }
+    },
+    {
+     "offset": "0x18297",
+     "kind": "loader.source_addr",
+     "old": "0x4855",
+     "new": {
+      "resource": "rom_041000",
+      "field": "cpu_address"
+     }
+    },
+    {
+     "offset": "0x1829D",
+     "kind": "loader.bank",
+     "old": 2,
+     "new": {
+      "resource": "rom_041000",
+      "field": "bank"
+     }
+    },
+    {
+     "offset": "0x18311",
+     "kind": "loader.source_addr",
+     "old": "0x4855",
+     "new": {
+      "resource": "rom_041000",
+      "field": "cpu_address"
+     }
+    },
+    {
+     "offset": "0x18317",
+     "kind": "loader.bank",
+     "old": 2,
+     "new": {
+      "resource": "rom_041000",
+      "field": "bank"
+     }
+    },
+    {
+     "offset": "0x1890A",
+     "kind": "loader.source_addr",
+     "old": "0x4855",
+     "new": {
+      "resource": "rom_041000",
+      "field": "cpu_address"
+     }
+    },
+    {
+     "offset": "0x18910",
+     "kind": "loader.bank",
+     "old": 2,
+     "new": {
+      "resource": "rom_041000",
+      "field": "bank"
+     }
+    },
+    {
+     "offset": "0x1A3A2",
+     "kind": "loader.source_addr",
+     "old": "0x4855",
+     "new": {
+      "resource": "rom_041000",
+      "field": "cpu_address"
+     }
+    },
+    {
+     "offset": "0x1A3A8",
+     "kind": "loader.bank",
+     "old": 2,
+     "new": {
+      "resource": "rom_041000",
+      "field": "bank"
+     }
+    }
+   ],
+   "resource": "rom_041000",
+   "kind": "loader.sheet"
+  },
+  {
+   "site": "extra_hud_load",
+   "aliases": [],
+   "purpose": "额外 HUD 图块装载点（重复 2 处）",
+   "patches": [
+    {
+     "offset": "0x01B5C",
+     "kind": "loader.source_addr",
+     "old": "0x4866",
+     "new": {
+      "resource": "rom_041103",
+      "field": "cpu_address"
+     }
+    },
+    {
+     "offset": "0x01B62",
+     "kind": "loader.bank",
+     "old": 10,
+     "new": {
+      "resource": "rom_041103",
+      "field": "bank"
+     }
+    },
+    {
+     "offset": "0x182AF",
+     "kind": "loader.source_addr",
+     "old": "0x4866",
+     "new": {
+      "resource": "rom_041103",
+      "field": "cpu_address"
+     }
+    },
+    {
+     "offset": "0x182B5",
+     "kind": "loader.bank",
+     "old": 10,
+     "new": {
+      "resource": "rom_041103",
+      "field": "bank"
+     }
+    }
+   ],
+   "resource": "rom_041103",
+   "kind": "loader.sheet"
+  },
+  {
+   "site": "HUD_score_label_x16",
+   "aliases": [],
+   "purpose": "HUD 标签图块号重排，使“得分”左对齐",
+   "patches": [
+    {
+     "offset": "0x02011",
+     "kind": "hud.label_tile",
+     "old": 2,
+     "new": 4
+    },
+    {
+     "offset": "0x02016",
+     "kind": "hud.label_tile",
+     "old": 3,
+     "new": 2
+    },
+    {
+     "offset": "0x0201A",
+     "kind": "hud.label_tile",
+     "old": 4,
+     "new": 3
+    }
+   ]
+  },
+  {
+   "site": "title_bundle_load",
+   "aliases": [
+    "title_load_bank28",
+    "title_load_pointer_destination_bank"
+   ],
+   "purpose": "标题整包装载：源 bank 3→28，VRAM 目的 0x9800→0x8800",
+   "patches": [
+    {
+     "offset": "0x1804E",
+     "kind": "loader.vram_base",
+     "old": 152,
+     "new": 136
+    },
+    {
+     "offset": "0x18050",
+     "kind": "loader.bank",
+     "old": 3,
+     "new": {
+      "resource": "rom_070000",
+      "field": "bank"
+     }
+    }
+   ],
+   "resource": "rom_070000",
+   "kind": "loader.bundle"
+  },
+  {
+   "site": "two_row_vblank_queue_writer",
+   "aliases": [],
+   "purpose": "关卡介绍 BG map 两行/帧写入器（唯一改游戏逻辑的代码补丁）",
+   "patches": [],
+   "kind": "code.region",
+   "region": {
+    "offset": "0x180A0",
+    "length": 41,
+    "bank": 6,
+    "asm": "06_ProgramFix/patches/vblank_two_row.asm",
+    "notes": [
+     "循环长度 10→12",
+     "改为从 0xD40C 暂存区取 12 个条目，队列基址 0xCB00，行宽 20，跳过 12 列",
+     "循环计数/条件分支调整",
+     "两行/帧写入循环（含 0x67 回绕）"
+    ],
+    "asm_rev1": "06_ProgramFix/patches/vblank_two_row.rev1.asm"
+   }
+  },
+  {
+   "site": "intro_decoration_load",
+   "aliases": [],
+   "purpose": "开场装饰图块装载点（重复 2 处）",
+   "patches": [
+    {
+     "offset": "0x18351",
+     "kind": "loader.source_addr",
+     "old": "0x5CAD",
+     "new": {
+      "resource": "rom_058000",
+      "field": "cpu_address"
+     }
+    },
+    {
+     "offset": "0x18357",
+     "kind": "loader.bank",
+     "old": 3,
+     "new": {
+      "resource": "rom_058000",
+      "field": "bank"
+     }
+    },
+    {
+     "offset": "0x187E1",
+     "kind": "loader.source_addr",
+     "old": "0x5CAD",
+     "new": {
+      "resource": "rom_058000",
+      "field": "cpu_address"
+     }
+    },
+    {
+     "offset": "0x187E7",
+     "kind": "loader.bank",
+     "old": 3,
+     "new": {
+      "resource": "rom_058000",
+      "field": "bank"
+     }
+    }
+   ],
+   "resource": "rom_058000",
+   "kind": "loader.sheet"
+  },
+  {
+   "site": "stage_bundle_destination",
+   "aliases": [],
+   "purpose": "关卡整包装载目的 0x9800→0x9000（图块 0x9000–0x97FF，地图接 0x9800）",
+   "patches": [
+    {
+     "offset": "0x18372",
+     "kind": "loader.vram_base",
+     "old": 152,
+     "new": 144
+    }
+   ]
+  },
+  {
+   "site": "gameover_map_load",
+   "aliases": [],
+   "purpose": "GAME OVER 整包装载（VRAM 目的 0x9800→0x9000）",
+   "patches": [
+    {
+     "offset": "0x18766",
+     "kind": "loader.source_addr",
+     "old": "0x4616",
+     "new": {
+      "resource": "rom_04454c",
+      "field": "cpu_address"
+     }
+    },
+    {
+     "offset": "0x1876A",
+     "kind": "loader.vram_base",
+     "old": 152,
+     "new": 144
+    },
+    {
+     "offset": "0x1876C",
+     "kind": "loader.bank",
+     "old": 3,
+     "new": {
+      "resource": "rom_04454c",
+      "field": "bank"
+     }
+    }
+   ],
+   "resource": "rom_04454c",
+   "kind": "loader.bundle"
+  },
+  {
+   "site": "continue_map_load",
+   "aliases": [],
+   "purpose": "CONTINUE 整包装载（VRAM 目的 0x9800→0x9000）",
+   "patches": [
+    {
+     "offset": "0x187EC",
+     "kind": "loader.source_addr",
+     "old": "0x4666",
+     "new": {
+      "resource": "rom_044734",
+      "field": "cpu_address"
+     }
+    },
+    {
+     "offset": "0x187F0",
+     "kind": "loader.vram_base",
+     "old": 152,
+     "new": 144
+    },
+    {
+     "offset": "0x187F2",
+     "kind": "loader.bank",
+     "old": 3,
+     "new": {
+      "resource": "rom_044734",
+      "field": "bank"
+     }
+    }
+   ],
+   "resource": "rom_044734",
+   "kind": "loader.bundle"
+  },
+  {
+   "site": "ending_sprites_load",
+   "aliases": [],
+   "purpose": "结局精灵表装载点（重复 2 处）",
+   "patches": [
+    {
+     "offset": "0x188B2",
+     "kind": "loader.source_addr",
+     "old": "0x4F80",
+     "new": {
+      "resource": "rom_050000",
+      "field": "cpu_address"
+     }
+    },
+    {
+     "offset": "0x188B8",
+     "kind": "loader.bank",
+     "old": 3,
+     "new": {
+      "resource": "rom_050000",
+      "field": "bank"
+     }
+    },
+    {
+     "offset": "0x18989",
+     "kind": "loader.source_addr",
+     "old": "0x4F80",
+     "new": {
+      "resource": "rom_050000",
+      "field": "cpu_address"
+     }
+    },
+    {
+     "offset": "0x1898F",
+     "kind": "loader.bank",
+     "old": 3,
+     "new": {
+      "resource": "rom_050000",
+      "field": "bank"
+     }
+    }
+   ],
+   "resource": "rom_050000",
+   "kind": "loader.sheet"
+  },
+  {
+   "site": "ending_034000_load",
+   "aliases": [],
+   "purpose": "图鉴页装载点（bank）：图鉴页·黑刺球等 + 蘑菇林 图块集",
+   "patches": [
+    {
+     "offset": "0x18D36",
+     "kind": "loader.bank",
+     "old": 13,
+     "new": {
+      "resource": "rom_048000",
+      "field": "bank"
+     }
+    }
+   ],
+   "resource": "rom_048000",
+   "kind": "loader.tileset"
+  },
+  {
+   "site": "ending_0345c0_load",
+   "aliases": [],
+   "purpose": "图鉴页装载点（bank）：图鉴页·黑刺球等 + 蘑菇林 地图",
+   "patches": [
+    {
+     "offset": "0x18D3B",
+     "kind": "loader.source_addr",
+     "old": "0x45C0",
+     "new": {
+      "resource": "rom_048462",
+      "field": "cpu_address"
+     }
+    },
+    {
+     "offset": "0x18D41",
+     "kind": "loader.bank",
+     "old": 13,
+     "new": {
+      "resource": "rom_048462",
+      "field": "bank"
+     }
+    }
+   ],
+   "resource": "rom_048462",
+   "kind": "loader.tilemap"
+  },
+  {
+   "site": "ending_0346fb_load",
+   "aliases": [],
+   "purpose": "图鉴页装载点（bank）：图鉴页·喳喳鸟等 + 山丘 图块集",
+   "patches": [
+    {
+     "offset": "0x18D60",
+     "kind": "loader.source_addr",
+     "old": "0x46FB",
+     "new": {
+      "resource": "rom_04c000",
+      "field": "cpu_address"
+     }
+    },
+    {
+     "offset": "0x18D66",
+     "kind": "loader.bank",
+     "old": 13,
+     "new": {
+      "resource": "rom_04c000",
+      "field": "bank"
+     }
+    }
+   ],
+   "resource": "rom_04c000",
+   "kind": "loader.tileset"
+  },
+  {
+   "site": "ending_034cb4_load",
+   "aliases": [],
+   "purpose": "图鉴页装载点（bank）：图鉴页·喳喳鸟等 + 山丘 地图",
+   "patches": [
+    {
+     "offset": "0x18D6B",
+     "kind": "loader.source_addr",
+     "old": "0x4CB4",
+     "new": {
+      "resource": "rom_04c4f4",
+      "field": "cpu_address"
+     }
+    },
+    {
+     "offset": "0x18D71",
+     "kind": "loader.bank",
+     "old": 13,
+     "new": {
+      "resource": "rom_04c4f4",
+      "field": "bank"
+     }
+    }
+   ],
+   "resource": "rom_04c4f4",
+   "kind": "loader.tilemap"
+  },
+  {
+   "site": "ending_034dc0_load",
+   "aliases": [
+    "ending_034dc0_pointer",
+    "ending_034dc0_pointer_reverted"
+   ],
+   "purpose": "图鉴页装载点（bank）：图鉴第 3 页·大波比兄弟/风语大树 图块集",
+   "patches": [
+    {
+     "offset": "0x18D90",
+     "kind": "loader.source_addr",
+     "old": "0x4DC0",
+     "new": {
+      "resource": "rom_074000",
+      "field": "cpu_address"
+     }
+    },
+    {
+     "offset": "0x18D96",
+     "kind": "loader.bank",
+     "old": 13,
+     "new": {
+      "resource": "rom_074000",
+      "field": "bank"
+     }
+    }
+   ],
+   "resource": "rom_074000",
+   "kind": "loader.tileset"
+  },
+  {
+   "site": "ending_03535c_load",
+   "aliases": [
+    "ending_03535c_pointer",
+    "ending_03535c_pointer_reverted"
+   ],
+   "purpose": "图鉴页装载点（bank）：图鉴第 3 页·大波比兄弟/风语大树 地图",
+   "patches": [
+    {
+     "offset": "0x18D9B",
+     "kind": "loader.source_addr",
+     "old": "0x535C",
+     "new": {
+      "resource": "rom_0742b3",
+      "field": "cpu_address"
+     }
+    },
+    {
+     "offset": "0x18DA1",
+     "kind": "loader.bank",
+     "old": 13,
+     "new": {
+      "resource": "rom_0742b3",
+      "field": "bank"
+     }
+    }
+   ],
+   "resource": "rom_0742b3",
+   "kind": "loader.tilemap"
+  },
+  {
+   "site": "ending_03543e_load",
+   "aliases": [],
+   "purpose": "图鉴页装载点（bank）：图鉴页·振翅蝙蝠等 + 城堡 图块集",
+   "patches": [
+    {
+     "offset": "0x18DC8",
+     "kind": "loader.source_addr",
+     "old": "0x543E",
+     "new": {
+      "resource": "rom_04c609",
+      "field": "cpu_address"
+     }
+    },
+    {
+     "offset": "0x18DCE",
+     "kind": "loader.bank",
+     "old": 13,
+     "new": {
+      "resource": "rom_04c609",
+      "field": "bank"
+     }
+    }
+   ],
+   "resource": "rom_04c609",
+   "kind": "loader.tileset"
+  },
+  {
+   "site": "ending_035987_load",
+   "aliases": [],
+   "purpose": "图鉴页装载点（bank）：图鉴页·振翅蝙蝠等 + 城堡 地图（蝙蝠页）",
+   "patches": [
+    {
+     "offset": "0x18DD3",
+     "kind": "loader.source_addr",
+     "old": "0x5987",
+     "new": {
+      "resource": "rom_04caf2",
+      "field": "cpu_address"
+     }
+    },
+    {
+     "offset": "0x18DD9",
+     "kind": "loader.bank",
+     "old": 13,
+     "new": {
+      "resource": "rom_04caf2",
+      "field": "bank"
+     }
+    }
+   ],
+   "resource": "rom_04caf2",
+   "kind": "loader.tilemap"
+  },
+  {
+   "site": "ending_035a89_load",
+   "aliases": [],
+   "purpose": "图鉴页装载点（bank）：图鉴页·箩箩箩/菈菈菈 + 城堡 图块集",
+   "patches": [
+    {
+     "offset": "0x18DF8",
+     "kind": "loader.source_addr",
+     "old": "0x5A89",
+     "new": {
+      "resource": "rom_04954a",
+      "field": "cpu_address"
+     }
+    },
+    {
+     "offset": "0x18DFE",
+     "kind": "loader.bank",
+     "old": 13,
+     "new": {
+      "resource": "rom_04954a",
+      "field": "bank"
+     }
+    }
+   ],
+   "resource": "rom_04954a",
+   "kind": "loader.tileset"
+  },
+  {
+   "site": "ending_035fd2_load",
+   "aliases": [],
+   "purpose": "图鉴页装载点（bank）：图鉴页·箩箩箩/菈菈菈 + 城堡 地图",
+   "patches": [
+    {
+     "offset": "0x18E03",
+     "kind": "loader.source_addr",
+     "old": "0x5FD2",
+     "new": {
+      "resource": "rom_0496d4",
+      "field": "cpu_address"
+     }
+    },
+    {
+     "offset": "0x18E09",
+     "kind": "loader.bank",
+     "old": 13,
+     "new": {
+      "resource": "rom_0496d4",
+      "field": "bank"
+     }
+    }
+   ],
+   "resource": "rom_0496d4",
+   "kind": "loader.tilemap"
+  },
+  {
+   "site": "ending_036063_load",
+   "aliases": [],
+   "purpose": "图鉴页装载点（bank）：图鉴页·蛙镜鱼等 + 树林 图块集",
+   "patches": [
+    {
+     "offset": "0x18E30",
+     "kind": "loader.source_addr",
+     "old": "0x6063",
+     "new": {
+      "resource": "rom_049769",
+      "field": "cpu_address"
+     }
+    },
+    {
+     "offset": "0x18E36",
+     "kind": "loader.bank",
+     "old": 13,
+     "new": {
+      "resource": "rom_049769",
+      "field": "bank"
+     }
+    }
+   ],
+   "resource": "rom_049769",
+   "kind": "loader.tileset"
+  },
+  {
+   "site": "ending_036553_load",
+   "aliases": [],
+   "purpose": "图鉴页装载点（bank）：图鉴页·蛙镜鱼等 + 树林 地图",
+   "patches": [
+    {
+     "offset": "0x18E3B",
+     "kind": "loader.source_addr",
+     "old": "0x6553",
+     "new": {
+      "resource": "rom_049bf8",
+      "field": "cpu_address"
+     }
+    },
+    {
+     "offset": "0x18E41",
+     "kind": "loader.bank",
+     "old": 13,
+     "new": {
+      "resource": "rom_049bf8",
+      "field": "bank"
+     }
+    }
+   ],
+   "resource": "rom_049bf8",
+   "kind": "loader.tilemap"
+  },
+  {
+   "site": "ending_036658_load",
+   "aliases": [],
+   "purpose": "图鉴页装载点（bank）：图鉴页·卡钸拉 + 云 图块集",
+   "patches": [
+    {
+     "offset": "0x18E60",
+     "kind": "loader.source_addr",
+     "old": "0x6658",
+     "new": {
+      "resource": "rom_04cc04",
+      "field": "cpu_address"
+     }
+    },
+    {
+     "offset": "0x18E66",
+     "kind": "loader.bank",
+     "old": 13,
+     "new": {
+      "resource": "rom_04cc04",
+      "field": "bank"
+     }
+    }
+   ],
+   "resource": "rom_04cc04",
+   "kind": "loader.tileset"
+  },
+  {
+   "site": "ending_036b80_load",
+   "aliases": [],
+   "purpose": "图鉴页装载点（bank）：图鉴页·卡钸拉 + 云 地图",
+   "patches": [
+    {
+     "offset": "0x18E6B",
+     "kind": "loader.source_addr",
+     "old": "0x6B80",
+     "new": {
+      "resource": "rom_04cd98",
+      "field": "cpu_address"
+     }
+    },
+    {
+     "offset": "0x18E71",
+     "kind": "loader.bank",
+     "old": 13,
+     "new": {
+      "resource": "rom_04cd98",
+      "field": "bank"
+     }
+    }
+   ],
+   "resource": "rom_04cd98",
+   "kind": "loader.tilemap"
+  },
+  {
+   "site": "ending_036c7c_load",
+   "aliases": [],
+   "purpose": "图鉴页装载点（bank）：图鉴页·疯狂鬼面等 + 城市 图块集",
+   "patches": [
+    {
+     "offset": "0x18E98",
+     "kind": "loader.source_addr",
+     "old": "0x6C7C",
+     "new": {
+      "resource": "rom_049f9a",
+      "field": "cpu_address"
+     }
+    },
+    {
+     "offset": "0x18E9E",
+     "kind": "loader.bank",
+     "old": 13,
+     "new": {
+      "resource": "rom_049f9a",
+      "field": "bank"
+     }
+    }
+   ],
+   "resource": "rom_049f9a",
+   "kind": "loader.tileset"
+  },
+  {
+   "site": "ending_03717d_load",
+   "aliases": [],
+   "purpose": "图鉴页装载点（bank）：图鉴页·疯狂鬼面等 + 城市 地图",
+   "patches": [
+    {
+     "offset": "0x18EA3",
+     "kind": "loader.source_addr",
+     "old": "0x717D",
+     "new": {
+      "resource": "rom_04a3a1",
+      "field": "cpu_address"
+     }
+    },
+    {
+     "offset": "0x18EA9",
+     "kind": "loader.bank",
+     "old": 13,
+     "new": {
+      "resource": "rom_04a3a1",
+      "field": "bank"
+     }
+    }
+   ],
+   "resource": "rom_04a3a1",
+   "kind": "loader.tilemap"
+  },
+  {
+   "site": "ending_03729b_load",
+   "aliases": [],
+   "purpose": "图鉴页装载点（bank）：图鉴页·独眼云 + 星空 图块集",
+   "patches": [
+    {
+     "offset": "0x18EC8",
+     "kind": "loader.source_addr",
+     "old": "0x729B",
+     "new": {
+      "resource": "rom_04ce8c",
+      "field": "cpu_address"
+     }
+    },
+    {
+     "offset": "0x18ECE",
+     "kind": "loader.bank",
+     "old": 13,
+     "new": {
+      "resource": "rom_04ce8c",
+      "field": "bank"
+     }
+    }
+   ],
+   "resource": "rom_04ce8c",
+   "kind": "loader.tileset"
+  },
+  {
+   "site": "ending_03779c_load",
+   "aliases": [],
+   "purpose": "图鉴页装载点（bank）：图鉴页·独眼云 + 星空 地图",
+   "patches": [
+    {
+     "offset": "0x18ED3",
+     "kind": "loader.source_addr",
+     "old": "0x779C",
+     "new": {
+      "resource": "rom_04d0bb",
+      "field": "cpu_address"
+     }
+    },
+    {
+     "offset": "0x18ED9",
+     "kind": "loader.bank",
+     "old": 13,
+     "new": {
+      "resource": "rom_04d0bb",
+      "field": "bank"
+     }
+    }
+   ],
+   "resource": "rom_04d0bb",
+   "kind": "loader.tilemap"
+  },
+  {
+   "site": "ending_038000_load",
+   "aliases": [],
+   "purpose": "图鉴页装载点（bank）：图鉴页·喔喔鸡等 + 树林 图块集",
+   "patches": [
+    {
+     "offset": "0x18EFF",
+     "kind": "loader.source_addr",
+     "old": "0x4000",
+     "new": {
+      "resource": "rom_04a7e9",
+      "field": "cpu_address"
+     }
+    },
+    {
+     "offset": "0x18F05",
+     "kind": "loader.bank",
+     "old": 14,
+     "new": {
+      "resource": "rom_04a7e9",
+      "field": "bank"
+     }
+    }
+   ],
+   "resource": "rom_04a7e9",
+   "kind": "loader.tileset"
+  },
+  {
+   "site": "ending_0378cc_load",
+   "aliases": [],
+   "purpose": "图鉴页装载点（bank）：图鉴页·喔喔鸡等 + 树林 地图",
+   "patches": [
+    {
+     "offset": "0x18F0A",
+     "kind": "loader.source_addr",
+     "old": "0x78CC",
+     "new": {
+      "resource": "rom_04ab1b",
+      "field": "cpu_address"
+     }
+    },
+    {
+     "offset": "0x18F10",
+     "kind": "loader.bank",
+     "old": 13,
+     "new": {
+      "resource": "rom_04ab1b",
+      "field": "bank"
+     }
+    }
+   ],
+   "resource": "rom_04ab1b",
+   "kind": "loader.tilemap"
+  },
+  {
+   "site": "ending_038582_load",
+   "aliases": [],
+   "purpose": "图鉴页装载点（bank）：图鉴页·睡帽幽灵等 + 砖墙 图块集",
+   "patches": [
+    {
+     "offset": "0x18F37",
+     "kind": "loader.source_addr",
+     "old": "0x4582",
+     "new": {
+      "resource": "rom_04d1b8",
+      "field": "cpu_address"
+     }
+    },
+    {
+     "offset": "0x18F3D",
+     "kind": "loader.bank",
+     "old": 14,
+     "new": {
+      "resource": "rom_04d1b8",
+      "field": "bank"
+     }
+    }
+   ],
+   "resource": "rom_04d1b8",
+   "kind": "loader.tileset"
+  },
+  {
+   "site": "ending_038ac6_load",
+   "aliases": [],
+   "purpose": "图鉴页装载点（bank）：图鉴页·睡帽幽灵等 + 砖墙 地图",
+   "patches": [
+    {
+     "offset": "0x18F42",
+     "kind": "loader.source_addr",
+     "old": "0x4AC6",
+     "new": {
+      "resource": "rom_04d586",
+      "field": "cpu_address"
+     }
+    },
+    {
+     "offset": "0x18F48",
+     "kind": "loader.bank",
+     "old": 14,
+     "new": {
+      "resource": "rom_04d586",
+      "field": "bank"
+     }
+    }
+   ],
+   "resource": "rom_04d586",
+   "kind": "loader.tilemap"
+  },
+  {
+   "site": "ending_038bf3_load",
+   "aliases": [],
+   "purpose": "图鉴页装载点（bank）：图鉴页·章鱼怪等 + 海与船 图块集",
+   "patches": [
+    {
+     "offset": "0x18F6F",
+     "kind": "loader.source_addr",
+     "old": "0x4BF3",
+     "new": {
+      "resource": "rom_04b11e",
+      "field": "cpu_address"
+     }
+    },
+    {
+     "offset": "0x18F75",
+     "kind": "loader.bank",
+     "old": 14,
+     "new": {
+      "resource": "rom_04b11e",
+      "field": "bank"
+     }
+    }
+   ],
+   "resource": "rom_04b11e",
+   "kind": "loader.tileset"
+  },
+  {
+   "site": "ending_03911e_load",
+   "aliases": [],
+   "purpose": "图鉴页装载点（bank）：图鉴页·章鱼怪等 + 海与船 地图",
+   "patches": [
+    {
+     "offset": "0x18F7A",
+     "kind": "loader.source_addr",
+     "old": "0x511E",
+     "new": {
+      "resource": "rom_04b4db",
+      "field": "cpu_address"
+     }
+    },
+    {
+     "offset": "0x18F80",
+     "kind": "loader.bank",
+     "old": 14,
+     "new": {
+      "resource": "rom_04b4db",
+      "field": "bank"
+     }
+    }
+   ],
+   "resource": "rom_04b4db",
+   "kind": "loader.tilemap"
+  },
+  {
+   "site": "ending_039206_load",
+   "aliases": [],
+   "purpose": "图鉴页装载点（bank）：图鉴页·子弹鹈鹕等 + 星空 图块集",
+   "patches": [
+    {
+     "offset": "0x18FA7",
+     "kind": "loader.source_addr",
+     "old": "0x5206",
+     "new": {
+      "resource": "rom_04b5dd",
+      "field": "cpu_address"
+     }
+    },
+    {
+     "offset": "0x18FAD",
+     "kind": "loader.bank",
+     "old": 14,
+     "new": {
+      "resource": "rom_04b5dd",
+      "field": "bank"
+     }
+    }
+   ],
+   "resource": "rom_04b5dd",
+   "kind": "loader.tileset"
+  },
+  {
+   "site": "ending_039707_load",
+   "aliases": [],
+   "purpose": "图鉴页装载点（bank）：图鉴页·子弹鹈鹕等 + 星空 地图",
+   "patches": [
+    {
+     "offset": "0x18FB2",
+     "kind": "loader.source_addr",
+     "old": "0x5707",
+     "new": {
+      "resource": "rom_04b943",
+      "field": "cpu_address"
+     }
+    },
+    {
+     "offset": "0x18FB8",
+     "kind": "loader.bank",
+     "old": 14,
+     "new": {
+      "resource": "rom_04b943",
+      "field": "bank"
+     }
+    }
+   ],
+   "resource": "rom_04b943",
+   "kind": "loader.tilemap"
+  },
+  {
+   "site": "ending_039820_load",
+   "aliases": [],
+   "purpose": "图鉴页装载点（bank）：图鉴页·帝帝帝大王 + 王冠舞台 图块集",
+   "patches": [
+    {
+     "offset": "0x18FE2",
+     "kind": "loader.source_addr",
+     "old": "0x5820",
+     "new": {
+      "resource": "rom_04d6b7",
+      "field": "cpu_address"
+     }
+    },
+    {
+     "offset": "0x18FE8",
+     "kind": "loader.bank",
+     "old": 14,
+     "new": {
+      "resource": "rom_04d6b7",
+      "field": "bank"
+     }
+    }
+   ],
+   "resource": "rom_04d6b7",
+   "kind": "loader.tileset"
+  },
+  {
+   "site": "ending_039be1_load",
+   "aliases": [],
+   "purpose": "图鉴页装载点（bank）：图鉴页·帝帝帝大王 + 王冠舞台 地图",
+   "patches": [
+    {
+     "offset": "0x18FED",
+     "kind": "loader.source_addr",
+     "old": "0x5BE1",
+     "new": {
+      "resource": "rom_04d918",
+      "field": "cpu_address"
+     }
+    },
+    {
+     "offset": "0x18FF3",
+     "kind": "loader.bank",
+     "old": 14,
+     "new": {
+      "resource": "rom_04d918",
+      "field": "bank"
+     }
+    }
+   ],
+   "resource": "rom_04d918",
+   "kind": "loader.tilemap"
+  },
+  {
+   "site": "ending_039cbf_load_pointer",
+   "aliases": [],
+   "purpose": "图鉴/提示页装载指针（地址+bank）：额外模式通关提示 图块集（整屏 384 图块）",
+   "patches": [
+    {
+     "offset": "0x19032",
+     "kind": "loader.source_addr",
+     "old": "0x5CBF",
+     "new": {
+      "resource": "rom_055130",
+      "field": "cpu_address"
+     }
+    },
+    {
+     "offset": "0x19038",
+     "kind": "loader.bank",
+     "old": 14,
+     "new": {
+      "resource": "rom_055130",
+      "field": "bank"
+     }
+    }
+   ],
+   "resource": "rom_055130",
+   "kind": "loader.tileset"
+  },
+  {
+   "site": "ending_03acec_load_pointer",
+   "aliases": [],
+   "purpose": "图鉴/提示页装载指针（地址+bank）：额外模式通关提示 地图",
+   "patches": [
+    {
+     "offset": "0x1903D",
+     "kind": "loader.source_addr",
+     "old": "0x6CEC",
+     "new": {
+      "resource": "rom_056110",
+      "field": "cpu_address"
+     }
+    },
+    {
+     "offset": "0x19043",
+     "kind": "loader.bank",
+     "old": 14,
+     "new": {
+      "resource": "rom_056110",
+      "field": "bank"
+     }
+    }
+   ],
+   "resource": "rom_056110",
+   "kind": "loader.tilemap"
+  },
+  {
+   "site": "ending_03adda_load_pointer",
+   "aliases": [],
+   "purpose": "图鉴/提示页装载指针（地址+bank）：普通模式通关提示 图块集（整屏 384 图块）",
+   "patches": [
+    {
+     "offset": "0x19063",
+     "kind": "loader.source_addr",
+     "old": "0x6DDA",
+     "new": {
+      "resource": "rom_054000",
+      "field": "cpu_address"
+     }
+    },
+    {
+     "offset": "0x19069",
+     "kind": "loader.bank",
+     "old": 14,
+     "new": {
+      "resource": "rom_054000",
+      "field": "bank"
+     }
+    }
+   ],
+   "resource": "rom_054000",
+   "kind": "loader.tileset"
+  },
+  {
+   "site": "ending_03be31_load_pointer",
+   "aliases": [],
+   "purpose": "图鉴/提示页装载指针（地址+bank）：普通模式通关提示 地图",
+   "patches": [
+    {
+     "offset": "0x1906E",
+     "kind": "loader.source_addr",
+     "old": "0x7E31",
+     "new": {
+      "resource": "rom_055050",
+      "field": "cpu_address"
+     }
+    },
+    {
+     "offset": "0x19074",
+     "kind": "loader.bank",
+     "old": 14,
+     "new": {
+      "resource": "rom_055050",
+      "field": "bank"
+     }
+    }
+   ],
+   "resource": "rom_055050",
+   "kind": "loader.tilemap"
+  },
+  {
+   "site": "stage_1_bundle_pointer",
+   "aliases": [
+    "stage_1_map_pointer",
+    "stage_1_pointer",
+    "stage_2_bundle_pointer",
+    "stage_2_map_pointer",
+    "stage_2_pointer",
+    "stage_3_map_pointer",
+    "stage_3_pointer",
+    "stage_4_map_pointer",
+    "stage_4_pointer",
+    "stage_5_bundle_pointer",
+    "stage_5_bundle_pointer_restore",
+    "stage_5_map_pointer",
+    "stage_5_pointer"
+   ],
+   "purpose": "五个关卡介绍整包的三字节指针表（[bank][addr_hi][addr_lo] ×5）",
+   "patches": [
+    {
+     "offset": "0x190BB",
+     "kind": "stage.pointer_table",
+     "entries": [
+      {
+       "stage": "stage_1",
+       "old": {
+        "bank": 6,
+        "addr": "0x7835"
+       },
+       "new": {
+        "bank": 27,
+        "addr": "0x4000"
+       },
+       "resource": "rom_06c000"
+      },
+      {
+       "stage": "stage_2",
+       "old": {
+        "bank": 6,
+        "addr": "0x78DD"
+       },
+       "new": {
+        "bank": 27,
+        "addr": "0x470B"
+       },
+       "resource": "rom_06c70b"
+      },
+      {
+       "stage": "stage_3",
+       "old": {
+        "bank": 6,
+        "addr": "0x7958"
+       },
+       "new": {
+        "bank": 27,
+        "addr": "0x4DA8"
+       },
+       "resource": "rom_06cda8"
+      },
+      {
+       "stage": "stage_4",
+       "old": {
+        "bank": 6,
+        "addr": "0x79EF"
+       },
+       "new": {
+        "bank": 27,
+        "addr": "0x5490"
+       },
+       "resource": "rom_06d490"
+      },
+      {
+       "stage": "stage_5",
+       "old": {
+        "bank": 6,
+        "addr": "0x7AA6"
+       },
+       "new": {
+        "bank": 27,
+        "addr": "0x5B85"
+       },
+       "resource": "rom_06db85"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "site": "configuration_map_full_bundle_load",
+   "aliases": [
+    "configuration_map_load"
+   ],
+   "purpose": "配置整包装载：源 bank 3→23，VRAM 目的 0x9800→0x8800",
+   "patches": [
+    {
+     "offset": "0x1A3C3",
+     "kind": "loader.source_addr",
+     "old": "0x453A",
+     "new": {
+      "resource": "rom_05c000",
+      "field": "cpu_address"
+     }
+    },
+    {
+     "offset": "0x1A3C7",
+     "kind": "loader.vram_base",
+     "old": 152,
+     "new": 136
+    },
+    {
+     "offset": "0x1A3C9",
+     "kind": "loader.bank",
+     "old": 3,
+     "new": {
+      "resource": "rom_05c000",
+      "field": "bank"
+     }
+    }
+   ],
+   "resource": "rom_05c000",
+   "kind": "loader.bundle"
+  },
+  {
+   "site": "sound_test_map_load",
+   "aliases": [],
+   "purpose": "声音测试整包装载（VRAM 目的 0x9800→0x9000）",
+   "patches": [
+    {
+     "offset": "0x1A56E",
+     "kind": "loader.source_addr",
+     "old": "0x44C2",
+     "new": {
+      "resource": "rom_0438f6",
+      "field": "cpu_address"
+     }
+    },
+    {
+     "offset": "0x1A572",
+     "kind": "loader.vram_base",
+     "old": 152,
+     "new": 144
+    },
+    {
+     "offset": "0x1A574",
+     "kind": "loader.bank",
+     "old": 3,
+     "new": {
+      "resource": "rom_0438f6",
+      "field": "bank"
+     }
+    }
+   ],
+   "resource": "rom_0438f6",
+   "kind": "loader.bundle"
+  },
+  {
+   "site": "gallery_page4_bat_x_only",
+   "aliases": [],
+   "purpose": "图鉴第 4 页蝙蝠精灵专用 X 坐标 -9 px（F8→EF）",
+   "patches": [
+    {
+     "offset": "0x3DA1F",
+     "kind": "sprite.x",
+     "old": 248,
+     "new": 239,
+     "note": "只改这一专用横坐标，文字不动"
+    }
+   ]
+  }
+ ]
+}

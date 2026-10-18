@@ -1,0 +1,23 @@
+{
+ "id": "rom_041103",
+ "kind": "sheet",
+ "page_size": [
+  16,
+  2
+ ],
+ "baseline": {
+  "tiles": {
+   "bank": 10,
+   "cpu": "0x4866",
+   "tiles": 25
+  }
+ },
+ "cells": [
+  5,
+  6,
+  8,
+  9,
+  10
+ ],
+ "overlay_atlas": "03_Image/edits/rom_041103_cells.png"
+}

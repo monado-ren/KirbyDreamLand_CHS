@@ -1,6 +1,6 @@
 # 页面 VRAM / tile / 地图预算审计
 
-由 `python tools/audit_pages.py --write` 生成；静态审计，不运行 ROM。
+由 `python 00_Tools/audit_pages.py --write` 生成；静态审计，不运行 ROM。
 
 ## 汇总
 

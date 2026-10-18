@@ -7,19 +7,19 @@ No original ROM, localized ROM, emulator or save state is distributed.
 
 PREREQUISITES (all pinned by the repository):
   python -m pip install -r requirements.txt     # Pillow 13.0.0 (PNG codec)
-  python tools/build_rgbds.py                   # RGBDS 1.0.4 built from pinned source
+  python 00_Tools/build_rgbds.py                   # RGBDS 1.0.4 built from pinned source
   # xdelta3 >= 3.0 in PATH (3.2.2 used for the published patch)
 
 BASELINE (repository root):
-  python -B tools/check_base.py
+  python -B 00_Tools/check_base.py
   Input: baserom.gb, 262144 bytes
   Literal output:
 BASELINE=PASS SHA256=c4c6aff6242116c4f26bdcf3343b6c27836010853b8753da8b0cb953a200834a
   Exit status: 0
 
 MODIFIED (xdelta3 3.2.2 in PATH):
-  python -B tools/release.py
-  Input: same verified baserom.gb + source/manifest.json + 71 raw resources
+  python -B 00_Tools/release.py
+  Input: same verified baserom.gb + 04_Data/manifest.json + 71 raw resources
   Literal output:
 RELEASE=PASS VERSION=v0.5.1 XDELTA=3.2.2
 ROM_SHA256=f96fe0ecac53cc586eac19b53fe1b50cef3fd1751261ae273c2356b2c6c62795
@@ -42,58 +42,58 @@ ROLLBACK=PASS RESTORED=JAPAN_REV1_UNLOCALIZED SHA256=c4c6aff6242116c4f26bdcf3343
 
 Additional executed checks:
 - RGBDS from source:
-    python -B tools/build_rgbds.py
+    python -B 00_Tools/build_rgbds.py
     RGBDS=PASS VERSION=1.0.4 PREFIX=build/rgbds TOOLS=rgbasm,rgblink,rgbfix,rgbgfx BUILT=YES
   Pinned source tarball SHA-256 is verified before compiling; no RGBDS
   binary/source is committed.
 - Public unit tests: 126 passed, exit 0.
 - Symbolic change surface (manifest no longer stores patch hex):
-    python -B tools/change_surface.py check --base baserom.gb
+    python -B 00_Tools/change_surface.py check --base baserom.gb
     CHANGE_SURFACE=PASS RELEASE=v0.5.1 SITES=47 PATCHES=110 BYTES=198
       RESOURCES=71 ACTIVE=46 LEGACY=25 REGIONS=1 DIGEST=219d7545deda6092
     BASE=PASS SHA256=c4c6aff6...0834a
   The 110 patches (198 bytes) are derived by assembling
-  source/patches/vblank_two_row.rev1.asm and vblank_two_row.asm with RGBDS and
-  encoding the symbolic loader/pointer values; source/manifest.json stores only
+  06_ProgramFix/patches/vblank_two_row.rev1.asm and vblank_two_row.asm with RGBDS and
+  encoding the symbolic loader/pointer values; 04_Data/manifest.json stores only
   the digest (change_surface.sha256) plus resources/layout.
 - Manifest is generated / verified from the symbols:
-    python -B tools/change_surface.py sync-manifest --write
+    python -B 00_Tools/change_surface.py sync-manifest --write
     SYNC=WROTE PATCHES=110 DIGEST=219d7545deda6092...
-  and the rewritten source/manifest.json is byte-identical to the tracked file;
-  source/manifest.json contains no expected_hex/replacement_hex fields.
-- Graphics sources: 71/71 PNGs in source/graphics/ re-derive the pinned
+  and the rewritten 04_Data/manifest.json is byte-identical to the tracked file;
+  04_Data/manifest.json contains no expected_hex/replacement_hex fields.
+- Graphics sources: 71/71 PNGs in 03_Image/graphics/ re-derive the pinned
   decoded SHA-256 values and packed sizes (Pillow encoding/decoding, strict
   rejection of alpha/interlace/off-palette/wrong dimensions/corrupt chunks).
 - Page layer: 48 pages in two storage modes.  21 bundle pages are full PNGs in
-  source/pages/ and 27 tilemap/sheet pages are baseline+overlay edits in
-  source/edits/ (baseline rebuilt from Rev1; only changed 8x8 cells tracked;
+  03_Image/pages/ and 27 tilemap/sheet pages are baseline+overlay edits in
+  03_Image/edits/ (baseline rebuilt from Rev1; only changed 8x8 cells tracked;
   the 10 baseline-only external tiles are stored as baserom provenance, not
   hex bytes).
-  python -B tools/page_edits.py check
+  python -B 00_Tools/page_edits.py check
     PAGE_EDITS=PASS PAGES=27
-  python -B tools/pages.py render --check
+  python -B 00_Tools/pages.py render --check
     PAGES=PASS PREVIEWS=48 PNG_PAGES=21 EDIT_PAGES=27 EDIT_SKIPPED=0
   Retiling an unedited page reproduces the underlying graphics and map bytes
   byte for byte.  BUNDLE=TILES+MAP is validated by the unchanged release hash.
 - Page budget audit: 48 pages (30 active, 18 legacy), 21 bundle + 27 edit, 0 hard
   errors; warnings cover baseline-tile references and the title page's custom
   segmented layout.
-    python -B tools/audit_pages.py --check
+    python -B 00_Tools/audit_pages.py --check
     PAGE_AUDIT=PASS PAGES=48 ACTIVE_PAGES=30 LEGACY_PAGES=18 BUNDLES=21 EDITS=27
       ACTIVE_RES=46 ZERO_SLACK=19 WARN=9 HARD=0
 - External BGB visual-regression package (32 screens, BGB 1.6.6, same ROM
   SHA-256): package reports 31 static screens / 714240 pixels / 0 differences;
-  tools/audit_visual_regression.py maps the captures back to the page sources:
+  00_Tools/audit_visual_regression.py maps the captures back to the page sources:
   30/30 active pages covered, 29 PASS + 2 PASS_DYNAMIC (menu cursor cells),
   0 FAIL, 1 NOT_LOCALIZED (credits_bonus).
-    PYTHONPATH=build/pylibs python tools/audit_visual_regression.py --write
+    PYTHONPATH=build/pylibs python 00_Tools/audit_visual_regression.py --write
     VISUAL_AUDIT=PASS SCREENS=32 PASS=29 FAIL=0 NOT_LOCALIZED=1 COVERED=30/30
 - Selftest: HAL_CASES=6 MALFORMED_HAL=3 IPS_CASES=3 RESOURCES=71 SURFACE=110P/198B NO_ROM=YES.
 - Fresh Git-index checkout + only baserom.gb: same ROM AND patch bytes.
 - Separate xdelta3decode executable: exact target replay, exit 0.
 - Wrong 262144-byte input: rejected with exit 1; neither ROM nor patch written.
 - git check-ignore: baserom.gb and KirbyDreamLand_CHS-Monado.gb are ignored.
-- Editable font subsets are not tracked: tools/fetch_fonts.py regenerates them from the
+- Editable font subsets are not tracked: 00_Tools/fetch_fonts.py regenerates them from the
   pinned upstream sources and (with --check) reproduces the previous glyph bitmaps.
 - Tracked content audit: PASS, no ROM/header, runtime, private path or token.
 - 71/71 HAL recompressed streams match; Rev1 native fixes remain present.
@@ -102,10 +102,10 @@ Changed project fields:
   standalone_rev1_build, tracked_xdelta3, ignored_rom_outputs,
   revision_tracking_repository
 Initial source branch: codex/release-v0.5.1 -> origin/main
-Build source: source/change_surface.json + source/patches/*.asm +
-  source/manifest.json (resources/layout) + source/graphics/*.png
+Build source: 06_ProgramFix/change_surface.json + 06_ProgramFix/patches/*.asm +
+  04_Data/manifest.json (resources/layout) + 03_Image/graphics/*.png
 Modified output: KirbyDreamLand_CHS-Monado.gb (local only)
-Published delta: KirbyDreamLand_CHS-Monado.xdelta3
+Published delta: patches/KirbyDreamLand_CHS-Monado.xdelta3
 Executable rollback: ROLLBACK.sh
 
 Original header revision remains 1; size code is 4 (512 KiB).

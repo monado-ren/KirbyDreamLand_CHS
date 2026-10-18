@@ -5,7 +5,7 @@ import sys
 import unittest
 
 ROOT = Path(__file__).resolve().parents[1]
-sys.path.insert(0, str(ROOT / 'tools'))
+sys.path.insert(0, str(ROOT / '00_Tools'))
 import common
 import graphics_png as gp
 import page_edits
@@ -51,7 +51,7 @@ class PageLayerTests(unittest.TestCase):
         for entry in self.edits:
             with self.subTest(page=entry['id']):
                 self.assertNotIn('page', entry)
-                self.assertEqual(entry['edit'], 'source/edits/' + entry['id'] + '.json')
+                self.assertEqual(entry['edit'], '03_Image/edits/' + entry['id'] + '.json')
                 edit = page_edits.load_edit(entry)
                 self.assertEqual(edit['kind'], entry['page_kind'])
                 self.assertEqual(edit['id'], entry['id'])
@@ -175,12 +175,12 @@ class PageLayerTests(unittest.TestCase):
                                  self.graphics_page(entry))
 
     def test_page_and_edit_path_escape_rejected(self):
-        for value in ('../page.png', 'source/pages/../../page.png', '/' + 'tmp/page.png',
-                      'source/graphics/page.png'):
+        for value in ('../page.png', '03_Image/pages/../../page.png', '/' + 'tmp/page.png',
+                      '03_Image/graphics/page.png'):
             with self.subTest(value=value), self.assertRaises(common.ProjectError):
                 common.page_path(value)
-        for value in ('../edit.json', 'source/edits/../../edit.json',
-                      'source/pages/edit.json', '/' + 'tmp/edit.json'):
+        for value in ('../edit.json', '03_Image/edits/../../edit.json',
+                      '03_Image/pages/edit.json', '/' + 'tmp/edit.json'):
             with self.subTest(value=value), self.assertRaises(common.ProjectError):
                 common.edit_path(value)
 

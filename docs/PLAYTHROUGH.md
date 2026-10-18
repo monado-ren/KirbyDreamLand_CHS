@@ -12,7 +12,7 @@
 ## 录制
 
 ```sh
-PYTHONPATH=build/pylibs python tools/play_capture.py
+PYTHONPATH=build/pylibs python 00_Tools/play_capture.py
 ```
 
 窗口打开后正常游玩，脚本每 **30 帧（0.5 秒）** 自动记录一次：
@@ -47,17 +47,17 @@ PYTHONPATH=build/pylibs python tools/play_capture.py
 
 ```sh
 # 重放到与原始捕获相同的帧，并核对 VRAM 哈希
-PYTHONPATH=build/pylibs python tools/replay_inputs.py --verify
+PYTHONPATH=build/pylibs python 00_Tools/replay_inputs.py --verify
 
 # 或者逐帧重采（用于补抓一闪而过的画面）
-PYTHONPATH=build/pylibs python tools/replay_inputs.py --capture-every 1 --out build/replay
+PYTHONPATH=build/pylibs python 00_Tools/replay_inputs.py --capture-every 1 --out build/replay
 ```
 
 `REPLAY=PASS ... SYNC=YES` 表示重放帧与原始记录的 VRAM 逐字节一致。重放输出
 `build/replay/index.json` 可直接交给 `analyze_playthrough.py` 分析：
 
 ```sh
-PYTHONPATH=build/pylibs python tools/analyze_playthrough.py --capture-dir build/replay --write
+PYTHONPATH=build/pylibs python 00_Tools/analyze_playthrough.py --capture-dir build/replay --write
 ```
 
 说明：这是 **PyBoy 自己的输入记录/重放**，不是 BizHawk `.bk2` 等外部 TAS 格式。
@@ -68,7 +68,7 @@ PYTHONPATH=build/pylibs python tools/analyze_playthrough.py --capture-dir build/
 ## 分析
 
 ```sh
-PYTHONPATH=build/pylibs python tools/analyze_playthrough.py --write
+PYTHONPATH=build/pylibs python 00_Tools/analyze_playthrough.py --write
 ```
 
 输出：

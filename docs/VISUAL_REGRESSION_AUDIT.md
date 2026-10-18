@@ -1,6 +1,6 @@
 # 外部 BGB 视觉回归包 → 页面源核对
 
-由 `PYTHONPATH=build/pylibs python tools/audit_visual_regression.py --write` 生成。
+由 `PYTHONPATH=build/pylibs python 00_Tools/audit_visual_regression.py --write` 生成。
 
 - 包内 ROM SHA-256：`f96fe0ecac53cc586eac19b53fe1b50cef3fd1751261ae273c2356b2c6c62795`（与当前构建一致）
 - 模拟器：BGB 1.6.6；画面数：32；缺失画面：无

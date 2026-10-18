@@ -1,5 +1,5 @@
 {
-  "scope": "assets/translations/licenses packaging only",
+  "scope": "assets/02_Text/licenses packaging only",
   "status": "PASS",
   "release": "v0.5.1",
   "baseline": "Japan Rev 1",
@@ -39,62 +39,62 @@
   },
   "files": [
     {
-      "path": "assets/artwork/configuration-background.png",
+      "path": "03_Image/artwork/configuration-background.png",
       "sha256": "02b986a2f78c072f281f4cfdd16d55554428bbe0236d04103952ad3ab2fb8fbd",
       "bytes": 2042
     },
     {
-      "path": "assets/artwork/corner-logo.png",
+      "path": "03_Image/artwork/corner-logo.png",
       "sha256": "e03022512fd1445aae874f68c62e8045d4e0198f73a9e853934ccbc1dc7a3482",
       "bytes": 505
     },
     {
-      "path": "assets/artwork/ending-hint-extra.png",
+      "path": "03_Image/artwork/ending-hint-extra.png",
       "sha256": "f55e40d430c9cfbc115a8a0752dc1822ed32a467e2700d64ac18534d4d7e8a88",
       "bytes": 2730
     },
     {
-      "path": "assets/artwork/ending-hint-normal.png",
+      "path": "03_Image/artwork/ending-hint-normal.png",
       "sha256": "b25c340c1a1b55ca1856794a02a941d8384e9bd6e1b58a2d297c8056c9459681",
       "bytes": 2782
     },
     {
-      "path": "assets/artwork/ending-sign.png",
+      "path": "03_Image/artwork/ending-sign.png",
       "sha256": "3a380099608dc9334024360bfd91371d72291d81b605d89f8541884017017bd3",
       "bytes": 404
     },
     {
-      "path": "assets/artwork/gallery-03-background.png",
+      "path": "03_Image/artwork/gallery-03-background.png",
       "sha256": "d2f6e34935bfafcba62370e16257afeefe9f2106726a9f8bb4a0a738713b780b",
       "bytes": 1758
     },
     {
-      "path": "assets/artwork/stage-01-background.png",
+      "path": "03_Image/artwork/stage-01-background.png",
       "sha256": "b3ac82ba8ed35eaf02f9012107c7600af11a5ec39c4a2f0f928cfff1894a80cd",
       "bytes": 2173
     },
     {
-      "path": "assets/artwork/stage-02-background.png",
+      "path": "03_Image/artwork/stage-02-background.png",
       "sha256": "c7f5f260a25bb9856f1a0846511e58c46340594a8dabacecf447df982780116b",
       "bytes": 1565
     },
     {
-      "path": "assets/artwork/title-logo.png",
+      "path": "03_Image/artwork/title-logo.png",
       "sha256": "74172af77b207d0e66c05e288bf589c7fcd8bb8644e54b822daa225c1db8e431",
       "bytes": 3113
     },
     {
-      "path": "assets/fonts/jpzh-bitmap-12.json",
+      "path": "05_Font/generated/jpzh-bitmap-12.json",
       "sha256": "1539a432054396b9dd35016a34025444f15408d64583ea019514fa8fcd6e2171",
       "bytes": 55747
     },
     {
-      "path": "assets/fonts/jpzh-bitmap-hud-8.json",
+      "path": "05_Font/generated/jpzh-bitmap-hud-8.json",
       "sha256": "1bff0ffb6977a0f7311a3c5b57c1b463b1e4cffdec0174f9af334f809795a8c8",
       "bytes": 2186
     },
     {
-      "path": "assets/manifest.json",
+      "path": "04_Data/assets.json",
       "sha256": "02bbbe40fd788534ccb5f5105eda39676e220f237b00abe0be7ebe9d38d03da3",
       "bytes": 7620
     },
@@ -144,12 +144,12 @@
       "bytes": 4026
     },
     {
-      "path": "translations/README.md",
+      "path": "02_Text/README.md",
       "sha256": "1168001a1e559a2c6f5d949f6256a731b0d7f30585362e35e1f6e188680ca417",
       "bytes": 1585
     },
     {
-      "path": "translations/zh-Hans.json",
+      "path": "02_Text/zh-Hans.json",
       "sha256": "b040620f606dca8394e284fe7fd822941d43cfb4600a709886006ca7b0e34538",
       "bytes": 35547
     }

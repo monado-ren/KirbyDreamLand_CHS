@@ -11,7 +11,7 @@ import unittest
 from unittest.mock import patch
 
 ROOT = Path(__file__).resolve().parents[1]
-sys.path.insert(0, str(ROOT/'tools'))
+sys.path.insert(0, str(ROOT/'00_Tools'))
 import common
 import release
 import apply_patch
@@ -53,7 +53,7 @@ class ReleaseGuards(unittest.TestCase):
         output = self.root/'out.gb'; self.release_reject(output, output)
 
     def test_release_rejects_output_in_source(self):
-        self.release_reject(self.root/'source/out.gb', self.delta)
+        self.release_reject(self.root/'03_Image/out.gb', self.delta)
 
     def rollback_reject(self, target):
         args = ['rollback.py','--base',str(self.base),'--target',str(target)]
@@ -116,7 +116,7 @@ class ReleaseGuards(unittest.TestCase):
 
 class XdeltaWrapperTests(unittest.TestCase):
     def test_tracked_patch_is_binary_vcdiff_without_application_header(self):
-        path = ROOT/'KirbyDreamLand_CHS-Monado.xdelta3'
+        path = ROOT/'patches/KirbyDreamLand_CHS-Monado.xdelta3'
         self.assertTrue(path.is_file(), 'The release patch must be present')
         self.assertEqual(path.read_bytes()[:5], bytes.fromhex('d6c3c40000'))
 

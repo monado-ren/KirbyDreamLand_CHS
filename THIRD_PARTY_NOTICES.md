@@ -12,12 +12,12 @@
 
 原作及其标志、角色和美术中的权利归 Nintendo、HAL Laboratory 及各自权利人所有。本项目保留用户最终审定的中文 Logo、背景补全、通关提示与“剧终”牌，用于维护汉化修改；这些图稿中可能仍含原作元素，**不声明为全部原创，也不纳入 MIT 授权**。
 
-`assets/artwork/` 是必要的最终编辑参考，而非原版图像导出集合。`source/graphics/` 与 `source/pages/` 中供构建和编辑使用的 PNG 图块、bundle 地图、贴图与合成页面可能包含同样的原作派生内容，也不适用 MIT 的代码授权范围。`translations/zh-Hans.json` 中的原作文字及相关翻译单独列示，不以代码许可证重新授权原作文本。
+`03_Image/artwork/` 是必要的最终编辑参考，而非原版图像导出集合。`03_Image/graphics/` 与 `03_Image/pages/` 中供构建和编辑使用的 PNG 图块、bundle 地图、贴图与合成页面可能包含同样的原作派生内容，也不适用 MIT 的代码授权范围。`02_Text/zh-Hans.json` 中的原作文字及相关翻译单独列示，不以代码许可证重新授权原作文本。
 
 ## 3. JPZH Bitmap 12：12px 字形子集
 
-- 分发方式：**仓库不提交字形数据**；运行 `python tools/fetch_fonts.py` 从上游 pinned
-  `.kbitx` 源（SHA-256 固定）生成 gitignored 的 `assets/fonts/jpzh-bitmap-12.json`（150 字形）。
+- 分发方式：**仓库不提交字形数据**；运行 `python 00_Tools/fetch_fonts.py` 从上游 pinned
+  `.kbitx` 源（SHA-256 固定）生成 gitignored 的 `05_Font/generated/jpzh-bitmap-12.json`（150 字形）。
 - 上游：[Z Labs Pixel 12px](https://github.com/Astro-2539/ZLabs-Pixel-12px)，所用字体款式为 M CN。
 - 上游版权：Copyright (c) 2023-2025, Astro_2539。
 - 字体许可：[SIL Open Font License 1.1 原文](LICENSES/ZLabs-Pixel-12px-OFL.txt)。
@@ -27,8 +27,8 @@
 
 ## 4. JPZH Bitmap HUD 8：8px 字形子集
 
-- 分发方式：**仓库不提交字形数据**；运行 `python tools/fetch_fonts.py` 从上游 pinned
-  BDF 发行包（SHA-256 固定）生成 gitignored 的 `assets/fonts/jpzh-bitmap-hud-8.json`
+- 分发方式：**仓库不提交字形数据**；运行 `python 00_Tools/fetch_fonts.py` 从上游 pinned
+  BDF 发行包（SHA-256 固定）生成 gitignored 的 `05_Font/generated/jpzh-bitmap-hud-8.json`
   （5 个字形，含空格）。
 - 上游：[Fusion Pixel Font](https://github.com/TakWolf/fusion-pixel-font)，8px Monospaced zh_hans，采用 `2026.09.01` 发行版的字体。
 - 上游版权：Copyright (c) 2022, TakWolf。
@@ -58,4 +58,4 @@
 
 ## 7. 素材目录与构建边界
 
-`assets/`、`translations/` 是清理后的编辑参考。当前可重现构建以 `source/graphics/` 中的 PNG 图形源为准（构建时无损派生为 2bpp 图块/图块表），**不宣称从 assets/ 图稿、字形 JSON 或核稿文本自动渲染全部汉化画面**。更新编辑参考后需另行重新编码和验证资源，再更新补丁。来源哈希及元数据清理记录见 [`assets/manifest.json`](assets/manifest.json)。
+`assets/`、`02_Text/` 是清理后的编辑参考。当前可重现构建以 `03_Image/graphics/` 中的 PNG 图形源为准（构建时无损派生为 2bpp 图块/图块表），**不宣称从 assets/ 图稿、字形 JSON 或核稿文本自动渲染全部汉化画面**。更新编辑参考后需另行重新编码和验证资源，再更新补丁。来源哈希及元数据清理记录见 [`04_Data/assets.json`](04_Data/assets.json)。
