@@ -40,9 +40,9 @@ SCREEN_PAGES = {
     'stage_5_intro': 'rom_06db85',
     'game_over': 'rom_04454c',
     'continue': 'rom_044734',
-    # Runtime bytes say D03A=0 (normal) loads rom_055050 and D03A=1 (extra)
-    # loads rom_056110; the purpose labels in change_surface.json appear to be
-    # crossed for these two resources (see the report note).
+    # D03A=0 (normal clear) shows the "how to enter Extra Game" hint page
+    # rom_055050; D03A=1 (extra clear) shows the "how to enter Config" hint
+    # page rom_056110.
     'hint_normal': 'rom_055050',
     'hint_extra': 'rom_056110',
     'gallery_01': 'rom_048462',
@@ -256,9 +256,9 @@ def render_report(result):
                  '包内也标记为动态（非静态逐像素核验）。')
     lines.append('- `configuration` / `sound_test` 的地图差异是菜单光标/选项高亮在页面加载后'
                  '写入 BG map 造成的动态格子，tile 块仍精确匹配，因此标为 `PASS_DYNAMIC`。')
-    lines.append('- `hint_normal` / `hint_extra` 的实际字节匹配与 `change_surface.json` 的 purpose '
-                 '标注相反：包内 D03A=0（normal）匹配 `rom_055050`，D03A=1（extra）匹配 '
-                 '`rom_056110`。报告按运行时字节采用该映射；两个资源的语义标签需要人工确认。')
+    lines.append('- `hint_normal` 是普通模式通关后的提示页（提示如何进入额外模式），对应 '
+                 '`rom_055050`；`hint_extra` 是额外模式通关后的提示页（提示如何进入配置模式），'
+                 '对应 `rom_056110`。`change_surface.json` 的 purpose 已按此修正。')
     lines.append('- `title` 与 `main_menu` 都是 `rom_070000`；`opening_decoration` 是 '
                  '`stage_1_intro` 的别名捕获，检查的是同一状态下的角标图块。')
     lines.append('- sheet 页（HUD/角标/剧终牌）没有独立的 BG map 可比较，只看整块 tile 是否出现在 VRAM。')

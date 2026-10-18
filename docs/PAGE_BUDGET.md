@@ -102,10 +102,10 @@
 | `rom_04b943` | `ending_039707_load` | - | 图鉴页装载点（bank）：图鉴页·子弹鹈鹕等 + 星空 地图 |
 | `rom_04d6b7` | `ending_039820_load` | - | 图鉴页装载点（bank）：图鉴页·帝帝帝大王 + 王冠舞台 图块集 |
 | `rom_04d918` | `ending_039be1_load` | - | 图鉴页装载点（bank）：图鉴页·帝帝帝大王 + 王冠舞台 地图 |
-| `rom_055130` | `ending_039cbf_load_pointer` | - | 图鉴/提示页装载指针（地址+bank）：普通模式通关提示 图块集（整屏 384 图块） |
-| `rom_056110` | `ending_03acec_load_pointer` | - | 图鉴/提示页装载指针（地址+bank）：普通模式通关提示 地图 |
-| `rom_054000` | `ending_03adda_load_pointer` | - | 图鉴/提示页装载指针（地址+bank）：额外模式通关提示 图块集（整屏 384 图块） |
-| `rom_055050` | `ending_03be31_load_pointer` | - | 图鉴/提示页装载指针（地址+bank）：额外模式通关提示 地图 |
+| `rom_055130` | `ending_039cbf_load_pointer` | - | 图鉴/提示页装载指针（地址+bank）：额外模式通关提示 图块集（整屏 384 图块） |
+| `rom_056110` | `ending_03acec_load_pointer` | - | 图鉴/提示页装载指针（地址+bank）：额外模式通关提示 地图 |
+| `rom_054000` | `ending_03adda_load_pointer` | - | 图鉴/提示页装载指针（地址+bank）：普通模式通关提示 图块集（整屏 384 图块） |
+| `rom_055050` | `ending_03be31_load_pointer` | - | 图鉴/提示页装载指针（地址+bank）：普通模式通关提示 地图 |
 | `rom_05c000` | `configuration_map_full_bundle_load` | 0x8800 | 配置整包装载：源 bank 3→23，VRAM 目的 0x9800→0x8800 |
 | `rom_0438f6` | `sound_test_map_load` | 0x9000 | 声音测试整包装载（VRAM 目的 0x9800→0x9000） |
 

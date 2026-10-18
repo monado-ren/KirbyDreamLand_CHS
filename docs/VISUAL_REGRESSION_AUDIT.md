@@ -55,7 +55,7 @@
 - tile 匹配：bundle 页优先按该页 loader 目的地址比较，其次在 VRAM 中搜索该页 tile 块；tilemap 页搜索 tileset 前缀；sheet 页搜索完整图块块。
 - `credits_bonus` 是未汉化的原版演职人员表滚动画面，不对应任何本地化页面，包内也标记为动态（非静态逐像素核验）。
 - `configuration` / `sound_test` 的地图差异是菜单光标/选项高亮在页面加载后写入 BG map 造成的动态格子，tile 块仍精确匹配，因此标为 `PASS_DYNAMIC`。
-- `hint_normal` / `hint_extra` 的实际字节匹配与 `change_surface.json` 的 purpose 标注相反：包内 D03A=0（normal）匹配 `rom_055050`，D03A=1（extra）匹配 `rom_056110`。报告按运行时字节采用该映射；两个资源的语义标签需要人工确认。
+- `hint_normal` 是普通模式通关后的提示页（提示如何进入额外模式），对应 `rom_055050`；`hint_extra` 是额外模式通关后的提示页（提示如何进入配置模式），对应 `rom_056110`。`change_surface.json` 的 purpose 已按此修正。
 - `title` 与 `main_menu` 都是 `rom_070000`；`opening_decoration` 是 `stage_1_intro` 的别名捕获，检查的是同一状态下的角标图块。
 - sheet 页（HUD/角标/剧终牌）没有独立的 BG map 可比较，只看整块 tile 是否出现在 VRAM。
 - 本报告只核对包的外观数据与页面源；BGB 原生 `state.sna` 不随仓库分发。

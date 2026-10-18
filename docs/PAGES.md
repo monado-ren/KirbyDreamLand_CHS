@@ -47,8 +47,8 @@ python tools/page_edits.py check             # 覆盖层+基线 == 由 graphics 
 | [edit](../source/edits/rom_04d586.json) · [cells](../source/edits/rom_04d586_cells.png) | 256×256 | `rom_04d586` | 图鉴页·睡帽幽灵等 + 砖墙 地图 |
 | [edit](../source/edits/rom_04d918.json) · [cells](../source/edits/rom_04d918_cells.png) | 256×256 | `rom_04d918` | 图鉴页·帝帝帝大王 + 王冠舞台 地图 |
 | [edit](../source/edits/rom_050000.json) · [cells](../source/edits/rom_050000_cells.png) | 128×112 | `rom_050000` | 结局/通关提示精灵表（剧终牌等） |
-| [edit](../source/edits/rom_055050.json) · [cells](../source/edits/rom_055050_cells.png) | 256×256 | `rom_055050` | 额外模式通关提示 地图 |
-| [edit](../source/edits/rom_056110.json) · [cells](../source/edits/rom_056110_cells.png) | 256×256 | `rom_056110` | 普通模式通关提示 地图 |
+| [edit](../source/edits/rom_055050.json) · [cells](../source/edits/rom_055050_cells.png) | 256×256 | `rom_055050` | 普通模式通关提示（提示进入额外模式） 地图 |
+| [edit](../source/edits/rom_056110.json) · [cells](../source/edits/rom_056110_cells.png) | 256×256 | `rom_056110` | 额外模式通关提示（提示进入配置模式） 地图 |
 | [edit](../source/edits/rom_058000.json) · [cells](../source/edits/rom_058000_cells.png) | 128×48 | `rom_058000` | 关卡介绍右下角 32×16 中文角标（开场装饰） |
 | [edit](../source/edits/rom_0742b3.json) · [cells](../source/edits/rom_0742b3_cells.png) | 256×256 | `rom_0742b3` | 图鉴第 3 页·大波比兄弟/风语大树 地图 |
 

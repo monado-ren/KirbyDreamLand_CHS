@@ -600,7 +600,7 @@
    "id": "rom_054000",
    "label": "ending_03adda",
    "role": "active",
-   "purpose": "额外模式通关提示 图块集（整屏 384 图块）",
+   "purpose": "普通模式通关提示 图块集（整屏 384 图块）",
    "format": "tileset",
    "bank": 21,
    "offset": "0x54000",
@@ -610,7 +610,7 @@
    "id": "rom_055050",
    "label": "ending_03be31",
    "role": "active",
-   "purpose": "额外模式通关提示 地图",
+   "purpose": "普通模式通关提示（提示如何进入额外模式） 地图",
    "format": "tilemap",
    "bank": 21,
    "offset": "0x55050",
@@ -620,7 +620,7 @@
    "id": "rom_055130",
    "label": "ending_039cbf",
    "role": "active",
-   "purpose": "普通模式通关提示 图块集（整屏 384 图块）",
+   "purpose": "额外模式通关提示 图块集（整屏 384 图块）",
    "format": "tileset",
    "bank": 21,
    "offset": "0x55130",
@@ -630,7 +630,7 @@
    "id": "rom_056110",
    "label": "ending_03acec",
    "role": "active",
-   "purpose": "普通模式通关提示 地图",
+   "purpose": "额外模式通关提示（提示如何进入配置模式） 地图",
    "format": "tilemap",
    "bank": 21,
    "offset": "0x56110",
@@ -1925,7 +1925,7 @@
   {
    "site": "ending_039cbf_load_pointer",
    "aliases": [],
-   "purpose": "图鉴/提示页装载指针（地址+bank）：普通模式通关提示 图块集（整屏 384 图块）",
+   "purpose": "图鉴/提示页装载指针（地址+bank）：额外模式通关提示 图块集（整屏 384 图块）",
    "patches": [
     {
      "offset": "0x19032",
@@ -1952,7 +1952,7 @@
   {
    "site": "ending_03acec_load_pointer",
    "aliases": [],
-   "purpose": "图鉴/提示页装载指针（地址+bank）：普通模式通关提示 地图",
+   "purpose": "图鉴/提示页装载指针（地址+bank）：额外模式通关提示 地图",
    "patches": [
     {
      "offset": "0x1903D",
@@ -1979,7 +1979,7 @@
   {
    "site": "ending_03adda_load_pointer",
    "aliases": [],
-   "purpose": "图鉴/提示页装载指针（地址+bank）：额外模式通关提示 图块集（整屏 384 图块）",
+   "purpose": "图鉴/提示页装载指针（地址+bank）：普通模式通关提示 图块集（整屏 384 图块）",
    "patches": [
     {
      "offset": "0x19063",
@@ -2006,7 +2006,7 @@
   {
    "site": "ending_03be31_load_pointer",
    "aliases": [],
-   "purpose": "图鉴/提示页装载指针（地址+bank）：额外模式通关提示 地图",
+   "purpose": "图鉴/提示页装载指针（地址+bank）：普通模式通关提示 地图",
    "patches": [
     {
      "offset": "0x1906E",

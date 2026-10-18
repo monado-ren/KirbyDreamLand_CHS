@@ -19,6 +19,9 @@
 - 新增 `tools/audit_visual_regression.py`：核对 BGB 1.6.6 视觉回归包（32 屏、原生 state、
   VRAM/BG map/OAM/IO）与页面源；30/30 活跃页面覆盖，29 PASS + 2 PASS_DYNAMIC，0 FAIL；
   生成 `docs/VISUAL_REGRESSION_AUDIT.md`。
+- 修正两张通关提示页的语义：`rom_055050` 是普通模式通关后提示如何进入额外模式，
+  `rom_056110` 是额外模式通关后提示如何进入配置模式；`change_surface.json` 的 purpose
+  及页面/预算/视觉回归报告同步更新（补丁与 ROM 不受影响）。
 - CI 增加 `pip install -r requirements.txt` 与 `python tools/build_rgbds.py`；
   ROM、xdelta3 补丁与目标哈希（`f96fe0ec…2795`）不变。公开测试 130 项。
 
