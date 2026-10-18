@@ -3,6 +3,7 @@
 import argparse
 from pathlib import Path
 import sys
+import change_surface
 import common
 
 
@@ -14,6 +15,8 @@ def main():
     parser.add_argument('--patch-output',type=Path,help='Optional IPS output; always based on pristine Rev1')
     args=parser.parse_args()
     manifest=common.load_manifest(args.manifest);base=args.rom.read_bytes()
+    if args.manifest.resolve()==common.DEFAULT_MANIFEST.resolve():
+        change_surface.verify(change_surface.load_spec(),manifest)
     output=common.construct(base,manifest)
     protected=(args.rom,args.manifest)
     common.require(args.patch_output is None or args.patch_output.resolve()!=args.output.resolve(),

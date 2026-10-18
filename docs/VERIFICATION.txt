@@ -36,7 +36,20 @@ ROLLBACK=PASS RESTORED=JAPAN_REV1_UNLOCALIZED SHA256=c4c6aff6242116c4f26bdcf3343
   remain unchanged by rollback. No new emulator run is claimed here.
 
 Additional executed checks:
-- Public unit tests: 113 passed, exit 0.
+- Public unit tests: 125 passed, exit 0.
+- Symbolic change surface: 47 sites / 110 patches / 198 bytes / 71 resources
+  (46 active, 25 legacy), 1 instruction-level code region; check PASS against
+  manifest and Rev1 preimages.
+    python -B -S tools/change_surface.py check --base baserom.gb --rgbds build/rgbds
+    CHANGE_SURFACE=PASS RELEASE=v0.5.1 SITES=47 PATCHES=110 BYTES=198 RESOURCES=71
+      ACTIVE=46 LEGACY=25 REGIONS=1 ASM=PASS
+    BASE=PASS SHA256=c4c6aff6...0834a
+  RGBDS 1.0.4 (`rgbasm` + `rgblink`) reassembles source/patches/vblank_two_row.asm
+  to the pinned 41-byte region; the stdlib-only build uses the pinned bytes.
+- Manifest patches are generated from the symbolic surface:
+    python -B -S tools/change_surface.py sync-manifest --write
+    SYNC=WROTE PATCHES=110
+  and the rewritten source/manifest.json is byte-identical to the tracked file.
 - Graphics sources: 71/71 PNGs in source/graphics/ re-derive the pinned
   decoded and packed SHA-256 values; the ROM rebuilt from PNG bytes is
   byte-identical to the ROM rebuilt from the retired source/resources/.
@@ -44,7 +57,7 @@ Additional executed checks:
   21 bundle, 4 sheet); retiling an unedited page reproduces the underlying
   graphics and map bytes byte for byte.  BUNDLE=TILES+MAP is validated by the
   unchanged release hash.
-- Selftest: HAL_CASES=6 MALFORMED_HAL=3 IPS_CASES=3 RESOURCES=71 NO_ROM=YES.
+- Selftest: HAL_CASES=6 MALFORMED_HAL=3 IPS_CASES=3 RESOURCES=71 SURFACE=110P/198B NO_ROM=YES.
 - Fresh Git-index checkout + only baserom.gb: same ROM AND patch bytes.
 - Separate xdelta3decode executable: exact target replay, exit 0.
 - Wrong 262144-byte input: rejected with exit 1; neither ROM nor patch written.

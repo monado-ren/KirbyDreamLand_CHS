@@ -1,6 +1,7 @@
 # SPDX-License-Identifier: MIT
 """ROM-free codec and packaged-resource self-test using only the standard library."""
 import sys
+import change_surface
 import common
 from hal_codec import decode, pack
 
@@ -24,8 +25,10 @@ def main():
         patch = common.create_ips(before, after)
         common.require(common.apply_ips(before, patch) == after, 'IPS roundtrip failed')
     manifest = common.load_manifest()
+    surface = change_surface.verify(change_surface.load_spec(), manifest)
     resources = common.prepare_resources(manifest)
-    print(f'SELFTEST=PASS HAL_CASES={len(cases)} MALFORMED_HAL=3 IPS_CASES={len(targets)} RESOURCES={len(resources)} NO_ROM=YES')
+    print(f'SELFTEST=PASS HAL_CASES={len(cases)} MALFORMED_HAL=3 IPS_CASES={len(targets)} '
+          f'RESOURCES={len(resources)} SURFACE={surface["patches"]}P/{surface["bytes"]}B NO_ROM=YES')
     return 0
 
 

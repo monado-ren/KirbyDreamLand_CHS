@@ -64,7 +64,7 @@ Python 包装工具在写入前校验输入和重建结果；若已有同名输�
 ## 维护与目录
 
 ```text
-source/         71 份无损 PNG 图形源：48 份图块集、23 份背景索引表、21 份 bundle 地图；原银行补丁声明及构建清单
+source/         71 份无损 PNG 图形源：48 份图块集、23 份背景索引表、21 份 bundle 地图；构建清单及符号化改动面
 source/pages/   48 张可读页面 PNG（23 张背景页 + 21 张 bundle 页 + 4 张图块画布），索引见 docs/PAGES.md
 tools/          独立构建、HAL 编解码、修订封装、xdelta3、校验工具
 translations/   核稿文本与接入状态
@@ -76,11 +76,16 @@ LICENSES/       第三方字体许可和署名
 
 构建不读取旧日版、美版、旧汉化 ROM、模拟器或开发者本机目录。
 今后的汉化修订在本仓库提交；请同时更新源码资源、版本清单、补丁与测试。
-[页面索引](docs/PAGES.md) 列出全部 48 张页面及其内容。`translations/` 与 `assets/` 是编辑素材，**仅编辑这些文件不会自动重排整个游戏**；真正参与构建的是 `source/graphics/` 下的 PNG 源，详见 [开发说明](docs/DEVELOPMENT.md)。
+[页面索引](docs/PAGES.md) 列出全部 48 张页面及其内容。`translations/` 与 `assets/` 是编辑素材，**仅编辑这些文件不会自动重排整个游戏**；真正参与构建的是 `source/graphics/` 下的 PNG 源，详见 [开发说明](docs/DEVELOPMENT.md)；改动面的语义索引见 [符号化改动面](docs/CHANGE_SURFACE.md)。
 
 ```sh
 python -m unittest discover -s tests -v
 python tools/selftest.py
+python tools/change_surface.py check --base baserom.gb
+python tools/change_surface.py explain
+python tools/change_surface.py sync-manifest
+# 代码补丁的指令级源在 source/patches/*.asm；安装 RGBDS 后可重新汇编校验（构建本身不需要）
+python tools/change_surface.py check --base baserom.gb --rgbds build/rgbds
 python tools/audit_public_tree.py
 # 将 PNG 派生的实际字节导出到 gitignored 的 build/resources/ 供比对
 python tools/derive_resources.py

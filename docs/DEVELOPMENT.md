@@ -14,6 +14,17 @@
 
 71 份资源包括 25 份当前载入器未引用的旧资源，清单已标注。这些字节仍存在于既定 v0.5.1 中，为保证与指定成品 **Hash 一致**而保留，不应擅自清零。
 
+## 符号化改动面
+
+`source/change_surface.json` 是同一改动面的语义视图：每个装载点有名称、目标资源、旧值→新值和用途，
+每个资源标记 active/legacy 及历史原因，代码补丁带指令级注释。它不直接参与构建，但必须精确派生出
+`source/manifest.json` 的 110 处补丁（198 字节）；默认清单的 `tools/build.py`、`tools/verify.py`、
+`tools/selftest.py` 都会核对，`python tools/change_surface.py check --base baserom.gb` 可单独检查，
+`explain` 可生成人话审阅列表。唯一的代码补丁是 RGBDS 汇编的 `source/patches/vblank_two_row.asm`
+（`code.region`，41 字节区域 → manifest 4 段差异）；安装外部 RGBDS 后可 `assemble --write` 同步、
+`check --rgbds ...` 重新汇编校验，但 stdlib 构建只依赖已固定的 `new_hex`。字段与修改流程见
+[符号化改动面](CHANGE_SURFACE.md)。
+
 ## 文件不是完整反汇编工程
 
 `source/graphics/` 是实际参与构建的图形源，而不是整份 ROM 的改名或封装：48 份为 4 色索引 PNG 的 2bpp 图块集，23 份为 32×32、8 位灰度的图块索引表，均可无损派生为游戏使用的原始字节。原版代码和未改动数据来自用户的输入。
@@ -108,7 +119,8 @@ bash ROLLBACK.sh --base baserom.gb --target build/rollback-test.gb
 git revert <commit>
 ```
 
-每次发布检查：源码重建目标哈希一致、补丁重放一致、错误输入被拒绝、回退副本恢复原版、输入未变、暂存区无 ROM/存档/模拟器/临时文件。发布补丁不发布 ROM。公开 CI 只运行公开资源与合成样本测试；本地自备 ROM 测试单独记录。
+每次发布检查：符号化改动面与清单一致（`python tools/change_surface.py check --base baserom.gb`）、
+源码重建目标哈希一致、补丁重放一致、错误输入被拒绝、回退副本恢复原版、输入未变、暂存区无 ROM/存档/模拟器/临时文件。发布补丁不发布 ROM。公开 CI 只运行公开资源与合成样本测试；本地自备 ROM 测试单独记录。
 
 ## 可复用维护任务模板
 

@@ -1,5 +1,21 @@
 # 版本记录
 
+## v0.5.1 源码工程改进 — 改动面符号化（ROM 与补丁不变）
+
+- 新增 `source/change_surface.json`：把 110 处原银行补丁（198 字节）和 71 个扩展资源从原始 hex
+  提升为语义层——装载点名称、目标资源、旧值→新值、用途说明、25 个历史副本的保留原因、校验和策略。
+- 新增 `tools/change_surface.py`：`check` 证明符号层精确派生出 `source/manifest.json`（含 baserom
+  前置字节与哈希核对），`explain`/`resources`/`dump` 提供人话审阅。
+- manifest 的 `patches` 段现在由符号层生成：`sync-manifest --write` 重写清单，结果与 v0.5.1
+  现有清单逐字节一致（不再手写 hex）；`sync-manifest` 无参数时只校验。
+- 唯一的游戏逻辑补丁（两行 vblank 写入器）升级为指令级：`source/patches/vblank_two_row.asm`
+  用 RGBDS 汇编，41 字节区域与 Rev1 的差异自动派生为 manifest 的 4 段补丁；外部 RGBDS 只用于
+  开发期校验/修改（`assemble --write`、`check --rgbds`），stdlib 构建仍只用固定字节。
+- `tools/build.py`、`tools/verify.py`、`tools/selftest.py` 在使用默认清单时强制核对符号层；
+  新增 `tests/test_change_surface.py`，公开测试增至 125 项。
+- ROM、xdelta3 补丁与目标哈希（`f96fe0ec…2795`）完全不变。
+
+
 ## v0.5.1 源码工程改进 — 图形资源改为无损 PNG（ROM 与补丁不变）
 
 - 71 份解码后的 2bpp 图形资源由 `source/resources/*.bin` 改为 `source/graphics/*.png`：48 份 4 色索引图块集、23 份 32×32 8 位灰度图块表。
