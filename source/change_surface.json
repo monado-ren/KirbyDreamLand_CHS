@@ -3,8 +3,6 @@
  "release": "v0.5.1",
  "baseline": {
   "size": 262144,
-  "md5": "995ce81fe91162cff295badd94e366f3",
-  "sha1": "5fe35fab25299b6c53b40decfe2b1827b4a64d2a",
   "sha256": "c4c6aff6242116c4f26bdcf3343b6c27836010853b8753da8b0cb953a200834a"
  },
  "target": {
@@ -993,15 +991,13 @@
     "length": 41,
     "bank": 6,
     "asm": "source/patches/vblank_two_row.asm",
-    "old_hex": "fa3ad0a7c801459911ca402100cb3e0af5782279221a221303f13d20f3afea1ecbfa91ffcbd7ea91ff",
-    "new_hex": "fa3ad0a7c80147992100cb16d41e0c782279227a22140c7bfe0720020e671d20eeaf77f091cbd7e091",
-    "runs": 4,
     "notes": [
      "循环长度 10→12",
      "改为从 0xD40C 暂存区取 12 个条目，队列基址 0xCB00，行宽 20，跳过 12 列",
      "循环计数/条件分支调整",
      "两行/帧写入循环（含 0x67 回绕）"
-    ]
+    ],
+    "asm_rev1": "source/patches/vblank_two_row.rev1.asm"
    }
   },
   {

@@ -16,7 +16,8 @@
 
 ## 3. JPZH Bitmap 12：12px 字形子集
 
-- 分发文件：`assets/fonts/jpzh-bitmap-12.json`，150 个字形。
+- 分发方式：**仓库不提交字形数据**；运行 `python tools/fetch_fonts.py` 从上游 pinned
+  `.kbitx` 源（SHA-256 固定）生成 gitignored 的 `assets/fonts/jpzh-bitmap-12.json`（150 字形）。
 - 上游：[Z Labs Pixel 12px](https://github.com/Astro-2539/ZLabs-Pixel-12px)，所用字体款式为 M CN。
 - 上游版权：Copyright (c) 2023-2025, Astro_2539。
 - 字体许可：[SIL Open Font License 1.1 原文](LICENSES/ZLabs-Pixel-12px-OFL.txt)。
@@ -26,7 +27,9 @@
 
 ## 4. JPZH Bitmap HUD 8：8px 字形子集
 
-- 分发文件：`assets/fonts/jpzh-bitmap-hud-8.json`，5 个字形（含空格）。
+- 分发方式：**仓库不提交字形数据**；运行 `python tools/fetch_fonts.py` 从上游 pinned
+  BDF 发行包（SHA-256 固定）生成 gitignored 的 `assets/fonts/jpzh-bitmap-hud-8.json`
+  （5 个字形，含空格）。
 - 上游：[Fusion Pixel Font](https://github.com/TakWolf/fusion-pixel-font)，8px Monospaced zh_hans，采用 `2026.09.01` 发行版的字体。
 - 上游版权：Copyright (c) 2022, TakWolf。
 - 字体许可：[SIL Open Font License 1.1 原文](LICENSES/Fusion-Pixel-OFL.txt)。

@@ -18,7 +18,10 @@
   },
   "addressing": "linear",
   "external": {
-   "131": "18183f277f61fe827e423f213f2f3030"
+   "131": {
+    "file_offset": "0x08000",
+    "tile": 131
+   }
   }
  },
  "cells": [

@@ -34,8 +34,7 @@ class ReleaseContractTests(unittest.TestCase):
         self.assertEqual(m['target']['size'], 0x80000)
         self.assertEqual(m['baseline']['sha256'], BASE_SHA256)
         self.assertEqual(m['target']['sha256'], TARGET_SHA256)
-        self.assertEqual(m['baseline']['md5'], '995ce81fe91162cff295badd94e366f3')
-        self.assertEqual(m['target']['md5'], '8b88da8006dd245bcecf87ee1d65b2c8')
+
 
     def test_rev1_code_and_revision_are_not_patch_targets(self):
         used = {at for item in self.manifest['patches']
@@ -60,7 +59,7 @@ class ReleaseContractTests(unittest.TestCase):
             with self.subTest(resource=spec['id']):
                 self.assertEqual(hal_codec.decode(packed), (raw, len(packed)))
                 self.assertEqual(hashlib.sha256(raw).hexdigest(), spec['decoded_sha256'])
-                self.assertEqual(hashlib.sha256(packed).hexdigest(), spec['packed_sha256'])
+                self.assertEqual(len(packed), spec['packed_size'])
                 self.assertLessEqual(len(packed), spec['capacity'])
 
     def test_wrong_revision_sized_dummy_rom_rejected(self):
@@ -128,7 +127,7 @@ class SyntheticCompilerTests(unittest.TestCase):
                 'format': 'hal-greedy-v1', 'source': 'source/graphics/example.png',
                 'png': {'mode': graphics_png.TILES_MODE, 'tiles_per_row': 4, 'tile_count': 4},
                 'decoded_size': len(self.raw), 'decoded_sha256': hashlib.sha256(self.raw).hexdigest(),
-                'packed_size': len(packed), 'packed_sha256': hashlib.sha256(packed).hexdigest()}],
+                'packed_size': len(packed)}],
         }
         self.root_mock = patch.object(common, 'ROOT', self.root); self.root_mock.start()
 
@@ -163,8 +162,8 @@ class SyntheticCompilerTests(unittest.TestCase):
         m = copy.deepcopy(self.manifest); m['resources'][0]['decoded_sha256'] = '0'*64
         with self.assertRaises(common.ProjectError):common.construct(self.base, m)
 
-    def test_packed_hash_tamper_rejected(self):
-        m = copy.deepcopy(self.manifest); m['resources'][0]['packed_sha256'] = '0'*64
+    def test_packed_size_tamper_rejected(self):
+        m = copy.deepcopy(self.manifest); m['resources'][0]['packed_size'] += 1
         with self.assertRaises(common.ProjectError):common.construct(self.base, m)
 
     def test_output_hash_tamper_rejected(self):

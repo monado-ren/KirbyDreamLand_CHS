@@ -11,7 +11,7 @@ def main():
     p.add_argument('--rom',type=Path,default=common.ROOT/'baserom.gb')
     a=p.parse_args()
     result=common.validate_input(a.rom.read_bytes(),common.load_manifest())
-    print('BASELINE=PASS MD5='+result['md5']+' SHA1='+result['sha1']+' SHA256='+result['sha256'])
+    print('BASELINE=PASS SHA256='+result['sha256'])
     return 0
 
 

@@ -3,20 +3,6 @@
   "release_reference": "v0.5.1",
   "target_rom_sha256": "f96fe0ecac53cc586eac19b53fe1b50cef3fd1751261ae273c2356b2c6c62795",
   "role": "editable reference only; release builder reads source/resources, not these PNG or glyph JSON files",
-  "fonts": [
-    {
-      "file": "fonts/jpzh-bitmap-12.json",
-      "glyph_count": 150,
-      "sha256": "1539a432054396b9dd35016a34025444f15408d64583ea019514fa8fcd6e2171",
-      "license": "OFL-1.1"
-    },
-    {
-      "file": "fonts/jpzh-bitmap-hud-8.json",
-      "glyph_count": 5,
-      "sha256": "1bff0ffb6977a0f7311a3c5b57c1b463b1e4cffdec0174f9af334f809795a8c8",
-      "license": "OFL-1.1"
-    }
-  ],
   "artwork": [
     {
       "file": "artwork/title-logo.png",
@@ -185,5 +171,6 @@
       "sha256": "1b4d4877cb561c1800e3a2eacdbcd024760d20971656cec042d434ae9ee33c1d",
       "copied_verbatim": true
     }
-  ]
+  ],
+  "fonts_note": "Editable font subsets are not tracked. Regenerate them with tools/fetch_fonts.py from the pinned upstream sources (ZLabs Pixel 12px M CN and Fusion Pixel 8px Monospaced zh_hans)."
 }

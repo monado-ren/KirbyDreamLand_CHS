@@ -18,7 +18,10 @@
   },
   "addressing": "linear",
   "external": {
-   "254": "ff00ff00ff00ff00ff00ff00ff00ff00"
+   "254": {
+    "file_offset": "0x08000",
+    "tile": 33
+   }
   }
  },
  "cells": [

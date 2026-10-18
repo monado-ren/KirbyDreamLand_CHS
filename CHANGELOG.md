@@ -1,5 +1,23 @@
 # 版本记录
 
+## v0.5.1 源码工程改进 — 符号层成为唯一补丁来源、RGBDS 从源码编译（ROM 与补丁不变）
+
+- `source/manifest.json` 不再存 110 处 `expected_hex/replacement_hex`：加载清单时由
+  `source/change_surface.json` 派生补丁，代码区域用 RGBDS 汇编
+  `source/patches/vblank_two_row.rev1.asm` 与 `vblank_two_row.asm`，清单只保留一个
+  `change_surface.sha256` 摘要。`sync-manifest --write` 可重写清单，结果逐字节一致。
+- 新增 `tools/build_rgbds.py`：从 pinned 的 RGBDS v1.0.4 源码 tarball（SHA-256 固定）下载、
+  `make` 编译并安装到 gitignored 的 `build/rgbds`；构建/测试现在始终使用源码编译的汇编器。
+- 编辑页的 10 个基线外部图块由 160 B hex 改为 baserom provenance（stream 偏移 + tile 序号）。
+- 校验字段精简：去掉 manifest 的 MD5/SHA-1 与每资源 `packed_sha256`，只保留输入/输出 SHA-256、
+  每资源 `decoded_sha256` 与尺寸；`check_base` 只输出 SHA-256。
+- 编辑用字形子集不再入库：`assets/fonts/*.json` 由 `tools/fetch_fonts.py` 从上游 pinned
+  ZLabs Pixel 12px `.kbitx` 与 Fusion Pixel 8px BDF 发行包（SHA-256 固定）生成，glyphs 与
+  既有文件逐项一致；上游字体许可与声明保留。开发侧新增 `requirements-dev.txt`（kbitfont）。
+- CI 增加 `pip install -r requirements.txt` 与 `python tools/build_rgbds.py`；
+  ROM、xdelta3 补丁与目标哈希（`f96fe0ec…2795`）不变。公开测试 126 项。
+
+
 ## v0.5.1 源码工程改进 — PNG 编解码改用 Pillow（ROM 与补丁不变）
 
 - `tools/graphics_png.py` 的 PNG 编解码由自写 stdlib 实现改为 **Pillow**（`requirements.txt`

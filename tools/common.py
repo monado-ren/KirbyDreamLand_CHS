@@ -104,9 +104,8 @@ def validate_manifest(manifest):
     for key in ('baseline', 'target'):
         spec = manifest[key]
         require(isinstance(spec.get('size'), int) and spec['size'] > 0, 'Invalid size')
-        for kind, count in (('md5', 32), ('sha1', 40), ('sha256', 64)):
-            require(re.fullmatch('[0-9a-f]{'+str(count)+'}', spec.get(kind, '')) is not None,
-                    'Invalid '+key+' '+kind+' fingerprint')
+        require(re.fullmatch('[0-9a-f]{64}', spec.get('sha256', '')) is not None,
+                'Invalid '+key+' SHA-256 fingerprint')
     require(manifest['baseline']['size'] == 0x40000 and manifest['target']['size'] == 0x80000,
             'Expected 256 KiB input and 512 KiB output')
     used = set()
@@ -199,13 +198,36 @@ def validate_manifest(manifest):
 
 def load_manifest(path=None):
     manifest = json.loads(Path(path or DEFAULT_MANIFEST).read_text(encoding='utf-8'))
+    if 'patches' not in manifest:
+        # v0.5.2+: the change surface is symbolic.  Derive the 110 patches from
+        # source/change_surface.json (assembling source/patches/*.asm) and pin
+        # the result with one digest instead of storing hex pairs.
+        require(isinstance(manifest.get('change_surface'), dict),
+                'Manifest has neither patches nor a change_surface digest')
+        import change_surface
+        spec = change_surface.load_spec()
+        rgbds = change_surface.find_rgbds()
+        require(rgbds is not None,
+                'RGBDS not found; build it from source first: python tools/build_rgbds.py')
+        derived = change_surface.derive_patches(spec, rgbds)
+        digest = change_surface.patches_digest(derived)
+        require(digest == manifest['change_surface'].get('sha256'),
+                'Change-surface digest mismatch; review source/change_surface.json and run '
+                'tools/change_surface.py sync-manifest --write')
+        manifest['patches'] = derived
     validate_manifest(manifest)
     return manifest
 
 
+def manifest_storage(manifest):
+    """Manifest as written to disk: derived patches are not serialized."""
+    stored = {key: value for key, value in manifest.items() if key != 'patches'}
+    return stored
+
+
 def validate_input(data, manifest):
     actual = fingerprints(data)
-    for key in ('size','md5','sha1','sha256'):
+    for key in ('size','sha256'):
         require(actual[key] == manifest['baseline'][key], 'Wrong base ROM: '+key+' mismatch; use Japanese Rev1')
     require(data[0x14C] == 1, 'Expected cartridge revision 1')
     return actual
@@ -233,8 +255,8 @@ def prepare_resources(manifest, strict=True):
         if strict:
             require(hashlib.sha256(raw).hexdigest() == r['decoded_sha256'],
                     'Resource changed; run repack.py explicitly: '+r['id'])
-            require(len(packed) == r['packed_size'] and hashlib.sha256(packed).hexdigest() == r['packed_sha256'],
-                    'Packed resource fingerprint differs: '+r['id'])
+            require(len(packed) == r['packed_size'],
+                    'Packed resource size differs; run repack.py explicitly: '+r['id'])
         results.append((r, raw, packed))
     return results
 
@@ -248,7 +270,7 @@ def checksums(data):
 
 def verify_output(data, manifest):
     actual = fingerprints(data)
-    for key in ('size','md5','sha1','sha256'):
+    for key in ('size','sha256'):
         require(actual[key] == manifest['target'][key], 'Output '+key+' does not match selected manifest')
     require(checksums(data) == data, 'Output header/global checksum mismatch')
     require(data[0x14C] == 1 and data[0x148] == 4, 'Revision/ROM size header mismatch')
@@ -281,14 +303,14 @@ def refreshed_manifest(base, manifest, version):
     require(version and version != manifest['release'], 'Choose a new edited release name')
     updated = copy.deepcopy(manifest); changes=[]
     for r,raw,packed in prepare_resources(updated, strict=False):
-        new_raw = hashlib.sha256(raw).hexdigest(); new_packed = hashlib.sha256(packed).hexdigest()
+        new_raw = hashlib.sha256(raw).hexdigest()
         if new_raw != r['decoded_sha256']:
             changes.append(dict(id=r['id'],source=r['source'],
-                                old_decoded_sha256=r['decoded_sha256'],new_decoded_sha256=new_raw,
-                                old_packed_sha256=r['packed_sha256'],new_packed_sha256=new_packed,
-                                old_packed_size=r['packed_size'],new_packed_size=len(packed)))
-        r.update(decoded_size=len(raw),decoded_sha256=new_raw,
-                 packed_sha256=new_packed,packed_size=len(packed))
+                                old_decoded_sha256=r['decoded_sha256'],
+                                new_decoded_sha256=new_raw,
+                                old_packed_size=r['packed_size'],
+                                new_packed_size=len(packed)))
+        r.update(decoded_size=len(raw),decoded_sha256=new_raw,packed_size=len(packed))
     require(changes, 'No raw resources changed; no edited manifest was created')
     updated['parent_release'] = manifest['release']; updated['release'] = version
     updated['resource_edits'] = changes
@@ -352,3 +374,7 @@ def write_output(path, data, protected=()):
 
 def dump_json(path, value, protected=()):
     write_output(path,(json.dumps(value,ensure_ascii=False,indent=2)+'\n').encode('utf-8'),protected)
+
+
+def dump_manifest(path, manifest, protected=()):
+    dump_json(path, manifest_storage(manifest), protected)

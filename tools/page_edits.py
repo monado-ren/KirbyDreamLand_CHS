@@ -81,6 +81,10 @@ def _decode_at(base, bank, cpu):
     return hal_codec.decode(base, offset, 65536)[0]
 
 
+def _decode_file_offset(base, offset):
+    return hal_codec.decode(base, offset, 65536)[0]
+
+
 def _blocks(data):
     return [data[i * 16:(i + 1) * 16] for i in range(len(data) // 16)]
 
@@ -101,7 +105,15 @@ def baseline_blocks(entry, edit, base):
     map_spec = spec.get('map')
     common.require(map_spec, 'tilemap edit has no baseline map for ' + entry['id'])
     map_bytes = _decode_at(base, map_spec['bank'], int(map_spec['cpu'], 16))[:map_spec['cells']]
-    external = {int(k): bytes.fromhex(v) for k, v in spec.get('external', {}).items()}
+    external = {}
+    for key, value in spec.get('external', {}).items():
+        index = int(key)
+        if isinstance(value, str):  # legacy hex form, migrated away in v0.5.1
+            external[index] = bytes.fromhex(value)
+        else:
+            data = _decode_file_offset(base, int(value['file_offset'], 16))
+            tile = value['tile']
+            external[index] = data[tile * 16:(tile + 1) * 16]
     addressing = spec.get('addressing', 'linear')
     out = []
     for index in map_bytes:

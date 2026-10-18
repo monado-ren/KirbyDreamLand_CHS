@@ -7,679 +7,18 @@
   "default_output": "KirbyDreamLand_CHS-Monado.gb",
   "baseline": {
     "size": 262144,
-    "md5": "995ce81fe91162cff295badd94e366f3",
-    "sha1": "5fe35fab25299b6c53b40decfe2b1827b4a64d2a",
     "sha256": "c4c6aff6242116c4f26bdcf3343b6c27836010853b8753da8b0cb953a200834a"
   },
   "target": {
     "size": 524288,
-    "md5": "8b88da8006dd245bcecf87ee1d65b2c8",
-    "sha1": "14f48caa3482525e1c5611c3bcc8e682a809f8bf",
     "sha256": "f96fe0ecac53cc586eac19b53fe1b50cef3fd1751261ae273c2356b2c6c62795"
   },
   "fill_byte": 255,
-  "patches": [
-    {
-      "offset": 328,
-      "expected_hex": "03",
-      "replacement_hex": "04",
-      "field": "rom_size_512KiB"
-    },
-    {
-      "offset": 6980,
-      "expected_hex": "5548",
-      "replacement_hex": "0050",
-      "field": "normal_hud_load"
-    },
-    {
-      "offset": 6986,
-      "expected_hex": "02",
-      "replacement_hex": "10",
-      "field": "normal_hud_load"
-    },
-    {
-      "offset": 7004,
-      "expected_hex": "6648",
-      "replacement_hex": "0351",
-      "field": "extra_hud_load"
-    },
-    {
-      "offset": 7010,
-      "expected_hex": "0a",
-      "replacement_hex": "10",
-      "field": "extra_hud_load"
-    },
-    {
-      "offset": 8209,
-      "expected_hex": "02",
-      "replacement_hex": "04",
-      "field": "HUD_score_label_x16"
-    },
-    {
-      "offset": 8214,
-      "expected_hex": "03",
-      "replacement_hex": "02",
-      "field": "HUD_score_label_x16"
-    },
-    {
-      "offset": 8218,
-      "expected_hex": "04",
-      "replacement_hex": "03",
-      "field": "HUD_score_label_x16"
-    },
-    {
-      "offset": 98382,
-      "expected_hex": "98",
-      "replacement_hex": "88",
-      "field": "title_bundle_load;title_load_bank28;title_load_pointer_destination_bank"
-    },
-    {
-      "offset": 98384,
-      "expected_hex": "03",
-      "replacement_hex": "1c",
-      "field": "title_bundle_load;title_load_bank28;title_load_pointer_destination_bank"
-    },
-    {
-      "offset": 98470,
-      "expected_hex": "45",
-      "replacement_hex": "47",
-      "field": "two_row_vblank_queue_writer"
-    },
-    {
-      "offset": 98472,
-      "expected_hex": "11ca402100cb3e0af578",
-      "replacement_hex": "2100cb16d41e0c782279",
-      "field": "two_row_vblank_queue_writer"
-    },
-    {
-      "offset": 98483,
-      "expected_hex": "79",
-      "replacement_hex": "7a",
-      "field": "two_row_vblank_queue_writer"
-    },
-    {
-      "offset": 98485,
-      "expected_hex": "1a221303f13d20f3afea1ecbfa91ffcbd7ea91ff",
-      "replacement_hex": "140c7bfe0720020e671d20eeaf77f091cbd7e091",
-      "field": "two_row_vblank_queue_writer"
-    },
-    {
-      "offset": 98967,
-      "expected_hex": "5548",
-      "replacement_hex": "0050",
-      "field": "normal_hud_load"
-    },
-    {
-      "offset": 98973,
-      "expected_hex": "02",
-      "replacement_hex": "10",
-      "field": "normal_hud_load"
-    },
-    {
-      "offset": 98991,
-      "expected_hex": "6648",
-      "replacement_hex": "0351",
-      "field": "extra_hud_load"
-    },
-    {
-      "offset": 98997,
-      "expected_hex": "0a",
-      "replacement_hex": "10",
-      "field": "extra_hud_load"
-    },
-    {
-      "offset": 99089,
-      "expected_hex": "5548",
-      "replacement_hex": "0050",
-      "field": "normal_hud_load"
-    },
-    {
-      "offset": 99095,
-      "expected_hex": "02",
-      "replacement_hex": "10",
-      "field": "normal_hud_load"
-    },
-    {
-      "offset": 99153,
-      "expected_hex": "ad5c",
-      "replacement_hex": "0040",
-      "field": "intro_decoration_load"
-    },
-    {
-      "offset": 99159,
-      "expected_hex": "03",
-      "replacement_hex": "16",
-      "field": "intro_decoration_load"
-    },
-    {
-      "offset": 99186,
-      "expected_hex": "98",
-      "replacement_hex": "90",
-      "field": "stage_bundle_destination"
-    },
-    {
-      "offset": 100198,
-      "expected_hex": "1646",
-      "replacement_hex": "4c45",
-      "field": "gameover_map_load"
-    },
-    {
-      "offset": 100202,
-      "expected_hex": "98",
-      "replacement_hex": "90",
-      "field": "gameover_map_load"
-    },
-    {
-      "offset": 100204,
-      "expected_hex": "03",
-      "replacement_hex": "11",
-      "field": "gameover_map_load"
-    },
-    {
-      "offset": 100321,
-      "expected_hex": "ad5c",
-      "replacement_hex": "0040",
-      "field": "intro_decoration_load"
-    },
-    {
-      "offset": 100327,
-      "expected_hex": "03",
-      "replacement_hex": "16",
-      "field": "intro_decoration_load"
-    },
-    {
-      "offset": 100332,
-      "expected_hex": "6646",
-      "replacement_hex": "3447",
-      "field": "continue_map_load"
-    },
-    {
-      "offset": 100336,
-      "expected_hex": "98",
-      "replacement_hex": "90",
-      "field": "continue_map_load"
-    },
-    {
-      "offset": 100338,
-      "expected_hex": "03",
-      "replacement_hex": "11",
-      "field": "continue_map_load"
-    },
-    {
-      "offset": 100530,
-      "expected_hex": "804f",
-      "replacement_hex": "0040",
-      "field": "ending_sprites_load"
-    },
-    {
-      "offset": 100536,
-      "expected_hex": "03",
-      "replacement_hex": "14",
-      "field": "ending_sprites_load"
-    },
-    {
-      "offset": 100618,
-      "expected_hex": "5548",
-      "replacement_hex": "0050",
-      "field": "normal_hud_load"
-    },
-    {
-      "offset": 100624,
-      "expected_hex": "02",
-      "replacement_hex": "10",
-      "field": "normal_hud_load"
-    },
-    {
-      "offset": 100745,
-      "expected_hex": "804f",
-      "replacement_hex": "0040",
-      "field": "ending_sprites_load"
-    },
-    {
-      "offset": 100751,
-      "expected_hex": "03",
-      "replacement_hex": "14",
-      "field": "ending_sprites_load"
-    },
-    {
-      "offset": 101686,
-      "expected_hex": "0d",
-      "replacement_hex": "12",
-      "field": "ending_034000_load"
-    },
-    {
-      "offset": 101691,
-      "expected_hex": "c045",
-      "replacement_hex": "6244",
-      "field": "ending_0345c0_load"
-    },
-    {
-      "offset": 101697,
-      "expected_hex": "0d",
-      "replacement_hex": "12",
-      "field": "ending_0345c0_load"
-    },
-    {
-      "offset": 101728,
-      "expected_hex": "fb46",
-      "replacement_hex": "0040",
-      "field": "ending_0346fb_load"
-    },
-    {
-      "offset": 101734,
-      "expected_hex": "0d",
-      "replacement_hex": "13",
-      "field": "ending_0346fb_load"
-    },
-    {
-      "offset": 101739,
-      "expected_hex": "b44c",
-      "replacement_hex": "f444",
-      "field": "ending_034cb4_load"
-    },
-    {
-      "offset": 101745,
-      "expected_hex": "0d",
-      "replacement_hex": "13",
-      "field": "ending_034cb4_load"
-    },
-    {
-      "offset": 101776,
-      "expected_hex": "c04d",
-      "replacement_hex": "0040",
-      "field": "ending_034dc0_load;ending_034dc0_pointer;ending_034dc0_pointer_reverted"
-    },
-    {
-      "offset": 101782,
-      "expected_hex": "0d",
-      "replacement_hex": "1d",
-      "field": "ending_034dc0_load;ending_034dc0_pointer;ending_034dc0_pointer_reverted"
-    },
-    {
-      "offset": 101787,
-      "expected_hex": "5c53",
-      "replacement_hex": "b342",
-      "field": "ending_03535c_load;ending_03535c_pointer;ending_03535c_pointer_reverted"
-    },
-    {
-      "offset": 101793,
-      "expected_hex": "0d",
-      "replacement_hex": "1d",
-      "field": "ending_03535c_load;ending_03535c_pointer;ending_03535c_pointer_reverted"
-    },
-    {
-      "offset": 101832,
-      "expected_hex": "3e54",
-      "replacement_hex": "0946",
-      "field": "ending_03543e_load"
-    },
-    {
-      "offset": 101838,
-      "expected_hex": "0d",
-      "replacement_hex": "13",
-      "field": "ending_03543e_load"
-    },
-    {
-      "offset": 101843,
-      "expected_hex": "8759",
-      "replacement_hex": "f24a",
-      "field": "ending_035987_load"
-    },
-    {
-      "offset": 101849,
-      "expected_hex": "0d",
-      "replacement_hex": "13",
-      "field": "ending_035987_load"
-    },
-    {
-      "offset": 101880,
-      "expected_hex": "895a",
-      "replacement_hex": "4a55",
-      "field": "ending_035a89_load"
-    },
-    {
-      "offset": 101886,
-      "expected_hex": "0d",
-      "replacement_hex": "12",
-      "field": "ending_035a89_load"
-    },
-    {
-      "offset": 101891,
-      "expected_hex": "d25f",
-      "replacement_hex": "d456",
-      "field": "ending_035fd2_load"
-    },
-    {
-      "offset": 101897,
-      "expected_hex": "0d",
-      "replacement_hex": "12",
-      "field": "ending_035fd2_load"
-    },
-    {
-      "offset": 101936,
-      "expected_hex": "6360",
-      "replacement_hex": "6957",
-      "field": "ending_036063_load"
-    },
-    {
-      "offset": 101942,
-      "expected_hex": "0d",
-      "replacement_hex": "12",
-      "field": "ending_036063_load"
-    },
-    {
-      "offset": 101947,
-      "expected_hex": "5365",
-      "replacement_hex": "f85b",
-      "field": "ending_036553_load"
-    },
-    {
-      "offset": 101953,
-      "expected_hex": "0d",
-      "replacement_hex": "12",
-      "field": "ending_036553_load"
-    },
-    {
-      "offset": 101984,
-      "expected_hex": "5866",
-      "replacement_hex": "044c",
-      "field": "ending_036658_load"
-    },
-    {
-      "offset": 101990,
-      "expected_hex": "0d",
-      "replacement_hex": "13",
-      "field": "ending_036658_load"
-    },
-    {
-      "offset": 101995,
-      "expected_hex": "806b",
-      "replacement_hex": "984d",
-      "field": "ending_036b80_load"
-    },
-    {
-      "offset": 102001,
-      "expected_hex": "0d",
-      "replacement_hex": "13",
-      "field": "ending_036b80_load"
-    },
-    {
-      "offset": 102040,
-      "expected_hex": "7c6c",
-      "replacement_hex": "9a5f",
-      "field": "ending_036c7c_load"
-    },
-    {
-      "offset": 102046,
-      "expected_hex": "0d",
-      "replacement_hex": "12",
-      "field": "ending_036c7c_load"
-    },
-    {
-      "offset": 102051,
-      "expected_hex": "7d71",
-      "replacement_hex": "a163",
-      "field": "ending_03717d_load"
-    },
-    {
-      "offset": 102057,
-      "expected_hex": "0d",
-      "replacement_hex": "12",
-      "field": "ending_03717d_load"
-    },
-    {
-      "offset": 102088,
-      "expected_hex": "9b72",
-      "replacement_hex": "8c4e",
-      "field": "ending_03729b_load"
-    },
-    {
-      "offset": 102094,
-      "expected_hex": "0d",
-      "replacement_hex": "13",
-      "field": "ending_03729b_load"
-    },
-    {
-      "offset": 102099,
-      "expected_hex": "9c77",
-      "replacement_hex": "bb50",
-      "field": "ending_03779c_load"
-    },
-    {
-      "offset": 102105,
-      "expected_hex": "0d",
-      "replacement_hex": "13",
-      "field": "ending_03779c_load"
-    },
-    {
-      "offset": 102143,
-      "expected_hex": "0040",
-      "replacement_hex": "e967",
-      "field": "ending_038000_load"
-    },
-    {
-      "offset": 102149,
-      "expected_hex": "0e",
-      "replacement_hex": "12",
-      "field": "ending_038000_load"
-    },
-    {
-      "offset": 102154,
-      "expected_hex": "cc78",
-      "replacement_hex": "1b6b",
-      "field": "ending_0378cc_load"
-    },
-    {
-      "offset": 102160,
-      "expected_hex": "0d",
-      "replacement_hex": "12",
-      "field": "ending_0378cc_load"
-    },
-    {
-      "offset": 102199,
-      "expected_hex": "8245",
-      "replacement_hex": "b851",
-      "field": "ending_038582_load"
-    },
-    {
-      "offset": 102205,
-      "expected_hex": "0e",
-      "replacement_hex": "13",
-      "field": "ending_038582_load"
-    },
-    {
-      "offset": 102210,
-      "expected_hex": "c64a",
-      "replacement_hex": "8655",
-      "field": "ending_038ac6_load"
-    },
-    {
-      "offset": 102216,
-      "expected_hex": "0e",
-      "replacement_hex": "13",
-      "field": "ending_038ac6_load"
-    },
-    {
-      "offset": 102255,
-      "expected_hex": "f34b",
-      "replacement_hex": "1e71",
-      "field": "ending_038bf3_load"
-    },
-    {
-      "offset": 102261,
-      "expected_hex": "0e",
-      "replacement_hex": "12",
-      "field": "ending_038bf3_load"
-    },
-    {
-      "offset": 102266,
-      "expected_hex": "1e51",
-      "replacement_hex": "db74",
-      "field": "ending_03911e_load"
-    },
-    {
-      "offset": 102272,
-      "expected_hex": "0e",
-      "replacement_hex": "12",
-      "field": "ending_03911e_load"
-    },
-    {
-      "offset": 102311,
-      "expected_hex": "0652",
-      "replacement_hex": "dd75",
-      "field": "ending_039206_load"
-    },
-    {
-      "offset": 102317,
-      "expected_hex": "0e",
-      "replacement_hex": "12",
-      "field": "ending_039206_load"
-    },
-    {
-      "offset": 102322,
-      "expected_hex": "0757",
-      "replacement_hex": "4379",
-      "field": "ending_039707_load"
-    },
-    {
-      "offset": 102328,
-      "expected_hex": "0e",
-      "replacement_hex": "12",
-      "field": "ending_039707_load"
-    },
-    {
-      "offset": 102370,
-      "expected_hex": "2058",
-      "replacement_hex": "b756",
-      "field": "ending_039820_load"
-    },
-    {
-      "offset": 102376,
-      "expected_hex": "0e",
-      "replacement_hex": "13",
-      "field": "ending_039820_load"
-    },
-    {
-      "offset": 102381,
-      "expected_hex": "e15b",
-      "replacement_hex": "1859",
-      "field": "ending_039be1_load"
-    },
-    {
-      "offset": 102387,
-      "expected_hex": "0e",
-      "replacement_hex": "13",
-      "field": "ending_039be1_load"
-    },
-    {
-      "offset": 102450,
-      "expected_hex": "bf5c",
-      "replacement_hex": "3051",
-      "field": "ending_039cbf_load_pointer"
-    },
-    {
-      "offset": 102456,
-      "expected_hex": "0e",
-      "replacement_hex": "15",
-      "field": "ending_039cbf_load_pointer"
-    },
-    {
-      "offset": 102461,
-      "expected_hex": "ec6c",
-      "replacement_hex": "1061",
-      "field": "ending_03acec_load_pointer"
-    },
-    {
-      "offset": 102467,
-      "expected_hex": "0e",
-      "replacement_hex": "15",
-      "field": "ending_03acec_load_pointer"
-    },
-    {
-      "offset": 102499,
-      "expected_hex": "da6d",
-      "replacement_hex": "0040",
-      "field": "ending_03adda_load_pointer"
-    },
-    {
-      "offset": 102505,
-      "expected_hex": "0e",
-      "replacement_hex": "15",
-      "field": "ending_03adda_load_pointer"
-    },
-    {
-      "offset": 102510,
-      "expected_hex": "317e",
-      "replacement_hex": "5050",
-      "field": "ending_03be31_load_pointer"
-    },
-    {
-      "offset": 102516,
-      "expected_hex": "0e",
-      "replacement_hex": "15",
-      "field": "ending_03be31_load_pointer"
-    },
-    {
-      "offset": 102587,
-      "expected_hex": "0678350678dd0679580679ef067aa6",
-      "replacement_hex": "1b40001b470b1b4da81b54901b5b85",
-      "field": "stage_1_bundle_pointer;stage_1_map_pointer;stage_1_pointer;stage_2_bundle_pointer;stage_2_map_pointer;stage_2_pointer;stage_3_map_pointer;stage_3_pointer;stage_4_map_pointer;stage_4_pointer;stage_5_bundle_pointer;stage_5_bundle_pointer_restore;stage_5_map_pointer;stage_5_pointer"
-    },
-    {
-      "offset": 107426,
-      "expected_hex": "5548",
-      "replacement_hex": "0050",
-      "field": "normal_hud_load"
-    },
-    {
-      "offset": 107432,
-      "expected_hex": "02",
-      "replacement_hex": "10",
-      "field": "normal_hud_load"
-    },
-    {
-      "offset": 107459,
-      "expected_hex": "3a45",
-      "replacement_hex": "0040",
-      "field": "configuration_map_full_bundle_load;configuration_map_load"
-    },
-    {
-      "offset": 107463,
-      "expected_hex": "98",
-      "replacement_hex": "88",
-      "field": "configuration_map_full_bundle_load;configuration_map_load"
-    },
-    {
-      "offset": 107465,
-      "expected_hex": "03",
-      "replacement_hex": "17",
-      "field": "configuration_map_full_bundle_load;configuration_map_load"
-    },
-    {
-      "offset": 107886,
-      "expected_hex": "c244",
-      "replacement_hex": "f678",
-      "field": "sound_test_map_load"
-    },
-    {
-      "offset": 107890,
-      "expected_hex": "98",
-      "replacement_hex": "90",
-      "field": "sound_test_map_load"
-    },
-    {
-      "offset": 107892,
-      "expected_hex": "03",
-      "replacement_hex": "10",
-      "field": "sound_test_map_load"
-    },
-    {
-      "offset": 252447,
-      "expected_hex": "f8",
-      "replacement_hex": "ef",
-      "field": "gallery_page4_bat_x_only"
-    }
-  ],
+  "change_surface": {
+    "sha256": "219d7545deda60928b16974e4e90b2231fadcc5b382067d3c28977bb0eac542c",
+    "patches": 110,
+    "bytes": 198
+  },
   "resources": [
     {
       "id": "rom_040000",
@@ -698,7 +37,6 @@
       "decoded_size": 5248,
       "decoded_sha256": "6552d2297d5c62ed97067a361a16075384e384bfa3cd2a92644fa3f976998899",
       "packed_size": 3057,
-      "packed_sha256": "7a8565c390daafce5488f6580d4a93f80eb571c493f6617829de828ad36585ba",
       "referenced_by_current_localized_loaders": false,
       "retained_for_byte_exact_release": true,
       "bundle": {
@@ -727,7 +65,6 @@
       "decoded_size": 400,
       "decoded_sha256": "aba7f20afdb634c4ad25729c29d8b62199c76c74a665ec829055f8bf9232385b",
       "packed_size": 259,
-      "packed_sha256": "663d6277c981eb63f5549e3ee40ca95529e45f355cd671efc212c4a42a1d799d",
       "referenced_by_current_localized_loaders": true,
       "retained_for_byte_exact_release": true,
       "page_kind": "sheet",
@@ -750,7 +87,6 @@
       "decoded_size": 400,
       "decoded_sha256": "aba7f20afdb634c4ad25729c29d8b62199c76c74a665ec829055f8bf9232385b",
       "packed_size": 259,
-      "packed_sha256": "663d6277c981eb63f5549e3ee40ca95529e45f355cd671efc212c4a42a1d799d",
       "referenced_by_current_localized_loaders": true,
       "retained_for_byte_exact_release": true,
       "page_kind": "sheet",
@@ -773,7 +109,6 @@
       "decoded_size": 2624,
       "decoded_sha256": "8079a14eee6a6be58af35094f91366ff8e68d5009018f2bcba36fb0e3f0670fc",
       "packed_size": 1799,
-      "packed_sha256": "3fba50779f1e0e1397f6b25358b15725b8919dfab636bac541d48c9b70ba9676",
       "referenced_by_current_localized_loaders": false,
       "retained_for_byte_exact_release": true,
       "bundle": {
@@ -802,7 +137,6 @@
       "decoded_size": 2624,
       "decoded_sha256": "4f6ae2eab0aae4ee89971af5b599434b0e6fca1c480eb3665402041392ecad59",
       "packed_size": 1675,
-      "packed_sha256": "816f5919057335ceb4a4d7573a0a8a59d72cc7798c1b248431eca8531cf399b8",
       "referenced_by_current_localized_loaders": false,
       "retained_for_byte_exact_release": true,
       "bundle": {
@@ -831,7 +165,6 @@
       "decoded_size": 2624,
       "decoded_sha256": "57d166a6206ef6e15b3f30f630172001477f2f9e2727f1f841ad8ed31e067a57",
       "packed_size": 1749,
-      "packed_sha256": "a419b15b38c6f949f54212931bb50d5c4dbffd49b908c3e0e1f794a3fa19343d",
       "referenced_by_current_localized_loaders": false,
       "retained_for_byte_exact_release": true,
       "bundle": {
@@ -860,7 +193,6 @@
       "decoded_size": 2624,
       "decoded_sha256": "61b429b151f3b1938e2f16915d187c9b22a6cd35b4e9de08779c4e60beeba36c",
       "packed_size": 1776,
-      "packed_sha256": "3dc98bb898975dc8ce59ec3647b4e450c3a23dcc0ff3b2003c8ecf929e0d1ddd",
       "referenced_by_current_localized_loaders": false,
       "retained_for_byte_exact_release": true,
       "bundle": {
@@ -889,7 +221,6 @@
       "decoded_size": 3008,
       "decoded_sha256": "acafd678290304ce785039e64314374b3bcceeea075645d3ced178df691b9805",
       "packed_size": 1640,
-      "packed_sha256": "4c938f6a823e8fe749c72601d05cdd5192819b917e9b2f1d339a6b963cd27262",
       "referenced_by_current_localized_loaders": false,
       "retained_for_byte_exact_release": true,
       "bundle": {
@@ -918,7 +249,6 @@
       "decoded_size": 2624,
       "decoded_sha256": "cad752a46d3909eb1403ec5146cfe09d1c1cb1353ce3d7036badc83161134add",
       "packed_size": 1329,
-      "packed_sha256": "a3282751049a76aec276a4ddcd1c1fd61a9d9effdba7eab82e1cd23924d1346d",
       "referenced_by_current_localized_loaders": false,
       "retained_for_byte_exact_release": true,
       "bundle": {
@@ -947,7 +277,6 @@
       "decoded_size": 2624,
       "decoded_sha256": "3c19f20941ffa15186ae38354a4766a8b1dfc786187bc82798717dd695c72ce9",
       "packed_size": 713,
-      "packed_sha256": "3f12ea724b21974a2a8a408a0dd498d296cf289300f5c7b15a08c181e508ce3d",
       "referenced_by_current_localized_loaders": true,
       "retained_for_byte_exact_release": true,
       "bundle": {
@@ -976,7 +305,6 @@
       "decoded_size": 2624,
       "decoded_sha256": "6d36a2d87f76ed4025a6d7b2b88d9f7c5c7815accfef5dd83440ea3dbdf77786",
       "packed_size": 1356,
-      "packed_sha256": "f273a479c8ae1d2e50fcab0f655284ec53172a87870433465f6cdbf1690cae07",
       "referenced_by_current_localized_loaders": false,
       "retained_for_byte_exact_release": true,
       "bundle": {
@@ -1005,7 +333,6 @@
       "decoded_size": 2624,
       "decoded_sha256": "6d94795e696a1e2db2f4ef07583de309ec9ee1d7099b4852658f088306cab5aa",
       "packed_size": 488,
-      "packed_sha256": "09c30f341f9e06b853d435afeac063dec27b749b9d789f07d792d1d6844caaa6",
       "referenced_by_current_localized_loaders": true,
       "retained_for_byte_exact_release": true,
       "bundle": {
@@ -1034,7 +361,6 @@
       "decoded_size": 2624,
       "decoded_sha256": "72562579d12bdc7413b78a97047f76af91ff27d7e3cf585f55472013712e37b5",
       "packed_size": 478,
-      "packed_sha256": "92ed31cb68946878a720bb1cc03638220b7990345a600226dc10a5630dddf75e",
       "referenced_by_current_localized_loaders": true,
       "retained_for_byte_exact_release": true,
       "bundle": {
@@ -1063,7 +389,6 @@
       "decoded_size": 2048,
       "decoded_sha256": "90dfa9b9cdf00d704a670f4a26cee8a6b472fe5a000292d8e7f8f013ed0ad653",
       "packed_size": 1122,
-      "packed_sha256": "80a7214fd996dc0dbc0911f50479d1f99097070a4ecb76617f5e28d3cd0bcbe2",
       "referenced_by_current_localized_loaders": true,
       "retained_for_byte_exact_release": true
     },
@@ -1086,7 +411,6 @@
       "decoded_size": 1024,
       "decoded_sha256": "3fed202a6cb15399b33dbbb2adf535c6be10f731423fd13792693e2435b4c5d7",
       "packed_size": 335,
-      "packed_sha256": "08087cd968915aa7cdad846989295685f4ded8c860156480df1d0f72375091aa",
       "referenced_by_current_localized_loaders": true,
       "retained_for_byte_exact_release": true,
       "page_kind": "tilemap",
@@ -1109,7 +433,6 @@
       "decoded_size": 2048,
       "decoded_sha256": "0366a2cd0eea9a5234a071497ebb7e3296e78bf41413afc6c2e1856a09f08c82",
       "packed_size": 1281,
-      "packed_sha256": "8271e4643e542986c4e875a6df66d2b12f32345dd1dc78c731b08016d9a13891",
       "referenced_by_current_localized_loaders": false,
       "retained_for_byte_exact_release": true
     },
@@ -1132,7 +455,6 @@
       "decoded_size": 1024,
       "decoded_sha256": "231d8a83ce90f901636e83f3cddcde77c19deeac12faf0011613a9e4d9bf5b97",
       "packed_size": 275,
-      "packed_sha256": "984df0864ec32de4c9b5f3e49f8cdd46b637d8ee48044ee039925bf8cd9e3eec",
       "referenced_by_current_localized_loaders": false,
       "retained_for_byte_exact_release": true,
       "page_kind": "tilemap",
@@ -1155,7 +477,6 @@
       "decoded_size": 2048,
       "decoded_sha256": "02312afc86bf3c221efbe9e7e20365a0f5886eae134250156dc447c4a48d6002",
       "packed_size": 663,
-      "packed_sha256": "a96e85137cb0782f65e5a39340305df6bfbbdffce9664684ea807ab67e88d5d5",
       "referenced_by_current_localized_loaders": false,
       "retained_for_byte_exact_release": true
     },
@@ -1178,7 +499,6 @@
       "decoded_size": 1024,
       "decoded_sha256": "7fa7791ce535a86d6d19b996600b58671908c87432a6b7e8136e382efef77444",
       "packed_size": 238,
-      "packed_sha256": "a07ce50fea87b83ff47b2a73f669c3ed872a11cc00d8242fbbb68bb2448fa3b2",
       "referenced_by_current_localized_loaders": false,
       "retained_for_byte_exact_release": true,
       "page_kind": "tilemap",
@@ -1201,7 +521,6 @@
       "decoded_size": 2048,
       "decoded_sha256": "710a56f21d70e5095c1df3119ffb89da1a9baa5055fa7ec48b70a6b12f56e3eb",
       "packed_size": 1257,
-      "packed_sha256": "82d13be77b98e70476a010465b3e24ea0f14a229c1f4dc93dd3ae51ce08a3809",
       "referenced_by_current_localized_loaders": false,
       "retained_for_byte_exact_release": true
     },
@@ -1224,7 +543,6 @@
       "decoded_size": 1024,
       "decoded_sha256": "932c4c71d183ff0196f70493cdd5d5d439b43829b92b148425ea72a42903dd37",
       "packed_size": 279,
-      "packed_sha256": "3f95227572924fb8e1fe93c0a1e0c71b1310e8e014ca13b8036d9181dbdffdf2",
       "referenced_by_current_localized_loaders": false,
       "retained_for_byte_exact_release": true,
       "page_kind": "tilemap",
@@ -1247,7 +565,6 @@
       "decoded_size": 2048,
       "decoded_sha256": "7daca5900a5c128b7150180b8a049d4d13a6b532ac7e637b377e5c97ac8487a4",
       "packed_size": 394,
-      "packed_sha256": "07a90f22dfb44b5bd5c552b537509bf38cc6e3e33843020909210252796201dd",
       "referenced_by_current_localized_loaders": true,
       "retained_for_byte_exact_release": true
     },
@@ -1270,7 +587,6 @@
       "decoded_size": 1024,
       "decoded_sha256": "61ac079518cc6bb136f016ba809bec7f9c516660112f9df9d1e03ad36efcd6e6",
       "packed_size": 149,
-      "packed_sha256": "d22bcebb7b34e0244d1b3c626bcfbb0a63287809591fee2612a673b86d3f7f52",
       "referenced_by_current_localized_loaders": true,
       "retained_for_byte_exact_release": true,
       "page_kind": "tilemap",
@@ -1293,7 +609,6 @@
       "decoded_size": 2048,
       "decoded_sha256": "d4223596c472a813e0fff115ed62903710faaee788d2c45042ba33b6fdf7e80c",
       "packed_size": 1167,
-      "packed_sha256": "5eeb4c18655bada3afcd4751ed50bb3a12337a2000e9eebac6bd17d7c860c723",
       "referenced_by_current_localized_loaders": true,
       "retained_for_byte_exact_release": true
     },
@@ -1316,7 +631,6 @@
       "decoded_size": 1024,
       "decoded_sha256": "b8d75cf3a42da706c173016d4624ab1bd071e6111e5ebfe750a56d6745c4d246",
       "packed_size": 285,
-      "packed_sha256": "c396ae5eb125ac81236f450f2541ac62958dc65d37eb4feff8187437a1a10344",
       "referenced_by_current_localized_loaders": true,
       "retained_for_byte_exact_release": true,
       "page_kind": "tilemap",
@@ -1339,7 +653,6 @@
       "decoded_size": 2048,
       "decoded_sha256": "7e0d63653e3608a807425f6ae2acb14b5c68740fb532560edcc6b025c53be15e",
       "packed_size": 410,
-      "packed_sha256": "b5ad4ffc638dc2a5cb1defc7142c05e7110f12c5f2be6a370d5c95943c03e942",
       "referenced_by_current_localized_loaders": false,
       "retained_for_byte_exact_release": true
     },
@@ -1362,7 +675,6 @@
       "decoded_size": 1024,
       "decoded_sha256": "baaf264c78fd6112e083cf4f399c6a6cc9cffa0f44b413012be9518cd4430711",
       "packed_size": 235,
-      "packed_sha256": "0d8aa9e3172461fd1e5d20886ab659712a014296a32d1225d36bde57c8860041",
       "referenced_by_current_localized_loaders": false,
       "retained_for_byte_exact_release": true,
       "page_kind": "tilemap",
@@ -1385,7 +697,6 @@
       "decoded_size": 2048,
       "decoded_sha256": "a3494121e38d4d2304c65d3fe519e886d56039563be9edae5ebf9c67f5b1305f",
       "packed_size": 1031,
-      "packed_sha256": "1444adb6741cdfe255e0fa046f797fb6627d91912d20605ea0d0ad1c2423b1a1",
       "referenced_by_current_localized_loaders": true,
       "retained_for_byte_exact_release": true
     },
@@ -1408,7 +719,6 @@
       "decoded_size": 1024,
       "decoded_sha256": "7799e551081239c5d9a57813603dc0bf95b59a22f953b72a9bd7f9b8a55e529a",
       "packed_size": 293,
-      "packed_sha256": "c3324c422e5d53c81f1035b35860704e5951b454df2677b51fac832e5ea64775",
       "referenced_by_current_localized_loaders": true,
       "retained_for_byte_exact_release": true,
       "page_kind": "tilemap",
@@ -1431,7 +741,6 @@
       "decoded_size": 2048,
       "decoded_sha256": "8b92cb7c4bce766b563520cf48b522e4d12d1074c6eb97008e87e06b02a090f1",
       "packed_size": 554,
-      "packed_sha256": "608b6909b9b91ee1df96ef4b4ab7bfaf51fe4e796ce0444ef71077379a65920c",
       "referenced_by_current_localized_loaders": false,
       "retained_for_byte_exact_release": true
     },
@@ -1454,7 +763,6 @@
       "decoded_size": 1024,
       "decoded_sha256": "561c5418e918a0eb5af9ab31c930e4a4f6aa0a38a8a387337b5615e68ecbff14",
       "packed_size": 249,
-      "packed_sha256": "5f86aab3b46e140dd642469c896c0860503f53105bf3570ea2f0f45fb651748e",
       "referenced_by_current_localized_loaders": false,
       "retained_for_byte_exact_release": true,
       "page_kind": "tilemap",
@@ -1477,7 +785,6 @@
       "decoded_size": 2048,
       "decoded_sha256": "ddf8ebcdc13d16cefbb140594483f07c45b2cf0126f3d2134bccf922e47e4ad1",
       "packed_size": 818,
-      "packed_sha256": "1472ac14efde40dbd21a36915e37c095f3ca8d6ffb5438c546da1f545c70f15c",
       "referenced_by_current_localized_loaders": true,
       "retained_for_byte_exact_release": true
     },
@@ -1500,7 +807,6 @@
       "decoded_size": 1024,
       "decoded_sha256": "5f94b5161cf2fd13e4d6a84405f5829ae3bb75356502decc274cbf9acd14d1b3",
       "packed_size": 264,
-      "packed_sha256": "b204b02898320098848ad3f3d38e73a73a5ab08670d959043d1ee59fc16e75c1",
       "referenced_by_current_localized_loaders": true,
       "retained_for_byte_exact_release": true,
       "page_kind": "tilemap",
@@ -1523,7 +829,6 @@
       "decoded_size": 2048,
       "decoded_sha256": "584a471f090256c7dc57c74b765549095eac48a31c83c02e4b2a3df7f68f90da",
       "packed_size": 971,
-      "packed_sha256": "488ea2a0b442097978e087dca8d10f58ad56f82bc111430b246eb127808ac565",
       "referenced_by_current_localized_loaders": false,
       "retained_for_byte_exact_release": true
     },
@@ -1546,7 +851,6 @@
       "decoded_size": 1024,
       "decoded_sha256": "6afb26276148aebe912c305fb463e780a71bb945686e27b895f7c4638372646d",
       "packed_size": 304,
-      "packed_sha256": "270ed2ccb5fa8a376c7acbe0cd47be5bc7e36224d78e0b7846ee630558e08314",
       "referenced_by_current_localized_loaders": false,
       "retained_for_byte_exact_release": true,
       "page_kind": "tilemap",
@@ -1569,7 +873,6 @@
       "decoded_size": 2048,
       "decoded_sha256": "3a5a65688c803027b15ce559af1005768d0590f4c6dbd8b38eff98c9c61458bf",
       "packed_size": 957,
-      "packed_sha256": "0f02e21016e66227ce33823a1aeedff5c6c8ba3a558e9384c600b4800d62bc19",
       "referenced_by_current_localized_loaders": true,
       "retained_for_byte_exact_release": true
     },
@@ -1592,7 +895,6 @@
       "decoded_size": 1024,
       "decoded_sha256": "b6445d727ae369b147cbc5212677d63f62002cd7ff8f53058ea1830a2435d7c3",
       "packed_size": 258,
-      "packed_sha256": "62b07fba33a9f472300a51315f3dcb1bf953834b8b52c12952b932e55035a574",
       "referenced_by_current_localized_loaders": true,
       "retained_for_byte_exact_release": true,
       "page_kind": "tilemap",
@@ -1615,7 +917,6 @@
       "decoded_size": 2048,
       "decoded_sha256": "343f5b8b53c1047b3ea1139507e348af79061da71179fc513558cb300f898506",
       "packed_size": 870,
-      "packed_sha256": "87c9b26dc7c6b984e0d18ebd13f40c73fa25ae4ba7b3fd0b1fc140dbabebfdd4",
       "referenced_by_current_localized_loaders": true,
       "retained_for_byte_exact_release": true
     },
@@ -1638,7 +939,6 @@
       "decoded_size": 1024,
       "decoded_sha256": "53243957945ecf886dcd17b4e66c05e9dd8757744dbe1e98564a82422499be70",
       "packed_size": 306,
-      "packed_sha256": "f781444184a9dc249c5ebc00e483e6cbff8eb9b2c2ea4d6802aac7d7bbc93da1",
       "referenced_by_current_localized_loaders": true,
       "retained_for_byte_exact_release": true,
       "page_kind": "tilemap",
@@ -1661,7 +961,6 @@
       "decoded_size": 2048,
       "decoded_sha256": "e7e001a9e2156a7b65bd2eb018ac29096ce5384676b9a3e833538658d5cae907",
       "packed_size": 604,
-      "packed_sha256": "d1d681ff54f049cd3cbe4900dfef686641d55aa10bbc964622e5fce179307c0d",
       "referenced_by_current_localized_loaders": false,
       "retained_for_byte_exact_release": true
     },
@@ -1684,7 +983,6 @@
       "decoded_size": 1024,
       "decoded_sha256": "6b2a167ec39b44beb0256cc5c4a9cbb264dbd53224eb08cb5db0012b41ba7ecc",
       "packed_size": 164,
-      "packed_sha256": "bc4108d409cd19d2e5df924b76305e15be6552c8af9ff0a297dbd7660901f279",
       "referenced_by_current_localized_loaders": false,
       "retained_for_byte_exact_release": true,
       "page_kind": "tilemap",
@@ -1707,7 +1005,6 @@
       "decoded_size": 2048,
       "decoded_sha256": "8e1f5aa6375a5f0188ed18be79ab14225f387739a18088f436a05c6f5b7720db",
       "packed_size": 1268,
-      "packed_sha256": "2c9e5b95ee639d6b06c6c27dd19bf11462cbce718696447d7c14b4d2245a59cd",
       "referenced_by_current_localized_loaders": true,
       "retained_for_byte_exact_release": true
     },
@@ -1730,7 +1027,6 @@
       "decoded_size": 1024,
       "decoded_sha256": "029bb3531e42c71ef6129c3112065ff1d2496b1b4e2f24e1f25d5242a824b3d7",
       "packed_size": 277,
-      "packed_sha256": "be304b2e97f483e5a7a7697b849fecf02ac01a8971d6922a057a9520831f8139",
       "referenced_by_current_localized_loaders": true,
       "retained_for_byte_exact_release": true,
       "page_kind": "tilemap",
@@ -1753,7 +1049,6 @@
       "decoded_size": 2048,
       "decoded_sha256": "710a56f21d70e5095c1df3119ffb89da1a9baa5055fa7ec48b70a6b12f56e3eb",
       "packed_size": 1257,
-      "packed_sha256": "82d13be77b98e70476a010465b3e24ea0f14a229c1f4dc93dd3ae51ce08a3809",
       "referenced_by_current_localized_loaders": true,
       "retained_for_byte_exact_release": true
     },
@@ -1776,7 +1071,6 @@
       "decoded_size": 1024,
       "decoded_sha256": "bf5b4123e3859b04a2509e59b5dae406d9aa24f79684e87d1209b5e456cfb17c",
       "packed_size": 274,
-      "packed_sha256": "e1371441fc907263bc1b9b4e4ec6723fefd1d49a15d184cf7dbea0af77920279",
       "referenced_by_current_localized_loaders": true,
       "retained_for_byte_exact_release": true,
       "page_kind": "tilemap",
@@ -1799,7 +1093,6 @@
       "decoded_size": 2048,
       "decoded_sha256": "af88ec399e04de39276da732d77106d9c73e15028c6de911398ec984b0fc41ce",
       "packed_size": 404,
-      "packed_sha256": "70b018d7c12c2a86473ee7e0b567c447b385c03befbfc1b72c0bb510594746b7",
       "referenced_by_current_localized_loaders": true,
       "retained_for_byte_exact_release": true
     },
@@ -1822,7 +1115,6 @@
       "decoded_size": 1024,
       "decoded_sha256": "d82b4fc31b0243b6e5cdc3b8fd46c265f1f83f4c3ad0d6b417ebc32328e67f67",
       "packed_size": 244,
-      "packed_sha256": "a3cd1ad2365239880041df31a0c5a5dd1bce2ce7c678fd1eeabdda81fee80069",
       "referenced_by_current_localized_loaders": true,
       "retained_for_byte_exact_release": true,
       "page_kind": "tilemap",
@@ -1845,7 +1137,6 @@
       "decoded_size": 2048,
       "decoded_sha256": "5c2be9a55de89cb5d8954a7b50f6c5486aae465375e81c96e1ded6af26d18a87",
       "packed_size": 559,
-      "packed_sha256": "d89b4520a01cb8781c10b3d167272139fac92b2192e0a814109cd0642dd83afb",
       "referenced_by_current_localized_loaders": true,
       "retained_for_byte_exact_release": true
     },
@@ -1868,7 +1159,6 @@
       "decoded_size": 1024,
       "decoded_sha256": "83088d244c9a2c73787fa9677cbf0510e55f0fcb0e395d388b886efd663a5b2d",
       "packed_size": 253,
-      "packed_sha256": "521d932db777bea006a47564b11e14208da886e475987674198a6e937c378334",
       "referenced_by_current_localized_loaders": true,
       "retained_for_byte_exact_release": true,
       "page_kind": "tilemap",
@@ -1891,7 +1181,6 @@
       "decoded_size": 2048,
       "decoded_sha256": "0316047a9ee75da0eb76ebe7799a9035bfd45387712d912fdc9bb89cc0f00d2f",
       "packed_size": 974,
-      "packed_sha256": "97419d3f021eac53d243b370c2c2e85e7804abad38bc0383afb916b3f33b5491",
       "referenced_by_current_localized_loaders": true,
       "retained_for_byte_exact_release": true
     },
@@ -1914,7 +1203,6 @@
       "decoded_size": 1024,
       "decoded_sha256": "5135f2a3b44ee9b07fc6cbc1eb4e946a923a7cbe0f055bcfd10a0ff3be735ad2",
       "packed_size": 305,
-      "packed_sha256": "08a6e62b54483eec3448087c6420069bf4b1d89dee902d85a65e09609b5758ef",
       "referenced_by_current_localized_loaders": true,
       "retained_for_byte_exact_release": true,
       "page_kind": "tilemap",
@@ -1937,7 +1225,6 @@
       "decoded_size": 2048,
       "decoded_sha256": "5a3f738f12a25aee298cca179e75df2c863279676808e05f0d307fd128ef3b57",
       "packed_size": 609,
-      "packed_sha256": "c7bbb11d6e30094ff749a0278bff8daa59b4f0f9c6ede5c9c18c697cf6ee0171",
       "referenced_by_current_localized_loaders": true,
       "retained_for_byte_exact_release": true
     },
@@ -1960,7 +1247,6 @@
       "decoded_size": 1024,
       "decoded_sha256": "cd6d9acf20bcbb9457693ed8041a3b93a0f3cf9e669b0d2540ada40b73f0e88e",
       "packed_size": 164,
-      "packed_sha256": "0b5a7bc68fcbb04c3c81abbfe6089ec477b6ae2fc5cb961c24ed4790ebaeea9b",
       "referenced_by_current_localized_loaders": true,
       "retained_for_byte_exact_release": true,
       "page_kind": "tilemap",
@@ -1983,7 +1269,6 @@
       "decoded_size": 3584,
       "decoded_sha256": "07b4d31208f1158dedd9a62987ecaa8bdf381d389358a087dbafa4bf30308d0a",
       "packed_size": 2418,
-      "packed_sha256": "c65bcfbae5cab70cafcd83fb3e4e3a74d2824824f79a0e2acce8460b75b3f18e",
       "referenced_by_current_localized_loaders": true,
       "retained_for_byte_exact_release": true,
       "page_kind": "sheet",
@@ -2006,7 +1291,6 @@
       "decoded_size": 6144,
       "decoded_sha256": "0bb9144fc7fe6db98a4180a475fe2a30213a350cf873556257b70c53c048e478",
       "packed_size": 4165,
-      "packed_sha256": "1867d7e828fde837edcf76b4f5eeb9007eaf64b3f3c09ac9bb8b7ee386714f9a",
       "referenced_by_current_localized_loaders": true,
       "retained_for_byte_exact_release": true
     },
@@ -2029,7 +1313,6 @@
       "decoded_size": 1024,
       "decoded_sha256": "6d2b98f1ec92d5f30c81f5ce1643a4af4fb9c68094e28a870c16aa5e8232ecf9",
       "packed_size": 223,
-      "packed_sha256": "7e8f1e3d43d66f41a692dd49eb8eb2562cd41908ae202bcda1160f70354dba18",
       "referenced_by_current_localized_loaders": true,
       "retained_for_byte_exact_release": true,
       "page_kind": "tilemap",
@@ -2052,7 +1335,6 @@
       "decoded_size": 6144,
       "decoded_sha256": "d5a1a29510f924cfbe592cdfc2c294f897ff4c1768244622b4b227ccfd5cd363",
       "packed_size": 4057,
-      "packed_sha256": "327961f0c5783959c6b92ed92c06eb53d336cd913e63f873d216ba6a877a5790",
       "referenced_by_current_localized_loaders": true,
       "retained_for_byte_exact_release": true
     },
@@ -2075,7 +1357,6 @@
       "decoded_size": 1024,
       "decoded_sha256": "1c16cc59389b9d47af139b4bdd9a06d61397cd338e64c4d13c94cba354d80d11",
       "packed_size": 215,
-      "packed_sha256": "9aa4ef510981e1d648cd983a5c971a5b69b12acf4eaf64ef40128a1d82e97895",
       "referenced_by_current_localized_loaders": true,
       "retained_for_byte_exact_release": true,
       "page_kind": "tilemap",
@@ -2098,7 +1379,6 @@
       "decoded_size": 1536,
       "decoded_sha256": "201064ee098170888d100222b3e7ad8bd42e0b170ce645b19fc0ff9b37000627",
       "packed_size": 1268,
-      "packed_sha256": "66ad92047edba71e87a1a9afd9e29b044e40002d8474ade25f327dbfc0d8fe91",
       "referenced_by_current_localized_loaders": true,
       "retained_for_byte_exact_release": true,
       "page_kind": "sheet",
@@ -2121,7 +1401,6 @@
       "decoded_size": 4672,
       "decoded_sha256": "53820fb565ea9267317a23caf6a698b8399af14f9e043793bca9815bedd995c0",
       "packed_size": 2559,
-      "packed_sha256": "c7dc1071ef61e49e05b7604a87e39be07308aed297e96b0e488f7635cd7f4fbd",
       "referenced_by_current_localized_loaders": true,
       "retained_for_byte_exact_release": true,
       "bundle": {
@@ -2150,7 +1429,6 @@
       "decoded_size": 5248,
       "decoded_sha256": "0947e4d128ae96c7a17432c6dfdf644b13f834a75839a72313ef0c5f3ece51e4",
       "packed_size": 3186,
-      "packed_sha256": "e9a4ca82c2675b98b09167fbdc90b23405e4726efb42ab75ebd1abcb6cb516a8",
       "referenced_by_current_localized_loaders": false,
       "retained_for_byte_exact_release": true,
       "bundle": {
@@ -2179,7 +1457,6 @@
       "decoded_size": 2624,
       "decoded_sha256": "bd5e7476e0990290bba38beb4b4e74ba45ced6e4e1168ba26f750a2decced09b",
       "packed_size": 1786,
-      "packed_sha256": "1cdeb60d59346ebe55451a342b76c1be84a42b07d08f8cee0535c15d7807af4c",
       "referenced_by_current_localized_loaders": false,
       "retained_for_byte_exact_release": true,
       "bundle": {
@@ -2208,7 +1485,6 @@
       "decoded_size": 2624,
       "decoded_sha256": "09d8fc17788331b9e619e08084f4ef3eed2979d3e159555e70ffbf87dbf54dd7",
       "packed_size": 1673,
-      "packed_sha256": "045f99a0009d56dd7cd78b63793bbb44329231ab8d24ef4ce1c89ad57f5b416b",
       "referenced_by_current_localized_loaders": false,
       "retained_for_byte_exact_release": true,
       "bundle": {
@@ -2237,7 +1513,6 @@
       "decoded_size": 2624,
       "decoded_sha256": "76e934f8ae91c29e745f1d97d067fef3ffa78800fb38a8f340afd93d40ccf5a3",
       "packed_size": 1803,
-      "packed_sha256": "00dd69c21259deb9b991c3b6aa76bb05929f582286e11c8af518d622119e09a5",
       "referenced_by_current_localized_loaders": true,
       "retained_for_byte_exact_release": true,
       "bundle": {
@@ -2266,7 +1541,6 @@
       "decoded_size": 2624,
       "decoded_sha256": "731c0ea9d1b56d23b68672d2607bf99a1df4acc6106909445f43eaff2d938d9e",
       "packed_size": 1693,
-      "packed_sha256": "b79561336c7e8b756ce2433af861f7f301f63c9b951cc1827e8c81471bc98b71",
       "referenced_by_current_localized_loaders": true,
       "retained_for_byte_exact_release": true,
       "bundle": {
@@ -2295,7 +1569,6 @@
       "decoded_size": 2624,
       "decoded_sha256": "e27d4240ba36bec4e0c92ddf71489714a5e72e492e55dda8cf00a3fad72d219c",
       "packed_size": 1768,
-      "packed_sha256": "f254b386d5b4b0605e2e42e1a7c13af98728578309783c23cbcda8798802f8a7",
       "referenced_by_current_localized_loaders": true,
       "retained_for_byte_exact_release": true,
       "bundle": {
@@ -2324,7 +1597,6 @@
       "decoded_size": 2624,
       "decoded_sha256": "6ee87f3c622b355ab6fb4b312b87a06b643cf87e6758e4c9423e52063e569a68",
       "packed_size": 1781,
-      "packed_sha256": "51da7f0815b30585dd3d6aa4e04bfda07ab0a8fd1b397fe8dd9e5ab6dc1c7c10",
       "referenced_by_current_localized_loaders": true,
       "retained_for_byte_exact_release": true,
       "bundle": {
@@ -2353,7 +1625,6 @@
       "decoded_size": 3008,
       "decoded_sha256": "36475d3ad1d37cc426453faa18abb500dedc0532c43ee430baec02949c27a443",
       "packed_size": 1668,
-      "packed_sha256": "89d1160fd9cb72c1f1c61d0ffa0892690f4f9b2dbf1865b6a2253b2de8c05d23",
       "referenced_by_current_localized_loaders": true,
       "retained_for_byte_exact_release": true,
       "bundle": {
@@ -2382,7 +1653,6 @@
       "decoded_size": 5248,
       "decoded_sha256": "71865e23df0ec363995d8b40a7791785886861aab8df007ff0b3f6dbb9077943",
       "packed_size": 3186,
-      "packed_sha256": "68289365007cd398a51c1cc1ba6dcdb6f448bb08d0967fd79f61a413ce7f9b6a",
       "referenced_by_current_localized_loaders": true,
       "retained_for_byte_exact_release": true,
       "bundle": {
@@ -2411,7 +1681,6 @@
       "decoded_size": 2048,
       "decoded_sha256": "37c8a97df6895cc8aad93a5de0ad9028032e967a10aa3c97c115ec7b890ed325",
       "packed_size": 691,
-      "packed_sha256": "5a18eccf0624b9c5f01dec07a5ca5feddcdd4a19840ecf50c634299385debcab",
       "referenced_by_current_localized_loaders": true,
       "retained_for_byte_exact_release": true
     },
@@ -2434,7 +1703,6 @@
       "decoded_size": 1024,
       "decoded_sha256": "67b7e5dd2d312304573f4c83994c58015860d54db3eaf2c7859003788ddb10f4",
       "packed_size": 231,
-      "packed_sha256": "892ad05f3f38dbc7ead729bd4de1ff7ddde615e84437af47eaa6ae1d97884557",
       "referenced_by_current_localized_loaders": true,
       "retained_for_byte_exact_release": true,
       "page_kind": "tilemap",

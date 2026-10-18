@@ -15,8 +15,6 @@
 | --- | --- |
 | 原始文件名 | `Hoshi no Kirby (Japan) (Rev 1).gb` |
 | 大小 | `262144` 字节 |
-| MD5 | `995ce81fe91162cff295badd94e366f3` |
-| SHA-1 | `5fe35fab25299b6c53b40decfe2b1827b4a64d2a` |
 | SHA-256 | `c4c6aff6242116c4f26bdcf3343b6c27836010853b8753da8b0cb953a200834a` |
 
 ## 从源码构建
@@ -25,6 +23,7 @@
 
 ```sh
 python -m pip install -r requirements.txt
+python tools/build_rgbds.py     # 从 pinned 源码编译 RGBDS（代码补丁汇编/校验需要）
 ```
 
 构建并生成补丁还需要 [xdelta3](https://github.com/jmacd/xdelta/releases) 命令行工具；将其加入 PATH，或通过 `--xdelta` 指定路径。
@@ -52,7 +51,6 @@ python tools/verify.py
 v0.5.1 输出为 **524288 字节**，与开发工程的 `kirby_jp_rev1_zh_v0.5.1_stage5_up2.gb` 逐字节一致：
 
 ```text
-MD5     8b88da8006dd245bcecf87ee1d65b2c8
 SHA-256 f96fe0ecac53cc586eac19b53fe1b50cef3fd1751261ae273c2356b2c6c62795
 ```
 
@@ -91,8 +89,11 @@ python tools/selftest.py
 python tools/change_surface.py check --base baserom.gb
 python tools/change_surface.py explain
 python tools/change_surface.py sync-manifest
-# 代码补丁的指令级源在 source/patches/*.asm；安装 RGBDS 后可重新汇编校验（构建本身不需要）
-python tools/change_surface.py check --base baserom.gb --rgbds build/rgbds
+# 编辑用字形子集不随仓库分发，从上游 pinned 源生成（需要 requirements-dev.txt）
+python -m pip install -r requirements-dev.txt
+python tools/fetch_fonts.py
+# 代码补丁的指令级源在 source/patches/*.asm，清单加载时会用 RGBDS 汇编
+python tools/change_surface.py check --base baserom.gb
 python tools/audit_public_tree.py
 # 将 PNG 派生的实际字节导出到 gitignored 的 build/resources/ 供比对
 python tools/derive_resources.py

@@ -24,7 +24,7 @@ def main():
     protected=(a.rom,a.manifest,common.DEFAULT_MANIFEST)
     common.require(a.output.resolve()!=a.manifest_out.resolve(),'ROM and manifest paths must differ')
     common.write_output(a.output,output,protected)
-    common.dump_json(a.manifest_out,updated,protected)
+    common.dump_manifest(a.manifest_out,updated,protected)
     common.require(a.rom.read_bytes()==base,'Base ROM changed during repack')
     print('REPACK=PASS RELEASE='+updated['release']+' CHANGED_RESOURCES='+str(len(updated['resource_edits'])))
     print('TARGET_SHA256='+updated['target']['sha256'])

@@ -1,24 +1,21 @@
 # SPDX-License-Identifier: MIT
-"""Symbolic view of the localization change surface.
+"""Symbolic source of truth for the localization change surface.
 
-`source/change_surface.json` names every patch and resource: what screen it
-belongs to, which loader site it rewrites, the old/new values in human terms,
-whether a resource is active or a legacy copy, and which code regions are
-assembled from RGBDS sources under `source/patches/`.
-
-The release manifest stays the build authority for v0.5.1.  This tool proves
-that the symbolic layer derives the manifest exactly.  Code regions are
-pinned as bytes for the offline build, and are re-assembled from their
-`.asm` source when RGBDS is available.
+`source/change_surface.json` names every loader site, resource, old/new value
+and code region.  The release manifest no longer stores 110 hex patch pairs:
+patches are derived from this file (assembling the RGBDS sources under
+`source/patches/`) whenever a manifest is loaded.  A single digest pins the
+derived patch list so drift is still detected.
 
 Usage:
     python tools/change_surface.py check [--base baserom.gb] [--rgbds DIR]
     python tools/change_surface.py explain [--site NAME]
     python tools/change_surface.py resources
     python tools/change_surface.py dump
-    python tools/change_surface.py assemble [--write] [--rgbds DIR]
+    python tools/change_surface.py sync-manifest [--write]
 """
 import argparse
+import hashlib
 import json
 from pathlib import Path
 import shutil
@@ -48,7 +45,6 @@ def save_spec(spec, path=DEFAULT_SPEC):
 
 
 def resource_cpu(res):
-    """CPU address of a bank-relative resource, derived from its ROM offset."""
     return 0x4000 + (int(res['offset'], 16) - res['bank'] * 0x4000)
 
 
@@ -78,8 +74,6 @@ def encode_patch(patch, resources):
     kind = patch['kind']
     if kind in ('rom.size', 'hud.label_tile', 'loader.vram_base', 'sprite.x'):
         return _u8(patch['old'], kind), _u8(patch['new'], kind)
-    if kind == 'code':
-        return bytes.fromhex(patch['old']), bytes.fromhex(patch['new'])
     if kind == 'loader.source_addr':
         old = _le16(patch['old'], kind) if isinstance(patch['old'], int) else _le16(int(patch['old'], 16), kind)
         new = _le16(_resolve(patch['new'], resources, kind), kind)
@@ -96,43 +90,80 @@ def encode_patch(patch, resources):
     raise ValueError('Unknown patch kind ' + repr(kind))
 
 
-def region_bytes(region, assembled=None):
-    old = bytes.fromhex(region['old_hex'])
-    new = bytes.fromhex(region['new_hex']) if assembled is None else assembled
-    require(len(old) == region['length'], 'code region old_hex length mismatch')
-    require(len(new) == region['length'], 'code region new_hex length mismatch')
-    return old, new
+def find_rgbds(explicit=None):
+    candidates = []
+    if explicit:
+        candidates.append(Path(explicit))
+    if Path('/usr/bin/rgbasm').exists():
+        candidates.append(Path('/usr/bin'))
+    found = shutil.which('rgbasm')
+    if found:
+        candidates.append(Path(found).parent)
+    candidates.append(common.ROOT / 'build' / 'rgbds')
+    for directory in candidates:
+        if all((Path(directory) / tool).exists() for tool in RGBDS_TOOLS):
+            return Path(directory)
+    return None
 
 
-def derive_region(site, assembled=None):
+def _require_rgbds(explicit=None):
+    rgbds = find_rgbds(explicit)
+    require(rgbds is not None,
+            'RGBDS not found; build it from source with: python tools/build_rgbds.py')
+    return rgbds
+
+
+def assemble_region(region, asm_rel, rgbds):
+    """Assemble one region source and return the *region* bytes."""
+    source = common.ROOT / asm_rel
+    require(source.is_file(), 'missing code source ' + str(source))
+    rgbds = Path(rgbds)
+    with tempfile.TemporaryDirectory() as tmp:
+        obj = Path(tmp) / 'region.o'
+        out = Path(tmp) / 'region.gb'
+        subprocess.run([str(rgbds / 'rgbasm'), '-o', str(obj), str(source)],
+                       check=True, capture_output=True, text=True)
+        subprocess.run([str(rgbds / 'rgblink'), '-o', str(out), str(obj)],
+                       check=True, capture_output=True, text=True)
+        data = out.read_bytes()
+    file_offset = int(region['offset'], 16)
+    require(file_offset + region['length'] <= len(data),
+            'assembled image too short (%d bytes)' % len(data))
+    return data[file_offset:file_offset + region['length']]
+
+
+def derive_region(site, rgbds):
     region = site['region']
-    old, new = region_bytes(region, assembled)
+    old = assemble_region(region, region['asm_rev1'], rgbds)
+    new = assemble_region(region, region['asm'], rgbds)
     base = int(region['offset'], 16)
     runs = []
     start = None
-    for i in range(len(old) + 1):
-        differs = i < len(old) and old[i] != new[i]
+    for index in range(len(old) + 1):
+        differs = index < len(old) and old[index] != new[index]
         if differs and start is None:
-            start = i
+            start = index
         elif not differs and start is not None:
-            runs.append((start, i))
+            runs.append((start, index))
             start = None
-    require(runs, site['site'] + ': assembled region is identical to Rev1')
+    require(runs, site['site'] + ': patched assembly is identical to Rev1')
     patches = []
     for start, end in runs:
         patches.append({'offset': base + start,
                         'expected_hex': old[start:end].hex(),
                         'replacement_hex': new[start:end].hex(),
                         'field': site['site']})
-    return patches
+    return patches, old, new
 
 
-def derive_patches(spec, assembled=None):
+def derive_patches(spec, rgbds=None):
+    rgbds = rgbds or _require_rgbds()
     resources = {r['id']: r for r in spec['resources']}
     out = []
     for site in spec['sites']:
         if site.get('region'):
-            out.extend(derive_region(site, (assembled or {}).get(site['site'])))
+            patches, _old, _new = derive_region(site, rgbds)
+            out.extend(patches)
             continue
         field = ';'.join([site['site']] + site.get('aliases', []))
         for patch in site['patches']:
@@ -145,31 +176,42 @@ def derive_patches(spec, assembled=None):
     return out
 
 
-def verify(spec, manifest):
-    resources = {r['id']: r for r in spec['resources']}
-    derived = derive_patches(spec)
-    authoritative = manifest['patches']
-    require(len(derived) == len(authoritative),
-            'symbolic surface derives %d patches, manifest has %d' % (len(derived), len(authoritative)))
-    for index, (got, want) in enumerate(zip(derived, authoritative)):
-        for key in ('offset', 'expected_hex', 'replacement_hex', 'field'):
-            require(got[key] == want[key],
-                    'patch %d %s mismatch: %r != %r' % (index, key, got[key], want[key]))
-    require([p['offset'] for p in authoritative] == sorted(p['offset'] for p in authoritative),
-            'manifest patches are not ordered by offset')
+def patches_digest(patches):
+    payload = json.dumps(patches, sort_keys=True, separators=(',', ':')).encode()
+    return hashlib.sha256(payload).hexdigest()
 
-    manifest_resources = {r['id']: r for r in manifest['resources']}
-    require(set(resources) == set(manifest_resources),
-            'symbolic resources and manifest resources differ: '
-            + repr(set(resources) ^ set(manifest_resources)))
-    for rid, res in resources.items():
-        source = manifest_resources[rid]
-        require(res['label'] == source['label'], rid + ': label mismatch')
-        require(res['bank'] == source['bank'], rid + ': bank mismatch')
-        require(int(res['offset'], 16) == source['offset'], rid + ': offset mismatch')
-        require(res['capacity'] == source['capacity'], rid + ': capacity mismatch')
-        role = 'active' if source['referenced_by_current_localized_loaders'] else 'legacy'
-        require(res['role'] == role, rid + ': role mismatch')
+
+def verify(spec, manifest=None, rgbds=None, base=None):
+    rgbds = rgbds or _require_rgbds()
+    resources = {r['id']: r for r in spec['resources']}
+    derived = derive_patches(spec, rgbds)
+    total = sum(len(bytes.fromhex(p['replacement_hex'])) for p in derived)
+
+    if manifest is not None:
+        manifest_patches = manifest.get('patches')
+        if manifest_patches is not None:
+            require(len(derived) == len(manifest_patches),
+                    'derived %d patches, manifest has %d' % (len(derived), len(manifest_patches)))
+            for index, (got, want) in enumerate(zip(derived, manifest_patches)):
+                for key in ('offset', 'expected_hex', 'replacement_hex', 'field'):
+                    require(got[key] == want[key],
+                            'patch %d %s mismatch: %r != %r' % (index, key, got[key], want[key]))
+        expected_digest = (manifest.get('change_surface') or {}).get('sha256')
+        if expected_digest is not None:
+            require(expected_digest == patches_digest(derived),
+                    'change-surface digest mismatch (run sync-manifest --write after reviewing)')
+        manifest_resources = {r['id']: r for r in manifest['resources']}
+        require(set(resources) == set(manifest_resources),
+                'symbolic resources and manifest resources differ: '
+                + repr(set(resources) ^ set(manifest_resources)))
+        for rid, res in resources.items():
+            source = manifest_resources[rid]
+            require(res['label'] == source['label'], rid + ': label mismatch')
+            require(res['bank'] == source['bank'], rid + ': bank mismatch')
+            require(int(res['offset'], 16) == source['offset'], rid + ': offset mismatch')
+            require(res['capacity'] == source['capacity'], rid + ': capacity mismatch')
+            role = 'active' if source['referenced_by_current_localized_loaders'] else 'legacy'
+            require(res['role'] == role, rid + ': role mismatch')
 
     referenced = set()
     for site in spec['sites']:
@@ -181,126 +223,50 @@ def verify(spec, manifest):
                     if entry.get('resource'):
                         referenced.add(entry['resource'])
         if site.get('region'):
-            path = common.ROOT / site['region']['asm']
-            require(path.exists(), 'missing code source ' + str(path))
-            old, new = region_bytes(site['region'])
-            require(sum(1 for a, b in zip(old, new) if a != b) > 0,
-                    site['site'] + ': code region has no difference from Rev1')
+            for key in ('asm_rev1', 'asm'):
+                require((common.ROOT / site['region'][key]).is_file(),
+                        'missing code source ' + site['region'][key])
     require(not (referenced & {r['id'] for r in spec['resources'] if r['role'] == 'legacy'}),
             'legacy resources must not be referenced by any loader site')
     missing = {r['id'] for r in spec['resources'] if r['role'] == 'active'} - referenced
     require(not missing, 'active resources without a loader site: ' + repr(sorted(missing)))
-
-    total = sum(len(bytes.fromhex(p['replacement_hex'])) for p in derived)
     require(total == 198, 'replacement byte count changed: %d' % total)
     header = spec['header']
     require(header['rom_size_code']['new'] == 4, 'target ROM size code must be 4')
-    require('recompute' == header['checksums']['policy'], 'checksums must be recomputed')
-    return {'patches': len(derived), 'bytes': total,
+    require(header['checksums']['policy'] == 'recompute', 'checksums must be recomputed')
+
+    if base is not None:
+        for patch in derived:
+            at = patch['offset']
+            old = bytes.fromhex(patch['expected_hex'])
+            require(base[at:at + len(old)] == old,
+                    'base ROM does not match preimage at 0x%05X' % at)
+        require(hashlib.sha256(base).hexdigest() == spec['baseline']['sha256'],
+                'base ROM SHA-256 does not match spec baseline')
+
+    return {'patches': len(derived), 'bytes': total, 'digest': patches_digest(derived),
             'sites': len(spec['sites']), 'resources': len(resources),
             'active': sum(1 for r in spec['resources'] if r['role'] == 'active'),
             'legacy': sum(1 for r in spec['resources'] if r['role'] == 'legacy'),
             'code_regions': sum(1 for s in spec['sites'] if s.get('region'))}
 
 
-def verify_base(spec, base, manifest):
-    require(len(base) == spec['target']['size'] // 2, 'base ROM size does not match spec')
-    for patch in derive_patches(spec):
-        at = patch['offset']
-        old = bytes.fromhex(patch['expected_hex'])
-        require(base[at:at + len(old)] == old,
-                'base ROM does not match preimage at 0x%05X' % at)
-    import hashlib
-    require(hashlib.sha256(base).hexdigest() == spec['baseline']['sha256'],
-            'base ROM SHA-256 does not match spec baseline')
-    require(manifest['baseline']['sha256'] == spec['baseline']['sha256'],
-            'spec and manifest baselines differ')
-
-
-def find_rgbds(explicit=None):
-    candidates = []
-    if explicit:
-        candidates.append(Path(explicit))
-    if Path('/usr/bin/rgbasm').exists():
-        candidates.append(Path('/usr/bin'))
-    if shutil.which('rgbasm'):
-        candidates.append(Path(shutil.which('rgbasm')).parent)
-    candidates.append(common.ROOT / 'build' / 'rgbds')
-    for directory in candidates:
-        if all((directory / tool).exists() for tool in RGBDS_TOOLS):
-            return directory
-    return None
-
-
-def assemble_region(region, rgbds):
-    rgbds = Path(rgbds)
-    source = common.ROOT / region['asm']
-    with tempfile.TemporaryDirectory() as tmp:
-        obj = Path(tmp) / 'region.o'
-        out = Path(tmp) / 'region.gb'
-        subprocess.run([str(rgbds / 'rgbasm'), '-o', str(obj), str(source)],
-                       check=True, capture_output=True, text=True)
-        subprocess.run([str(rgbds / 'rgblink'), '-o', str(out), str(obj)],
-                       check=True, capture_output=True, text=True)
-        data = out.read_bytes()
-    # rgblink lays ROMX bank b out at b*0x4000 + (address-$4000), i.e. the same
-    # file offset the section already uses in the cartridge.
-    file_offset = int(region['offset'], 16)
-    require(file_offset + region['length'] <= len(data),
-            'assembled image too short (%d bytes)' % len(data))
-    return data[file_offset:file_offset + region['length']]
-
-
-def assemble_all(spec, rgbds, write=False):
-    assembled = {}
-    for site in spec['sites']:
-        region = site.get('region')
-        if not region:
-            continue
-        blob = assemble_region(region, rgbds)
-        old = bytes.fromhex(region['old_hex'])
-        require(len(blob) == region['length'], site['site'] + ': assembled length mismatch')
-        require(blob != old, site['site'] + ': assembly equals Rev1; no patch would be emitted')
-        assembled[site['site']] = blob
-        if write:
-            region['new_hex'] = blob.hex()
-    if write:
-        save_spec(spec)
-    return assembled
-
-
-def verify_assembler(spec, manifest, rgbds):
-    if rgbds is None:
-        return 'MISSING'
-    assembled = assemble_all(spec, rgbds)
-    derived = derive_patches(spec, assembled)
-    authoritative = derive_patches(spec)
-    require(derived == authoritative, 'assembled code regions differ from pinned new_hex')
-    return 'PASS'
-
-
 def sync_manifest(spec, manifest, path=None, write=False):
-    """Replace manifest['patches'] with the patches derived from the symbols.
-
-    Returns the number of patches.  With write=True the manifest file is
-    rewritten (indent=2, matching the tracked manifest).  Without write the
-    caller should compare the result itself; `check` already proves equality.
-    """
-    derived = derive_patches(spec)
-    if manifest.get('patches') != derived:
-        if not write:
-            raise ValueError('manifest patches differ from the symbolic surface; '
-                             'run `sync-manifest --write` after reviewing the spec')
-    manifest['patches'] = derived
+    """Replace manifest patch storage with a derived digest; keep resources."""
+    rgbds = _require_rgbds()
+    derived = derive_patches(spec, rgbds)
+    digest = patches_digest(derived)
+    total = sum(len(bytes.fromhex(p['replacement_hex'])) for p in derived)
+    manifest = dict(manifest)
+    manifest.pop('patches', None)
+    manifest['change_surface'] = {'sha256': digest, 'patches': len(derived), 'bytes': total}
     if write:
         target = Path(path or common.DEFAULT_MANIFEST)
         target.write_text(json.dumps(manifest, ensure_ascii=False, indent=2) + '\n')
-    return len(derived)
+    return len(derived), digest
 
 
 def _old_text(patch):
-    if patch['kind'] == 'code':
-        return patch['old']
     if patch['kind'] == 'stage.pointer_table':
         return ', '.join('%s 6:%s' % (e['stage'], e['old']['addr']) for e in patch['entries'])
     if patch['kind'] == 'loader.source_addr':
@@ -309,8 +275,6 @@ def _old_text(patch):
 
 
 def _new_text(patch, resources):
-    if patch['kind'] == 'code':
-        return patch['new']
     if patch['kind'] == 'stage.pointer_table':
         return ', '.join('%s %d:%s' % (e['stage'], e['new']['bank'], e['new']['addr'])
                          for e in patch['entries'])
@@ -323,15 +287,14 @@ def _new_text(patch, resources):
     return '0x%02X' % patch['new']
 
 
-def explain(spec, only_site=None):
+def explain(spec, only_site=None, rgbds=None):
     resources = {r['id']: r for r in spec['resources']}
     lines = []
     for site in spec['sites']:
         if only_site and site['site'] != only_site:
             continue
-        name = site['site']
         target = resources.get(site.get('resource'))
-        head = '[%s]' % name
+        head = '[%s]' % site['site']
         if target:
             head += '  ->  %s  (%s)' % (target['id'], target['purpose'])
         elif site.get('region'):
@@ -344,16 +307,16 @@ def explain(spec, only_site=None):
             head += '\n    ' + site['purpose']
         lines.append(head)
         if site.get('region'):
+            rgbds = rgbds or _require_rgbds()
             region = site['region']
-            old, new = region_bytes(region)
-            runs = derive_region(site)
+            runs, _old, _new = derive_region(site, rgbds)
             for index, patch in enumerate(runs):
                 note = region.get('notes', [''] * len(runs))[index] if index < len(region.get('notes', [])) else ''
                 lines.append('    +0x%05X  code run %2d B  %s  ->  %s%s' % (
                     patch['offset'], len(bytes.fromhex(patch['replacement_hex'])),
                     patch['expected_hex'], patch['replacement_hex'],
                     ('  # ' + note) if note else ''))
-            lines.append('    assembled source: ' + region['asm'] + '  (edit + `assemble --write`)')
+            lines.append('    sources: %s  |  %s' % (region['asm_rev1'], region['asm']))
             continue
         for patch in site['patches']:
             lines.append('    %s  %-18s %s  ->  %s%s' % (
@@ -365,19 +328,20 @@ def explain(spec, only_site=None):
 
 def main(argv=None):
     p = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    p.add_argument('command', choices=('check', 'explain', 'resources', 'dump', 'assemble', 'sync-manifest'))
+    p.add_argument('command', choices=('check', 'explain', 'resources', 'dump', 'sync-manifest'))
     p.add_argument('--spec', type=Path, default=DEFAULT_SPEC)
     p.add_argument('--manifest', type=Path, default=common.DEFAULT_MANIFEST)
     p.add_argument('--base', type=Path, help='Also verify preimages against this Rev1 ROM')
     p.add_argument('--site', help='Only explain one site')
     p.add_argument('--rgbds', type=Path, help='Directory containing rgbasm and rgblink')
-    p.add_argument('--require-asm', action='store_true', help='Fail when RGBDS is unavailable')
-    p.add_argument('--write', action='store_true', help='With assemble: rewrite pinned new_hex')
+    p.add_argument('--write', action='store_true', help='With sync-manifest: rewrite the manifest')
     a = p.parse_args(argv)
     spec = load_spec(a.spec)
-    manifest = common.load_manifest(a.manifest)
+    rgbds = find_rgbds(a.rgbds)
+    if rgbds is None:
+        rgbds = _require_rgbds(a.rgbds)
     if a.command == 'dump':
-        print(json.dumps(derive_patches(spec), ensure_ascii=False, indent=1))
+        print(json.dumps(derive_patches(spec, rgbds), ensure_ascii=False, indent=1))
         return 0
     if a.command == 'resources':
         for r in spec['resources']:
@@ -385,33 +349,23 @@ def main(argv=None):
                 r['id'], r['role'], r['bank'], r['offset'], r['capacity'], r['purpose']))
         return 0
     if a.command == 'explain':
-        print(explain(spec, a.site))
+        print(explain(spec, a.site, rgbds))
         return 0
-    rgbds = find_rgbds(a.rgbds)
+    manifest = json.loads(Path(a.manifest).read_text())
     if a.command == 'sync-manifest':
-        count = sync_manifest(spec, manifest, path=a.manifest, write=a.write)
-        print('SYNC=%s PATCHES=%d%s' % ('WROTE' if a.write else 'PASS', count,
-                                       '' if a.write else ' (use --write to update)'))
+        count, digest = sync_manifest(spec, manifest, path=a.manifest, write=a.write)
+        print('SYNC=%s PATCHES=%d DIGEST=%s%s'
+              % ('WROTE' if a.write else 'PASS', count, digest,
+                 '' if a.write else ' (use --write to update)'))
         return 0
-    if a.command == 'assemble':
-        require(rgbds is not None, 'RGBDS not found; pass --rgbds DIR')
-        assembled = assemble_all(spec, rgbds, write=a.write)
-        for name, blob in assembled.items():
-            print('ASM=%s BYTES=%d SHA256=%s' % (name, len(blob),
-                                                  __import__('hashlib').sha256(blob).hexdigest()[:16]))
-        if a.write:
-            print('SPEC=UPDATED ' + str(a.spec))
-        return 0
-    stats = verify(spec, manifest)
-    if a.base:
-        verify_base(spec, a.base.read_bytes(), manifest)
-    asm = verify_assembler(spec, manifest, rgbds)
-    if asm == 'MISSING' and a.require_asm:
-        raise ValueError('RGBDS not found; pass --rgbds DIR')
-    print('CHANGE_SURFACE=PASS RELEASE=%s SITES=%d PATCHES=%d BYTES=%d RESOURCES=%d ACTIVE=%d LEGACY=%d REGIONS=%d ASM=%s'
+    base = a.base.read_bytes() if a.base else None
+    stats = verify(spec, manifest, rgbds=rgbds, base=base)
+    print('CHANGE_SURFACE=PASS RELEASE=%s SITES=%d PATCHES=%d BYTES=%d RESOURCES=%d '
+          'ACTIVE=%d LEGACY=%d REGIONS=%d DIGEST=%s'
           % (spec['release'], stats['sites'], stats['patches'], stats['bytes'],
-             stats['resources'], stats['active'], stats['legacy'], stats['code_regions'], asm))
-    if a.base:
+             stats['resources'], stats['active'], stats['legacy'],
+             stats['code_regions'], stats['digest'][:16]))
+    if base is not None:
         print('BASE=PASS SHA256=' + spec['baseline']['sha256'])
     return 0
 

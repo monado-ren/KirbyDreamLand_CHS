@@ -2,11 +2,14 @@
 
 ## 唯一输入与构建方式
 
-只接受仓库根目录的 `baserom.gb`（日本 Rev 1、256 KiB）。源码构建的全部输入为它及 `source/`；不依赖旧 ROM、成品 ROM 或旧开发工程；Python 侧只额外依赖 Pillow（PNG 编解码，版本钉在 `requirements.txt`）。
+只接受仓库根目录的 `baserom.gb`（日本 Rev 1、256 KiB）。源码构建的全部输入为它及 `source/`；
+不依赖旧 ROM、成品 ROM 或旧开发工程。Python 侧依赖 Pillow（PNG 编解码，版本钉在 `requirements.txt`）；
+代码补丁的指令级来源是 `source/patches/*.asm`，由 RGBDS（`python tools/build_rgbds.py` 从 pinned
+源码编译）在加载清单时汇编，因此常规构建也需要 RGBDS。
 
 `source/manifest.json` 声明版本、三个输入/输出哈希、原银行修改的前置字节、扩展资源地址、银行号、容量、原始和压缩摘要。构建步骤：
 
-1. 核验输入大小及 MD5 / SHA-1 / SHA-256。
+1. 核验输入大小及 SHA-256。
 2. 以原版字节为底，扩容至 512 KiB，空白区填 `FF`。
 3. 校验 110 段局部补丁前置字节后写入，共 198 个原银行字节；校验和另算。
 4. 将 71 份 `source/graphics/*.png` 无损派生成 2bpp 图块/图块表字节（共 150560 字节），重新 HAL 压缩并按清单写入。逐条验证 PNG 模式与尺寸、规范配色、派生大小、摘要、解压往返、银行边界及不重叠。
@@ -16,7 +19,7 @@
 
 ## 符号化改动面
 
-`source/change_surface.json` 是同一改动面的语义视图：每个装载点有名称、目标资源、旧值→新值和用途，
+`source/change_surface.json` 是改动面的唯一来源：清单不再存 110 处补丁 hex，只存一个派生摘要；每个装载点有名称、目标资源、旧值→新值和用途，
 每个资源标记 active/legacy 及历史原因，代码补丁带指令级注释。它不直接参与构建，但必须精确派生出
 `source/manifest.json` 的 110 处补丁（198 字节）；默认清单的 `tools/build.py`、`tools/verify.py`、
 `tools/selftest.py` 都会核对，`python tools/change_surface.py check --base baserom.gb` 可单独检查，
@@ -29,7 +32,9 @@
 
 `source/graphics/` 是实际参与构建的图形源，而不是整份 ROM 的改名或封装：48 份为 4 色索引 PNG 的 2bpp 图块集，23 份为 32×32、8 位灰度的图块索引表，均可无损派生为游戏使用的原始字节。原版代码和未改动数据来自用户的输入。
 
-`translations/` 和 `assets/` 提供核稿文本及编辑参考。当前工具不自动将全部译文、assets/ 图稿或字体重排为游戏页面；修改它们后必须同步修改对应 `source/graphics/*.png`、指针或新增编译接口，再进行验证。
+`translations/` 和 `assets/` 提供核稿文本及编辑参考；编辑用字形子集不随仓库分发，
+运行 `python -m pip install -r requirements-dev.txt && python tools/fetch_fonts.py`
+从上游 pinned 字体源生成（gitignored）。当前工具不自动将全部译文、assets/ 图稿或字体重排为游戏页面；修改它们后必须同步修改对应 `source/graphics/*.png`、指针或新增编译接口，再进行验证。
 
 ## 修改一份既有图形资源
 

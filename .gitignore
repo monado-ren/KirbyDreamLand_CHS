@@ -21,3 +21,5 @@ __pycache__/
 Thumbs.db
 # The named xdelta3 output is deliberately tracked.
 !KirbyDreamLand_CHS-Monado.xdelta3
+# editable font subsets are generated from upstream sources
+assets/fonts/*.json
