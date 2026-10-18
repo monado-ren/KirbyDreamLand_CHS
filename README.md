@@ -84,7 +84,7 @@ LICENSES/        第三方字体许可和署名
 ```
 
 编号目录是真实内容；旧命令中的 `tools/` 已改为 `00_Tools/`，`translations/` 已改为 `02_Text/`。
-详见 [工序目录](docs/PIPELINE.md)。
+详见 [工序目录](docs/PIPELINE.md) 与 [图片/字体来源](docs/IMAGE_PROVENANCE.md)。
 
 构建不读取旧日版、美版、旧汉化 ROM、模拟器或开发者本机目录。
 今后的汉化修订在本仓库提交；请同时更新源码资源、版本清单、补丁与测试。
