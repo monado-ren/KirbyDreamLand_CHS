@@ -16,7 +16,7 @@ sys.path.insert(0, str(ROOT / '00_Tools'))
 import audit_dead_loads
 import common
 
-TARGET_SHA256 = '4591cc4a3b584cc4ea7735aff1e65899c5bd7fc252b95daa34c4948d1e6ca486'
+TARGET_SHA256 = '084c5157fd9b9637661b8a38e87a73e240a68fe3637a5d4617b539b8a1932b19'
 
 # Every neutralised call, and the merged bundle that must cover it.
 DEAD_CALLS = {

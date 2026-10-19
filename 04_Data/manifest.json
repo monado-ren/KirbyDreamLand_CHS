@@ -11,9 +11,9 @@
   },
   "target": {
     "size": 524288,
-    "md5": "8f30ed6696da5d8f7d520f05a15afcbb",
-    "sha1": "2f438bc338d7f7139d9e334af333a511e47846a9",
-    "sha256": "4591cc4a3b584cc4ea7735aff1e65899c5bd7fc252b95daa34c4948d1e6ca486"
+    "md5": "5427fd87b28c5858d50a099468a2ccad",
+    "sha1": "d3397b1e7f202fc9c3e46dfdaffdec0fb4186807",
+    "sha256": "084c5157fd9b9637661b8a38e87a73e240a68fe3637a5d4617b539b8a1932b19"
   },
   "fill_byte": 255,
   "change_surface": {
@@ -756,11 +756,11 @@
       "png": {
         "mode": "tiles-2bpp-4gray",
         "tiles_per_row": 16,
-        "tile_count": 512
+        "tile_count": 384
       },
-      "decoded_size": 8192,
-      "decoded_sha256": "1b2caa3c2a5f598e3a698525b5012c52ea4410eac0de05f61be18c33f872b717",
-      "packed_size": 1856,
+      "decoded_size": 6144,
+      "decoded_sha256": "cfbd320df6df3543b874ef9c83d2b2d3527631ec772fd1472853ca0bee777926",
+      "packed_size": 1850,
       "referenced_by_current_localized_loaders": true,
       "retained_for_byte_exact_release": true
     },
@@ -805,11 +805,11 @@
       "png": {
         "mode": "tiles-2bpp-4gray",
         "tiles_per_row": 16,
-        "tile_count": 512
+        "tile_count": 384
       },
-      "decoded_size": 8192,
-      "decoded_sha256": "2754101c82c04d523d4b3397d20a825d79ad9843e8f3204868a5d4ab4913c575",
-      "packed_size": 1846,
+      "decoded_size": 6144,
+      "decoded_sha256": "2cb1b92868027e8062ffedf16b72b09b55e5618f28d7e7fa262bde53984c3a2a",
+      "packed_size": 1840,
       "referenced_by_current_localized_loaders": true,
       "retained_for_byte_exact_release": true
     },

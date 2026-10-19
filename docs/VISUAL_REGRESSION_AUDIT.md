@@ -2,7 +2,7 @@
 
 由 `PYTHONPATH=build/pylibs python 00_Tools/audit_visual_regression.py --write` 生成。
 
-- 包内 ROM SHA-256：`4591cc4a3b584cc4ea7735aff1e65899c5bd7fc252b95daa34c4948d1e6ca486`（与当前构建一致）
+- 包内 ROM SHA-256：`084c5157fd9b9637661b8a38e87a73e240a68fe3637a5d4617b539b8a1932b19`（与当前构建一致）
 - 模拟器：BGB 1.6.6；画面数：32；缺失画面：无
 - 原生重载校验：True；屏幕/内存/退出状态一致：True
 - 包内逐像素核验：PASS（31 个静态画面，714240 像素，差异 0；1 个动态附加画面排除）

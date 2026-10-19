@@ -6,7 +6,7 @@
 帧号不能按固定偏移对齐（TAS/逐帧截图）。
 
 ```text
-LOADERS=41 COMPARED=41 ORIGINAL=66720 LOCALIZED=85152 DELTA=+18432 (28%) GROWN=7
+LOADERS=41 COMPARED=41 ORIGINAL=66720 LOCALIZED=81056 DELTA=+14336 (21%) GROWN=5
 ```
 
 ## 变大的装载器
@@ -16,8 +16,6 @@ LOADERS=41 COMPARED=41 ORIGINAL=66720 LOCALIZED=85152 DELTA=+18432 (28%) GROWN=7
 | `configuration_map_full_bundle_load` | `rom_05c000` | 3:`0x453A` | 576 | 4672 | **+4096** |
 | `title_bundle_load` | `rom_070000` | 3:`0x4000` | 1152 | 5248 | **+4096** |
 | `continue_map_load` | `rom_044734` | 3:`0x4666` | 576 | 2624 | **+2048** |
-| `ending_039cbf_load_pointer` | `rom_055130` | 14:`0x5CBF` | 6144 | 8192 | **+2048** |
-| `ending_03adda_load_pointer` | `rom_054000` | 14:`0x6DDA` | 6144 | 8192 | **+2048** |
 | `gameover_map_load` | `rom_04454c` | 3:`0x4616` | 576 | 2624 | **+2048** |
 | `sound_test_map_load` | `rom_0438f6` | 3:`0x44C2` | 576 | 2624 | **+2048** |
 
@@ -53,7 +51,9 @@ LOADERS=41 COMPARED=41 ORIGINAL=66720 LOCALIZED=85152 DELTA=+18432 (28%) GROWN=7
 | `ending_039707_load` | `rom_04b943` | 1024 |
 | `ending_039820_load` | `rom_04d6b7` | 2048 |
 | `ending_039be1_load` | `rom_04d918` | 1024 |
+| `ending_039cbf_load_pointer` | `rom_055130` | 6144 |
 | `ending_03acec_load_pointer` | `rom_056110` | 1024 |
+| `ending_03adda_load_pointer` | `rom_054000` | 6144 |
 | `ending_03be31_load_pointer` | `rom_055050` | 1024 |
 | `ending_sprites_load` | `rom_050000` | 3584 |
 | `extra_hud_load` | `rom_041103` | 400 |
@@ -76,9 +76,9 @@ LOADERS=41 COMPARED=41 ORIGINAL=66720 LOCALIZED=85152 DELTA=+18432 (28%) GROWN=7
 
 | | 原版 | v0.5.1 | v0.5.2 |
 | --- | ---: | ---: | ---: |
-| 实际解压字节 | 66,720 | 85,152 | **79,120** |
-| 相对原版 | — | +18,432（+28%） | **+12,400（+19%）** |
-| 折合帧数（约 585 B/帧） | — | +31.5 | **+21.2** |
+| 实际解压字节 | 66,720 | 81,056 | **75,024** |
+| 相对原版 | — | +14,336（+21%） | **+8,304（+12%）** |
+| 折合帧数（约 585 B/帧） | — | +24.5 | **+14.2** |
 
 省下的 6,032 字节（约 10.3 帧）来自被整包覆盖的死装载，与中文内容无关。
 剩下的增量是中文图块复杂度的固有成本，不改图无法消除。
