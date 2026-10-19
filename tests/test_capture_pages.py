@@ -48,6 +48,7 @@ EXPECTED = {
     'stage_3_intro': ('rom_06cda8', 0.98),
     'stage_4_intro': ('rom_06d490', 0.98),
     'stage_5_intro': ('rom_06db85', 0.98),
+    'stage_5_intro_scrolled': ('rom_06db85', 0.98),
     'game_over': ('rom_04454c', 0.98),
     'continue': ('rom_044734', 0.98),
 }
@@ -110,7 +111,7 @@ class CapturePageTests(unittest.TestCase):
                 natural += 1
             else:
                 fixture += 1
-        self.assertEqual((natural, fixture), (5, 7))
+        self.assertEqual((natural, fixture), (5, 8))
 
     def test_fixtures_are_documented_with_their_mechanism(self):
         types = {item['type'] for item in self.manifest['fixtures']}

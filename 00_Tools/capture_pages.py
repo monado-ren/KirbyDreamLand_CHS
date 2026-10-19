@@ -48,6 +48,15 @@ STAGE_HOOK_ADDR = 0x40E4
 W_CUR_STAGE = 0xD03B
 
 
+def page_map_bytes(entry):
+    """The BG map bytes a bundle/sheet page declares, from its map PNG."""
+    import graphics_png
+    bundle = entry['bundle']
+    return list(graphics_png.png_to_tilemap(
+        common.resource_path(bundle['map_png']).read_bytes(),
+        bundle['width'], bundle['height']))
+
+
 def write(path, data):
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_bytes(data)
@@ -188,6 +197,17 @@ def run(rom, package):
                              '场景 %d 介绍' % (stage + 1), 'fixture',
                              '冷启动后在 bank6:$40E4 钩子把 wCurStage($D03B) 设为 %d，'
                              '由 game 自己的装载路径载入该关介绍' % stage)
+            if stage == 4:
+                # Stage 5 is a 256x240 page: the intro scrolls down to reveal the
+                # artwork below the caption, so a single frame only shows the top.
+                # Capture the scrolled view too.
+                for _ in range(300):
+                    stage_boy.tick()
+                    if stage_boy.memory[0xFF42] >= 60:
+                        break
+                capture.snapshot(stage_boy, 'stage_5_intro_scrolled',
+                                 '场景 5 介绍（滚动后）', 'fixture',
+                                 '场景 5 是 256x240 的高图，滚动到 SCY>=60 后可见下方背景')
             capture.fixtures.append({
                 'screen': 'stage_%d_intro' % (stage + 1),
                 'type': 'WRAM_POKE', 'address': '$D03B', 'value': stage,
@@ -225,10 +245,30 @@ def run(rom, package):
             fail_boy.tick()
         capture.snapshot(fail_boy, 'game_over', 'GAME OVER', 'fixture',
                          '启动时把 START 判定改成跳到 noLivesRemaining 例程')
-        for _ in range(300):
+        # The CONTINUE page fades in, and during the fade the palette reads
+        # 0x00 (a blank screenshot).  Rather than guess a frame count, wait until
+        # the live BG map actually matches the CONTINUE page and the palette has
+        # settled -- both signals must agree before the screenshot is taken.
+        from analyze_playthrough import map_ratio
+        manifest = common.load_manifest()
+        continue_entry = next(entry for entry in manifest['resources']
+                              if entry['label'] == 'continue_map')
+        continue_map = page_map_bytes(continue_entry)
+        width = continue_entry['bundle']['width']
+        height = continue_entry['bundle']['height']
+        matched = False
+        for _ in range(900):
             fail_boy.tick()
+            if fail_boy.memory[0xFF47] != 0xE4:
+                continue
+            live = bytes(fail_boy.memory[0x9800:0x9C00])
+            if map_ratio(live, continue_map, width, height) >= 0.98:
+                matched = True
+                break
+        if not matched:
+            raise SystemExit('CONTINUE page never settled')
         capture.snapshot(fail_boy, 'continue', 'CONTINUE / END', 'fixture',
-                         'GAME OVER 结束后自动进入继续画面')
+                         'GAME OVER 结束后自动进入继续画面（等到 BG map 与页面源一致且淡入完成）')
 
     manifest = {
         'rom_sha256': capture.rom_sha,
