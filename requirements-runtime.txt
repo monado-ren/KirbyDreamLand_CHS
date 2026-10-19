@@ -1,0 +1,4 @@
+# Optional runtime verification: drives the built ROM in PyBoy to capture screens.
+# Not installed by the public CI, which stays stdlib + Pillow only, so
+# tests/test_capture_pages.py skips there and runs on a developer machine.
+PyBoy==2.8.1

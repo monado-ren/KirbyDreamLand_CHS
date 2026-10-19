@@ -18,6 +18,12 @@ jobs:
       - run: python 00_Tools/audit_pages.py --check
       - run: python 00_Tools/audit_loader_timing.py
       - run: python 00_Tools/audit_dead_loads.py
+      - run: python 00_Tools/audit_rom_pages.py --write-check
       - run: python 00_Tools/audit_loader_payload.py
       - run: python 00_Tools/audit_public_tree.py
+      # Runtime capture tests (tests/test_capture_pages.py) need PyBoy and the
+      # built ROM, so they skip in CI and run locally:
+      #   pip install -r requirements-runtime.txt
+      #   python 00_Tools/build.py
+      #   python -m unittest tests.test_capture_pages
       # No original or localized ROM is fetched or uploaded by CI.

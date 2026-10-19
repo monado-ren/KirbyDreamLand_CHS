@@ -3,6 +3,22 @@
 > 本仓库与原开发工作区并行编号，`v0.5.2` 在两处含义不同；
 > 见 [版本谱系与并行编号](docs/VERSION_LINEAGE.md)。
 
+## v0.5.2 验证体系补强 — 反向解包 / 图鉴专项 / 运行时抓取 / 回滚
+
+- 新增 `00_Tools/audit_rom_pages.py` + `docs/ROM_PAGES.md`：**反向**验证，从构建 ROM 取压缩流解包，
+  必须与 `03_Image/` 页面源重新导出的字节逐字节一致（46/46 通过，即 94,560 解压字节）。
+  正向构建只证明「源能产出这个 ROM」，这一步证明「ROM 确实来自这些源」。
+- 图鉴 14 页专项：每页 = 图块集 + 地图，两半都要能反解，且地图不得引用本页图块集之外的编号；
+  14/14 配对正确，越界码 0。
+- 运行时抓取 `00_Tools/capture_pages.py`（PyBoy）：12 屏全部精确匹配对应页面，
+  5 屏 natural（冷启动按键：标题/主界面/配置/声音测试）、7 屏 fixture
+  （关卡介绍用 `$D03B`@`$40E4` 钩子；GAME OVER/CONTINUE 用一次性 ROM 副本跳转到 noLivesRemaining）。
+  每屏都标注到达方式，fixture 明确记为「渲染正确但不代表玩家可达」。
+- `tests/test_reverse_exact.py`：移植原开发工作区的回滚模式 —— 逐条撤销补丁必须还原 preimage、
+  清空资源必须回到 `0xFF`、全程回滚必须精确还原 Rev1 基线；并断言 256 KiB 基线内没有未记录的改动。
+- 测试 165 → **177** 项；CI 增加 `audit_rom_pages.py --write-check` 与上述全部检查。
+- PyBoy 为可选依赖（`requirements-runtime.txt`）：公共 CI 不装，运行时测试自动跳过。
+
 ## v0.5.2 删除历史副本资源 — 资源数 71→46
 
 - 移除 25 个 `referenced_by_current_localized_loaders: false` 的历史副本资源
