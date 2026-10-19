@@ -98,14 +98,17 @@ def relocate(manifest, entry, size):
     required_offset = 0 if address_sites else (old_cpu - 0x4000)
     placement = None
     for start, end in free_gaps(manifest):
-        candidate = start
-        if required_offset:
-            candidate = _align_up(start, 0x4000) + required_offset
-        if candidate < start:
-            candidate = start
-        if candidate + size <= end and candidate // 0x4000 == (candidate + size - 1) // 0x4000:
-            placement = candidate
-            break
+        # Bank-referenced resources (those whose loader patches only carry a bank
+        # byte) are addressed as base+0 of their bank, so they must land exactly
+        # at a bank boundary.  Resources that also patch an address may keep any
+        # in-bank offset, which is why required_offset is added after aligning.
+        candidate = _align_up(start, 0x4000) + required_offset
+        if candidate + size > end:
+            continue
+        if candidate // 0x4000 != (candidate + size - 1) // 0x4000:
+            continue
+        placement = candidate
+        break
     require(placement is not None,
             'No free contiguity of ' + str(size) + ' bytes for ' + entry['id'])
     new_bank = placement // 0x4000

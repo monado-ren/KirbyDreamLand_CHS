@@ -55,9 +55,29 @@ class TextLayoutTests(unittest.TestCase):
         record = self.layout['entries']['rom_048462:graphic_ending_01_01']
         self.assertEqual(record['anchor'], {'x': 14, 'y': 42})
 
-    def test_hint_entries_carry_glyph_overrides(self):
+    def test_hint_entries_use_the_12px_font(self):
+        # The hint pages were re-typeset at 12px, so their glyphs now come from
+        # the 12px subset rather than from per-cell overrides on 8px glyphs.
         record = self.layout['entries']['rom_056110:graphic_ending_15_02']
-        self.assertIn('1:4', record['overrides'])
+        self.assertEqual(record['font'], '12px')
+        self.assertEqual(record['line_height'], 12)
+        self.assertNotIn('overrides', record)
+
+    def test_hint_entries_anchor_on_the_approved_coordinates(self):
+        expected = {
+            'graphic_ending_15_01': [[23, 8]],
+            'graphic_ending_15_02': [[82, 9]],
+            'graphic_ending_15_03': [[82, 29], [82, 43]],
+            'graphic_ending_15_04': [[82, 63]],
+            'graphic_ending_16_01': [[23, 8]],
+            'graphic_ending_16_02': [[88, 9]],
+            'graphic_ending_16_03': [[88, 25], [88, 39]],
+            'graphic_ending_16_04': [[88, 55], [88, 69]],
+        }
+        for entry_id, positions in expected.items():
+            page = 'rom_055050' if entry_id.startswith('graphic_ending_16') else 'rom_056110'
+            record = self.layout['entries']['%s:%s' % (page, entry_id)]
+            self.assertEqual(record['positions'], positions, entry_id)
 
     def test_base_plus_font_plus_translation_reproduces_pages(self):
         self.assertTrue(text_layout.check(self.translations, self.fonts))

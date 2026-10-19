@@ -16,7 +16,7 @@ import graphics_png
 import hal_codec
 
 BASE_SHA256 = 'c4c6aff6242116c4f26bdcf3343b6c27836010853b8753da8b0cb953a200834a'
-TARGET_SHA256 = '95794c54745d1f1cc99bcade03a039bb871d2aaaec9f868be2e1b9ea92cb5e6c'
+TARGET_SHA256 = '4591cc4a3b584cc4ea7735aff1e65899c5bd7fc252b95daa34c4948d1e6ca486'
 REV1_FIXES = ((0x37B1, bytes.fromhex('fa14d4a7c0')),
               (0x434B, bytes.fromhex('ea14d4')),
               (0x1418C, bytes.fromhex('3807')))

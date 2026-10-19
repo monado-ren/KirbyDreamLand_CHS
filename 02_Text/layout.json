@@ -829,231 +829,125 @@
    "id": "graphic_ending_15_01",
    "page": "rom_056110",
    "mode": "edit",
-   "font": "8px",
-   "line_height": 8,
+   "font": "12px",
+   "line_height": 12,
    "positions": [
     [
-     24,
+     23,
      8
-    ],
-    [
-     48,
-     16
     ]
    ],
-   "translation_sha256": "8e6223d92d80cddf21dfabe9af47e78d2833026cbae2f9aae6c94dd103e39cff"
+   "translation_sha256": "5bf8b4cea725450ff9e7b1f2115fe1b9805fc4af7ce7149bb2c1e92bc18757df"
   },
   "rom_056110:graphic_ending_15_02": {
    "id": "graphic_ending_15_02",
    "page": "rom_056110",
    "mode": "edit",
-   "font": "8px",
-   "line_height": 8,
+   "font": "12px",
+   "line_height": 12,
    "positions": [
     [
-     88,
-     8
-    ],
-    [
-     112,
-     16
+     82,
+     9
     ]
    ],
-   "overrides": {
-    "1:4": [
-     "00011000",
-     "00110000",
-     "01000000",
-     "00000110",
-     "00001001",
-     "00010110",
-     "00000000",
-     "00000000"
-    ]
-   },
-   "translation_sha256": "6649077751af916222999edd13f02081a7ff8bacb835dba2b066f9c3b72b5d22"
+   "translation_sha256": "1e9e64cf3dc92ecb5605fdfacddd2e8ffc280c67d81e5d1b07193bcd77d03b7f"
   },
   "rom_056110:graphic_ending_15_03": {
    "id": "graphic_ending_15_03",
    "page": "rom_056110",
    "mode": "edit",
-   "font": "8px",
-   "line_height": 8,
+   "font": "12px",
+   "line_height": 12,
    "positions": [
     [
-     88,
-     32
+     82,
+     29
     ],
     [
-     112,
-     40
+     82,
+     43
     ]
    ],
-   "overrides": {
-    "0:2": [
-     "00000000",
-     "00000000",
-     "00000000",
-     "00000000",
-     "11111110",
-     "00000000",
-     "00000000",
-     "00000000"
-    ],
-    "1:5": [
-     "00000000",
-     "00010000",
-     "00011000",
-     "00010100",
-     "00010100",
-     "00110000",
-     "01110000",
-     "01100000"
-    ]
-   },
    "translation_sha256": "740ddb22c04c7ddfa3b405dd1bad932bcd44c8fbe15baf3b6f5d05c62ced9f68"
   },
   "rom_056110:graphic_ending_15_04": {
    "id": "graphic_ending_15_04",
    "page": "rom_056110",
    "mode": "edit",
-   "font": "8px",
-   "line_height": 8,
+   "font": "12px",
+   "line_height": 12,
    "positions": [
     [
-     88,
-     56
-    ],
-    [
-     112,
-     64
+     82,
+     63
     ]
    ],
-   "overrides": {
-    "1:4": [
-     "00000000",
-     "01000000",
-     "01000000",
-     "01000000",
-     "01000000",
-     "01000000",
-     "00000000",
-     "01000000"
-    ]
-   },
-   "translation_sha256": "6314027d85b87991cf9034a8ae1fb8bcf1536a6f5ae6f169e64a5b54f64eda30"
+   "translation_sha256": "60daddaeb303a8c319646a83de92c80294c3342c0f22af69b06c97dc66ebda92"
   },
   "rom_055050:graphic_ending_16_01": {
    "id": "graphic_ending_16_01",
    "page": "rom_055050",
    "mode": "edit",
-   "font": "8px",
-   "line_height": 8,
+   "font": "12px",
+   "line_height": 12,
    "positions": [
     [
-     24,
+     23,
      8
-    ],
-    [
-     48,
-     16
     ]
    ],
-   "translation_sha256": "7a9566641b88eed173ddffe01fde63dc3e85019a2a3dfcf26a455cf49d5ea134"
+   "translation_sha256": "68b402d3d37f60a3da4ec9878d0e41e82372303f0c196cc5663d83e6a4d17df9"
   },
   "rom_055050:graphic_ending_16_02": {
    "id": "graphic_ending_16_02",
    "page": "rom_055050",
    "mode": "edit",
-   "font": "8px",
-   "line_height": 8,
+   "font": "12px",
+   "line_height": 12,
    "positions": [
     [
-     96,
-     8
-    ],
-    [
-     104,
-     16
+     88,
+     9
     ]
    ],
-   "overrides": {
-    "1:2": [
-     "00000000",
-     "01000000",
-     "01000000",
-     "01000000",
-     "01000000",
-     "01000000",
-     "00000000",
-     "01000000"
-    ]
-   },
-   "translation_sha256": "f146301f671cdd46de111ace6fc9414a8cf17b2fbcb3fdbdc5f0e691ff319157"
+   "translation_sha256": "a8934911c638887bd0315ef658aaaff6d666a642c1323bf44162bdff7b0e7bee"
   },
   "rom_055050:graphic_ending_16_03": {
    "id": "graphic_ending_16_03",
    "page": "rom_055050",
    "mode": "edit",
-   "font": "8px",
-   "line_height": 8,
+   "font": "12px",
+   "line_height": 12,
    "positions": [
     [
      88,
-     32
+     25
     ],
     [
      88,
-     40
+     39
     ]
    ],
-   "overrides": {
-    "1:6": [
-     "00000000",
-     "00000000",
-     "00000000",
-     "00000000",
-     "00000000",
-     "01100000",
-     "00100000",
-     "01000000"
-    ]
-   },
-   "translation_sha256": "1f2bd280abf3a9851466936a5ed1432e3ef8acf84fc3e9e6be45505f4f59d92d"
+   "translation_sha256": "e5451ce3502cdece0b6a82a92922d0d1e9e21c3f327b4ebfaf6e21b7510bcf5f"
   },
   "rom_055050:graphic_ending_16_04": {
    "id": "graphic_ending_16_04",
    "page": "rom_055050",
    "mode": "edit",
-   "font": "8px",
-   "line_height": 8,
+   "font": "12px",
+   "line_height": 12,
    "positions": [
     [
      88,
-     56
+     55
     ],
     [
-     104,
-     64
-    ],
-    [
-     112,
-     72
+     88,
+     69
     ]
    ],
-   "overrides": {
-    "2:3": [
-     "00000000",
-     "01000000",
-     "01000000",
-     "01000000",
-     "01000000",
-     "01000000",
-     "00000000",
-     "01000000"
-    ]
-   },
-   "translation_sha256": "78828e65c9e81aaa37142bbc89937598a5a2b5b42cdc04af13809a95db98ad57"
+   "translation_sha256": "de57b270d6b8813ff7f31c7a0f797e89eac078e9cbad8c9cce3e15a3271cd279"
   },
   "rom_041000:hud_score": {
    "id": "hud_score",

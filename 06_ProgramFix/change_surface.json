@@ -1,6 +1,6 @@
 {
  "schema": 1,
- "release": "v0.5.2",
+ "release": "v0.5.3",
  "baseline": {
   "size": 262144,
   "sha256": "c4c6aff6242116c4f26bdcf3343b6c27836010853b8753da8b0cb953a200834a"
@@ -370,9 +370,9 @@
    "role": "active",
    "purpose": "普通模式通关提示（提示如何进入额外模式） 地图",
    "format": "tilemap",
-   "bank": 21,
-   "offset": "0x55050",
-   "capacity": 224
+   "bank": 16,
+   "offset": "0x40000",
+   "capacity": 272
   },
   {
    "id": "rom_055130",

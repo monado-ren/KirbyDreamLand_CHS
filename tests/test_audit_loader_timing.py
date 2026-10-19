@@ -31,9 +31,9 @@ class LoaderTimingTests(unittest.TestCase):
 
     def test_total_growth_matches_documented_value(self):
         self.assertEqual(self.stats['original_bytes'], 66720)
-        self.assertEqual(self.stats['localized_bytes'], 81056)
-        self.assertEqual(self.stats['delta_bytes'], 14336)
-        self.assertEqual(self.stats['grown_loaders'], 5)
+        self.assertEqual(self.stats['localized_bytes'], 85152)
+        self.assertEqual(self.stats['delta_bytes'], 18432)
+        self.assertEqual(self.stats['grown_loaders'], 7)
 
     def test_document_is_current(self):
         expected = audit_loader_timing.render_markdown(self.rows)

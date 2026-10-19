@@ -31,7 +31,7 @@ DEV_BASE = {
 BASEROM_SHA = 'c4c6aff6242116c4f26bdcf3343b6c27836010853b8753da8b0cb953a200834a'
 # v0.5.1 output ROM built from it.
 JP_BASE_SHA = 'f96fe0ecac53cc586eac19b53fe1b50cef3fd1751261ae273c2356b2c6c62795'
-JP_TARGET_SHA = '95794c54745d1f1cc99bcade03a039bb871d2aaaec9f868be2e1b9ea92cb5e6c'
+JP_TARGET_SHA = '4591cc4a3b584cc4ea7735aff1e65899c5bd7fc252b95daa34c4948d1e6ca486'
 
 
 class VersionLineageTests(unittest.TestCase):
@@ -53,7 +53,7 @@ class VersionLineageTests(unittest.TestCase):
 
     def test_manifest_release_matches_the_documented_target(self):
         manifest = common.load_manifest()
-        self.assertEqual(manifest['release'], 'v0.5.2')
+        self.assertEqual(manifest['release'], 'v0.5.3')
         self.assertEqual(manifest['target']['sha256'], JP_TARGET_SHA)
 
     def test_base_rom_is_the_japanese_revision(self):

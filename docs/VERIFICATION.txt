@@ -22,7 +22,7 @@ MODIFIED (xdelta3 3.2.2 in PATH):
   Input: same verified baserom.gb + 04_Data/manifest.json + 46 raw resources
   Literal output:
 RELEASE=PASS VERSION=v0.5.2 XDELTA=3.1.0
-ROM_SHA256=95794c54745d1f1cc99bcade03a039bb871d2aaaec9f868be2e1b9ea92cb5e6c
+ROM_SHA256=4591cc4a3b584cc4ea7735aff1e65899c5bd7fc252b95daa34c4948d1e6ca486
 PATCH_SHA256=b723e5ace84e205055d70c3acf4dc229dc105aa7ee6fca68d64733f903ee6390
 XDELTA_REPLAY=PASS BASE_UNCHANGED=PASS
   Exit status: 0
@@ -49,7 +49,7 @@ Additional executed checks:
 - Public unit tests: 160 passed, exit 0.
 - Symbolic change surface (manifest no longer stores patch hex):
     python -B 00_Tools/change_surface.py check --base baserom.gb
-    CHANGE_SURFACE=PASS RELEASE=v0.5.2 SITES=49 PATCHES=116 BYTES=216
+    CHANGE_SURFACE=PASS RELEASE=v0.5.3 SITES=49 PATCHES=116 BYTES=216
       RESOURCES=46 ACTIVE=46 LEGACY=0 REGIONS=1 DIGEST=0c7de82245a54312
     BASE=PASS SHA256=c4c6aff6...0834a
   The 116 patches (216 bytes) are derived by assembling

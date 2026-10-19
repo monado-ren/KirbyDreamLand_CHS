@@ -223,7 +223,12 @@ def retile(manifest, manifest_path, page_path):
     else:
         tileset_capacity = tileset['capacity']
         map_capacity = entry['capacity']
-        name, tiles, tilemap, added = 'preserve', tiles, tilemap, added
+        # `tiles`/`tilemap`/`added` only exist when the preserve attempt
+        # succeeded; otherwise fall back to the best compact candidate.
+        if 'tiles' in dir():
+            name, tiles, tilemap, added = 'preserve', tiles, tilemap, added
+        else:
+            name, tiles, tilemap, added = candidates[0][0], candidates[0][1], candidates[0][2], candidates[0][3]
         tiles_packed = len(hal_codec.pack(tiles))
         map_packed = len(hal_codec.pack(tilemap))
         if tiles_packed > tileset_capacity or map_packed > map_capacity:

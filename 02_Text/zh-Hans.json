@@ -1023,7 +1023,7 @@
       "id": "graphic_ending_15_01",
       "section": "ending_hint",
       "source_text": "コンフィグ\nモード",
-      "translation_zh_hans": "配置\n模式",
+      "translation_zh_hans": "配置模式",
       "review_status": "approved",
       "integration_status": "integrated",
       "note": "当前版本已接入"
@@ -1032,7 +1032,7 @@
       "id": "graphic_ending_15_02",
       "section": "ending_hint",
       "source_text": "すごい\nうでまえだね",
-      "translation_zh_hans": "水平\n真不错呢，",
+      "translation_zh_hans": "水平真不错呢，",
       "review_status": "approved",
       "integration_status": "integrated",
       "note": "当前版本已接入"
@@ -1050,7 +1050,7 @@
       "id": "graphic_ending_15_04",
       "section": "ending_hint",
       "source_text": "あそんでくれて\nありがとう！",
-      "translation_zh_hans": "感谢\n您的游玩！",
+      "translation_zh_hans": "感谢您的游玩！",
       "review_status": "approved",
       "integration_status": "integrated",
       "note": "当前版本已接入"
@@ -1059,7 +1059,7 @@
       "id": "graphic_ending_16_01",
       "section": "ending_hint",
       "source_text": "エクストラ\nゲーム",
-      "translation_zh_hans": "额外\n游戏",
+      "translation_zh_hans": "额外游戏",
       "review_status": "approved",
       "integration_status": "integrated",
       "note": "当前版本已接入"
@@ -1068,7 +1068,7 @@
       "id": "graphic_ending_16_02",
       "section": "ending_hint",
       "source_text": "クリア\nおめでとう！",
-      "translation_zh_hans": "恭喜\n通关！",
+      "translation_zh_hans": "恭喜通关！",
       "review_status": "approved",
       "integration_status": "integrated",
       "note": "当前版本已接入"
@@ -1077,7 +1077,7 @@
       "id": "graphic_ending_16_03",
       "section": "ending_hint",
       "source_text": "タイトルがめんで\n←コマンドをおして",
-      "translation_zh_hans": "在标题界面\n输入左侧指令，",
+      "translation_zh_hans": "在标题界面\n输入左侧指令",
       "review_status": "approved",
       "integration_status": "integrated",
       "note": "当前版本已接入"
@@ -1086,7 +1086,7 @@
       "id": "graphic_ending_16_04",
       "section": "ending_hint",
       "source_text": "あたらしい\nぼうけんに\nでかけよう！",
-      "translation_zh_hans": "踏上\n新的\n冒险吧！",
+      "translation_zh_hans": "踏上新的\n冒险吧！",
       "review_status": "approved",
       "integration_status": "integrated",
       "note": "当前版本已接入"

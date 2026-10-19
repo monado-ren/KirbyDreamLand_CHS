@@ -132,8 +132,8 @@
 | `0x19043` | `ending_03acec_load_pointer` | `loader.bank` | 1 | `rom_056110` | `0x0E` → `rom_056110.bank=0x15` | 图鉴/提示页装载指针（地址+bank）：额外模式通关提示 地图 |
 | `0x19063` | `ending_03adda_load_pointer` | `loader.source_addr` | 2 | `rom_054000` | `0x6DDA` → `rom_054000.cpu_address=0x4000` | 图鉴/提示页装载指针（地址+bank）：普通模式通关提示 图块集（整屏 384 图块） |
 | `0x19069` | `ending_03adda_load_pointer` | `loader.bank` | 1 | `rom_054000` | `0x0E` → `rom_054000.bank=0x15` | 图鉴/提示页装载指针（地址+bank）：普通模式通关提示 图块集（整屏 384 图块） |
-| `0x1906E` | `ending_03be31_load_pointer` | `loader.source_addr` | 2 | `rom_055050` | `0x7E31` → `rom_055050.cpu_address=0x5050` | 图鉴/提示页装载指针（地址+bank）：普通模式通关提示 地图 |
-| `0x19074` | `ending_03be31_load_pointer` | `loader.bank` | 1 | `rom_055050` | `0x0E` → `rom_055050.bank=0x15` | 图鉴/提示页装载指针（地址+bank）：普通模式通关提示 地图 |
+| `0x1906E` | `ending_03be31_load_pointer` | `loader.source_addr` | 2 | `rom_055050` | `0x7E31` → `rom_055050.cpu_address=0x4000` | 图鉴/提示页装载指针（地址+bank）：普通模式通关提示 地图 |
+| `0x19074` | `ending_03be31_load_pointer` | `loader.bank` | 1 | `rom_055050` | `0x0E` → `rom_055050.bank=0x10` | 图鉴/提示页装载指针（地址+bank）：普通模式通关提示 地图 |
 | `0x1A3A2` | `normal_hud_load` | `loader.source_addr` | 2 | `rom_041000` | `0x4855` → `rom_041000.cpu_address=0x5000` | 普通 HUD 图块装载点（原代码重复 5 处，每处 2 字节） |
 | `0x1A3A8` | `normal_hud_load` | `loader.bank` | 1 | `rom_041000` | `0x02` → `rom_041000.bank=0x10` | 普通 HUD 图块装载点（原代码重复 5 处，每处 2 字节） |
 | `0x1A3C3` | `configuration_map_full_bundle_load` | `loader.source_addr` | 2 | `rom_05c000` | `0x453A` → `rom_05c000.cpu_address=0x4000` | 配置整包装载：源 bank 3→23，VRAM 目的 0x9800→0x8800 |
@@ -213,10 +213,10 @@ HUD 标签图块号重排、图鉴蝙蝠精灵 X 坐标 -9px。
 | `rom_04d6b7` | `ending_039820` | tileset | active | 19 | `0x4D6B7` | 609 | 609 | `-` | 图鉴页·帝帝帝大王 + 王冠舞台 图块集 |
 | `rom_04d918` | `ending_039be1` | tilemap | active | 19 | `0x4D918` | 9960 | 164 | `03_Image/edits/rom_04d918.json` | 图鉴页·帝帝帝大王 + 王冠舞台 地图 |
 | `rom_050000` | `ending_sprites` | sheet | active | 20 | `0x50000` | 16384 | 2418 | `03_Image/edits/rom_050000.json` | 结局/通关提示精灵表（剧终牌等） |
-| `rom_054000` | `ending_03adda` | tileset | active | 21 | `0x54000` | 4176 | 4165 | `-` | 普通模式通关提示 图块集（整屏 384 图块） |
-| `rom_055050` | `ending_03be31` | tilemap | active | 21 | `0x55050` | 224 | 223 | `03_Image/edits/rom_055050.json` | 普通模式通关提示（提示如何进入额外模式） 地图 |
-| `rom_055130` | `ending_039cbf` | tileset | active | 21 | `0x55130` | 4064 | 4057 | `-` | 额外模式通关提示 图块集（整屏 384 图块） |
-| `rom_056110` | `ending_03acec` | tilemap | active | 21 | `0x56110` | 7920 | 215 | `03_Image/edits/rom_056110.json` | 额外模式通关提示（提示如何进入配置模式） 地图 |
+| `rom_054000` | `ending_03adda` | tileset | active | 21 | `0x54000` | 4176 | 1856 | `-` | 普通模式通关提示 图块集（整屏 384 图块） |
+| `rom_055050` | `ending_03be31` | tilemap | active | 16 | `0x40000` | 272 | 272 | `03_Image/edits/rom_055050.json` | 普通模式通关提示（提示如何进入额外模式） 地图 |
+| `rom_055130` | `ending_039cbf` | tileset | active | 21 | `0x55130` | 4064 | 1846 | `-` | 额外模式通关提示 图块集（整屏 384 图块） |
+| `rom_056110` | `ending_03acec` | tilemap | active | 21 | `0x56110` | 7920 | 265 | `03_Image/edits/rom_056110.json` | 额外模式通关提示（提示如何进入配置模式） 地图 |
 | `rom_058000` | `intro_decoration` | sheet | active | 22 | `0x58000` | 16384 | 1268 | `03_Image/edits/rom_058000.json` | 关卡介绍右下角 32×16 中文角标（开场装饰） |
 | `rom_05c000` | `configuration_bundle` | bundle | active | 23 | `0x5C000` | 16384 | 2559 | `03_Image/pages/rom_05c000.png` | 配置页整包（256 图块 + 地图） |
 | `rom_06c000` | `stage_1` | bundle | active | 27 | `0x6C000` | 1803 | 1803 | `03_Image/pages/rom_06c000.png` | 场景 1 介绍整包（128 图块 + 地图） |
@@ -290,14 +290,14 @@ HUD 标签图块号重排、图鉴蝙蝠精灵 X 坐标 -9px。
 | `rom_04d586` | `graphic_ending_11_03` | 冒出箱 | 12px | edit | (30, 98) |
 | `rom_04d586` | `graphic_ending_11_04` | 骷髅头 | 12px | edit | (94, 90) |
 | `rom_04d918` | `graphic_ending_14_01` | 帝帝帝大王 | 12px | edit | (50, 112) |
-| `rom_055050` | `graphic_ending_16_01` | 额外⏎游戏 | 8px | edit | (24, 8) |
-| `rom_055050` | `graphic_ending_16_02` | 恭喜⏎通关！ | 8px | edit | (96, 8) |
-| `rom_055050` | `graphic_ending_16_03` | 在标题界面⏎输入左侧指令， | 8px | edit | (88, 32) |
-| `rom_055050` | `graphic_ending_16_04` | 踏上⏎新的⏎冒险吧！ | 8px | edit | (88, 56) |
-| `rom_056110` | `graphic_ending_15_01` | 配置⏎模式 | 8px | edit | (24, 8) |
-| `rom_056110` | `graphic_ending_15_02` | 水平⏎真不错呢， | 8px | edit | (88, 8) |
-| `rom_056110` | `graphic_ending_15_03` | 送你一份⏎特别的礼物♪ | 8px | edit | (88, 32) |
-| `rom_056110` | `graphic_ending_15_04` | 感谢⏎您的游玩！ | 8px | edit | (88, 56) |
+| `rom_055050` | `graphic_ending_16_01` | 额外游戏 | 12px | edit | (23, 8) |
+| `rom_055050` | `graphic_ending_16_02` | 恭喜通关！ | 12px | edit | (88, 9) |
+| `rom_055050` | `graphic_ending_16_03` | 在标题界面⏎输入左侧指令 | 12px | edit | (88, 25) |
+| `rom_055050` | `graphic_ending_16_04` | 踏上新的⏎冒险吧！ | 12px | edit | (88, 55) |
+| `rom_056110` | `graphic_ending_15_01` | 配置模式 | 12px | edit | (23, 8) |
+| `rom_056110` | `graphic_ending_15_02` | 水平真不错呢， | 12px | edit | (82, 9) |
+| `rom_056110` | `graphic_ending_15_03` | 送你一份⏎特别的礼物♪ | 12px | edit | (82, 29) |
+| `rom_056110` | `graphic_ending_15_04` | 感谢您的游玩！ | 12px | edit | (82, 63) |
 | `rom_06c000` | `stage_1_name` | 葛绿谷绿 | 12px | page | (56, 38) |
 | `rom_06c000` | `stage_1_number` | 场景1 | 12px | page | (62, 12) |
 | `rom_06c70b` | `stage_2_name` | 箩箩箩的城堡 | 12px | page | (44, 38) |
@@ -425,8 +425,8 @@ HUD 标签图块号重排、图鉴蝙蝠精灵 X 坐标 -9px。
 | 99 | `0x19043` | `loader.bank` | 1 | `0x0e` → `0x15` |
 | 100 | `0x19063` | `loader.source_addr` | 2 | `0xda6d` → `0x0040` |
 | 101 | `0x19069` | `loader.bank` | 1 | `0x0e` → `0x15` |
-| 102 | `0x1906E` | `loader.source_addr` | 2 | `0x317e` → `0x5050` |
-| 103 | `0x19074` | `loader.bank` | 1 | `0x0e` → `0x15` |
+| 102 | `0x1906E` | `loader.source_addr` | 2 | `0x317e` → `0x0040` |
+| 103 | `0x19074` | `loader.bank` | 1 | `0x0e` → `0x10` |
 | 104 | `0x190BB` | `stage.pointer_table` | 15 | `0x0678350678dd0679580679ef067aa6` → `0x1b40001b470b1b4da81b54901b5b85` |
 | 105 | `0x1A3A2` | `loader.source_addr` | 2 | `0x5548` → `0x0050` |
 | 106 | `0x1A3A8` | `loader.bank` | 1 | `0x02` → `0x10` |
@@ -557,14 +557,14 @@ HUD 标签图块号重排、图鉴蝙蝠精灵 X 坐标 -9px。
 | `jp_credits_58` | credits | not_localized | NINTENDO |
 | `jp_credits_60` | credits | not_localized | THANK YOU FOR |
 | `jp_credits_62` | credits | not_localized | PLAYING. |
-| `graphic_ending_15_01` | ending_hint | integrated | 配置⏎模式 |
-| `graphic_ending_15_02` | ending_hint | integrated | 水平⏎真不错呢， |
+| `graphic_ending_15_01` | ending_hint | integrated | 配置模式 |
+| `graphic_ending_15_02` | ending_hint | integrated | 水平真不错呢， |
 | `graphic_ending_15_03` | ending_hint | integrated | 送你一份⏎特别的礼物♪ |
-| `graphic_ending_15_04` | ending_hint | integrated | 感谢⏎您的游玩！ |
-| `graphic_ending_16_01` | ending_hint | integrated | 额外⏎游戏 |
-| `graphic_ending_16_02` | ending_hint | integrated | 恭喜⏎通关！ |
-| `graphic_ending_16_03` | ending_hint | integrated | 在标题界面⏎输入左侧指令， |
-| `graphic_ending_16_04` | ending_hint | integrated | 踏上⏎新的⏎冒险吧！ |
+| `graphic_ending_15_04` | ending_hint | integrated | 感谢您的游玩！ |
+| `graphic_ending_16_01` | ending_hint | integrated | 额外游戏 |
+| `graphic_ending_16_02` | ending_hint | integrated | 恭喜通关！ |
+| `graphic_ending_16_03` | ending_hint | integrated | 在标题界面⏎输入左侧指令 |
+| `graphic_ending_16_04` | ending_hint | integrated | 踏上新的⏎冒险吧！ |
 | `ending_sign_oshimai` | ending | integrated | 剧终 |
 
 ## 附录 C：页面层（30 页）
