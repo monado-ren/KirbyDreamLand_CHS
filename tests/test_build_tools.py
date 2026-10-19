@@ -16,7 +16,7 @@ import graphics_png
 import hal_codec
 
 BASE_SHA256 = 'c4c6aff6242116c4f26bdcf3343b6c27836010853b8753da8b0cb953a200834a'
-TARGET_SHA256 = '959835314b684dded38752a6df9fc349d38a4d70fa83633d971c84972a5755dd'
+TARGET_SHA256 = '95794c54745d1f1cc99bcade03a039bb871d2aaaec9f868be2e1b9ea92cb5e6c'
 REV1_FIXES = ((0x37B1, bytes.fromhex('fa14d4a7c0')),
               (0x434B, bytes.fromhex('ea14d4')),
               (0x1418C, bytes.fromhex('3807')))
@@ -54,7 +54,7 @@ class ReleaseContractTests(unittest.TestCase):
 
     def test_all_raw_resources_recompress_exactly(self):
         prepared = common.prepare_resources(self.manifest)
-        self.assertEqual(len(prepared), 71)
+        self.assertEqual(len(prepared), 46)
         for spec, raw, packed in prepared:
             with self.subTest(resource=spec['id']):
                 self.assertEqual(hal_codec.decode(packed), (raw, len(packed)))

@@ -43,7 +43,7 @@ class ManifestRoundTripTests(unittest.TestCase):
 
     def test_every_resource_derives_its_pinned_bytes(self):
         prepared = common.prepare_resources(self.manifest)
-        self.assertEqual(len(prepared), 71)
+        self.assertEqual(len(prepared), 46)
         for entry, raw, _packed in prepared:
             with self.subTest(resource=entry['id']):
                 path = ROOT / entry['source']

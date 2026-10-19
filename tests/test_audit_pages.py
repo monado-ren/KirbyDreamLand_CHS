@@ -20,11 +20,11 @@ class PageBudgetAuditTests(unittest.TestCase):
         cls.result = audit_pages.audit(cls.manifest, cls.spec)
 
     def test_inventory_matches_page_layer(self):
-        self.assertEqual(len(self.result['pages']), 48)
+        self.assertEqual(len(self.result['pages']), 30)
         self.assertEqual(self.result['active_pages'], 30)
-        self.assertEqual(self.result['legacy_pages'], 18)
-        self.assertEqual(len(self.result['bundles']), 21)
-        self.assertEqual(len(self.result['edits']), 27)
+        self.assertEqual(self.result['legacy_pages'], 0)
+        self.assertEqual(len(self.result['bundles']), 10)
+        self.assertEqual(len(self.result['edits']), 20)
         self.assertEqual(self.result['active'], 46)
         self.assertEqual(self.result['hard_errors'], [])
 

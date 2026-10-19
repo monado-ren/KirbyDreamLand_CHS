@@ -181,47 +181,25 @@ HUD 标签图块号重排、图鉴蝙蝠精灵 X 坐标 -9px。
 
 | id | label | format | role | bank | offset | capacity | packed | 页面 | 用途 |
 | --- | --- | --- | --- | ---: | --- | ---: | ---: | --- | --- |
-| `rom_040000` | `title_bundle` | bundle | legacy | 16 | `0x40000` | 4096 | 3057 | `03_Image/pages/rom_040000.png` | 标题画面·初版整包（历史副本） |
 | `rom_041000` | `normal_hud` | sheet | active | 16 | `0x41000` | 259 | 259 | `03_Image/edits/rom_041000.json` | 普通模式 HUD 字形条 |
 | `rom_041103` | `extra_hud` | sheet | active | 16 | `0x41103` | 259 | 259 | `03_Image/edits/rom_041103.json` | 额外模式 HUD 字形条 |
-| `rom_041206` | `stage_1_map` | bundle | legacy | 16 | `0x41206` | 1799 | 1799 | `03_Image/pages/rom_041206.png` | 场景 1 介绍·初版地图流（历史副本） |
-| `rom_04190d` | `stage_2_map` | bundle | legacy | 16 | `0x4190D` | 1675 | 1675 | `03_Image/pages/rom_04190d.png` | 场景 2 介绍·初版地图流（历史副本） |
-| `rom_041f98` | `stage_3_map` | bundle | legacy | 16 | `0x41F98` | 1749 | 1749 | `03_Image/pages/rom_041f98.png` | 场景 3 介绍·初版地图流（历史副本） |
-| `rom_04266d` | `stage_4_map` | bundle | legacy | 16 | `0x4266D` | 1776 | 1776 | `03_Image/pages/rom_04266d.png` | 场景 4 介绍·初版地图流（历史副本） |
-| `rom_042d5d` | `stage_5_map` | bundle | legacy | 16 | `0x42D5D` | 1640 | 1640 | `03_Image/pages/rom_042d5d.png` | 场景 5 介绍·初版地图流（历史副本） |
-| `rom_0433c5` | `configuration_map` | bundle | legacy | 16 | `0x433C5` | 1329 | 1329 | `03_Image/pages/rom_0433c5.png` | 配置页·初版地图（历史副本） |
 | `rom_0438f6` | `sound_test_map` | bundle | active | 16 | `0x438F6` | 1802 | 713 | `03_Image/pages/rom_0438f6.png` | 声音测试页 |
-| `rom_044000` | `configuration_map` | bundle | legacy | 17 | `0x44000` | 1356 | 1356 | `03_Image/pages/rom_044000.png` | 配置页·初版地图（历史副本） |
 | `rom_04454c` | `gameover_map` | bundle | active | 17 | `0x4454C` | 488 | 488 | `03_Image/pages/rom_04454c.png` | GAME OVER 画面 |
 | `rom_044734` | `continue_map` | bundle | active | 17 | `0x44734` | 14540 | 478 | `03_Image/pages/rom_044734.png` | CONTINUE 画面 |
 | `rom_048000` | `ending_034000` | tileset | active | 18 | `0x48000` | 1122 | 1122 | `-` | 图鉴页·黑刺球等 + 蘑菇林 图块集 |
 | `rom_048462` | `ending_0345c0` | tilemap | active | 18 | `0x48462` | 335 | 335 | `03_Image/edits/rom_048462.json` | 图鉴页·黑刺球等 + 蘑菇林 地图 |
-| `rom_0485b1` | `ending_0346fb` | tileset | legacy | 18 | `0x485B1` | 1281 | 1281 | `-` | 图鉴早期版本（历史副本） |
-| `rom_048ab2` | `ending_034cb4` | tilemap | legacy | 18 | `0x48AB2` | 275 | 275 | `03_Image/edits/rom_048ab2.json` | 图鉴早期版本（历史副本） |
-| `rom_048bc5` | `ending_034dc0` | tileset | legacy | 18 | `0x48BC5` | 663 | 663 | `-` | 图鉴早期版本（历史副本） |
-| `rom_048e5c` | `ending_03535c` | tilemap | legacy | 18 | `0x48E5C` | 238 | 238 | `03_Image/edits/rom_048e5c.json` | 图鉴早期版本（历史副本） |
-| `rom_048f4a` | `ending_03543e` | tileset | legacy | 18 | `0x48F4A` | 1257 | 1257 | `-` | 图鉴早期版本（历史副本） |
-| `rom_049433` | `ending_035987` | tilemap | legacy | 18 | `0x49433` | 279 | 279 | `03_Image/edits/rom_049433.json` | 图鉴早期版本（历史副本） |
 | `rom_04954a` | `ending_035a89` | tileset | active | 18 | `0x4954A` | 394 | 394 | `-` | 图鉴页·箩箩箩/菈菈菈 + 城堡 图块集 |
 | `rom_0496d4` | `ending_035fd2` | tilemap | active | 18 | `0x496D4` | 149 | 149 | `03_Image/edits/rom_0496d4.json` | 图鉴页·箩箩箩/菈菈菈 + 城堡 地图 |
 | `rom_049769` | `ending_036063` | tileset | active | 18 | `0x49769` | 1167 | 1167 | `-` | 图鉴页·蛙镜鱼等 + 树林 图块集 |
 | `rom_049bf8` | `ending_036553` | tilemap | active | 18 | `0x49BF8` | 285 | 285 | `03_Image/edits/rom_049bf8.json` | 图鉴页·蛙镜鱼等 + 树林 地图 |
-| `rom_049d15` | `ending_036658` | tileset | legacy | 18 | `0x49D15` | 410 | 410 | `-` | 图鉴早期版本（历史副本） |
-| `rom_049eaf` | `ending_036b80` | tilemap | legacy | 18 | `0x49EAF` | 235 | 235 | `03_Image/edits/rom_049eaf.json` | 图鉴早期版本（历史副本） |
 | `rom_049f9a` | `ending_036c7c` | tileset | active | 18 | `0x49F9A` | 1031 | 1031 | `-` | 图鉴页·疯狂鬼面等 + 城市 图块集 |
 | `rom_04a3a1` | `ending_03717d` | tilemap | active | 18 | `0x4A3A1` | 293 | 293 | `03_Image/edits/rom_04a3a1.json` | 图鉴页·疯狂鬼面等 + 城市 地图 |
-| `rom_04a4c6` | `ending_03729b` | tileset | legacy | 18 | `0x4A4C6` | 554 | 554 | `-` | 图鉴早期版本（历史副本） |
-| `rom_04a6f0` | `ending_03779c` | tilemap | legacy | 18 | `0x4A6F0` | 249 | 249 | `03_Image/edits/rom_04a6f0.json` | 图鉴早期版本（历史副本） |
 | `rom_04a7e9` | `ending_038000` | tileset | active | 18 | `0x4A7E9` | 818 | 818 | `-` | 图鉴页·喔喔鸡等 + 树林 图块集 |
 | `rom_04ab1b` | `ending_0378cc` | tilemap | active | 18 | `0x4AB1B` | 264 | 264 | `03_Image/edits/rom_04ab1b.json` | 图鉴页·喔喔鸡等 + 树林 地图 |
-| `rom_04ac23` | `ending_038582` | tileset | legacy | 18 | `0x4AC23` | 971 | 971 | `-` | 图鉴早期版本（历史副本） |
-| `rom_04afee` | `ending_038ac6` | tilemap | legacy | 18 | `0x4AFEE` | 304 | 304 | `03_Image/edits/rom_04afee.json` | 图鉴早期版本（历史副本） |
 | `rom_04b11e` | `ending_038bf3` | tileset | active | 18 | `0x4B11E` | 957 | 957 | `-` | 图鉴页·章鱼怪等 + 海与船 图块集 |
 | `rom_04b4db` | `ending_03911e` | tilemap | active | 18 | `0x4B4DB` | 258 | 258 | `03_Image/edits/rom_04b4db.json` | 图鉴页·章鱼怪等 + 海与船 地图 |
 | `rom_04b5dd` | `ending_039206` | tileset | active | 18 | `0x4B5DD` | 870 | 870 | `-` | 图鉴页·子弹鹈鹕等 + 星空 图块集 |
 | `rom_04b943` | `ending_039707` | tilemap | active | 18 | `0x4B943` | 306 | 306 | `03_Image/edits/rom_04b943.json` | 图鉴页·子弹鹈鹕等 + 星空 地图 |
-| `rom_04ba75` | `ending_039820` | tileset | legacy | 18 | `0x4BA75` | 604 | 604 | `-` | 图鉴早期版本（历史副本） |
-| `rom_04bcd1` | `ending_039be1` | tilemap | legacy | 18 | `0x4BCD1` | 815 | 164 | `03_Image/edits/rom_04bcd1.json` | 图鉴早期版本（历史副本） |
 | `rom_04c000` | `ending_0346fb` | tileset | active | 19 | `0x4C000` | 1268 | 1268 | `-` | 图鉴页·喳喳鸟等 + 山丘 图块集 |
 | `rom_04c4f4` | `ending_034cb4` | tilemap | active | 19 | `0x4C4F4` | 277 | 277 | `03_Image/edits/rom_04c4f4.json` | 图鉴页·喳喳鸟等 + 山丘 地图 |
 | `rom_04c609` | `ending_03543e` | tileset | active | 19 | `0x4C609` | 1257 | 1257 | `-` | 图鉴页·振翅蝙蝠等 + 城堡 图块集 |
@@ -241,9 +219,6 @@ HUD 标签图块号重排、图鉴蝙蝠精灵 X 坐标 -9px。
 | `rom_056110` | `ending_03acec` | tilemap | active | 21 | `0x56110` | 7920 | 215 | `03_Image/edits/rom_056110.json` | 额外模式通关提示（提示如何进入配置模式） 地图 |
 | `rom_058000` | `intro_decoration` | sheet | active | 22 | `0x58000` | 16384 | 1268 | `03_Image/edits/rom_058000.json` | 关卡介绍右下角 32×16 中文角标（开场装饰） |
 | `rom_05c000` | `configuration_bundle` | bundle | active | 23 | `0x5C000` | 16384 | 2559 | `03_Image/pages/rom_05c000.png` | 配置页整包（256 图块 + 地图） |
-| `rom_060000` | `title_bundle` | bundle | legacy | 24 | `0x60000` | 16384 | 3186 | `03_Image/pages/rom_060000.png` | 标题画面·第二版整包（历史副本） |
-| `rom_064000` | `stage_1` | bundle | legacy | 25 | `0x64000` | 1786 | 1786 | `03_Image/pages/rom_064000.png` | 场景 1 介绍·早期整包（历史副本） |
-| `rom_0646fa` | `stage_2` | bundle | legacy | 25 | `0x646FA` | 14598 | 1673 | `03_Image/pages/rom_0646fa.png` | 场景 2 介绍·早期整包（历史副本） |
 | `rom_06c000` | `stage_1` | bundle | active | 27 | `0x6C000` | 1803 | 1803 | `03_Image/pages/rom_06c000.png` | 场景 1 介绍整包（128 图块 + 地图） |
 | `rom_06c70b` | `stage_2` | bundle | active | 27 | `0x6C70B` | 1693 | 1693 | `03_Image/pages/rom_06c70b.png` | 场景 2 介绍整包 |
 | `rom_06cda8` | `stage_3` | bundle | active | 27 | `0x6CDA8` | 1768 | 1768 | `03_Image/pages/rom_06cda8.png` | 场景 3 介绍整包 |
@@ -592,37 +567,22 @@ HUD 标签图块号重排、图鉴蝙蝠精灵 X 坐标 -9px。
 | `graphic_ending_16_04` | ending_hint | integrated | 踏上⏎新的⏎冒险吧！ |
 | `ending_sign_oshimai` | ending | integrated | 剧终 |
 
-## 附录 C：页面层（48 页）
+## 附录 C：页面层（30 页）
 
 | id | 存储 | 角色 | 文件 | 用途 |
 | --- | --- | --- | --- | --- |
-| `rom_040000` | page | legacy | `03_Image/pages/rom_040000.png` | 标题画面·初版整包（历史副本） |
 | `rom_041000` | edit | active | `03_Image/edits/rom_041000.json` | 普通模式 HUD 字形条 |
 | `rom_041103` | edit | active | `03_Image/edits/rom_041103.json` | 额外模式 HUD 字形条 |
-| `rom_041206` | page | legacy | `03_Image/pages/rom_041206.png` | 场景 1 介绍·初版地图流（历史副本） |
-| `rom_04190d` | page | legacy | `03_Image/pages/rom_04190d.png` | 场景 2 介绍·初版地图流（历史副本） |
-| `rom_041f98` | page | legacy | `03_Image/pages/rom_041f98.png` | 场景 3 介绍·初版地图流（历史副本） |
-| `rom_04266d` | page | legacy | `03_Image/pages/rom_04266d.png` | 场景 4 介绍·初版地图流（历史副本） |
-| `rom_042d5d` | page | legacy | `03_Image/pages/rom_042d5d.png` | 场景 5 介绍·初版地图流（历史副本） |
-| `rom_0433c5` | page | legacy | `03_Image/pages/rom_0433c5.png` | 配置页·初版地图（历史副本） |
 | `rom_0438f6` | page | active | `03_Image/pages/rom_0438f6.png` | 声音测试页 |
-| `rom_044000` | page | legacy | `03_Image/pages/rom_044000.png` | 配置页·初版地图（历史副本） |
 | `rom_04454c` | page | active | `03_Image/pages/rom_04454c.png` | GAME OVER 画面 |
 | `rom_044734` | page | active | `03_Image/pages/rom_044734.png` | CONTINUE 画面 |
 | `rom_048462` | edit | active | `03_Image/edits/rom_048462.json` | 图鉴页·黑刺球等 + 蘑菇林 地图 |
-| `rom_048ab2` | edit | legacy | `03_Image/edits/rom_048ab2.json` | 图鉴早期版本（历史副本） |
-| `rom_048e5c` | edit | legacy | `03_Image/edits/rom_048e5c.json` | 图鉴早期版本（历史副本） |
-| `rom_049433` | edit | legacy | `03_Image/edits/rom_049433.json` | 图鉴早期版本（历史副本） |
 | `rom_0496d4` | edit | active | `03_Image/edits/rom_0496d4.json` | 图鉴页·箩箩箩/菈菈菈 + 城堡 地图 |
 | `rom_049bf8` | edit | active | `03_Image/edits/rom_049bf8.json` | 图鉴页·蛙镜鱼等 + 树林 地图 |
-| `rom_049eaf` | edit | legacy | `03_Image/edits/rom_049eaf.json` | 图鉴早期版本（历史副本） |
 | `rom_04a3a1` | edit | active | `03_Image/edits/rom_04a3a1.json` | 图鉴页·疯狂鬼面等 + 城市 地图 |
-| `rom_04a6f0` | edit | legacy | `03_Image/edits/rom_04a6f0.json` | 图鉴早期版本（历史副本） |
 | `rom_04ab1b` | edit | active | `03_Image/edits/rom_04ab1b.json` | 图鉴页·喔喔鸡等 + 树林 地图 |
-| `rom_04afee` | edit | legacy | `03_Image/edits/rom_04afee.json` | 图鉴早期版本（历史副本） |
 | `rom_04b4db` | edit | active | `03_Image/edits/rom_04b4db.json` | 图鉴页·章鱼怪等 + 海与船 地图 |
 | `rom_04b943` | edit | active | `03_Image/edits/rom_04b943.json` | 图鉴页·子弹鹈鹕等 + 星空 地图 |
-| `rom_04bcd1` | edit | legacy | `03_Image/edits/rom_04bcd1.json` | 图鉴早期版本（历史副本） |
 | `rom_04c4f4` | edit | active | `03_Image/edits/rom_04c4f4.json` | 图鉴页·喳喳鸟等 + 山丘 地图 |
 | `rom_04caf2` | edit | active | `03_Image/edits/rom_04caf2.json` | 图鉴页·振翅蝙蝠等 + 城堡 地图（蝙蝠页） |
 | `rom_04cd98` | edit | active | `03_Image/edits/rom_04cd98.json` | 图鉴页·卡钸拉 + 云 地图 |
@@ -634,9 +594,6 @@ HUD 标签图块号重排、图鉴蝙蝠精灵 X 坐标 -9px。
 | `rom_056110` | edit | active | `03_Image/edits/rom_056110.json` | 额外模式通关提示（提示如何进入配置模式） 地图 |
 | `rom_058000` | edit | active | `03_Image/edits/rom_058000.json` | 关卡介绍右下角 32×16 中文角标（开场装饰） |
 | `rom_05c000` | page | active | `03_Image/pages/rom_05c000.png` | 配置页整包（256 图块 + 地图） |
-| `rom_060000` | page | legacy | `03_Image/pages/rom_060000.png` | 标题画面·第二版整包（历史副本） |
-| `rom_064000` | page | legacy | `03_Image/pages/rom_064000.png` | 场景 1 介绍·早期整包（历史副本） |
-| `rom_0646fa` | page | legacy | `03_Image/pages/rom_0646fa.png` | 场景 2 介绍·早期整包（历史副本） |
 | `rom_06c000` | page | active | `03_Image/pages/rom_06c000.png` | 场景 1 介绍整包（128 图块 + 地图） |
 | `rom_06c70b` | page | active | `03_Image/pages/rom_06c70b.png` | 场景 2 介绍整包 |
 | `rom_06cda8` | page | active | `03_Image/pages/rom_06cda8.png` | 场景 3 介绍整包 |

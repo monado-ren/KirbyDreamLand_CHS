@@ -3,7 +3,7 @@
   "status": "PASS",
   "release": "v0.5.2",
   "baseline": "Japan Rev 1",
-  "target_rom_sha256": "959835314b684dded38752a6df9fc349d38a4d70fa83633d971c84972a5755dd",
+  "target_rom_sha256": "95794c54745d1f1cc99bcade03a039bb871d2aaaec9f868be2e1b9ea92cb5e6c",
   "checks": [
     "license_verbatim:LICENSES/Fusion-Pixel-OFL.txt",
     "license_verbatim:LICENSES/Fusion-Pixel-upstream/BoutiqueBitmap7x7-OFL.txt",

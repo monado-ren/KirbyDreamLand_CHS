@@ -32,12 +32,15 @@ class AllocationTests(unittest.TestCase):
                 self.assertTrue(end <= used_start or start >= used_end)
 
     def test_refuses_resources_without_loader_patch(self):
+        # v0.5.2 dropped every unreferenced copy, so synthesise one: relocation
+        # must still refuse a resource that no loader can point at.
         manifest = copy.deepcopy(self.manifest)
-        legacy = next(entry for entry in manifest['resources']
-                      if not entry['referenced_by_current_localized_loaders']
-                      and entry['label'].startswith('ending_'))
+        orphan = copy.deepcopy(manifest['resources'][0])
+        orphan['referenced_by_current_localized_loaders'] = False
+        # loader_patches matches on label, so give it one no loader uses.
+        orphan['label'] = 'no_loader_references_this_label'
         with self.assertRaises(common.ProjectError):
-            allocation.relocate(manifest, legacy, 64)
+            allocation.relocate(manifest, orphan, 64)
 
     def test_relocation_updates_loader_bank_bytes(self):
         manifest = copy.deepcopy(self.manifest)

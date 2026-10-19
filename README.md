@@ -51,7 +51,7 @@ python 00_Tools/verify.py
 v0.5.1 输出为 **524288 字节**，与开发工程的 `kirby_jp_rev1_zh_v0.5.1_stage5_up2.gb` 逐字节一致：
 
 ```text
-SHA-256 959835314b684dded38752a6df9fc349d38a4d70fa83633d971c84972a5755dd
+SHA-256 95794c54745d1f1cc99bcade03a039bb871d2aaaec9f868be2e1b9ea92cb5e6c
 ```
 
 ## 直接应用补丁

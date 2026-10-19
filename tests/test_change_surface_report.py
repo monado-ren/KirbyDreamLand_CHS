@@ -30,7 +30,7 @@ class WorkItemReportTests(unittest.TestCase):
             self.assertIn('## %s ' % number, text)
         self.assertIn('## 附录 A：全部 116 处补丁', text)
         self.assertIn('## 附录 B：文本条目（121 条）', text)
-        self.assertIn('## 附录 C：页面层（48 页）', text)
+        self.assertIn('## 附录 C：页面层（30 页）', text)
         self.assertIn('全部 116 处补丁', text)
         self.assertIn('0x00148', text)
         self.assertIn('two_row_vblank_queue_writer', text)

@@ -28,9 +28,9 @@ class ChangeSurfaceTests(unittest.TestCase):
         self.assertEqual(stats['patches'], 116)
         self.assertEqual(stats['bytes'], 216)
         self.assertEqual(stats['sites'], 49)
-        self.assertEqual(stats['resources'], 71)
+        self.assertEqual(stats['resources'], 46)
         self.assertEqual(stats['active'], 46)
-        self.assertEqual(stats['legacy'], 25)
+        self.assertEqual(stats['legacy'], 0)
         self.assertEqual(stats['code_regions'], 1)
         self.assertEqual(self.raw_manifest['change_surface']['sha256'], stats['digest'])
 
@@ -99,7 +99,7 @@ class ChangeSurfaceTests(unittest.TestCase):
 
     def test_legacy_copies_are_marked_and_unreferenced(self):
         legacy = [r for r in self.spec['resources'] if r['role'] == 'legacy']
-        self.assertEqual(len(legacy), 25)
+        self.assertEqual(len(legacy), 0)
         for res in legacy:
             self.assertIn('legacy_reason', res)
             self.assertIn('v0.5.1', res['legacy_reason'])

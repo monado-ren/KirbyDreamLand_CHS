@@ -11,7 +11,7 @@
   },
   "target": {
     "size": 524288,
-    "sha256": "959835314b684dded38752a6df9fc349d38a4d70fa83633d971c84972a5755dd"
+    "sha256": "95794c54745d1f1cc99bcade03a039bb871d2aaaec9f868be2e1b9ea92cb5e6c"
   },
   "fill_byte": 255,
   "change_surface": {
@@ -20,34 +20,6 @@
     "bytes": 216
   },
   "resources": [
-    {
-      "id": "rom_040000",
-      "label": "title_bundle",
-      "offset": 262144,
-      "bank": 16,
-      "cpu_address": 16384,
-      "capacity": 4096,
-      "format": "hal-greedy-v1",
-      "source": "03_Image/graphics/r_040000.png",
-      "png": {
-        "mode": "tiles-2bpp-4gray",
-        "tiles_per_row": 16,
-        "tile_count": 292
-      },
-      "decoded_size": 5248,
-      "decoded_sha256": "6552d2297d5c62ed97067a361a16075384e384bfa3cd2a92644fa3f976998899",
-      "packed_size": 3057,
-      "referenced_by_current_localized_loaders": false,
-      "retained_for_byte_exact_release": true,
-      "bundle": {
-        "map_png": "03_Image/graphics/r_040000_map.png",
-        "width": 32,
-        "height": 18,
-        "addressing": "linear"
-      },
-      "page": "03_Image/pages/rom_040000.png",
-      "page_kind": "bundle"
-    },
     {
       "id": "rom_041000",
       "label": "normal_hud",
@@ -93,174 +65,6 @@
       "edit": "03_Image/edits/rom_041103.json"
     },
     {
-      "id": "rom_041206",
-      "label": "stage_1_map",
-      "offset": 266758,
-      "bank": 16,
-      "cpu_address": 20998,
-      "capacity": 1799,
-      "format": "hal-greedy-v1",
-      "source": "03_Image/graphics/r_041206.png",
-      "png": {
-        "mode": "tiles-2bpp-4gray",
-        "tiles_per_row": 16,
-        "tile_count": 128
-      },
-      "decoded_size": 2624,
-      "decoded_sha256": "8079a14eee6a6be58af35094f91366ff8e68d5009018f2bcba36fb0e3f0670fc",
-      "packed_size": 1799,
-      "referenced_by_current_localized_loaders": false,
-      "retained_for_byte_exact_release": true,
-      "bundle": {
-        "map_png": "03_Image/graphics/r_041206_map.png",
-        "width": 32,
-        "height": 18,
-        "addressing": "linear"
-      },
-      "page": "03_Image/pages/rom_041206.png",
-      "page_kind": "bundle"
-    },
-    {
-      "id": "rom_04190d",
-      "label": "stage_2_map",
-      "offset": 268557,
-      "bank": 16,
-      "cpu_address": 22797,
-      "capacity": 1675,
-      "format": "hal-greedy-v1",
-      "source": "03_Image/graphics/r_04190d.png",
-      "png": {
-        "mode": "tiles-2bpp-4gray",
-        "tiles_per_row": 16,
-        "tile_count": 128
-      },
-      "decoded_size": 2624,
-      "decoded_sha256": "4f6ae2eab0aae4ee89971af5b599434b0e6fca1c480eb3665402041392ecad59",
-      "packed_size": 1675,
-      "referenced_by_current_localized_loaders": false,
-      "retained_for_byte_exact_release": true,
-      "bundle": {
-        "map_png": "03_Image/graphics/r_04190d_map.png",
-        "width": 32,
-        "height": 18,
-        "addressing": "linear"
-      },
-      "page": "03_Image/pages/rom_04190d.png",
-      "page_kind": "bundle"
-    },
-    {
-      "id": "rom_041f98",
-      "label": "stage_3_map",
-      "offset": 270232,
-      "bank": 16,
-      "cpu_address": 24472,
-      "capacity": 1749,
-      "format": "hal-greedy-v1",
-      "source": "03_Image/graphics/r_041f98.png",
-      "png": {
-        "mode": "tiles-2bpp-4gray",
-        "tiles_per_row": 16,
-        "tile_count": 128
-      },
-      "decoded_size": 2624,
-      "decoded_sha256": "57d166a6206ef6e15b3f30f630172001477f2f9e2727f1f841ad8ed31e067a57",
-      "packed_size": 1749,
-      "referenced_by_current_localized_loaders": false,
-      "retained_for_byte_exact_release": true,
-      "bundle": {
-        "map_png": "03_Image/graphics/r_041f98_map.png",
-        "width": 32,
-        "height": 18,
-        "addressing": "linear"
-      },
-      "page": "03_Image/pages/rom_041f98.png",
-      "page_kind": "bundle"
-    },
-    {
-      "id": "rom_04266d",
-      "label": "stage_4_map",
-      "offset": 271981,
-      "bank": 16,
-      "cpu_address": 26221,
-      "capacity": 1776,
-      "format": "hal-greedy-v1",
-      "source": "03_Image/graphics/r_04266d.png",
-      "png": {
-        "mode": "tiles-2bpp-4gray",
-        "tiles_per_row": 16,
-        "tile_count": 128
-      },
-      "decoded_size": 2624,
-      "decoded_sha256": "61b429b151f3b1938e2f16915d187c9b22a6cd35b4e9de08779c4e60beeba36c",
-      "packed_size": 1776,
-      "referenced_by_current_localized_loaders": false,
-      "retained_for_byte_exact_release": true,
-      "bundle": {
-        "map_png": "03_Image/graphics/r_04266d_map.png",
-        "width": 32,
-        "height": 18,
-        "addressing": "linear"
-      },
-      "page": "03_Image/pages/rom_04266d.png",
-      "page_kind": "bundle"
-    },
-    {
-      "id": "rom_042d5d",
-      "label": "stage_5_map",
-      "offset": 273757,
-      "bank": 16,
-      "cpu_address": 27997,
-      "capacity": 1640,
-      "format": "hal-greedy-v1",
-      "source": "03_Image/graphics/r_042d5d.png",
-      "png": {
-        "mode": "tiles-2bpp-4gray",
-        "tiles_per_row": 16,
-        "tile_count": 128
-      },
-      "decoded_size": 3008,
-      "decoded_sha256": "acafd678290304ce785039e64314374b3bcceeea075645d3ced178df691b9805",
-      "packed_size": 1640,
-      "referenced_by_current_localized_loaders": false,
-      "retained_for_byte_exact_release": true,
-      "bundle": {
-        "map_png": "03_Image/graphics/r_042d5d_map.png",
-        "width": 32,
-        "height": 30,
-        "addressing": "linear"
-      },
-      "page": "03_Image/pages/rom_042d5d.png",
-      "page_kind": "bundle"
-    },
-    {
-      "id": "rom_0433c5",
-      "label": "configuration_map",
-      "offset": 275397,
-      "bank": 16,
-      "cpu_address": 29637,
-      "capacity": 1329,
-      "format": "hal-greedy-v1",
-      "source": "03_Image/graphics/r_0433c5.png",
-      "png": {
-        "mode": "tiles-2bpp-4gray",
-        "tiles_per_row": 16,
-        "tile_count": 128
-      },
-      "decoded_size": 2624,
-      "decoded_sha256": "cad752a46d3909eb1403ec5146cfe09d1c1cb1353ce3d7036badc83161134add",
-      "packed_size": 1329,
-      "referenced_by_current_localized_loaders": false,
-      "retained_for_byte_exact_release": true,
-      "bundle": {
-        "map_png": "03_Image/graphics/r_0433c5_map.png",
-        "width": 32,
-        "height": 18,
-        "addressing": "linear"
-      },
-      "page": "03_Image/pages/rom_0433c5.png",
-      "page_kind": "bundle"
-    },
-    {
       "id": "rom_0438f6",
       "label": "sound_test_map",
       "offset": 276726,
@@ -286,34 +90,6 @@
         "addressing": "linear"
       },
       "page": "03_Image/pages/rom_0438f6.png",
-      "page_kind": "bundle"
-    },
-    {
-      "id": "rom_044000",
-      "label": "configuration_map",
-      "offset": 278528,
-      "bank": 17,
-      "cpu_address": 16384,
-      "capacity": 1356,
-      "format": "hal-greedy-v1",
-      "source": "03_Image/graphics/r_044000.png",
-      "png": {
-        "mode": "tiles-2bpp-4gray",
-        "tiles_per_row": 16,
-        "tile_count": 128
-      },
-      "decoded_size": 2624,
-      "decoded_sha256": "6d36a2d87f76ed4025a6d7b2b88d9f7c5c7815accfef5dd83440ea3dbdf77786",
-      "packed_size": 1356,
-      "referenced_by_current_localized_loaders": false,
-      "retained_for_byte_exact_release": true,
-      "bundle": {
-        "map_png": "03_Image/graphics/r_044000_map.png",
-        "width": 32,
-        "height": 18,
-        "addressing": "linear"
-      },
-      "page": "03_Image/pages/rom_044000.png",
       "page_kind": "bundle"
     },
     {
@@ -417,138 +193,6 @@
       "edit": "03_Image/edits/rom_048462.json"
     },
     {
-      "id": "rom_0485b1",
-      "label": "ending_0346fb",
-      "offset": 296369,
-      "bank": 18,
-      "cpu_address": 17841,
-      "capacity": 1281,
-      "format": "hal-greedy-v1",
-      "source": "03_Image/graphics/r_0485b1.png",
-      "png": {
-        "mode": "tiles-2bpp-4gray",
-        "tiles_per_row": 16,
-        "tile_count": 128
-      },
-      "decoded_size": 2048,
-      "decoded_sha256": "0366a2cd0eea9a5234a071497ebb7e3296e78bf41413afc6c2e1856a09f08c82",
-      "packed_size": 1281,
-      "referenced_by_current_localized_loaders": false,
-      "retained_for_byte_exact_release": true
-    },
-    {
-      "id": "rom_048ab2",
-      "label": "ending_034cb4",
-      "offset": 297650,
-      "bank": 18,
-      "cpu_address": 19122,
-      "capacity": 275,
-      "format": "hal-greedy-v1",
-      "source": "03_Image/graphics/r_048ab2.png",
-      "png": {
-        "mode": "tilemap-8bpp-grayscale",
-        "width": 32,
-        "height": 32,
-        "tileset": "rom_0485b1",
-        "addressing": "linear"
-      },
-      "decoded_size": 1024,
-      "decoded_sha256": "231d8a83ce90f901636e83f3cddcde77c19deeac12faf0011613a9e4d9bf5b97",
-      "packed_size": 275,
-      "referenced_by_current_localized_loaders": false,
-      "retained_for_byte_exact_release": true,
-      "page_kind": "tilemap",
-      "edit": "03_Image/edits/rom_048ab2.json"
-    },
-    {
-      "id": "rom_048bc5",
-      "label": "ending_034dc0",
-      "offset": 297925,
-      "bank": 18,
-      "cpu_address": 19397,
-      "capacity": 663,
-      "format": "hal-greedy-v1",
-      "source": "03_Image/graphics/r_048bc5.png",
-      "png": {
-        "mode": "tiles-2bpp-4gray",
-        "tiles_per_row": 16,
-        "tile_count": 128
-      },
-      "decoded_size": 2048,
-      "decoded_sha256": "02312afc86bf3c221efbe9e7e20365a0f5886eae134250156dc447c4a48d6002",
-      "packed_size": 663,
-      "referenced_by_current_localized_loaders": false,
-      "retained_for_byte_exact_release": true
-    },
-    {
-      "id": "rom_048e5c",
-      "label": "ending_03535c",
-      "offset": 298588,
-      "bank": 18,
-      "cpu_address": 20060,
-      "capacity": 238,
-      "format": "hal-greedy-v1",
-      "source": "03_Image/graphics/r_048e5c.png",
-      "png": {
-        "mode": "tilemap-8bpp-grayscale",
-        "width": 32,
-        "height": 32,
-        "tileset": "rom_048bc5",
-        "addressing": "linear"
-      },
-      "decoded_size": 1024,
-      "decoded_sha256": "7fa7791ce535a86d6d19b996600b58671908c87432a6b7e8136e382efef77444",
-      "packed_size": 238,
-      "referenced_by_current_localized_loaders": false,
-      "retained_for_byte_exact_release": true,
-      "page_kind": "tilemap",
-      "edit": "03_Image/edits/rom_048e5c.json"
-    },
-    {
-      "id": "rom_048f4a",
-      "label": "ending_03543e",
-      "offset": 298826,
-      "bank": 18,
-      "cpu_address": 20298,
-      "capacity": 1257,
-      "format": "hal-greedy-v1",
-      "source": "03_Image/graphics/r_048f4a.png",
-      "png": {
-        "mode": "tiles-2bpp-4gray",
-        "tiles_per_row": 16,
-        "tile_count": 128
-      },
-      "decoded_size": 2048,
-      "decoded_sha256": "710a56f21d70e5095c1df3119ffb89da1a9baa5055fa7ec48b70a6b12f56e3eb",
-      "packed_size": 1257,
-      "referenced_by_current_localized_loaders": false,
-      "retained_for_byte_exact_release": true
-    },
-    {
-      "id": "rom_049433",
-      "label": "ending_035987",
-      "offset": 300083,
-      "bank": 18,
-      "cpu_address": 21555,
-      "capacity": 279,
-      "format": "hal-greedy-v1",
-      "source": "03_Image/graphics/r_049433.png",
-      "png": {
-        "mode": "tilemap-8bpp-grayscale",
-        "width": 32,
-        "height": 32,
-        "tileset": "rom_048f4a",
-        "addressing": "linear"
-      },
-      "decoded_size": 1024,
-      "decoded_sha256": "932c4c71d183ff0196f70493cdd5d5d439b43829b92b148425ea72a42903dd37",
-      "packed_size": 279,
-      "referenced_by_current_localized_loaders": false,
-      "retained_for_byte_exact_release": true,
-      "page_kind": "tilemap",
-      "edit": "03_Image/edits/rom_049433.json"
-    },
-    {
       "id": "rom_04954a",
       "label": "ending_035a89",
       "offset": 300362,
@@ -637,50 +281,6 @@
       "edit": "03_Image/edits/rom_049bf8.json"
     },
     {
-      "id": "rom_049d15",
-      "label": "ending_036658",
-      "offset": 302357,
-      "bank": 18,
-      "cpu_address": 23829,
-      "capacity": 410,
-      "format": "hal-greedy-v1",
-      "source": "03_Image/graphics/r_049d15.png",
-      "png": {
-        "mode": "tiles-2bpp-4gray",
-        "tiles_per_row": 16,
-        "tile_count": 128
-      },
-      "decoded_size": 2048,
-      "decoded_sha256": "7e0d63653e3608a807425f6ae2acb14b5c68740fb532560edcc6b025c53be15e",
-      "packed_size": 410,
-      "referenced_by_current_localized_loaders": false,
-      "retained_for_byte_exact_release": true
-    },
-    {
-      "id": "rom_049eaf",
-      "label": "ending_036b80",
-      "offset": 302767,
-      "bank": 18,
-      "cpu_address": 24239,
-      "capacity": 235,
-      "format": "hal-greedy-v1",
-      "source": "03_Image/graphics/r_049eaf.png",
-      "png": {
-        "mode": "tilemap-8bpp-grayscale",
-        "width": 32,
-        "height": 32,
-        "tileset": "rom_049d15",
-        "addressing": "linear"
-      },
-      "decoded_size": 1024,
-      "decoded_sha256": "baaf264c78fd6112e083cf4f399c6a6cc9cffa0f44b413012be9518cd4430711",
-      "packed_size": 235,
-      "referenced_by_current_localized_loaders": false,
-      "retained_for_byte_exact_release": true,
-      "page_kind": "tilemap",
-      "edit": "03_Image/edits/rom_049eaf.json"
-    },
-    {
       "id": "rom_049f9a",
       "label": "ending_036c7c",
       "offset": 303002,
@@ -725,50 +325,6 @@
       "edit": "03_Image/edits/rom_04a3a1.json"
     },
     {
-      "id": "rom_04a4c6",
-      "label": "ending_03729b",
-      "offset": 304326,
-      "bank": 18,
-      "cpu_address": 25798,
-      "capacity": 554,
-      "format": "hal-greedy-v1",
-      "source": "03_Image/graphics/r_04a4c6.png",
-      "png": {
-        "mode": "tiles-2bpp-4gray",
-        "tiles_per_row": 16,
-        "tile_count": 128
-      },
-      "decoded_size": 2048,
-      "decoded_sha256": "8b92cb7c4bce766b563520cf48b522e4d12d1074c6eb97008e87e06b02a090f1",
-      "packed_size": 554,
-      "referenced_by_current_localized_loaders": false,
-      "retained_for_byte_exact_release": true
-    },
-    {
-      "id": "rom_04a6f0",
-      "label": "ending_03779c",
-      "offset": 304880,
-      "bank": 18,
-      "cpu_address": 26352,
-      "capacity": 249,
-      "format": "hal-greedy-v1",
-      "source": "03_Image/graphics/r_04a6f0.png",
-      "png": {
-        "mode": "tilemap-8bpp-grayscale",
-        "width": 32,
-        "height": 32,
-        "tileset": "rom_04a4c6",
-        "addressing": "linear"
-      },
-      "decoded_size": 1024,
-      "decoded_sha256": "561c5418e918a0eb5af9ab31c930e4a4f6aa0a38a8a387337b5615e68ecbff14",
-      "packed_size": 249,
-      "referenced_by_current_localized_loaders": false,
-      "retained_for_byte_exact_release": true,
-      "page_kind": "tilemap",
-      "edit": "03_Image/edits/rom_04a6f0.json"
-    },
-    {
       "id": "rom_04a7e9",
       "label": "ending_038000",
       "offset": 305129,
@@ -811,50 +367,6 @@
       "retained_for_byte_exact_release": true,
       "page_kind": "tilemap",
       "edit": "03_Image/edits/rom_04ab1b.json"
-    },
-    {
-      "id": "rom_04ac23",
-      "label": "ending_038582",
-      "offset": 306211,
-      "bank": 18,
-      "cpu_address": 27683,
-      "capacity": 971,
-      "format": "hal-greedy-v1",
-      "source": "03_Image/graphics/r_04ac23.png",
-      "png": {
-        "mode": "tiles-2bpp-4gray",
-        "tiles_per_row": 16,
-        "tile_count": 128
-      },
-      "decoded_size": 2048,
-      "decoded_sha256": "584a471f090256c7dc57c74b765549095eac48a31c83c02e4b2a3df7f68f90da",
-      "packed_size": 971,
-      "referenced_by_current_localized_loaders": false,
-      "retained_for_byte_exact_release": true
-    },
-    {
-      "id": "rom_04afee",
-      "label": "ending_038ac6",
-      "offset": 307182,
-      "bank": 18,
-      "cpu_address": 28654,
-      "capacity": 304,
-      "format": "hal-greedy-v1",
-      "source": "03_Image/graphics/r_04afee.png",
-      "png": {
-        "mode": "tilemap-8bpp-grayscale",
-        "width": 32,
-        "height": 32,
-        "tileset": "rom_04ac23",
-        "addressing": "linear"
-      },
-      "decoded_size": 1024,
-      "decoded_sha256": "6afb26276148aebe912c305fb463e780a71bb945686e27b895f7c4638372646d",
-      "packed_size": 304,
-      "referenced_by_current_localized_loaders": false,
-      "retained_for_byte_exact_release": true,
-      "page_kind": "tilemap",
-      "edit": "03_Image/edits/rom_04afee.json"
     },
     {
       "id": "rom_04b11e",
@@ -943,50 +455,6 @@
       "retained_for_byte_exact_release": true,
       "page_kind": "tilemap",
       "edit": "03_Image/edits/rom_04b943.json"
-    },
-    {
-      "id": "rom_04ba75",
-      "label": "ending_039820",
-      "offset": 309877,
-      "bank": 18,
-      "cpu_address": 31349,
-      "capacity": 604,
-      "format": "hal-greedy-v1",
-      "source": "03_Image/graphics/r_04ba75.png",
-      "png": {
-        "mode": "tiles-2bpp-4gray",
-        "tiles_per_row": 16,
-        "tile_count": 128
-      },
-      "decoded_size": 2048,
-      "decoded_sha256": "e7e001a9e2156a7b65bd2eb018ac29096ce5384676b9a3e833538658d5cae907",
-      "packed_size": 604,
-      "referenced_by_current_localized_loaders": false,
-      "retained_for_byte_exact_release": true
-    },
-    {
-      "id": "rom_04bcd1",
-      "label": "ending_039be1",
-      "offset": 310481,
-      "bank": 18,
-      "cpu_address": 31953,
-      "capacity": 815,
-      "format": "hal-greedy-v1",
-      "source": "03_Image/graphics/r_04bcd1.png",
-      "png": {
-        "mode": "tilemap-8bpp-grayscale",
-        "width": 32,
-        "height": 32,
-        "tileset": "rom_04ba75",
-        "addressing": "linear"
-      },
-      "decoded_size": 1024,
-      "decoded_sha256": "6b2a167ec39b44beb0256cc5c4a9cbb264dbd53224eb08cb5db0012b41ba7ecc",
-      "packed_size": 164,
-      "referenced_by_current_localized_loaders": false,
-      "retained_for_byte_exact_release": true,
-      "page_kind": "tilemap",
-      "edit": "03_Image/edits/rom_04bcd1.json"
     },
     {
       "id": "rom_04c000",
@@ -1410,90 +878,6 @@
         "addressing": "linear"
       },
       "page": "03_Image/pages/rom_05c000.png",
-      "page_kind": "bundle"
-    },
-    {
-      "id": "rom_060000",
-      "label": "title_bundle",
-      "offset": 393216,
-      "bank": 24,
-      "cpu_address": 16384,
-      "capacity": 16384,
-      "format": "hal-greedy-v1",
-      "source": "03_Image/graphics/r_060000.png",
-      "png": {
-        "mode": "tiles-2bpp-4gray",
-        "tiles_per_row": 16,
-        "tile_count": 292
-      },
-      "decoded_size": 5248,
-      "decoded_sha256": "0947e4d128ae96c7a17432c6dfdf644b13f834a75839a72313ef0c5f3ece51e4",
-      "packed_size": 3186,
-      "referenced_by_current_localized_loaders": false,
-      "retained_for_byte_exact_release": true,
-      "bundle": {
-        "map_png": "03_Image/graphics/r_060000_map.png",
-        "width": 32,
-        "height": 18,
-        "addressing": "linear"
-      },
-      "page": "03_Image/pages/rom_060000.png",
-      "page_kind": "bundle"
-    },
-    {
-      "id": "rom_064000",
-      "label": "stage_1",
-      "offset": 409600,
-      "bank": 25,
-      "cpu_address": 16384,
-      "capacity": 1786,
-      "format": "hal-greedy-v1",
-      "source": "03_Image/graphics/r_064000.png",
-      "png": {
-        "mode": "tiles-2bpp-4gray",
-        "tiles_per_row": 16,
-        "tile_count": 128
-      },
-      "decoded_size": 2624,
-      "decoded_sha256": "bd5e7476e0990290bba38beb4b4e74ba45ced6e4e1168ba26f750a2decced09b",
-      "packed_size": 1786,
-      "referenced_by_current_localized_loaders": false,
-      "retained_for_byte_exact_release": true,
-      "bundle": {
-        "map_png": "03_Image/graphics/r_064000_map.png",
-        "width": 32,
-        "height": 18,
-        "addressing": "linear"
-      },
-      "page": "03_Image/pages/rom_064000.png",
-      "page_kind": "bundle"
-    },
-    {
-      "id": "rom_0646fa",
-      "label": "stage_2",
-      "offset": 411386,
-      "bank": 25,
-      "cpu_address": 18170,
-      "capacity": 14598,
-      "format": "hal-greedy-v1",
-      "source": "03_Image/graphics/r_0646fa.png",
-      "png": {
-        "mode": "tiles-2bpp-4gray",
-        "tiles_per_row": 16,
-        "tile_count": 128
-      },
-      "decoded_size": 2624,
-      "decoded_sha256": "09d8fc17788331b9e619e08084f4ef3eed2979d3e159555e70ffbf87dbf54dd7",
-      "packed_size": 1673,
-      "referenced_by_current_localized_loaders": false,
-      "retained_for_byte_exact_release": true,
-      "bundle": {
-        "map_png": "03_Image/graphics/r_0646fa_map.png",
-        "width": 32,
-        "height": 18,
-        "addressing": "linear"
-      },
-      "page": "03_Image/pages/rom_0646fa.png",
       "page_kind": "bundle"
     },
     {

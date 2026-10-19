@@ -34,13 +34,13 @@ class PageLayerTests(unittest.TestCase):
         return page_edits.graphics_page_png(entry, self.by_id)
 
     def test_page_inventory_covers_every_page_resource(self):
-        self.assertEqual(len(self.pages), 48)
-        self.assertEqual(len(self.page_png), 21)
-        self.assertEqual(len(self.edits), 27)
-        self.assertEqual(len(self.bundles), 21)
+        self.assertEqual(len(self.pages), 30)
+        self.assertEqual(len(self.page_png), 10)
+        self.assertEqual(len(self.edits), 20)
+        self.assertEqual(len(self.bundles), 10)
         self.assertEqual(len(self.sheet_edits), 4)
-        self.assertEqual(len(self.tilemap_edits), 23)
-        self.assertEqual(len(self.maps), 23)
+        self.assertEqual(len(self.tilemap_edits), 16)
+        self.assertEqual(len(self.maps), 16)
 
     def test_bundle_pages_match_their_resources(self):
         for entry in self.bundles:

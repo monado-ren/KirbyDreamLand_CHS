@@ -9,9 +9,9 @@
   "size": 524288,
   "fingerprint": {
    "size": 524288,
-   "md5": "b04f227332138589fd6af687c2964637",
+   "md5": "ebd0da8f820f4ac36e2e4c5e10739374",
    "sha1": "14f48caa3482525e1c5611c3bcc8e682a809f8bf",
-   "sha256": "959835314b684dded38752a6df9fc349d38a4d70fa83633d971c84972a5755dd"
+   "sha256": "95794c54745d1f1cc99bcade03a039bb871d2aaaec9f868be2e1b9ea92cb5e6c"
   },
   "fill_byte": 255
  },
@@ -35,17 +35,6 @@
  },
  "resources": [
   {
-   "id": "rom_040000",
-   "label": "title_bundle",
-   "role": "legacy",
-   "purpose": "标题画面·初版整包（历史副本）",
-   "format": "bundle",
-   "bank": 16,
-   "offset": "0x40000",
-   "capacity": 4096,
-   "legacy_reason": "v0.5.1 字节级复现需要，当前加载器未引用"
-  },
-  {
    "id": "rom_041000",
    "label": "normal_hud",
    "role": "active",
@@ -66,72 +55,6 @@
    "capacity": 259
   },
   {
-   "id": "rom_041206",
-   "label": "stage_1_map",
-   "role": "legacy",
-   "purpose": "场景 1 介绍·初版地图流（历史副本）",
-   "format": "bundle",
-   "bank": 16,
-   "offset": "0x41206",
-   "capacity": 1799,
-   "legacy_reason": "v0.5.1 字节级复现需要，当前加载器未引用"
-  },
-  {
-   "id": "rom_04190d",
-   "label": "stage_2_map",
-   "role": "legacy",
-   "purpose": "场景 2 介绍·初版地图流（历史副本）",
-   "format": "bundle",
-   "bank": 16,
-   "offset": "0x4190D",
-   "capacity": 1675,
-   "legacy_reason": "v0.5.1 字节级复现需要，当前加载器未引用"
-  },
-  {
-   "id": "rom_041f98",
-   "label": "stage_3_map",
-   "role": "legacy",
-   "purpose": "场景 3 介绍·初版地图流（历史副本）",
-   "format": "bundle",
-   "bank": 16,
-   "offset": "0x41F98",
-   "capacity": 1749,
-   "legacy_reason": "v0.5.1 字节级复现需要，当前加载器未引用"
-  },
-  {
-   "id": "rom_04266d",
-   "label": "stage_4_map",
-   "role": "legacy",
-   "purpose": "场景 4 介绍·初版地图流（历史副本）",
-   "format": "bundle",
-   "bank": 16,
-   "offset": "0x4266D",
-   "capacity": 1776,
-   "legacy_reason": "v0.5.1 字节级复现需要，当前加载器未引用"
-  },
-  {
-   "id": "rom_042d5d",
-   "label": "stage_5_map",
-   "role": "legacy",
-   "purpose": "场景 5 介绍·初版地图流（历史副本）",
-   "format": "bundle",
-   "bank": 16,
-   "offset": "0x42D5D",
-   "capacity": 1640,
-   "legacy_reason": "v0.5.1 字节级复现需要，当前加载器未引用"
-  },
-  {
-   "id": "rom_0433c5",
-   "label": "configuration_map",
-   "role": "legacy",
-   "purpose": "配置页·初版地图（历史副本）",
-   "format": "bundle",
-   "bank": 16,
-   "offset": "0x433C5",
-   "capacity": 1329,
-   "legacy_reason": "v0.5.1 字节级复现需要，当前加载器未引用"
-  },
-  {
    "id": "rom_0438f6",
    "label": "sound_test_map",
    "role": "active",
@@ -140,17 +63,6 @@
    "bank": 16,
    "offset": "0x438F6",
    "capacity": 1802
-  },
-  {
-   "id": "rom_044000",
-   "label": "configuration_map",
-   "role": "legacy",
-   "purpose": "配置页·初版地图（历史副本）",
-   "format": "bundle",
-   "bank": 17,
-   "offset": "0x44000",
-   "capacity": 1356,
-   "legacy_reason": "v0.5.1 字节级复现需要，当前加载器未引用"
   },
   {
    "id": "rom_04454c",
@@ -193,72 +105,6 @@
    "capacity": 335
   },
   {
-   "id": "rom_0485b1",
-   "label": "ending_0346fb",
-   "role": "legacy",
-   "purpose": "图鉴早期版本（历史副本）",
-   "format": "tileset",
-   "bank": 18,
-   "offset": "0x485B1",
-   "capacity": 1281,
-   "legacy_reason": "v0.5.1 字节级复现需要，当前加载器未引用"
-  },
-  {
-   "id": "rom_048ab2",
-   "label": "ending_034cb4",
-   "role": "legacy",
-   "purpose": "图鉴早期版本（历史副本）",
-   "format": "tilemap",
-   "bank": 18,
-   "offset": "0x48AB2",
-   "capacity": 275,
-   "legacy_reason": "v0.5.1 字节级复现需要，当前加载器未引用"
-  },
-  {
-   "id": "rom_048bc5",
-   "label": "ending_034dc0",
-   "role": "legacy",
-   "purpose": "图鉴早期版本（历史副本）",
-   "format": "tileset",
-   "bank": 18,
-   "offset": "0x48BC5",
-   "capacity": 663,
-   "legacy_reason": "v0.5.1 字节级复现需要，当前加载器未引用"
-  },
-  {
-   "id": "rom_048e5c",
-   "label": "ending_03535c",
-   "role": "legacy",
-   "purpose": "图鉴早期版本（历史副本）",
-   "format": "tilemap",
-   "bank": 18,
-   "offset": "0x48E5C",
-   "capacity": 238,
-   "legacy_reason": "v0.5.1 字节级复现需要，当前加载器未引用"
-  },
-  {
-   "id": "rom_048f4a",
-   "label": "ending_03543e",
-   "role": "legacy",
-   "purpose": "图鉴早期版本（历史副本）",
-   "format": "tileset",
-   "bank": 18,
-   "offset": "0x48F4A",
-   "capacity": 1257,
-   "legacy_reason": "v0.5.1 字节级复现需要，当前加载器未引用"
-  },
-  {
-   "id": "rom_049433",
-   "label": "ending_035987",
-   "role": "legacy",
-   "purpose": "图鉴早期版本（历史副本）",
-   "format": "tilemap",
-   "bank": 18,
-   "offset": "0x49433",
-   "capacity": 279,
-   "legacy_reason": "v0.5.1 字节级复现需要，当前加载器未引用"
-  },
-  {
    "id": "rom_04954a",
    "label": "ending_035a89",
    "role": "active",
@@ -299,28 +145,6 @@
    "capacity": 285
   },
   {
-   "id": "rom_049d15",
-   "label": "ending_036658",
-   "role": "legacy",
-   "purpose": "图鉴早期版本（历史副本）",
-   "format": "tileset",
-   "bank": 18,
-   "offset": "0x49D15",
-   "capacity": 410,
-   "legacy_reason": "v0.5.1 字节级复现需要，当前加载器未引用"
-  },
-  {
-   "id": "rom_049eaf",
-   "label": "ending_036b80",
-   "role": "legacy",
-   "purpose": "图鉴早期版本（历史副本）",
-   "format": "tilemap",
-   "bank": 18,
-   "offset": "0x49EAF",
-   "capacity": 235,
-   "legacy_reason": "v0.5.1 字节级复现需要，当前加载器未引用"
-  },
-  {
    "id": "rom_049f9a",
    "label": "ending_036c7c",
    "role": "active",
@@ -341,28 +165,6 @@
    "capacity": 293
   },
   {
-   "id": "rom_04a4c6",
-   "label": "ending_03729b",
-   "role": "legacy",
-   "purpose": "图鉴早期版本（历史副本）",
-   "format": "tileset",
-   "bank": 18,
-   "offset": "0x4A4C6",
-   "capacity": 554,
-   "legacy_reason": "v0.5.1 字节级复现需要，当前加载器未引用"
-  },
-  {
-   "id": "rom_04a6f0",
-   "label": "ending_03779c",
-   "role": "legacy",
-   "purpose": "图鉴早期版本（历史副本）",
-   "format": "tilemap",
-   "bank": 18,
-   "offset": "0x4A6F0",
-   "capacity": 249,
-   "legacy_reason": "v0.5.1 字节级复现需要，当前加载器未引用"
-  },
-  {
    "id": "rom_04a7e9",
    "label": "ending_038000",
    "role": "active",
@@ -381,28 +183,6 @@
    "bank": 18,
    "offset": "0x4AB1B",
    "capacity": 264
-  },
-  {
-   "id": "rom_04ac23",
-   "label": "ending_038582",
-   "role": "legacy",
-   "purpose": "图鉴早期版本（历史副本）",
-   "format": "tileset",
-   "bank": 18,
-   "offset": "0x4AC23",
-   "capacity": 971,
-   "legacy_reason": "v0.5.1 字节级复现需要，当前加载器未引用"
-  },
-  {
-   "id": "rom_04afee",
-   "label": "ending_038ac6",
-   "role": "legacy",
-   "purpose": "图鉴早期版本（历史副本）",
-   "format": "tilemap",
-   "bank": 18,
-   "offset": "0x4AFEE",
-   "capacity": 304,
-   "legacy_reason": "v0.5.1 字节级复现需要，当前加载器未引用"
   },
   {
    "id": "rom_04b11e",
@@ -443,28 +223,6 @@
    "bank": 18,
    "offset": "0x4B943",
    "capacity": 306
-  },
-  {
-   "id": "rom_04ba75",
-   "label": "ending_039820",
-   "role": "legacy",
-   "purpose": "图鉴早期版本（历史副本）",
-   "format": "tileset",
-   "bank": 18,
-   "offset": "0x4BA75",
-   "capacity": 604,
-   "legacy_reason": "v0.5.1 字节级复现需要，当前加载器未引用"
-  },
-  {
-   "id": "rom_04bcd1",
-   "label": "ending_039be1",
-   "role": "legacy",
-   "purpose": "图鉴早期版本（历史副本）",
-   "format": "tilemap",
-   "bank": 18,
-   "offset": "0x4BCD1",
-   "capacity": 815,
-   "legacy_reason": "v0.5.1 字节级复现需要，当前加载器未引用"
   },
   {
    "id": "rom_04c000",
@@ -655,39 +413,6 @@
    "bank": 23,
    "offset": "0x5C000",
    "capacity": 16384
-  },
-  {
-   "id": "rom_060000",
-   "label": "title_bundle",
-   "role": "legacy",
-   "purpose": "标题画面·第二版整包（历史副本）",
-   "format": "bundle",
-   "bank": 24,
-   "offset": "0x60000",
-   "capacity": 16384,
-   "legacy_reason": "v0.5.1 字节级复现需要，当前加载器未引用"
-  },
-  {
-   "id": "rom_064000",
-   "label": "stage_1",
-   "role": "legacy",
-   "purpose": "场景 1 介绍·早期整包（历史副本）",
-   "format": "bundle",
-   "bank": 25,
-   "offset": "0x64000",
-   "capacity": 1786,
-   "legacy_reason": "v0.5.1 字节级复现需要，当前加载器未引用"
-  },
-  {
-   "id": "rom_0646fa",
-   "label": "stage_2",
-   "role": "legacy",
-   "purpose": "场景 2 介绍·早期整包（历史副本）",
-   "format": "bundle",
-   "bank": 25,
-   "offset": "0x646FA",
-   "capacity": 14598,
-   "legacy_reason": "v0.5.1 字节级复现需要，当前加载器未引用"
   },
   {
    "id": "rom_06c000",
