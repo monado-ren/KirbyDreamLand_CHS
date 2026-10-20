@@ -27,6 +27,7 @@ Usage:
 Exit status is 0 when every requested page rendered (either mode).
 """
 import argparse
+import hashlib
 import json
 from pathlib import Path
 import sys
@@ -56,6 +57,22 @@ SCREENS = {
     'stage_5_intro_scrolled': 'rom_06db85',
     'game_over': 'rom_04454c',
     'continue': 'rom_044734',
+    # The two clear-screen hint pages: their tilesets live in a separate
+    # resource, named by the page's own `png.tileset` field.
+    'hint_normal': 'rom_055050',
+    'hint_extra': 'rom_056110',
+    # Gallery pages.  Each is a tilemap resource whose tileset is the paired
+    # `ending_*` bundle; `png.tileset` names it.
+    'gallery_01': 'rom_048462', 'gallery_02': 'rom_04c4f4',
+    'gallery_03': 'rom_0742b3', 'gallery_04': 'rom_04caf2',
+    'gallery_05': 'rom_0496d4', 'gallery_06': 'rom_049bf8',
+    'gallery_07': 'rom_04cd98', 'gallery_08': 'rom_04a3a1',
+    'gallery_09': 'rom_04d0bb', 'gallery_10': 'rom_04ab1b',
+    'gallery_11': 'rom_04b4db', 'gallery_12': 'rom_04d586',
+    'gallery_13': 'rom_04b943', 'gallery_14': 'rom_04d918',
+    # hud_* and ending_sign are sprite sheets, not laid-out pictures: they have no
+    # tilemap of their own, so there is nothing to render as a page.  They are
+    # covered by the capture/VRAM comparison instead.
 }
 
 VIEWPORT = (160, 144)
@@ -68,20 +85,90 @@ def page_entry(manifest, page_id):
     raise ValueError('unknown page ' + page_id)
 
 
-def decode_page(rom, entry):
-    """Decoded stream of one page, split into (tiles, map)."""
-    raw, _packed = hal_codec.decode(rom[entry['offset']:])
-    bundle = entry['bundle']
-    size = bundle['width'] * bundle['height']
-    return raw[:len(raw) - size], raw[len(raw) - size:]
+BUNDLE_MAP_WIDTH = 32
+BUNDLE_MAP_HEIGHT = 18
 
 
-def resource_view(rom, entry):
-    """Picture from the resource alone: the same bytes 03_Image/pages stores."""
-    tiles, tilemap = decode_page(rom, entry)
-    bundle = entry['bundle']
-    return page_image.page_png(tiles, tilemap, bundle['width'], bundle['height'],
-                               bundle['addressing'], True)
+def spec_of(entry):
+    """The manifest's `png` block, which says how the resource is laid out."""
+    return entry['png']
+
+
+def kind_of(entry):
+    return entry.get('page_kind') or 'tiles'
+
+
+def decode_raw(rom, entry):
+    raw, _packed = hal_codec.decode(rom[entry['offset']:entry['offset'] + entry['packed_size']])
+    return raw[:entry['decoded_size']]
+
+
+def bundle_parts(rom, entry):
+    """(tiles, map, width, height, addressing) for a bundle page.
+
+    A bundle is self-contained: decoded tiles first, then a tilemap indexing them
+    in the resource's own index space.  The map is not always one screen high --
+    stage 5 is 32x30 because its artwork scrolls -- so the height comes from the
+    resource rather than a fixed 18.
+    """
+    raw = decode_raw(rom, entry)
+    tiles = spec_of(entry)['tile_count'] * 16
+    tilemap = raw[tiles:]
+    if len(tilemap) % BUNDLE_MAP_WIDTH:
+        raise ValueError('%s: %d map bytes is not a whole number of %d-wide rows'
+                         % (entry['id'], len(tilemap), BUNDLE_MAP_WIDTH))
+    return (raw[:tiles], tilemap, BUNDLE_MAP_WIDTH,
+            bundle_map_height(entry), 'linear')
+
+
+def bundle_map_height(entry):
+    """Rows in a bundle page's tilemap; stage 5 is taller than one screen."""
+    tilemap = entry['decoded_size'] - spec_of(entry)['tile_count'] * 16
+    return tilemap // BUNDLE_MAP_WIDTH
+
+
+def tilemap_parts(rom, manifest, entry):
+    """(tiles, map, width, height, addressing) for a tilemap page.
+
+    The map is this resource; the tiles come from the resource named by
+    `png.tileset`.  Rendering one without the other produces noise, which is the
+    mistake this split exists to prevent.
+    """
+    spec = spec_of(entry)
+    tileset = page_entry(manifest, spec['tileset'])
+    return (decode_raw(rom, tileset), decode_raw(rom, entry),
+            spec['width'], spec['height'], spec['addressing'])
+
+
+def resource_view(rom, entry, manifest):
+    """Picture built only from decoded resource bytes, no emulator state."""
+    kind = kind_of(entry)
+    if kind == 'bundle':
+        args = bundle_parts(rom, entry)
+    elif kind in ('tilemap', 'None'):
+        args = tilemap_parts(rom, manifest, entry)
+    else:
+        raise ValueError('resource view needs a tilemap or bundle page, got %s for %s'
+                         % (kind, entry['id']))
+    return page_image.page_png(*args, placeholders=True)
+
+
+def capture_matches_rom(capture_dir, rom_sha256):
+    """True when the capture was taken from the ROM currently built.
+
+    A capture carries the VRAM of the ROM it was taken from.  Mixing old VRAM
+    with the current map does not show the current screen, it shows the two
+    revisions spliced together, so a stale capture must not be used as the
+    screen view.
+    """
+    path = capture_dir / 'state.json'
+    if not path.is_file():
+        return False
+    try:
+        state = json.loads(path.read_text(encoding='utf-8'))
+    except (ValueError, TypeError):
+        return False
+    return state.get('rom_sha256') == rom_sha256
 
 
 def screen_view(capture_dir, entry):
@@ -93,12 +180,18 @@ def screen_view(capture_dir, entry):
     bgmap_path = capture_dir / 'bgmap.bin'
     if not vram_path.is_file() or not bgmap_path.is_file():
         return None
-    bundle = entry['bundle']
-    width, height = bundle['width'], bundle['height']
+    if kind_of(entry) in ('tilemap', 'None'):
+        spec = spec_of(entry)
+        width, height = spec['width'], spec['height']
+        addressing = spec['addressing']
+    else:
+        width = BUNDLE_MAP_WIDTH
+        height = bundle_map_height(entry)
+        addressing = '0x%04X' % LCDC_8800
     vram = vram_path.read_bytes()
     live_map = bgmap_path.read_bytes()[:width * height]
-    return page_image.page_png(vram, live_map, width, height,
-                               '0x%04X' % LCDC_8800, True)
+    return page_image.page_png(vram, live_map, width, height, addressing, True)
+
 
 
 def scroll_from_state(capture_dir):
@@ -129,6 +222,7 @@ def crop_to_viewport(png_bytes, scx, scy, size=VIEWPORT):
 
 def collect(captures=None):
     rom = (ROOT / 'KirbyDreamLand_CHS-Monado.gb').read_bytes()
+    rom_sha256 = hashlib.sha256(rom).hexdigest()
     manifest = common.load_manifest()
     rows = []
     for screen, page_id in sorted(SCREENS.items()):
@@ -137,13 +231,14 @@ def collect(captures=None):
         png = None
         view = 'resource'
         scx = scy = 0
-        if capture_dir is not None and capture_dir.is_dir():
+        if (capture_dir is not None and capture_dir.is_dir()
+                and capture_matches_rom(capture_dir, rom_sha256)):
             png = screen_view(capture_dir, entry)
             if png is not None:
                 view = 'screen'
                 scx, scy = scroll_from_state(capture_dir)
         if png is None:
-            png = resource_view(rom, entry)
+            png = resource_view(rom, entry, manifest)
         rows.append({'screen': screen, 'page': page_id, 'view': view,
                      'png': png, 'scx': scx, 'scy': scy})
     return rows

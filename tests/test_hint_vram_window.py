@@ -29,9 +29,14 @@ TILESET_WINDOW = MAP_LOW - TILESET_LOW          # 6144 bytes
 MAP_WINDOW = VRAM_END - MAP_LOW                 # 2048 bytes, map uses 1024
 
 # page resource -> its tileset resource
+# A normal clear shows the page that explains how to reach Extra Game
+# (`rom_055050`, "额外游戏 / 恭喜通关"), so that page is the *normal* clear hint.
+# An extra clear shows the configuration instructions (`rom_056110`,
+# "配置模式 / 水平真不错呢").  The mapping is easy to invert by accident, so it is
+# spelled out here and checked against the page text below.
 HINT_PAGES = {
-    'rom_055050': 'rom_054000',   # extra clear
-    'rom_056110': 'rom_055130',   # normal clear
+    'rom_055050': 'rom_054000',   # normal clear -> how to reach Extra Game
+    'rom_056110': 'rom_055130',   # extra clear  -> how to reach Configuration
 }
 
 

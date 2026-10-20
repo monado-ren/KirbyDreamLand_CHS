@@ -21,6 +21,10 @@ jobs:
       - run: python 00_Tools/audit_rom_pages.py --write-check
       - run: python 00_Tools/audit_loader_payload.py
       - run: python 00_Tools/audit_public_tree.py
+      # The capture package is emulator output under build/ and is not committed,
+      # so CI has none.  --allow-missing turns that into an explicit SKIP instead
+      # of a failure; the page-level checks that need no emulator run above.
+      - run: python 00_Tools/audit_visual_regression.py --allow-missing
       # Runtime capture tests (tests/test_capture_pages.py) need PyBoy and the
       # built ROM, so they skip in CI and run locally:
       #   pip install -r requirements-runtime.txt

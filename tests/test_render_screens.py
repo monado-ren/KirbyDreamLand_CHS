@@ -16,6 +16,7 @@ to the resource view otherwise, recording which one it used.  These tests pin
 that behaviour and the chip-level fact behind it.
 """
 from pathlib import Path
+import hashlib
 import json
 import sys
 import unittest
@@ -47,11 +48,28 @@ class RenderScreenTests(unittest.TestCase):
     def test_capture_backed_screens_use_the_screen_view(self):
         if not CAPTURES.is_dir():
             self.skipTest('no captures available')
-        rows = self.module.collect(CAPTURES)
-        for row in rows:
-            with self.subTest(screen=row['screen']):
-                self.assertEqual(row['view'], 'screen',
-                                 'a capture exists but the resource view was used')
+        rom = (self.module.ROOT / 'KirbyDreamLand_CHS-Monado.gb').read_bytes()
+        current = hashlib.sha256(rom).hexdigest()
+        rows = {row['screen']: row for row in self.module.collect(CAPTURES)}
+        checked = 0
+        for name, row in rows.items():
+            capture = CAPTURES / 'captures' / name
+            if not (capture / 'state.json').is_file():
+                continue
+            state = json.loads((capture / 'state.json').read_text(encoding='utf-8'))
+            fresh = state.get('rom_sha256') == current
+            with self.subTest(screen=name, fresh=fresh):
+                if fresh:
+                    # A capture from the built ROM must drive the screen view.
+                    self.assertEqual(row['view'], 'screen',
+                                     'fresh capture but the resource view was used')
+                    checked += 1
+                else:
+                    # A stale capture holds another revision's VRAM; splicing it
+                    # onto the current map would show a picture that never existed.
+                    self.assertEqual(row['view'], 'resource',
+                                     'stale capture must not be used as screen view')
+        self.assertGreater(checked, 0, 'no capture matched the built ROM')
 
     def test_without_captures_the_resource_view_is_labelled(self):
         rows = self.module.collect(None)
