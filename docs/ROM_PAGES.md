@@ -7,10 +7,10 @@
 可编辑源已经脱节，而单纯核对 ROM 哈希发现不了这种问题。
 
 ```text
-ROM_PAGES=PASS RESOURCES=46 PASS=46 FAIL=0 DECODED=94560 PACKED=40329
+ROM_PAGES=PASS RESOURCES=46 PASS=46 FAIL=0 DECODED=94560 PACKED=45774
 ```
 
-- ROM SHA-256：`179a1943511e04e7cb63897c1b8a56442715428f382c343031a5a84ddbf95005`
+- ROM SHA-256：`bb754e254945009d2569ae47cd47c21c714cb59ad0cd005fbfa8348deb93f635`
 
 | 资源 | 说明 | ROM 偏移 | decoded | packed | 结果 |
 | --- | --- | --- | ---: | ---: | --- |
@@ -46,10 +46,10 @@ ROM_PAGES=PASS RESOURCES=46 PASS=46 FAIL=0 DECODED=94560 PACKED=40329
 | `rom_04d6b7` | ending_039820 | `0x4D6B7` | 2048 | 609 | ✅ |
 | `rom_04d918` | ending_039be1 | `0x4D918` | 1024 | 164 | ✅ |
 | `rom_050000` | ending_sprites | `0x50000` | 3584 | 2418 | ✅ |
-| `rom_054000` | ending_03adda | `0x54000` | 6144 | 1850 | ✅ |
+| `rom_054000` | ending_03adda | `0x54000` | 6144 | 4518 | ✅ |
 | `rom_055050` | ending_03be31 | `0x40000` | 1024 | 272 | ✅ |
-| `rom_055130` | ending_039cbf | `0x55130` | 6144 | 1843 | ✅ |
-| `rom_056110` | ending_03acec | `0x56110` | 1024 | 265 | ✅ |
+| `rom_055130` | ending_039cbf | `0x551A6` | 6144 | 4620 | ✅ |
+| `rom_056110` | ending_03acec | `0x563B2` | 1024 | 265 | ✅ |
 | `rom_058000` | intro_decoration | `0x58000` | 1536 | 1268 | ✅ |
 | `rom_05c000` | configuration_bundle | `0x5C000` | 4672 | 2559 | ✅ |
 | `rom_06c000` | stage_1 | `0x6C000` | 2624 | 1803 | ✅ |

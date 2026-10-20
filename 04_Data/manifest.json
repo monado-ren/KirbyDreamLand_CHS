@@ -11,13 +11,13 @@
   },
   "target": {
     "size": 524288,
-    "md5": "7ef877837426fef0310992cc069414a5",
-    "sha1": "ac47c7e2ee5bf204c4ec0c04f2ba1e5ceaa72594",
-    "sha256": "179a1943511e04e7cb63897c1b8a56442715428f382c343031a5a84ddbf95005"
+    "md5": "be3b6d3c394d69e451bbba9563499fc3",
+    "sha1": "db141ccdeb693241df4721ee250bb0888c0575cc",
+    "sha256": "bb754e254945009d2569ae47cd47c21c714cb59ad0cd005fbfa8348deb93f635"
   },
   "fill_byte": 255,
   "change_surface": {
-    "sha256": "8e37b9d89e7e0414ed96e99ca8aeee1924851c8d10583adbd7da558702451969",
+    "sha256": "db9719ee05de1a60ea08bc3bdd4713fb454b90bd123accd4dd259c411e1b9813",
     "patches": 116,
     "bytes": 216
   },
@@ -750,7 +750,7 @@
       "offset": 344064,
       "bank": 21,
       "cpu_address": 16384,
-      "capacity": 4176,
+      "capacity": 4518,
       "format": "hal-greedy-v1",
       "source": "03_Image/graphics/r_054000.png",
       "png": {
@@ -759,8 +759,8 @@
         "tile_count": 384
       },
       "decoded_size": 6144,
-      "decoded_sha256": "cfbd320df6df3543b874ef9c83d2b2d3527631ec772fd1472853ca0bee777926",
-      "packed_size": 1850,
+      "decoded_sha256": "1493784a66c3d4923805814015c0f98f57ee35668ddcc0659bed6e09b00591f8",
+      "packed_size": 4518,
       "referenced_by_current_localized_loaders": true,
       "retained_for_byte_exact_release": true
     },
@@ -781,7 +781,7 @@
         "addressing": "0x8800"
       },
       "decoded_size": 1024,
-      "decoded_sha256": "8bd863a9ba38439baa0733410865a86022e3fc553714ff06a2185093f01f8a92",
+      "decoded_sha256": "5e16195b8507291c7671812c7492fa7d61b1ec2e9601fe8884e70628fb5da6c3",
       "packed_size": 272,
       "referenced_by_current_localized_loaders": true,
       "retained_for_byte_exact_release": true,
@@ -796,10 +796,10 @@
     {
       "id": "rom_055130",
       "label": "ending_039cbf",
-      "offset": 348464,
+      "offset": 348582,
       "bank": 21,
-      "cpu_address": 20784,
-      "capacity": 4064,
+      "cpu_address": 20902,
+      "capacity": 4620,
       "format": "hal-greedy-v1",
       "source": "03_Image/graphics/r_055130.png",
       "png": {
@@ -808,18 +808,18 @@
         "tile_count": 384
       },
       "decoded_size": 6144,
-      "decoded_sha256": "9adae0ffbc393bd3ab2423a5396a9019ba687ec22d8e3293c0f550562de6c2a9",
-      "packed_size": 1843,
+      "decoded_sha256": "11e88d1741f3fcee55de624be00a5c29e7f532d75627074e84eef6a135048824",
+      "packed_size": 4620,
       "referenced_by_current_localized_loaders": true,
       "retained_for_byte_exact_release": true
     },
     {
       "id": "rom_056110",
       "label": "ending_03acec",
-      "offset": 352528,
+      "offset": 353202,
       "bank": 21,
-      "cpu_address": 24848,
-      "capacity": 7920,
+      "cpu_address": 25522,
+      "capacity": 265,
       "format": "hal-greedy-v1",
       "source": "03_Image/graphics/r_056110.png",
       "png": {
@@ -830,7 +830,7 @@
         "addressing": "0x8800"
       },
       "decoded_size": 1024,
-      "decoded_sha256": "bb6870df1a934ead2f8d8703712416cf583581fe8af0ce44ad1531948712e5b8",
+      "decoded_sha256": "094d02374db9b53b3472a14481fc8529094436035972d6a0feacf9d70c497601",
       "packed_size": 265,
       "referenced_by_current_localized_loaders": true,
       "retained_for_byte_exact_release": true,

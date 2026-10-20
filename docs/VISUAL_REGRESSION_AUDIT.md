@@ -2,9 +2,9 @@
 
 由 `PYTHONPATH=build/pylibs python 00_Tools/audit_visual_regression.py --write` 生成。
 
-- 包内 ROM SHA-256：`179a1943511e04e7cb63897c1b8a56442715428f382c343031a5a84ddbf95005`（与当前构建一致）
-- 模拟器：BGB 1.6.6；画面数：32；缺失画面：无
-- 原生重载校验：True；屏幕/内存/退出状态一致：True
+- 包内 ROM SHA-256：`bb754e254945009d2569ae47cd47c21c714cb59ad0cd005fbfa8348deb93f635`（与当前构建一致）
+- 模拟器：PyBoy；画面数：15；缺失画面：无
+- 原生重载校验：未记录；屏幕/内存/退出状态一致：未记录
 - 包内逐像素核验：PASS（31 个静态画面，714240 像素，差异 0；1 个动态附加画面排除）
 - 页面覆盖：30/30 个活跃页面被此包覆盖；缺失：无
 
@@ -12,38 +12,40 @@
 
 | 画面 | 说明 | 期望页面 | 地图匹配 | tile 匹配 | 地图来源 | 动态差异 | 状态 |
 | --- | --- | --- | ---: | ---: | --- | ---: | --- |
-| `configuration` | 配置模式 | `rom_05c000` | 0.984 | 1.000 | bgmap | 9 | PASS_DYNAMIC |
-| `continue` | CONTINUE／继续选择 | `rom_044734` | 1.000 | 1.000 | bgmap | - | PASS |
-| `credits_bonus` | 演职人员表（附加） | - | - | - | - | - | NOT_LOCALIZED |
-| `ending_sign` | 剧终牌 | `rom_050000` | 0.000 | 1.000 | - | - | PASS |
-| `gallery_01` | 图鉴第 01 页：黑刺球、瓦豆鲁迪、飞翅球球、瓦豆鲁笃、黑大炮 | `rom_048462` | 1.000 | 1.000 | bgmap | - | PASS |
-| `gallery_02` | 图鉴第 02 页：喳喳鸟、头带熊、蘑菇怪、小波比兄弟 | `rom_04c4f4` | 1.000 | 1.000 | bgmap | - | PASS |
-| `gallery_03` | 图鉴第 03 页：大波比兄弟、风语大树 | `rom_0742b3` | 1.000 | 1.000 | bgmap | - | PASS |
-| `gallery_04` | 图鉴第 04 页：振翅蝙蝠、绿海葵、芒比尸、魔扫把、两面派、吐舌箱、惊吓幽灵 | `rom_04caf2` | 1.000 | 1.000 | bgmap | - | PASS |
-| `gallery_05` | 图鉴第 05 页：箩箩箩、菈菈菈 | `rom_0496d4` | 1.000 | 1.000 | bgmap | - | PASS |
-| `gallery_06` | 图鉴第 06 页：蛙镜鱼、石像怪、乌贼怪、圆锥寄居蟹、光束贝 | `rom_049bf8` | 1.000 | 1.000 | bgmap | - | PASS |
-| `gallery_07` | 图鉴第 07 页：卡钸拉 | `rom_04cd98` | 1.000 | 1.000 | bgmap | - | PASS |
-| `gallery_08` | 图鉴第 08 页：膨胀云、疯狂鬼面、尖耳怪、晕晕怪、弯刀骑士 | `rom_04a3a1` | 1.000 | 1.000 | bgmap | - | PASS |
-| `gallery_09` | 图鉴第 09 页：独眼云 | `rom_04d0bb` | 1.000 | 1.000 | bgmap | - | PASS |
-| `gallery_10` | 图鉴第 10 页：喔喔鸡、振翅球球、蛋糕怪 | `rom_04ab1b` | 1.000 | 1.000 | bgmap | - | PASS |
-| `gallery_11` | 图鉴第 11 页：P瓜先生、睡帽幽灵、冒出箱、骷髅头 | `rom_04d586` | 1.000 | 1.000 | bgmap | - | PASS |
-| `gallery_12` | 图鉴第 12 页：章鱼怪、暴躁石像、独眼蟹、连射炮 | `rom_04b4db` | 1.000 | 1.000 | bgmap | - | PASS |
-| `gallery_13` | 图鉴第 13 页：子弹鹈鹕、胡须猫、本尼、武魔 | `rom_04b943` | 1.000 | 1.000 | bgmap | - | PASS |
-| `gallery_14` | 图鉴第 14 页：帝帝帝大王 | `rom_04d918` | 1.000 | 1.000 | bgmap | - | PASS |
-| `game_over` | GAME OVER／游戏结束 | `rom_04454c` | 1.000 | 1.000 | bgmap | - | PASS |
-| `hint_extra` | 额外游戏通关提示 | `rom_056110` | 1.000 | 1.000 | bgmap | - | PASS |
-| `hint_normal` | 普通游戏通关提示 | `rom_055050` | 1.000 | 1.000 | bgmap | - | PASS |
-| `hud_extra` | 额外游戏内 HUD | `rom_041103` | 0.000 | 1.000 | - | - | PASS |
-| `hud_normal` | 普通游戏内 HUD | `rom_041000` | 0.000 | 1.000 | - | - | PASS |
-| `main_menu` | 主菜单／额外游戏已解锁标题 | `rom_070000` | 1.000 | 1.000 | bgmap | - | PASS |
-| `opening_decoration` | 开场装饰资源引用 | `rom_058000` | 0.000 | 1.000 | - | - | PASS |
+| `configuration` | 配置页 | `rom_05c000` | 0.984 | 1.000 | bgmap | 9 | PASS_DYNAMIC |
+| `continue` | CONTINUE / END | `rom_044734` | 1.000 | 1.000 | bgmap | - | PASS |
+| `credits_bonus` |  | - | - | - | - | - | NOT_LOCALIZED |
+| `ending_sign` |  | `rom_050000` | 0.000 | 1.000 | - | - | PASS |
+| `gallery_01` |  | `rom_048462` | 1.000 | 1.000 | bgmap | - | PASS |
+| `gallery_02` |  | `rom_04c4f4` | 1.000 | 1.000 | bgmap | - | PASS |
+| `gallery_03` |  | `rom_0742b3` | 1.000 | 1.000 | bgmap | - | PASS |
+| `gallery_04` |  | `rom_04caf2` | 1.000 | 1.000 | bgmap | - | PASS |
+| `gallery_05` |  | `rom_0496d4` | 1.000 | 1.000 | bgmap | - | PASS |
+| `gallery_06` |  | `rom_049bf8` | 1.000 | 1.000 | bgmap | - | PASS |
+| `gallery_07` |  | `rom_04cd98` | 1.000 | 1.000 | bgmap | - | PASS |
+| `gallery_08` |  | `rom_04a3a1` | 1.000 | 1.000 | bgmap | - | PASS |
+| `gallery_09` |  | `rom_04d0bb` | 1.000 | 1.000 | bgmap | - | PASS |
+| `gallery_10` |  | `rom_04ab1b` | 1.000 | 1.000 | bgmap | - | PASS |
+| `gallery_11` |  | `rom_04d586` | 1.000 | 1.000 | bgmap | - | PASS |
+| `gallery_12` |  | `rom_04b4db` | 1.000 | 1.000 | bgmap | - | PASS |
+| `gallery_13` |  | `rom_04b943` | 1.000 | 1.000 | bgmap | - | PASS |
+| `gallery_14` |  | `rom_04d918` | 1.000 | 1.000 | bgmap | - | PASS |
+| `game_over` | GAME OVER | `rom_04454c` | 1.000 | 1.000 | bgmap | - | PASS |
+| `hint_extra` | 通关提示页（额外模式） | `rom_056110` | 1.000 | 1.000 | bgmap | - | PASS |
+| `hint_normal` | 通关提示页（普通模式） | `rom_055050` | 1.000 | 1.000 | bgmap | - | PASS |
+| `hud_extra` |  | `rom_041103` | 0.000 | 1.000 | - | - | PASS |
+| `hud_normal` |  | `rom_041000` | 0.000 | 1.000 | - | - | PASS |
+| `main_menu` | 主界面（额外游戏） | `rom_070000` | 1.000 | 1.000 | bgmap | - | PASS |
+| `opening_decoration` |  | `rom_058000` | 0.000 | 1.000 | - | - | PASS |
 | `sound_test` | 声音测试 | `rom_0438f6` | 0.998 | 1.000 | bgmap | 1 | PASS_DYNAMIC |
-| `stage_1_intro` | 场景 1：葛绿谷绿 | `rom_06c000` | 1.000 | 1.000 | bgmap | - | PASS |
-| `stage_2_intro` | 场景 2：箩箩箩的城堡 | `rom_06c70b` | 1.000 | 1.000 | bgmap | - | PASS |
-| `stage_3_intro` | 场景 3：漂浮岛屿 | `rom_06cda8` | 1.000 | 1.000 | bgmap | - | PASS |
-| `stage_4_intro` | 场景 4：泡泡云层 | `rom_06d490` | 1.000 | 1.000 | bgmap | - | PASS |
-| `stage_5_intro` | 场景 5：帝帝帝山 | `rom_06db85` | 1.000 | 1.000 | bgmap | - | PASS |
-| `title` | 标题画面 | `rom_070000` | 1.000 | 1.000 | bgmap | - | PASS |
+| `stage_1_intro` | 场景 1 介绍 | `rom_06c000` | 1.000 | 1.000 | bgmap | - | PASS |
+| `stage_2_intro` | 场景 2 介绍 | `rom_06c70b` | 1.000 | 1.000 | bgmap | - | PASS |
+| `stage_3_intro` | 场景 3 介绍 | `rom_06cda8` | 1.000 | 1.000 | bgmap | - | PASS |
+| `stage_4_intro` | 场景 4 介绍 | `rom_06d490` | 1.000 | 1.000 | bgmap | - | PASS |
+| `stage_5_intro` | 场景 5 介绍 | `rom_06db85` | 1.000 | 1.000 | bgmap | - | PASS |
+| `stage_5_intro_scrolled` | 场景 5 介绍（滚动后） | - | - | - | - | - | NOT_LOCALIZED |
+| `title` | 标题 | `rom_070000` | 1.000 | 1.000 | bgmap | - | PASS |
+| `title_animation` | 标题（动画） | - | - | - | - | - | NOT_LOCALIZED |
 
 ## 问题
 

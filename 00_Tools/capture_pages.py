@@ -366,6 +366,21 @@ def run(rom, package):
                     break
             if not seen:
                 raise SystemExit('%s: hint page never settled' % screen)
+            # Settling the three signals only means the page is drawn; the fade
+            # and the window-frame slide finish afterwards.  Wait out one full
+            # second of frames and require the page to still be on screen, so the
+            # screenshot is the finished page and not a frame mid-transition.
+            HINT_SETTLE_FRAMES = 60
+            for _ in range(HINT_SETTLE_FRAMES):
+                hint_boy.tick()
+            live = bytes(hint_boy.memory[0x8000:0x8000 + 0x1800])
+            if hashlib.sha256(live).hexdigest() != expected_tileset:
+                raise SystemExit('%s: hint page changed during the settle second' % screen)
+            if hint_boy.memory[0xFF47] != 0xE4:
+                raise SystemExit('%s: palette changed during the settle second' % screen)
+            if map_ratio(bytes(hint_boy.memory[0x9800:0x9C00]),
+                         expected_map, width, height) < 0.98:
+                raise SystemExit('%s: map changed during the settle second' % screen)
             capture.snapshot(hint_boy, screen,
                              '通关提示页（%s）' % ('普通模式' if screen == 'hint_normal'
                                                   else '额外模式'),

@@ -231,9 +231,14 @@ def render_report(result):
     pixel = result['pixel']
     lines.append('- 包内 ROM SHA-256：`%s`（与当前构建一致）' % summary['rom_sha256'])
     lines.append('- 模拟器：%s；画面数：%d；缺失画面：%s'
-                 % (summary['emulator'], summary['count'], summary['missing'] or '无'))
+                 % (summary['emulator'], summary['count'],
+                    summary.get('missing') or '无'))
+    # The package may be a union: the original BGB capture set plus screens the
+    # PyBoy tool regenerates.  Only the BGB-era manifest recorded the reload and
+    # memory-state checks, so report them as unrecorded rather than failing.
     lines.append('- 原生重载校验：%s；屏幕/内存/退出状态一致：%s'
-                 % (summary['native_reload_verified'], summary['screen_capture_memory_state_same_exit']))
+                 % (summary.get('native_reload_verified', '未记录'),
+                    summary.get('screen_capture_memory_state_same_exit', '未记录')))
     lines.append('- 包内逐像素核验：%s（%d 个静态画面，%d 像素，差异 %d；%d 个动态附加画面排除）'
                  % (pixel['status'], pixel['static_captures'], pixel['pixels_compared'],
                     pixel['changed_pixels'], pixel['raster_bonus_excluded']))

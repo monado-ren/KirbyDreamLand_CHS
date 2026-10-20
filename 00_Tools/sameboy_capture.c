@@ -1,0 +1,289 @@
+/*
+ * sameboy_capture - headless capture driver built on SameBoy's core.
+ *
+ * The original workspace drove BGB from a command line:
+ *
+ *   bgb64.exe -rom R -state IN.sna -demoplay IN.dem \
+ *             -br 'ADDR/ROMBANK=N' -stateonexit OUT.sna -screenonexit OUT.png
+ *
+ * SameBoy's SDL frontend only accepts `[--fullscreen] [rom]`, so this program
+ * links Core/ directly and offers the same capabilities.  A BGB `.sna` is a BESS
+ * file, and SameBoy's core both reads and writes BESS, so states move between
+ * the two emulators unchanged.
+ *
+ * Usage:
+ *   sameboy_capture --rom R [--state S] [--frames N] [--shot P]
+ *                   [--breakpoint ADDR] [--save-state P] [--model dmg|cgb]
+ *                   [--boot dmg_boot.bin] [--keys F:key+key,...] [--keys-hold N]
+ *
+ * --boot is required in practice.  SameBoy has no built-in boot ROM: without one
+ * the CPU never leaves the boot area, the LCD stays off and no frame is ever
+ * produced.  Supply SameBoy's own open-source replacement (BootROMs/dmg_boot.asm,
+ * 256 bytes); the checksum used here is in docs/SAMEBOY_CAPTURE.md.
+ *
+ * --keys drives input without a .dem file, e.g. `--keys 240:start`.
+ *
+ * Exit codes: 0 done, 1 usage/IO error, 2 breakpoint reached before --frames.
+ */
+
+#include <Core/gb.h>
+
+#include <png.h>
+#include <stdbool.h>
+#include <stdint.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+static GB_gameboy_t gb;
+static uint32_t pixels[160 * 144];
+
+static uint16_t breakpoint_address;
+static bool breakpoint_armed;
+static bool breakpoint_hit;
+
+static uint32_t rgb_encode(GB_gameboy_t *gameboy, uint8_t r, uint8_t g, uint8_t b)
+{
+    (void) gameboy;
+    return ((uint32_t) r << 16) | ((uint32_t) g << 8) | b;
+}
+
+static void noop_log(GB_gameboy_t *gameboy, const char *string,
+                     GB_log_attributes attributes)
+{
+    (void) gameboy;
+    (void) string;
+    (void) attributes;
+}
+
+/* Checked once per frame; the original chain only ever stopped between frames. */
+static void vblank(GB_gameboy_t *gameboy)
+{
+    if (breakpoint_armed && gameboy->pc == breakpoint_address) {
+        breakpoint_hit = true;
+    }
+}
+
+static bool write_png(const char *path, const uint32_t *source,
+                      unsigned width, unsigned height)
+{
+    FILE *file = fopen(path, "wb");
+    if (!file) {
+        fprintf(stderr, "cannot open %s for writing\n", path);
+        return false;
+    }
+    png_structp png = png_create_write_struct(PNG_LIBPNG_VER_STRING, NULL, NULL, NULL);
+    if (!png) { fclose(file); return false; }
+    png_infop info = png_create_info_struct(png);
+    if (!info) { png_destroy_write_struct(&png, NULL); fclose(file); return false; }
+    if (setjmp(png_jmpbuf(png))) {
+        png_destroy_write_struct(&png, &info);
+        fclose(file);
+        return false;
+    }
+    png_init_io(png, file);
+    png_set_IHDR(png, info, width, height, 8, PNG_COLOR_TYPE_RGB,
+                 PNG_INTERLACE_NONE, PNG_COMPRESSION_TYPE_DEFAULT,
+                 PNG_FILTER_TYPE_DEFAULT);
+    png_write_info(png, info);
+    png_bytep row = malloc((size_t) width * 3);
+    if (!row) { png_destroy_write_struct(&png, &info); fclose(file); return false; }
+    for (unsigned y = 0; y < height; y++) {
+        for (unsigned x = 0; x < width; x++) {
+            uint32_t p = source[y * width + x];
+            row[x * 3 + 0] = (png_byte) ((p >> 16) & 0xFF);
+            row[x * 3 + 1] = (png_byte) ((p >> 8) & 0xFF);
+            row[x * 3 + 2] = (png_byte) (p & 0xFF);
+        }
+        png_write_row(png, row);
+    }
+    free(row);
+    png_write_end(png, NULL);
+    png_destroy_write_struct(&png, &info);
+    fclose(file);
+    return true;
+}
+
+/* --keys takes a tiny script: comma-separated "<frame>:<key>[+<key>...]".
+ * At each listed frame the keys are pressed for --keys-hold frames (default 8).
+ * This mirrors the button demos the original BGB driver fed via -demoplay. */
+typedef struct { unsigned frame; GB_key_t keys[4]; unsigned count; } key_step_t;
+
+static GB_key_t key_from_name(const char *name)
+{
+    static const struct { const char *name; GB_key_t key; } table[] = {
+        {"right", GB_KEY_RIGHT}, {"left", GB_KEY_LEFT}, {"up", GB_KEY_UP},
+        {"down", GB_KEY_DOWN}, {"a", GB_KEY_A}, {"b", GB_KEY_B},
+        {"select", GB_KEY_SELECT}, {"start", GB_KEY_START},
+    };
+    for (size_t i = 0; i < sizeof(table) / sizeof(table[0]); i++)
+        if (strcmp(table[i].name, name) == 0) return table[i].key;
+    return GB_KEY_MAX;
+}
+
+static const char *arg_value(int argc, char **argv, const char *name)
+{
+    for (int i = 1; i < argc - 1; i++)
+        if (strcmp(argv[i], name) == 0) return argv[i + 1];
+    return NULL;
+}
+
+static bool has_flag(int argc, char **argv, const char *name)
+{
+    for (int i = 1; i < argc; i++)
+        if (strcmp(argv[i], name) == 0) return true;
+    return false;
+}
+
+static uint8_t *read_file(const char *path, size_t *size)
+{
+    FILE *file = fopen(path, "rb");
+    if (!file) return NULL;
+    fseek(file, 0, SEEK_END);
+    long length = ftell(file);
+    rewind(file);
+    if (length <= 0) { fclose(file); return NULL; }
+    uint8_t *buffer = malloc((size_t) length);
+    if (buffer && fread(buffer, 1, (size_t) length, file) != (size_t) length) {
+        free(buffer); buffer = NULL;
+    }
+    fclose(file);
+    if (buffer) *size = (size_t) length;
+    return buffer;
+}
+
+int main(int argc, char **argv)
+{
+    const char *rom_path = arg_value(argc, argv, "--rom");
+    const char *state_path = arg_value(argc, argv, "--state");
+    const char *shot_path = arg_value(argc, argv, "--shot");
+    const char *save_path = arg_value(argc, argv, "--save-state");
+    const char *break_text = arg_value(argc, argv, "--breakpoint");
+    const char *frames_text = arg_value(argc, argv, "--frames");
+    const char *model_text = arg_value(argc, argv, "--model");
+    const char *boot_path = arg_value(argc, argv, "--boot");
+
+    if (!rom_path || has_flag(argc, argv, "--help")) {
+        fprintf(stderr,
+            "Usage: %s --rom R [--state S] [--frames N] [--shot P]\n"
+            "          [--breakpoint ADDR] [--save-state P] [--model dmg|cgb]\n"
+            "          [--boot dmg_boot.bin] [--keys F:key+key,...] [--keys-hold N]\n",
+            argv[0]);
+        return 1;
+    }
+
+    unsigned frames = frames_text ? (unsigned) strtoul(frames_text, NULL, 0) : 0;
+    GB_model_t model = GB_MODEL_DMG_B;
+    if (model_text && strcmp(model_text, "cgb") == 0) model = GB_MODEL_CGB_E;
+
+    GB_init(&gb, model);
+    GB_set_rgb_encode_callback(&gb, rgb_encode);
+    GB_set_log_callback(&gb, noop_log);
+    GB_set_pixels_output(&gb, pixels);
+
+    /* SameBoy needs a boot ROM; without one the CPU never leaves the boot area,
+     * the LCD stays off, and GB_run_frame waits forever for a VBlank. */
+    if (boot_path && GB_load_boot_rom(&gb, boot_path)) {
+        fprintf(stderr, "cannot read boot ROM: %s\n", boot_path);
+        GB_free(&gb);
+        return 1;
+    }
+
+    if (GB_load_rom(&gb, rom_path)) {
+        fprintf(stderr, "failed to load ROM: %s\n", rom_path);
+        GB_free(&gb);
+        return 1;
+    }
+
+    if (state_path) {
+        size_t size = 0;
+        uint8_t *buffer = read_file(state_path, &size);
+        if (!buffer) {
+            fprintf(stderr, "cannot read state: %s\n", state_path);
+            GB_free(&gb); return 1;
+        }
+        int status = GB_load_state_from_buffer(&gb, buffer, size);
+        free(buffer);
+        if (status) {
+            fprintf(stderr, "failed to load state: %s\n", state_path);
+            GB_free(&gb); return 1;
+        }
+    }
+
+    if (break_text) {
+        breakpoint_address = (uint16_t) strtoul(break_text, NULL, 0);
+        breakpoint_armed = true;
+        GB_set_vblank_callback(&gb, vblank);
+    }
+
+    unsigned keys_hold = 8;
+    const char *hold_text = arg_value(argc, argv, "--keys-hold");
+    if (hold_text) keys_hold = (unsigned) strtoul(hold_text, NULL, 0);
+
+    static key_step_t steps[64];
+    unsigned step_count = 0;
+    const char *script = arg_value(argc, argv, "--keys");
+    if (script) {
+        char *copy = strdup(script);
+        for (char *entry = strtok(copy, ","); entry && step_count < 64;
+             entry = strtok(NULL, ",")) {
+            char *colon = strchr(entry, ':');
+            if (!colon) continue;
+            *colon = 0;
+            key_step_t *step = &steps[step_count++];
+            step->frame = (unsigned) strtoul(entry, NULL, 0);
+            char *key_text = strtok(colon + 1, "+");
+            while (key_text && step->count < 4) {
+                GB_key_t key = key_from_name(key_text);
+                if (key != GB_KEY_MAX) step->keys[step->count++] = key;
+                key_text = strtok(NULL, "+");
+            }
+        }
+        free(copy);
+    }
+
+    for (unsigned i = 0; i < frames && !breakpoint_hit; i++) {
+        for (unsigned s = 0; s < step_count; s++) {
+            if (steps[s].frame != i) continue;
+            for (unsigned k = 0; k < steps[s].count; k++)
+                GB_set_key_state(&gb, steps[s].keys[k], true);
+            for (unsigned hold = 0; hold < keys_hold; hold++) GB_run_frame(&gb);
+            for (unsigned k = 0; k < steps[s].count; k++)
+                GB_set_key_state(&gb, steps[s].keys[k], false);
+        }
+        GB_run_frame(&gb);
+    }
+
+    if (shot_path && !write_png(shot_path, pixels, 160, 144)) {
+        GB_free(&gb); return 1;
+    }
+
+    if (save_path) {
+        size_t size = GB_get_save_state_size(&gb);
+        uint8_t *buffer = malloc(size);
+        if (!buffer) { GB_free(&gb); return 1; }
+        GB_save_state_to_buffer(&gb, buffer);
+        FILE *file = fopen(save_path, "wb");
+        bool ok = file && fwrite(buffer, 1, size, file) == size;
+        if (file) fclose(file);
+        free(buffer);
+        if (!ok) {
+            fprintf(stderr, "cannot write state: %s\n", save_path);
+            GB_free(&gb); return 1;
+        }
+    }
+
+    size_t io_size = 0, vram_size = 0;
+    uint8_t *io = GB_get_direct_access(&gb, GB_DIRECT_ACCESS_IO, &io_size, NULL);
+    uint8_t *vram = GB_get_direct_access(&gb, GB_DIRECT_ACCESS_VRAM, &vram_size, NULL);
+    unsigned vram_nonzero = 0;
+    for (size_t i = 0; vram && i < vram_size; i++) vram_nonzero += vram[i] != 0;
+    unsigned pixel_nonzero = 0;
+    for (unsigned i = 0; i < 160 * 144; i++) pixel_nonzero += pixels[i] != 0;
+    fprintf(stderr, "PC=%04X frames=%u LCDC=%02X vram_nz=%u pixel_nz=%u%s\n",
+            gb.pc, frames, io ? io[0x40] : 0, vram_nonzero, pixel_nonzero,
+            breakpoint_hit ? " (breakpoint)" : "");
+
+    GB_free(&gb);
+    return breakpoint_hit ? 2 : 0;
+}

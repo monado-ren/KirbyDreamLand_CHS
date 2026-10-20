@@ -126,9 +126,9 @@
 | `0x18FE8` | `ending_039820_load` | `loader.bank` | 1 | `rom_04d6b7` | `0x0E` → `rom_04d6b7.bank=0x13` | 图鉴页装载点（bank）：图鉴页·帝帝帝大王 + 王冠舞台 图块集 |
 | `0x18FED` | `ending_039be1_load` | `loader.source_addr` | 2 | `rom_04d918` | `0x5BE1` → `rom_04d918.cpu_address=0x5918` | 图鉴页装载点（bank）：图鉴页·帝帝帝大王 + 王冠舞台 地图 |
 | `0x18FF3` | `ending_039be1_load` | `loader.bank` | 1 | `rom_04d918` | `0x0E` → `rom_04d918.bank=0x13` | 图鉴页装载点（bank）：图鉴页·帝帝帝大王 + 王冠舞台 地图 |
-| `0x19032` | `ending_039cbf_load_pointer` | `loader.source_addr` | 2 | `rom_055130` | `0x5CBF` → `rom_055130.cpu_address=0x5130` | 图鉴/提示页装载指针（地址+bank）：额外模式通关提示 图块集（整屏 384 图块） |
+| `0x19032` | `ending_039cbf_load_pointer` | `loader.source_addr` | 2 | `rom_055130` | `0x5CBF` → `rom_055130.cpu_address=0x51A6` | 图鉴/提示页装载指针（地址+bank）：额外模式通关提示 图块集（整屏 384 图块） |
 | `0x19038` | `ending_039cbf_load_pointer` | `loader.bank` | 1 | `rom_055130` | `0x0E` → `rom_055130.bank=0x15` | 图鉴/提示页装载指针（地址+bank）：额外模式通关提示 图块集（整屏 384 图块） |
-| `0x1903D` | `ending_03acec_load_pointer` | `loader.source_addr` | 2 | `rom_056110` | `0x6CEC` → `rom_056110.cpu_address=0x6110` | 图鉴/提示页装载指针（地址+bank）：额外模式通关提示 地图 |
+| `0x1903D` | `ending_03acec_load_pointer` | `loader.source_addr` | 2 | `rom_056110` | `0x6CEC` → `rom_056110.cpu_address=0x63B2` | 图鉴/提示页装载指针（地址+bank）：额外模式通关提示 地图 |
 | `0x19043` | `ending_03acec_load_pointer` | `loader.bank` | 1 | `rom_056110` | `0x0E` → `rom_056110.bank=0x15` | 图鉴/提示页装载指针（地址+bank）：额外模式通关提示 地图 |
 | `0x19063` | `ending_03adda_load_pointer` | `loader.source_addr` | 2 | `rom_054000` | `0x6DDA` → `rom_054000.cpu_address=0x4000` | 图鉴/提示页装载指针（地址+bank）：普通模式通关提示 图块集（整屏 384 图块） |
 | `0x19069` | `ending_03adda_load_pointer` | `loader.bank` | 1 | `rom_054000` | `0x0E` → `rom_054000.bank=0x15` | 图鉴/提示页装载指针（地址+bank）：普通模式通关提示 图块集（整屏 384 图块） |
@@ -213,10 +213,10 @@ HUD 标签图块号重排、图鉴蝙蝠精灵 X 坐标 -9px。
 | `rom_04d6b7` | `ending_039820` | tileset | active | 19 | `0x4D6B7` | 609 | 609 | `-` | 图鉴页·帝帝帝大王 + 王冠舞台 图块集 |
 | `rom_04d918` | `ending_039be1` | tilemap | active | 19 | `0x4D918` | 9960 | 164 | `03_Image/edits/rom_04d918.json` | 图鉴页·帝帝帝大王 + 王冠舞台 地图 |
 | `rom_050000` | `ending_sprites` | sheet | active | 20 | `0x50000` | 16384 | 2418 | `03_Image/edits/rom_050000.json` | 结局/通关提示精灵表（剧终牌等） |
-| `rom_054000` | `ending_03adda` | tileset | active | 21 | `0x54000` | 4176 | 1850 | `-` | 普通模式通关提示 图块集（整屏 384 图块） |
+| `rom_054000` | `ending_03adda` | tileset | active | 21 | `0x54000` | 4518 | 4518 | `-` | 普通模式通关提示 图块集（整屏 384 图块） |
 | `rom_055050` | `ending_03be31` | tilemap | active | 16 | `0x40000` | 272 | 272 | `03_Image/edits/rom_055050.json` | 普通模式通关提示（提示如何进入额外模式） 地图 |
-| `rom_055130` | `ending_039cbf` | tileset | active | 21 | `0x55130` | 4064 | 1843 | `-` | 额外模式通关提示 图块集（整屏 384 图块） |
-| `rom_056110` | `ending_03acec` | tilemap | active | 21 | `0x56110` | 7920 | 265 | `03_Image/edits/rom_056110.json` | 额外模式通关提示（提示如何进入配置模式） 地图 |
+| `rom_055130` | `ending_039cbf` | tileset | active | 21 | `0x551A6` | 4620 | 4620 | `-` | 额外模式通关提示 图块集（整屏 384 图块） |
+| `rom_056110` | `ending_03acec` | tilemap | active | 21 | `0x563B2` | 265 | 265 | `03_Image/edits/rom_056110.json` | 额外模式通关提示（提示如何进入配置模式） 地图 |
 | `rom_058000` | `intro_decoration` | sheet | active | 22 | `0x58000` | 16384 | 1268 | `03_Image/edits/rom_058000.json` | 关卡介绍右下角 32×16 中文角标（开场装饰） |
 | `rom_05c000` | `configuration_bundle` | bundle | active | 23 | `0x5C000` | 16384 | 2559 | `03_Image/pages/rom_05c000.png` | 配置页整包（256 图块 + 地图） |
 | `rom_06c000` | `stage_1` | bundle | active | 27 | `0x6C000` | 1803 | 1803 | `03_Image/pages/rom_06c000.png` | 场景 1 介绍整包（128 图块 + 地图） |
@@ -419,9 +419,9 @@ HUD 标签图块号重排、图鉴蝙蝠精灵 X 坐标 -9px。
 | 93 | `0x18FE8` | `loader.bank` | 1 | `0x0e` → `0x13` |
 | 94 | `0x18FED` | `loader.source_addr` | 2 | `0xe15b` → `0x1859` |
 | 95 | `0x18FF3` | `loader.bank` | 1 | `0x0e` → `0x13` |
-| 96 | `0x19032` | `loader.source_addr` | 2 | `0xbf5c` → `0x3051` |
+| 96 | `0x19032` | `loader.source_addr` | 2 | `0xbf5c` → `0xa651` |
 | 97 | `0x19038` | `loader.bank` | 1 | `0x0e` → `0x15` |
-| 98 | `0x1903D` | `loader.source_addr` | 2 | `0xec6c` → `0x1061` |
+| 98 | `0x1903D` | `loader.source_addr` | 2 | `0xec6c` → `0xb263` |
 | 99 | `0x19043` | `loader.bank` | 1 | `0x0e` → `0x15` |
 | 100 | `0x19063` | `loader.source_addr` | 2 | `0xda6d` → `0x0040` |
 | 101 | `0x19069` | `loader.bank` | 1 | `0x0e` → `0x15` |

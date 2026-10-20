@@ -362,7 +362,7 @@
       "format": "tileset",
       "bank": 21,
       "offset": "0x54000",
-      "capacity": 4176
+      "capacity": 4518
     },
     {
       "id": "rom_055050",
@@ -381,8 +381,8 @@
       "purpose": "额外模式通关提示 图块集（整屏 384 图块）",
       "format": "tileset",
       "bank": 21,
-      "offset": "0x55130",
-      "capacity": 4064
+      "offset": "0x551A6",
+      "capacity": 4620
     },
     {
       "id": "rom_056110",
@@ -391,8 +391,8 @@
       "purpose": "额外模式通关提示（提示如何进入配置模式） 地图",
       "format": "tilemap",
       "bank": 21,
-      "offset": "0x56110",
-      "capacity": 7920
+      "offset": "0x563B2",
+      "capacity": 265
     },
     {
       "id": "rom_058000",
