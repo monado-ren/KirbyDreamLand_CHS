@@ -1,7 +1,7 @@
 # 星之卡比 GB · 简体中文汉化补丁
 
 基于 **Hoshi no Kirby (Japan) (Rev 1)**（日版 1.1）的汉化补丁工程。
-当前版本 **v0.5.1**，保留 Rev 1 程序修正，含场景 5 两行文字上移 2 像素的调整。
+当前版本 **v0.5.3**，保留 Rev 1 程序修正，含场景 5 两行文字上移 2 像素、以及两张通关提示页的 12px 排版。
 
 本仓库提供构建源码、汉化资源及 **xdelta3 补丁**，不提供原版或汉化版 ROM。
 本版本为部分汉化；演职人员表及游戏内汉化署名尚未接入，详见 [完成情况](docs/STATUS.md)。
@@ -16,6 +16,26 @@
 | 原始文件名 | `Hoshi no Kirby (Japan) (Rev 1).gb` |
 | 大小 | `262144` 字节 |
 | SHA-256 | `c4c6aff6242116c4f26bdcf3343b6c27836010853b8753da8b0cb953a200834a` |
+
+## 快速上手：只想要汉化版 ROM
+
+准备好日版 Rev 1 的 `baserom.gb` 放在仓库根目录，然后：
+
+```sh
+./patch.sh
+```
+
+完成。产物是根目录的 `KirbyDreamLand_CHS-Monado.gb`。
+
+这个脚本**只需要 `xdelta3`**（`apt install xdelta3` / `brew install xdelta`），
+不需要 Python 包、不需要 RGBDS、不需要联网。它在打补丁前后各校验一次哈希，
+输入不是日版 Rev 1 或输出对不上都会直接报错退出，不会留下可疑文件。
+
+如果 `xdelta3` 不在 PATH 里，或用的是别的输入文件名：
+
+```sh
+XDELTA3=/path/to/xdelta3 ./patch.sh /path/to/baserom.gb
+```
 
 ## 从源码构建
 
