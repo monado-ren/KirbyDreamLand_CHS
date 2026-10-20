@@ -43,7 +43,15 @@ if [ -f "$ROOT/KirbyDreamLand_CHS-Monado.gb" ]; then
     run "verify"         "$PYTHON" 00_Tools/verify.py
     run "change-surface" "$PYTHON" 00_Tools/change_surface.py check
     run "pages"          "$PYTHON" 00_Tools/pages.py render --check
-    run "text-layout"    "$PYTHON" 00_Tools/text_layout.py check
+    # text_layout needs the generated font subsets, which are gitignored and
+    # fetched over the network.  The unit tests already skip without them, so a
+    # missing subset is reported as SKIP here rather than as a failure.
+    if [ -f "$ROOT/05_Font/generated/jpzh-bitmap-12.json" ] &&
+       [ -f "$ROOT/05_Font/generated/jpzh-bitmap-hud-8.json" ]; then
+        run "text-layout" "$PYTHON" 00_Tools/text_layout.py check
+    else
+        printf '\n=== text-layout ===\nTEXT_RENDER=SKIP no font subsets; run 00_Tools/fetch_fonts.py\n'
+    fi
     run "rom-pages"      "$PYTHON" 00_Tools/audit_rom_pages.py --write-check
     run "page-audit"     "$PYTHON" 00_Tools/audit_pages.py --check
     run "loader-timing"  "$PYTHON" 00_Tools/audit_loader_timing.py
