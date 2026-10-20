@@ -66,8 +66,8 @@ sha256sum KirbyDreamLand_CHS-Monado.gb
 | ROM | SHA-256 |
 | --- | --- |
 | 本仓库 v0.5.1（日版 Rev1 基准） | `f96fe0ecac53cc586eac19b53fe1b50cef3fd1751261ae273c2356b2c6c62795` |
-| **本仓库 v0.5.2（删死装载）** | `e7d7cee702eb4150b88a924e4847b47d289986e6609369f477c82548ca62f98b` |
-| **本仓库 v0.5.3（12px 通关提示）** | `e7d7cee702eb4150b88a924e4847b47d289986e6609369f477c82548ca62f98b` |
+| **本仓库 v0.5.2（删死装载）** | `b24dd0bb0213e827d764890c1c61d2a44cc98f1ca9432fbcd1748ca6cec47e96` |
+| **本仓库 v0.5.3（12px 通关提示）** | `b24dd0bb0213e827d764890c1c61d2a44cc98f1ca9432fbcd1748ca6cec47e96` |
 | 开发工作区 v0.5.1_digit_alignment | `5b1a84b30977247236670cbab95b766be045c65837fa4cfc13b78b54c7689706` |
 | 开发工作区 v0.5.2_title_logo | `a9266a595ee2f78af1443323fec3e00e7b5fcfe08a3eb7e2b93291e597bc9491` |
 | 开发工作区 v0.5.3_heading | `f58da5e0c6b66290f0143e4edaf0edb0f0ea247ed9d03216547b1f62e8871dd6` |

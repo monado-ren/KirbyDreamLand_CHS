@@ -220,9 +220,9 @@ HUD 标签图块号重排、图鉴蝙蝠精灵 X 坐标 -9px。
 | `rom_058000` | `intro_decoration` | sheet | active | 22 | `0x58000` | 16384 | 1268 | `03_Image/edits/rom_058000.json` | 关卡介绍右下角 32×16 中文角标（开场装饰） |
 | `rom_05c000` | `configuration_bundle` | bundle | active | 23 | `0x5C000` | 16384 | 2559 | `03_Image/pages/rom_05c000.png` | 配置页整包（256 图块 + 地图） |
 | `rom_06c000` | `stage_1` | bundle | active | 27 | `0x6C000` | 1803 | 1803 | `03_Image/pages/rom_06c000.png` | 场景 1 介绍整包（128 图块 + 地图） |
-| `rom_06c70b` | `stage_2` | bundle | active | 27 | `0x6C70B` | 1695 | 1695 | `03_Image/pages/rom_06c70b.png` | 场景 2 介绍整包 |
-| `rom_06cda8` | `stage_3` | bundle | active | 27 | `0x6CDAA` | 1772 | 1772 | `03_Image/pages/rom_06cda8.png` | 场景 3 介绍整包 |
-| `rom_06d490` | `stage_4` | bundle | active | 27 | `0x6D496` | 1782 | 1782 | `03_Image/pages/rom_06d490.png` | 场景 4 介绍整包 |
+| `rom_06c70b` | `stage_2` | bundle | active | 27 | `0x6C70B` | 1695 | 1693 | `03_Image/pages/rom_06c70b.png` | 场景 2 介绍整包 |
+| `rom_06cda8` | `stage_3` | bundle | active | 27 | `0x6CDAA` | 1772 | 1767 | `03_Image/pages/rom_06cda8.png` | 场景 3 介绍整包 |
+| `rom_06d490` | `stage_4` | bundle | active | 27 | `0x6D496` | 1782 | 1781 | `03_Image/pages/rom_06d490.png` | 场景 4 介绍整包 |
 | `rom_06db85` | `stage_5` | bundle | active | 27 | `0x6DB8C` | 1668 | 1668 | `03_Image/pages/rom_06db85.png` | 场景 5 介绍整包（240 px 高） |
 | `rom_070000` | `title_bundle` | bundle | active | 28 | `0x70000` | 16384 | 3186 | `03_Image/pages/rom_070000.png` | 标题画面整包（中文 Logo + 额外游戏 + 菜单） |
 | `rom_074000` | `ending_034dc0` | tileset | active | 29 | `0x74000` | 691 | 691 | `-` | 图鉴第 3 页·大波比兄弟/风语大树 图块集 |

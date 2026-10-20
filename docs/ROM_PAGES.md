@@ -7,10 +7,10 @@
 可编辑源已经脱节，而单纯核对 ROM 哈希发现不了这种问题。
 
 ```text
-ROM_PAGES=PASS RESOURCES=46 PASS=46 FAIL=0 DECODED=94560 PACKED=40334
+ROM_PAGES=PASS RESOURCES=46 PASS=46 FAIL=0 DECODED=94560 PACKED=40326
 ```
 
-- ROM SHA-256：`e7d7cee702eb4150b88a924e4847b47d289986e6609369f477c82548ca62f98b`
+- ROM SHA-256：`b24dd0bb0213e827d764890c1c61d2a44cc98f1ca9432fbcd1748ca6cec47e96`
 
 | 资源 | 说明 | ROM 偏移 | decoded | packed | 结果 |
 | --- | --- | --- | ---: | ---: | --- |
@@ -53,9 +53,9 @@ ROM_PAGES=PASS RESOURCES=46 PASS=46 FAIL=0 DECODED=94560 PACKED=40334
 | `rom_058000` | intro_decoration | `0x58000` | 1536 | 1268 | ✅ |
 | `rom_05c000` | configuration_bundle | `0x5C000` | 4672 | 2559 | ✅ |
 | `rom_06c000` | stage_1 | `0x6C000` | 2624 | 1803 | ✅ |
-| `rom_06c70b` | stage_2 | `0x6C70B` | 2624 | 1695 | ✅ |
-| `rom_06cda8` | stage_3 | `0x6CDAA` | 2624 | 1772 | ✅ |
-| `rom_06d490` | stage_4 | `0x6D496` | 2624 | 1782 | ✅ |
+| `rom_06c70b` | stage_2 | `0x6C70B` | 2624 | 1693 | ✅ |
+| `rom_06cda8` | stage_3 | `0x6CDAA` | 2624 | 1767 | ✅ |
+| `rom_06d490` | stage_4 | `0x6D496` | 2624 | 1781 | ✅ |
 | `rom_06db85` | stage_5 | `0x6DB8C` | 3008 | 1668 | ✅ |
 | `rom_070000` | title_bundle | `0x70000` | 5248 | 3186 | ✅ |
 | `rom_074000` | ending_034dc0 | `0x74000` | 2048 | 691 | ✅ |

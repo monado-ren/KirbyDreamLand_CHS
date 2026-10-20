@@ -26,7 +26,7 @@ sys.path.insert(0, str(ROOT / '00_Tools'))
 import common
 
 BASE_SHA256 = 'c4c6aff6242116c4f26bdcf3343b6c27836010853b8753da8b0cb953a200834a'
-TARGET_SHA256 = 'e7d7cee702eb4150b88a924e4847b47d289986e6609369f477c82548ca62f98b'
+TARGET_SHA256 = 'b24dd0bb0213e827d764890c1c61d2a44cc98f1ca9432fbcd1748ca6cec47e96'
 
 
 class ReverseExactTests(unittest.TestCase):
