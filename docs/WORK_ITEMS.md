@@ -162,7 +162,7 @@
 
 | 偏移 | site | kind | 字节 | 资源 | 旧 → 新 | 说明 |
 | --- | --- | --- | ---: | --- | --- | --- |
-| `0x190BB` | `stage_1_bundle_pointer` | `stage.pointer_table` | 15 | `-` | `stage_1 6:0x7835, stage_2 6:0x78DD, stage_3 6:0x7958, stage_4 6:0x79EF, stage_5 6:0x7AA6` → `stage_1 27:0x4000, stage_2 27:0x470B, stage_3 27:0x4DA8, stage_4 27:0x5490, stage_5 27:0x5B85` | 五个关卡介绍整包的三字节指针表（[bank][addr_hi][addr_lo] ×5） |
+| `0x190BB` | `stage_1_bundle_pointer` | `stage.pointer_table` | 15 | `-` | `stage_1 6:0x7835, stage_2 6:0x78DD, stage_3 6:0x7958, stage_4 6:0x79EF, stage_5 6:0x7AA6` → `stage_1 27:0x4000, stage_2 27:0x470B, stage_3 27:0x4DAA, stage_4 27:0x5496, stage_5 27:0x5B8C` | 五个关卡介绍整包的三字节指针表（[bank][addr_hi][addr_lo] ×5） |
 
 ## 06 UI/精灵微调
 
@@ -220,10 +220,10 @@ HUD 标签图块号重排、图鉴蝙蝠精灵 X 坐标 -9px。
 | `rom_058000` | `intro_decoration` | sheet | active | 22 | `0x58000` | 16384 | 1268 | `03_Image/edits/rom_058000.json` | 关卡介绍右下角 32×16 中文角标（开场装饰） |
 | `rom_05c000` | `configuration_bundle` | bundle | active | 23 | `0x5C000` | 16384 | 2559 | `03_Image/pages/rom_05c000.png` | 配置页整包（256 图块 + 地图） |
 | `rom_06c000` | `stage_1` | bundle | active | 27 | `0x6C000` | 1803 | 1803 | `03_Image/pages/rom_06c000.png` | 场景 1 介绍整包（128 图块 + 地图） |
-| `rom_06c70b` | `stage_2` | bundle | active | 27 | `0x6C70B` | 1693 | 1693 | `03_Image/pages/rom_06c70b.png` | 场景 2 介绍整包 |
-| `rom_06cda8` | `stage_3` | bundle | active | 27 | `0x6CDA8` | 1768 | 1768 | `03_Image/pages/rom_06cda8.png` | 场景 3 介绍整包 |
-| `rom_06d490` | `stage_4` | bundle | active | 27 | `0x6D490` | 1781 | 1781 | `03_Image/pages/rom_06d490.png` | 场景 4 介绍整包 |
-| `rom_06db85` | `stage_5` | bundle | active | 27 | `0x6DB85` | 9339 | 1668 | `03_Image/pages/rom_06db85.png` | 场景 5 介绍整包（240 px 高） |
+| `rom_06c70b` | `stage_2` | bundle | active | 27 | `0x6C70B` | 1695 | 1695 | `03_Image/pages/rom_06c70b.png` | 场景 2 介绍整包 |
+| `rom_06cda8` | `stage_3` | bundle | active | 27 | `0x6CDAA` | 1772 | 1772 | `03_Image/pages/rom_06cda8.png` | 场景 3 介绍整包 |
+| `rom_06d490` | `stage_4` | bundle | active | 27 | `0x6D496` | 1782 | 1782 | `03_Image/pages/rom_06d490.png` | 场景 4 介绍整包 |
+| `rom_06db85` | `stage_5` | bundle | active | 27 | `0x6DB8C` | 1668 | 1668 | `03_Image/pages/rom_06db85.png` | 场景 5 介绍整包（240 px 高） |
 | `rom_070000` | `title_bundle` | bundle | active | 28 | `0x70000` | 16384 | 3186 | `03_Image/pages/rom_070000.png` | 标题画面整包（中文 Logo + 额外游戏 + 菜单） |
 | `rom_074000` | `ending_034dc0` | tileset | active | 29 | `0x74000` | 691 | 691 | `-` | 图鉴第 3 页·大波比兄弟/风语大树 图块集 |
 | `rom_0742b3` | `ending_03535c` | tilemap | active | 29 | `0x742B3` | 15693 | 231 | `03_Image/edits/rom_0742b3.json` | 图鉴第 3 页·大波比兄弟/风语大树 地图 |
@@ -427,7 +427,7 @@ HUD 标签图块号重排、图鉴蝙蝠精灵 X 坐标 -9px。
 | 101 | `0x19069` | `loader.bank` | 1 | `0x0e` → `0x15` |
 | 102 | `0x1906E` | `loader.source_addr` | 2 | `0x317e` → `0x0040` |
 | 103 | `0x19074` | `loader.bank` | 1 | `0x0e` → `0x10` |
-| 104 | `0x190BB` | `stage.pointer_table` | 15 | `0x0678350678dd0679580679ef067aa6` → `0x1b40001b470b1b4da81b54901b5b85` |
+| 104 | `0x190BB` | `stage.pointer_table` | 15 | `0x0678350678dd0679580679ef067aa6` → `0x1b40001b470b1b4daa1b54961b5b8c` |
 | 105 | `0x1A3A2` | `loader.source_addr` | 2 | `0x5548` → `0x0050` |
 | 106 | `0x1A3A8` | `loader.bank` | 1 | `0x02` → `0x10` |
 | 107 | `0x1A3A9` | `code.nop` | 3 | `0xcdc120` → `0x000000` |

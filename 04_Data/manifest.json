@@ -11,13 +11,13 @@
   },
   "target": {
     "size": 524288,
-    "md5": "5427fd87b28c5858d50a099468a2ccad",
-    "sha1": "d3397b1e7f202fc9c3e46dfdaffdec0fb4186807",
-    "sha256": "084c5157fd9b9637661b8a38e87a73e240a68fe3637a5d4617b539b8a1932b19"
+    "md5": "a5a7f442a21a6bceb79ba3825a754565",
+    "sha1": "d5125d5e17ce9b13bc60adcab0709899c3ff4d70",
+    "sha256": "e7d7cee702eb4150b88a924e4847b47d289986e6609369f477c82548ca62f98b"
   },
   "fill_byte": 255,
   "change_surface": {
-    "sha256": "d6c7880bf48f91b8e47329e1823963e5ea79305315f52e162cf3830138bc53d5",
+    "sha256": "8e37b9d89e7e0414ed96e99ca8aeee1924851c8d10583adbd7da558702451969",
     "patches": 116,
     "bytes": 216
   },
@@ -902,7 +902,7 @@
         "tile_count": 128
       },
       "decoded_size": 2624,
-      "decoded_sha256": "76e934f8ae91c29e745f1d97d067fef3ffa78800fb38a8f340afd93d40ccf5a3",
+      "decoded_sha256": "16e7dd2cf288618ffde15a9703fb244a90bb332917249455e5d8b495a1adedd3",
       "packed_size": 1803,
       "referenced_by_current_localized_loaders": true,
       "retained_for_byte_exact_release": true,
@@ -921,7 +921,7 @@
       "offset": 444171,
       "bank": 27,
       "cpu_address": 18187,
-      "capacity": 1693,
+      "capacity": 1695,
       "format": "hal-greedy-v1",
       "source": "03_Image/graphics/r_06c70b.png",
       "png": {
@@ -930,8 +930,8 @@
         "tile_count": 128
       },
       "decoded_size": 2624,
-      "decoded_sha256": "731c0ea9d1b56d23b68672d2607bf99a1df4acc6106909445f43eaff2d938d9e",
-      "packed_size": 1693,
+      "decoded_sha256": "0f9f06a7739af5ad2d6e6198ec4ba886e3e751e263a86b1fbb10e2b3a2569fed",
+      "packed_size": 1695,
       "referenced_by_current_localized_loaders": true,
       "retained_for_byte_exact_release": true,
       "bundle": {
@@ -946,10 +946,10 @@
     {
       "id": "rom_06cda8",
       "label": "stage_3",
-      "offset": 445864,
+      "offset": 445866,
       "bank": 27,
-      "cpu_address": 19880,
-      "capacity": 1768,
+      "cpu_address": 19882,
+      "capacity": 1772,
       "format": "hal-greedy-v1",
       "source": "03_Image/graphics/r_06cda8.png",
       "png": {
@@ -958,8 +958,8 @@
         "tile_count": 128
       },
       "decoded_size": 2624,
-      "decoded_sha256": "e27d4240ba36bec4e0c92ddf71489714a5e72e492e55dda8cf00a3fad72d219c",
-      "packed_size": 1768,
+      "decoded_sha256": "24854c08e9c1f3be0632a437d80d91b2f0673b536406e8b96c0bc864c7909a5e",
+      "packed_size": 1772,
       "referenced_by_current_localized_loaders": true,
       "retained_for_byte_exact_release": true,
       "bundle": {
@@ -974,10 +974,10 @@
     {
       "id": "rom_06d490",
       "label": "stage_4",
-      "offset": 447632,
+      "offset": 447638,
       "bank": 27,
-      "cpu_address": 21648,
-      "capacity": 1781,
+      "cpu_address": 21654,
+      "capacity": 1782,
       "format": "hal-greedy-v1",
       "source": "03_Image/graphics/r_06d490.png",
       "png": {
@@ -986,8 +986,8 @@
         "tile_count": 128
       },
       "decoded_size": 2624,
-      "decoded_sha256": "6ee87f3c622b355ab6fb4b312b87a06b643cf87e6758e4c9423e52063e569a68",
-      "packed_size": 1781,
+      "decoded_sha256": "a9ddb844d88c9429a7da8b7271f8c775a13f125db74988c289593c564dbdc027",
+      "packed_size": 1782,
       "referenced_by_current_localized_loaders": true,
       "retained_for_byte_exact_release": true,
       "bundle": {
@@ -1002,10 +1002,10 @@
     {
       "id": "rom_06db85",
       "label": "stage_5",
-      "offset": 449413,
+      "offset": 449420,
       "bank": 27,
-      "cpu_address": 23429,
-      "capacity": 9339,
+      "cpu_address": 23436,
+      "capacity": 1668,
       "format": "hal-greedy-v1",
       "source": "03_Image/graphics/r_06db85.png",
       "png": {
