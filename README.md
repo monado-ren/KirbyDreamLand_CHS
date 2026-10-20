@@ -39,25 +39,52 @@ XDELTA3=/path/to/xdelta3 ./patch.sh /path/to/baserom.gb
 
 ## 从源码构建
 
-需要 **Python 3.11+** 与 [Pillow](https://python-pillow.org/)（PNG 编解码；版本见 `requirements.txt`）：
-
 ```sh
-python -m pip install -r requirements.txt
-python 00_Tools/build_rgbds.py     # 从 pinned 源码编译 RGBDS（代码补丁汇编/校验需要）
+./build.sh
 ```
 
-构建并生成补丁还需要 [xdelta3](https://github.com/jmacd/xdelta/releases) 命令行工具；将其加入 PATH，或通过 `--xdelta` 指定路径。
+产物同样是根目录的 `KirbyDreamLand_CHS-Monado.gb`，哈希与上面的补丁一致。
+
+这个脚本做三件事：编译 pinned 的 RGBDS（缓存在 `build/rgbds`，已存在则跳过）、
+从源码构建 ROM、校验输出哈希。**不需要 Pillow，也不需要 xdelta3。**
+
+依赖：
+
+| 需要 | 用途 | 说明 |
+| --- | --- | --- |
+| `python3` 3.10+ | 运行工具 | 仅标准库 |
+| `make` + C++ 编译器 | 编译 RGBDS | 首次运行需要，之后走缓存 |
+| 网络（首次） | 下载 RGBDS 源码包 | 约 1 MB，校验 SHA-256 后缓存 |
+
+RGBDS 编译默认用 4 路并行。多核机器上不加限制会启动过多 C++ 编译进程而被 OOM 杀掉，
+需要更多并行可显式设置 `RGBDS_JOBS`：
 
 ```sh
-# 构建 ROM 并生成、重放验证 xdelta3 补丁
+RGBDS_JOBS=2 ./build.sh      # 内存较小的机器
+./build.sh --force           # 强制重新编译 RGBDS
+./build.sh --patch           # 额外重新生成 patches/*.xdelta3（需要 xdelta3）
+```
+
+### 底层命令
+
+需要单独控制各步骤时：
+
+```sh
+python 00_Tools/build_rgbds.py     # 编译 RGBDS（代码补丁汇编/校验需要）
+python 00_Tools/build.py           # 构建 ROM
+python 00_Tools/verify.py          # 校验
+
+# 重新生成并重放验证 xdelta3 补丁（需要 xdelta3）
 python 00_Tools/release.py
-
-# xdelta3 未加入 PATH 时
 python 00_Tools/release.py --xdelta /path/to/xdelta3
+```
 
-# 仅从源码构建 ROM（不需要 xdelta3）
-python 00_Tools/build.py
-python 00_Tools/verify.py
+只有在**重新生成**文本页 PNG 时才需要 Pillow 和字体子集：
+
+```sh
+python -m pip install -r requirements-dev.txt
+python 00_Tools/fetch_fonts.py
+python 00_Tools/text_layout.py render --write
 ```
 
 产物均位于仓库根目录：
