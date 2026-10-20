@@ -215,7 +215,7 @@ HUD 标签图块号重排、图鉴蝙蝠精灵 X 坐标 -9px。
 | `rom_050000` | `ending_sprites` | sheet | active | 20 | `0x50000` | 16384 | 2418 | `03_Image/edits/rom_050000.json` | 结局/通关提示精灵表（剧终牌等） |
 | `rom_054000` | `ending_03adda` | tileset | active | 21 | `0x54000` | 4176 | 1850 | `-` | 普通模式通关提示 图块集（整屏 384 图块） |
 | `rom_055050` | `ending_03be31` | tilemap | active | 16 | `0x40000` | 272 | 272 | `03_Image/edits/rom_055050.json` | 普通模式通关提示（提示如何进入额外模式） 地图 |
-| `rom_055130` | `ending_039cbf` | tileset | active | 21 | `0x55130` | 4064 | 1840 | `-` | 额外模式通关提示 图块集（整屏 384 图块） |
+| `rom_055130` | `ending_039cbf` | tileset | active | 21 | `0x55130` | 4064 | 1843 | `-` | 额外模式通关提示 图块集（整屏 384 图块） |
 | `rom_056110` | `ending_03acec` | tilemap | active | 21 | `0x56110` | 7920 | 265 | `03_Image/edits/rom_056110.json` | 额外模式通关提示（提示如何进入配置模式） 地图 |
 | `rom_058000` | `intro_decoration` | sheet | active | 22 | `0x58000` | 16384 | 1268 | `03_Image/edits/rom_058000.json` | 关卡介绍右下角 32×16 中文角标（开场装饰） |
 | `rom_05c000` | `configuration_bundle` | bundle | active | 23 | `0x5C000` | 16384 | 2559 | `03_Image/pages/rom_05c000.png` | 配置页整包（256 图块 + 地图） |
