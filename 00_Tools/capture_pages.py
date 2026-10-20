@@ -32,6 +32,7 @@ warnings.filterwarnings('ignore', message='Using SDL2 binaries.*')
 from pyboy import PyBoy
 
 import common
+import hal_codec
 
 ROOT = common.ROOT
 
@@ -46,6 +47,29 @@ GAMEOVER_FIXTURE = bytes.fromhex('c35747')
 STAGE_HOOK_BANK = 6
 STAGE_HOOK_ADDR = 0x40E4
 W_CUR_STAGE = 0xD03B
+
+
+# Clear-screen hint pages.  They follow a clear, so a cold boot cannot reach them;
+# the title's START branch is pointed at the ending entry instead.  Two entries
+# exist and the extra-mode flag decides which hint shows, so both are captured:
+#   $40d4 sets wExtraGameEnabled then falls into $486c  -> extra-mode hint
+#   $486c directly, flag left 0                          -> normal-mode hint
+HINT_START_SITE = 0x1809C          # the `call PlaySE` inside the START branch
+HINT_START_ORIGINAL = bytes.fromhex('cd961e')
+HINT_FIXTURES = {
+    'hint_normal': (bytes.fromhex('c36c48'), 'jp $486c, wExtraGameEnabled stays 0'),
+    'hint_extra': (bytes.fromhex('c3d440'), 'jp $40d4, the extra-mode entry'),
+}
+TILESET_GLYPH_SHA = {}
+
+
+def _tileset_sha(entry):
+    """SHA-256 of a page's tileset as it lands in VRAM (first 6144 bytes)."""
+    import hashlib
+    import hal_codec
+    rom = (ROOT / 'KirbyDreamLand_CHS-Monado.gb').read_bytes()
+    raw, _packed = hal_codec.decode(rom[entry['offset']:entry['offset'] + entry['packed_size']])
+    return hashlib.sha256(raw[:0x9800 - 0x8000]).hexdigest()
 
 
 def page_map_bytes(entry):
@@ -269,6 +293,86 @@ def run(rom, package):
             raise SystemExit('CONTINUE page never settled')
         capture.snapshot(fail_boy, 'continue', 'CONTINUE / END', 'fixture',
                          'GAME OVER 结束后自动进入继续画面（等到 BG map 与页面源一致且淡入完成）')
+
+    # --- fixture: clear-screen hint pages ------------------------------------
+    # These follow a clear, so they cannot be driven from a cold boot.  Pointing
+    # the title's START branch at the ending entry walks the game's own ending
+    # sequence, which loads each hint page through its real loader.  The capture
+    # is taken when the tileset in VRAM hashes exactly to the expected one, so it
+    # is proof the page was loaded, not just that it renders in isolation.
+    manifest_for_hints = common.load_manifest()
+    by_label = {entry['label']: entry for entry in manifest_for_hints['resources']}
+    hint_pairs = {
+        # screen -> (page label, tileset label)
+        'hint_normal': ('ending_03be31', 'ending_03adda'),
+        'hint_extra': ('ending_03acec', 'ending_039cbf'),
+    }
+    import hashlib
+    src = (ROOT / 'KirbyDreamLand_CHS-Monado.gb').read_bytes()
+    if src[HINT_START_SITE:HINT_START_SITE + len(HINT_START_ORIGINAL)] != HINT_START_ORIGINAL:
+        raise SystemExit('hint fixture site 0x%05X does not hold %s'
+                         % (HINT_START_SITE, HINT_START_ORIGINAL.hex()))
+    for screen, (page_label, tileset_label) in hint_pairs.items():
+        patch_bytes, reason = HINT_FIXTURES[screen]
+        fixture_rom = capture.package / ('hint_%s_test_only.gb' % screen.split('_')[1])
+        data = bytearray(src)
+        data[HINT_START_SITE:HINT_START_SITE + len(patch_bytes)] = patch_bytes
+        fixture_rom.write_bytes(bytes(data))
+        expected_tileset = _tileset_sha(by_label[tileset_label])
+        capture.fixtures.append({
+            'screen': screen,
+            'type': 'ROM_TRAMPOLINE',
+            'offset': '0x%05X' % HINT_START_SITE,
+            'before': HINT_START_ORIGINAL.hex(),
+            'after': patch_bytes.hex(),
+            'reason': reason,
+            'rom': fixture_rom.name,
+        })
+        with PyBoy(str(fixture_rom), window='null', sound_emulated=False,
+                   log_level='ERROR') as hint_boy:
+            hint_boy.set_emulation_speed(0)
+            for _ in range(232):
+                hint_boy.tick()
+            hint_boy.button_press('start')
+            for _ in range(12):
+                hint_boy.tick()
+            hint_boy.button_release('start')
+            # The tileset lands before the fade finishes, and a mid-fade frame has
+            # BGP=0 -- a blank white screenshot.  A page that is actually being
+            # shown has the normal palette (0xE4) and a BG map matching its source,
+            # so both signals must agree before the screenshot is taken.
+            from analyze_playthrough import map_ratio
+            manifest_h = common.load_manifest()
+            page_entry = next(e for e in manifest_h['resources']
+                              if e['label'] == page_label)
+            # A tilemap page spells its own map size; only bundle pages carry a
+            # `bundle` block, which is why this does not reuse page_map_bytes.
+            spec = page_entry['png']
+            width, height = spec['width'], spec['height']
+            expected_map = list(hal_codec.decode(
+                common.ROOT.joinpath('KirbyDreamLand_CHS-Monado.gb').read_bytes()[
+                    page_entry['offset']:page_entry['offset'] + page_entry['packed_size']])[0])
+            seen = False
+            for _ in range(40000):
+                hint_boy.tick()
+                live = bytes(hint_boy.memory[0x8000:0x8000 + 0x1800])
+                if hashlib.sha256(live).hexdigest() != expected_tileset:
+                    continue
+                if hint_boy.memory[0xFF47] != 0xE4:
+                    continue
+                if map_ratio(bytes(hint_boy.memory[0x9800:0x9C00]),
+                             expected_map, width, height) >= 0.98:
+                    seen = True
+                    break
+            if not seen:
+                raise SystemExit('%s: hint page never settled' % screen)
+            capture.snapshot(hint_boy, screen,
+                             '通关提示页（%s）' % ('普通模式' if screen == 'hint_normal'
+                                                  else '额外模式'),
+                             'fixture',
+                             '把标题 START 分支改跳结局入口，走游戏自己的结局序列；'
+                             '等到 VRAM 里的 tileset 与期望页完全一致时截取')
+        fixture_rom.unlink()
 
     manifest = {
         'rom_sha256': capture.rom_sha,

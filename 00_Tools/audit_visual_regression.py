@@ -28,16 +28,12 @@ DEFAULT_REPORT = common.ROOT / 'docs' / 'VISUAL_REGRESSION_AUDIT.md'
 DYNAMIC_MAP_SCREENS = {'configuration', 'sound_test'}
 
 # screen dir -> page id expected by the package label/manifest (None = no page)
-# Pages with no emulator capture in this package.  The hint pages were retyped at
-# 12px in v0.5.3, which invalidated their v0.5.1 captures, and neither is reachable
-# from a cold boot under PyBoy (they follow a clear, behind a fade the fixture
-# cannot reproduce).  They are rendered from their own streams and pinned by
-# tests/test_hint_pages_render.py instead.  Listing them here keeps the gap
-# explicit: the audit reports them as *covered elsewhere*, not as covered.
-RENDER_ONLY_PAGES = {
-    'rom_055050': 'tests/test_hint_pages_render.py renders it from rom_054000 + map',
-    'rom_056110': 'tests/test_hint_pages_render.py renders it from rom_055130 + map',
-}
+# Pages the capture package cannot cover would be listed here so the gap stays
+# visible instead of silently counting as covered.  It is empty now: the hint
+# pages gained real captures through a ROM trampoline that walks the game's own
+# ending sequence (see capture_pages.py), so every active page is covered by an
+# emulator screenshot.
+RENDER_ONLY_PAGES = {}
 
 SCREEN_PAGES = {
     'title': 'rom_070000',

@@ -51,6 +51,12 @@ EXPECTED = {
     'stage_5_intro_scrolled': ('rom_06db85', 0.98),
     'game_over': ('rom_04454c', 0.98),
     'continue': ('rom_044734', 0.98),
+    # The clear-screen hint pages, reached by a ROM trampoline through the
+    # game's own ending sequence.  rom_055050 is the normal-clear page (how to
+    # reach Extra Game); rom_056110 is the extra-clear page (how to reach
+    # Configuration).  Their map lives in the page, tiles in a separate resource.
+    'hint_normal': ('rom_055050', 0.98),
+    'hint_extra': ('rom_056110', 0.98),
 }
 
 
@@ -111,7 +117,7 @@ class CapturePageTests(unittest.TestCase):
                 natural += 1
             else:
                 fixture += 1
-        self.assertEqual((natural, fixture), (5, 8))
+        self.assertEqual((natural, fixture), (5, 10))
 
     def test_fixtures_are_documented_with_their_mechanism(self):
         types = {item['type'] for item in self.manifest['fixtures']}
