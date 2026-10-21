@@ -145,16 +145,25 @@ def audit(package):
         (common.ROOT / 'KirbyDreamLand_CHS-Monado.gb').read_bytes()).hexdigest()
     rows = []
     problems = []
-    for screen_dir in sorted((package / 'captures').iterdir()):
+    captures = package / 'captures'
+    entries = {item['screen']: item for item in summary['screens']}
+    # The manifest may alias a screen to another capture when it has no state of
+    # its own (intro_decoration is the shared 0x8800 tile stream behind stages
+    # 1-4), so walk the union of manifest entries and capture directories.
+    names = sorted(set(entries) | {path.name for path in captures.iterdir()
+                                   if path.is_dir()})
+    for name in names:
+        entry = entries.get(name, {})
+        screen_dir = captures / (entry.get('alias_of') or name)
         if not screen_dir.is_dir():
+            problems.append('%s: no capture directory' % name)
             continue
-        name = screen_dir.name
         state = _load(screen_dir / 'state.json')
         vram = (screen_dir / 'vram.bin').read_bytes()
         bgmap = (screen_dir / 'bgmap.bin').read_bytes()
         expected_page = SCREEN_PAGES.get(name)
-        caption = next((item['label'] for item in summary['screens']
-                        if item['screen'] == name), '')
+        caption = entry.get('label', '')
+        alias_of = entry.get('alias_of')
         # A capture records the ROM it came from.  That revision can differ from
         # the current build while the *page content* is unchanged -- the gallery
         # and HUD resources have not moved since their captures were taken.  What
@@ -165,6 +174,7 @@ def audit(package):
             'screen': name,
             'capture_revision_matches': not stale_capture,
             'label': caption,
+            'alias_of': alias_of,
             'expected_page': expected_page,
             'best_page': None,
             'map_ratio': 0.0,
@@ -260,8 +270,11 @@ def render_report(result):
     lines.append('| 画面 | 说明 | 期望页面 | 地图匹配 | tile 匹配 | 地图来源 | 动态差异 | 状态 |')
     lines.append('| --- | --- | --- | ---: | ---: | --- | ---: | --- |')
     for row in result['rows']:
+        caption = row['label']
+        if row.get('alias_of'):
+            caption += '（`%s` 的别名，共用同一状态）' % row['alias_of']
         lines.append('| `%s` | %s | %s | %s | %s | %s | %s | %s |'
-                     % (row['screen'], row['label'],
+                     % (row['screen'], caption,
                         '`%s`' % row['expected_page'] if row['expected_page'] else '-',
                         '-' if row['expected_page'] is None else '%.3f' % row['map_ratio'],
                         '-' if row['expected_page'] is None else '%.3f' % row['tile_ratio'],

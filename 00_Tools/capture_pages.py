@@ -203,6 +203,20 @@ class Capture:
                              'note': note, 'frame': boy.frame_count})
         print('  %-18s frame %5d  %-8s %s' % (name, boy.frame_count, method, label))
 
+    def alias(self, name, target, label, method, note):
+        """Record a screen that has no state of its own: it reuses `target`.
+
+        Some manifest entries are shared resources rather than independent
+        screens (intro_decoration is the 0x8800 tile stream behind stages 1-4).
+        Storing a second identical capture would only duplicate bytes, so the
+        manifest points at the capture that already holds the state and the audit
+        resolves the alias.
+        """
+        frame = next(s['frame'] for s in self.screens if s['screen'] == target)
+        self.screens.append({'screen': name, 'label': label, 'reachability': method,
+                             'note': note, 'frame': frame, 'alias_of': target})
+        print('  %-18s alias of %s' % (name, target))
+
 
 def drive(boy, frames, *buttons):
     for button in buttons:
@@ -243,7 +257,8 @@ def render_overview(package, screens):
         row, col = divmod(index, cols)
         x = pad + col * (cell_w + pad)
         y = 26 + pad + row * (cell_h + label + pad)
-        image = Image.open(package / 'captures' / screen['screen'] / 'screen.png')
+        source = screen.get('alias_of') or screen['screen']
+        image = Image.open(package / 'captures' / source / 'screen.png')
         sheet.paste(image.convert('RGB').resize((cell_w, cell_h), Image.NEAREST), (x, y))
         draw.rectangle([x, y, x + cell_w - 1, y + cell_h - 1], outline=(170, 170, 170))
         draw.text((x + 2, y + cell_h + 3),
@@ -363,13 +378,13 @@ def run(rom, package):
                              '由 game 自己的装载路径载入该关介绍' % stage)
             if stage == 0:
                 # intro_decoration (rom_058000) is not an independent screen: it is
-                # the shared 0x8800 tile stream behind stages 1-4 and CONTINUE.
-                # Recording the identical state under its own name keeps the audit
-                # checking the shared decoration without a second emulator run.
-                capture.snapshot(stage_boy, 'opening_decoration',
-                                 '开场装饰（与场景 1 介绍共用资源）', 'fixture',
-                                 '与 stage_1_intro 同一状态；intro_decoration 是场景 1-4 '
-                                 '介绍与 CONTINUE 共用的 0x8800 图块流，并非独立画面')
+                # the shared 0x8800 tile stream behind stages 1-4 and CONTINUE, so
+                # the manifest aliases it to stage_1_intro instead of storing a
+                # second byte-identical capture.
+                capture.alias('opening_decoration', 'stage_1_intro',
+                              '开场装饰（与场景 1 介绍共用资源）', 'fixture',
+                              '与 stage_1_intro 同一状态；intro_decoration 是场景 1-4 '
+                              '介绍与 CONTINUE 共用的 0x8800 图块流，并非独立画面')
             if stage == 4:
                 # Stage 5 is a 256x240 page: the intro scrolls down to reveal the
                 # artwork below the caption, so a single frame only shows the top.

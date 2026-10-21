@@ -38,7 +38,7 @@
 | `hud_extra` | 游戏内 HUD（额外模式） | `rom_041103` | 0.000 | 1.000 | - | - | PASS |
 | `hud_normal` | 游戏内 HUD（普通模式） | `rom_041000` | 0.000 | 1.000 | - | - | PASS |
 | `main_menu` | 主界面（额外游戏） | `rom_070000` | 1.000 | 1.000 | bgmap | - | PASS |
-| `opening_decoration` | 开场装饰（与场景 1 介绍共用资源） | `rom_058000` | 0.000 | 1.000 | - | - | PASS |
+| `opening_decoration` | 开场装饰（与场景 1 介绍共用资源）（`stage_1_intro` 的别名，共用同一状态） | `rom_058000` | 0.000 | 1.000 | - | - | PASS |
 | `sound_test` | 声音测试 | `rom_0438f6` | 0.998 | 1.000 | bgmap | 1 | PASS_DYNAMIC |
 | `stage_1_intro` | 场景 1 介绍 | `rom_06c000` | 1.000 | 1.000 | bgmap | - | PASS |
 | `stage_2_intro` | 场景 2 介绍 | `rom_06c70b` | 1.000 | 1.000 | bgmap | - | PASS |

@@ -122,9 +122,13 @@ class CapturePageTests(unittest.TestCase):
         self.assertEqual(captured, set(EXPECTED) | NO_PAGE)
 
     def test_each_screen_matches_its_page(self):
+        entries = {item['screen']: item for item in self.manifest['screens']}
         for screen, (page, minimum) in sorted(EXPECTED.items()):
             with self.subTest(screen=screen):
-                directory = PACKAGE / 'captures' / screen
+                # A screen may alias another capture when it has no state of its
+                # own (intro_decoration is shared with the stage 1 intro).
+                source = entries[screen].get('alias_of') or screen
+                directory = PACKAGE / 'captures' / source
                 vram = (directory / 'vram.bin').read_bytes()
                 bgmap = (directory / 'bgmap.bin').read_bytes()
                 model = self.models[page]
