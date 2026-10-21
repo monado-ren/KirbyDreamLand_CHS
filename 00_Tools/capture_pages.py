@@ -261,10 +261,11 @@ def render_overview(package, screens):
         image = Image.open(package / 'captures' / source / 'screen.png')
         sheet.paste(image.convert('RGB').resize((cell_w, cell_h), Image.NEAREST), (x, y))
         draw.rectangle([x, y, x + cell_w - 1, y + cell_h - 1], outline=(170, 170, 170))
+        alias = screen.get('alias_of')
+        tag = 'A' if alias else ('N' if screen['reachability'] == 'natural' else 'F')
+        name = '%s -> %s' % (screen['screen'], alias) if alias else screen['screen']
         draw.text((x + 2, y + cell_h + 3),
-                  '%02d [%s] %s' % (index + 1,
-                                    'N' if screen['reachability'] == 'natural' else 'F',
-                                    screen['screen']),
+                  '%02d [%s] %s' % (index + 1, tag, name),
                   fill='black', font=font)
     sheet.save(package / 'CAPTURE_OVERVIEW.png')
 
