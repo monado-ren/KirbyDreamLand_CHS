@@ -96,7 +96,7 @@ def build_fixture_roms(rom_bytes, out_dir):
     return roms
 
 
-def record(name, rom, start, end, keys, args, out_dir):
+def record(name, rom, start, end, keys, args, out_dir, overlay=None):
     mp4 = out_dir / f"{name}.mp4"
     vid = out_dir / f"{name}.video.mp4"
     wav = Path(f"/tmp/{name}.wav")
@@ -109,10 +109,21 @@ def record(name, rom, start, end, keys, args, out_dir):
     capture = [args.sameboy, "--frames", str(end), "--record", str(fifo),
                "--record-from", str(start), "--keys", keys,
                "--audio", str(wav), str(rom)]
-    encode = ["ffmpeg", "-y", "-loglevel", "error", "-f", "rawvideo",
-              "-pix_fmt", "rgb24", "-s", "960x864", "-r", FPS, "-i", "-",
-              "-c:v", "libx264", "-preset", "veryfast", "-crf", "20",
-              "-pix_fmt", "yuv420p", str(vid)]
+    if overlay:
+        bg_file, bx, by = overlay
+        # Single encode: the background is composited into the same pass that
+        # turns the raw frames into H.264, so nothing has to be re-encoded later.
+        encode = ["ffmpeg", "-y", "-loglevel", "error", "-f", "rawvideo",
+                  "-pix_fmt", "rgb24", "-s", "960x864", "-r", FPS, "-i", "-",
+                  "-loop", "1", "-i", str(bg_file), "-filter_complex",
+                  f"[1:v][0:v]overlay={bx}:{by}:shortest=1,format=yuv420p[v]",
+                  "-map", "[v]", "-r", FPS, "-c:v", "libx264", "-preset",
+                  "veryfast", "-crf", "20", "-pix_fmt", "yuv420p", str(vid)]
+    else:
+        encode = ["ffmpeg", "-y", "-loglevel", "error", "-f", "rawvideo",
+                  "-pix_fmt", "rgb24", "-s", "960x864", "-r", FPS, "-i", "-",
+                  "-c:v", "libx264", "-preset", "veryfast", "-crf", "20",
+                  "-pix_fmt", "yuv420p", str(vid)]
 
     proc = subprocess.Popen(capture, stdout=subprocess.DEVNULL,
                             stderr=subprocess.DEVNULL, env=env,
@@ -183,6 +194,9 @@ def main():
     parser.add_argument("--shadow-blur", type=float, default=50.0)
     parser.add_argument("--only", nargs="*")
     parser.add_argument("--skip-composite", action="store_true")
+    parser.add_argument("--clean-segments", action="store_true",
+                        help="keep segments at 960x864 and composite afterwards "
+                             "(two encodes); default is a single encode")
     args = parser.parse_args()
     # The emulator runs with cwd next to its own binary, so every path handed to
     # it (and to ffmpeg) has to be absolute.
@@ -196,22 +210,36 @@ def main():
     roms = build_fixture_roms(Path(args.rom).read_bytes(), Path(args.rom_dir))
     roms["base"] = Path(args.rom).resolve()
 
+    overlay = None
+    if not args.clean_segments:
+        bg_file = Path("/tmp/review_bg_shadow.png")
+        bx, by = build_background(Path(args.bg), (960, 864), args.shadow_blur, bg_file)
+        overlay = (bg_file, bx, by)
+
     produced = {}
     for name, rom_key, start, end, keys in RUNS:
         if args.only and not any(o in name for o in args.only):
             continue
         print(f"{name}: {start}..{end - 1}", flush=True)
-        produced[name] = record(name, roms[rom_key], start, end, keys, args, out_dir)
+        produced[name] = record(name, roms[rom_key], start, end, keys, args,
+                                out_dir, overlay)
 
-    combined = out_dir / "ALL_COMBINED.mp4"
     order = [n for n in COMBINED_ORDER if (out_dir / f"{n}.mp4").exists()]
     if len(order) == len(COMBINED_ORDER):
-        concat([out_dir / f"{n}.mp4" for n in order], combined)
-        print(f"concat: {len(order)} segments -> {combined}", flush=True)
-        if not args.skip_composite:
+        if overlay:
+            # Already composited; the concat is the final cut, no re-encode.
             final = out_dir / "ALL_COMBINED_BG.mp4"
-            composite(Path(args.bg), combined, final, args.shadow_blur)
-            print(f"composite: {final}", flush=True)
+            concat([out_dir / f"{n}.mp4" for n in order], final)
+            print(f"concat (no re-encode): {len(order)} segments -> {final}",
+                  flush=True)
+        else:
+            combined = out_dir / "ALL_COMBINED.mp4"
+            concat([out_dir / f"{n}.mp4" for n in order], combined)
+            print(f"concat: {len(order)} segments -> {combined}", flush=True)
+            if not args.skip_composite:
+                final = out_dir / "ALL_COMBINED_BG.mp4"
+                composite(Path(args.bg), combined, final, args.shadow_blur)
+                print(f"composite: {final}", flush=True)
 
 
 if __name__ == "__main__":
