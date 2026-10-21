@@ -1,0 +1,287 @@
+diff --git a/SDL/gui.c b/SDL/gui.c
+index b8e69cd..9b9cd9f 100644
+--- a/SDL/gui.c
++++ b/SDL/gui.c
+@@ -28,6 +28,90 @@ char *dropped_state_file = NULL;
+ 
+ shader_t shader;
+ static SDL_Rect rect;
++
++/* ---- Internal frame capture -------------------------------------------
++ * Reads back the game rectangle right after the MonoLCD shader drew it, before
++ * the buffer swap, so the recorded pixels are exactly what SameBoy renders.
++ * Main.c sets capture_pending before each frame it wants written. */
++bool capture_pending = false;
++FILE *capture_stream = NULL;
++static uint8_t *capture_rgba = NULL;
++static size_t capture_rgba_size = 0;
++static uint8_t *capture_row = NULL;
++static size_t capture_row_size = 0;
++
++static void capture_rendered_frame(void);
++static GLuint capture_fbo = 0, capture_texture = 0;
++static int capture_fbo_width = 0, capture_fbo_height = 0;
++
++/* Render the MonoLCD shader into an offscreen framebuffer instead of the
++ * window. Presentation under a headless X server is the one thing that blocks,
++ * and offscreen rendering produces exactly the same pixels. */
++static void capture_render_offscreen(void *bitmap, void *previous,
++                                     unsigned width, unsigned height,
++                                     unsigned out_width, unsigned out_height,
++                                     GB_frame_blending_mode_t mode)
++{
++    width = out_width; height = out_height;
++    if (capture_fbo_width != (int) width || capture_fbo_height != (int) height) {
++        if (capture_fbo) glDeleteFramebuffers(1, &capture_fbo);
++        if (capture_texture) glDeleteTextures(1, &capture_texture);
++        glGenTextures(1, &capture_texture);
++        glBindTexture(GL_TEXTURE_2D, capture_texture);
++        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA,
++                     GL_UNSIGNED_BYTE, NULL);
++        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
++        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
++        glGenFramebuffers(1, &capture_fbo);
++        glBindFramebuffer(GL_FRAMEBUFFER, capture_fbo);
++        glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D,
++                               capture_texture, 0);
++        capture_fbo_width = width;
++        capture_fbo_height = height;
++    }
++    glBindFramebuffer(GL_FRAMEBUFFER, capture_fbo);
++    glViewport(0, 0, width, height);
++    glClearColor(0, 0, 0, 1);
++    glClear(GL_COLOR_BUFFER_BIT);
++    render_bitmap_with_shader(&shader, bitmap, previous,
++                              GB_get_screen_width(&gb), GB_get_screen_height(&gb),
++                              0, 0, width, height, mode);
++    capture_rendered_frame();
++    glBindFramebuffer(GL_FRAMEBUFFER, 0);
++}
++
++static void capture_rendered_frame(void)
++{
++    if (!capture_pending || !capture_stream) return;
++    capture_pending = false;
++    int cap_w = capture_fbo_width, cap_h = capture_fbo_height;
++    size_t rgba_size = (size_t) cap_w * cap_h * 4;
++    size_t row_size = (size_t) cap_w * 3;
++    if (rgba_size > capture_rgba_size) {
++        free(capture_rgba);
++        capture_rgba = malloc(rgba_size);
++        capture_rgba_size = capture_rgba ? rgba_size : 0;
++        if (!capture_rgba) return;
++    }
++    if (row_size > capture_row_size) {
++        free(capture_row);
++        capture_row = malloc(row_size);
++        capture_row_size = capture_row ? row_size : 0;
++        if (!capture_row) return;
++    }
++    glPixelStorei(GL_PACK_ALIGNMENT, 1);
++    glReadPixels(0, 0, capture_fbo_width, capture_fbo_height, GL_RGBA, GL_UNSIGNED_BYTE, capture_rgba);
++    for (int y = cap_h - 1; y >= 0; y--) {
++        const uint8_t *src = capture_rgba + (size_t) y * cap_w * 4;
++        for (int x = 0; x < cap_w; x++) {
++            capture_row[x * 3 + 0] = src[x * 4 + 0];
++            capture_row[x * 3 + 1] = src[x * 4 + 1];
++            capture_row[x * 3 + 2] = src[x * 4 + 2];
++        }
++        fwrite(capture_row, 1, row_size, capture_stream);
++    }
++}
++
+ static unsigned factor;
+ 
+ void render_texture(void *pixels,  void *previous)
+@@ -59,6 +143,12 @@ void render_texture(void *pixels,  void *previous)
+                 mode = GB_is_odd_frame(&gb)? GB_FRAME_BLENDING_MODE_ACCURATE_ODD : GB_FRAME_BLENDING_MODE_ACCURATE_EVEN;
+             }
+         }
++        if (capture_stream) {
++            capture_render_offscreen(_pixels, previous,
++                                     GB_get_screen_width(&gb), GB_get_screen_height(&gb),
++                                     rect.w, rect.h, mode);
++            return;
++        }
+         render_bitmap_with_shader(&shader, _pixels, previous,
+                                   GB_get_screen_width(&gb), GB_get_screen_height(&gb),
+                                   rect.x, rect.y, rect.w, rect.h,
+@@ -107,10 +197,12 @@ configuration_t configuration =
+     .scaling_mode = GB_SDL_SCALING_INTEGER_FACTOR,
+     .blending_mode = GB_FRAME_BLENDING_MODE_ACCURATE,
+     .rewind_length = 60 * 2,
+-    .model = MODEL_CGB,
++    .model = MODEL_DMG,
++    .dmg_palette = 1,
++    .filter = "MonoLCD",
+     .volume = 100,
+     .rumble_mode = GB_RUMBLE_ALL_GAMES,
+-    .default_scale = 2,
++    .default_scale = 6,
+     .color_temperature = 10,
+ };
+ 
+diff --git a/SDL/main.c b/SDL/main.c
+index 29398b7..77809a5 100644
+--- a/SDL/main.c
++++ b/SDL/main.c
+@@ -488,6 +488,89 @@ static void load_boot_rom(GB_gameboy_t *gb, GB_boot_rom_t type)
+     }
+ }
+ 
++/* ---- Internal key script and frame-limited run ------------------------
++ * Same format as 00_Tools/sameboy_capture.c:
++ *   --keys "232:p:start,242:r:start"
++ * Events are applied before the frame with that index runs, so no external
++ * input injection (xdotool etc.) is involved. */
++extern bool capture_pending;
++extern FILE *capture_stream;
++
++typedef struct {
++    unsigned frame;
++    bool press;
++    GB_key_t keys[4];
++    unsigned count;
++} input_event_t;
++
++static input_event_t input_events[512];
++static unsigned input_event_count = 0;
++static unsigned frame_limit = 0;      /* 0 = unlimited */
++static unsigned record_from_frame = 0;
++static unsigned frame_index = 0;
++static bool capture_active = false;
++
++static GB_key_t key_from_name(const char *name)
++{
++    static const struct { const char *name; GB_key_t key; } table[] = {
++        {"right", GB_KEY_RIGHT}, {"left", GB_KEY_LEFT}, {"up", GB_KEY_UP},
++        {"down", GB_KEY_DOWN}, {"a", GB_KEY_A}, {"b", GB_KEY_B},
++        {"select", GB_KEY_SELECT}, {"start", GB_KEY_START},
++    };
++    for (size_t i = 0; i < sizeof(table) / sizeof(table[0]); i++)
++        if (strcmp(table[i].name, name) == 0) return table[i].key;
++    return GB_KEY_MAX;
++}
++
++static bool get_arg_value(const char *flag, int *argc, char **argv,
++                          const char **value)
++{
++    for (int i = 1; i < *argc - 1; i++) {
++        if (strcmp(argv[i], flag) == 0) {
++            if (value) *value = argv[i + 1];
++            for (int j = i; j + 2 < *argc; j++) argv[j] = argv[j + 2];
++            *argc -= 2;
++            return true;
++        }
++    }
++    return false;
++}
++
++static void parse_input_script(const char *script)
++{
++    char *copy = strdup(script);
++    for (char *entry = strtok(copy, ","); entry && input_event_count < 512;
++         entry = strtok(NULL, ",")) {
++        char *first = strchr(entry, ':');
++        if (!first) continue;
++        *first = 0;
++        char *second = strchr(first + 1, ':');
++        if (!second) continue;
++        *second = 0;
++        input_event_t *event = &input_events[input_event_count];
++        event->frame = (unsigned) strtoul(entry, NULL, 0);
++        event->press = strcmp(first + 1, "p") == 0;
++        event->count = 0;
++        char *key_text = strtok(second + 1, "+");
++        while (key_text && event->count < 4) {
++            GB_key_t key = key_from_name(key_text);
++            if (key != GB_KEY_MAX) event->keys[event->count++] = key;
++            key_text = strtok(NULL, "+");
++        }
++        if (event->count) input_event_count++;
++    }
++    free(copy);
++}
++
++static void apply_input_events(unsigned frame)
++{
++    for (unsigned i = 0; i < input_event_count; i++) {
++        if (input_events[i].frame != frame) continue;
++        for (unsigned k = 0; k < input_events[i].count; k++)
++            GB_set_key_state(&gb, input_events[i].keys[k], input_events[i].press);
++    }
++}
++
+ static void run(void)
+ {
+     SDL_ShowCursor(SDL_DISABLE);
+@@ -592,7 +675,31 @@ restart:
+                 }
+                 do_rewind = false;
+             }
+-            GB_run(&gb);
++            if (capture_active) {
++                apply_input_events(frame_index);
++                capture_pending = frame_index >= record_from_frame;
++            }
++            /* In capture mode run a whole frame unconditionally: GB_run() stops at
++             * the next vblank, which never comes while the boot ROM has the LCD
++             * off, so the run would crawl. */
++            if (capture_active) {
++                GB_run_frame(&gb);
++            }
++            else {
++                GB_run(&gb);
++            }
++            if (capture_active) {
++                frame_index++;
++                if (frame_limit && frame_index >= frame_limit) {
++                    if (capture_stream) {
++                        fflush(capture_stream);
++                        fclose(capture_stream);
++                        capture_stream = NULL;
++                    }
++                    fprintf(stderr, "captured %u frames\n", frame_index);
++                    exit(0);
++                }
++            }
+         }
+         
+         /* These commands can't run in the handle_event function, because they're not safe in a vblank context. */
+@@ -638,8 +745,16 @@ int main(int argc, char **argv)
+     
+     bool fullscreen = get_arg_flag("--fullscreen", &argc, argv);
+ 
++    const char *keys_script = NULL, *frames_text = NULL, *record_text = NULL,
++               *record_from_text = NULL;
++    get_arg_value("--keys", &argc, argv, &keys_script);
++    get_arg_value("--frames", &argc, argv, &frames_text);
++    get_arg_value("--record", &argc, argv, &record_text);
++    get_arg_value("--record-from", &argc, argv, &record_from_text);
++
+     if (argc > 2) {
+-        fprintf(stderr, "Usage: %s [--fullscreen] [rom]\n", argv[0]);
++        fprintf(stderr, "Usage: %s [--fullscreen] [--keys SCRIPT] [--frames N] "
++                        "[--record PATH] [--record-from F] [rom]\n", argv[0]);
+         exit(1);
+     }
+     
+@@ -687,6 +802,18 @@ int main(int argc, char **argv)
+     }
+     
+     atexit(save_configuration);
++
++    if (keys_script) parse_input_script(keys_script);
++    if (frames_text) frame_limit = (unsigned) strtoul(frames_text, NULL, 0);
++    if (record_from_text) record_from_frame = (unsigned) strtoul(record_from_text, NULL, 0);
++    if (record_text) {
++        capture_stream = fopen(record_text, "wb");
++        if (!capture_stream) {
++            fprintf(stderr, "cannot open %s for recording\n", record_text);
++            exit(1);
++        }
++    }
++    capture_active = capture_stream != NULL || input_event_count > 0 || frame_limit > 0;
+     
+     SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
+     SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 2);

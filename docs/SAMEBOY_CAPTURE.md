@@ -103,3 +103,25 @@ v0.5.4 的通关提示页精灵修复就是用这套驱动验证的：
 - `--boot` 与 `.sna` 都不入库（见 `00_Tools/audit_public_tree.py`）。
 - SameBoy 的 `BootROMs/*.asm` 需要 rgbds 汇编；本机 rgbds 1.0.4 的语法与
   旧脚本不兼容，因此这里直接用现成的 256 字节启动 ROM，而不是现场汇编。
+
+## GUI 取帧（真实滤镜渲染，推荐）
+
+上面这套无头驱动只能拿到 Core 的 160×144 原始缓冲。`Monochrome LCD Display`
+这类滤镜是 SDL 前端的 GLSL 着色器（`Shaders/MonoLCD.fsh` 经 `MasterShader.fsh` 拼接），
+外面还套着帧混合（`previous_image`）、`origin`/`output_resolution` 变换和 sRGB 处理，
+**无法**在 CPU 上复刻——曾经照抄那 40 行数学做过一版移植，和真实输出明显不一致，已弃用。
+
+正确做法是给 SDL 前端打补丁，让它自己渲染、自己抓帧：
+
+- 补丁：`00_Tools/sameboy_gui_capture.patch`
+- 新增 `--keys`（内部按键脚本，不用 xdotool）、`--frames`、`--record`、`--record-from`
+- 渲染到离屏 FBO 再 `glReadPixels`，不调用 `SDL_GL_SwapWindow`
+- 默认 `MonoLCD` + `Lime (Game Boy)` 调色板 + 6× 缩放 + ACCURATE 帧混合
+
+两个关键坑：
+
+1. 必须用 `GB_run_frame` 而不是 `GB_run`。后者跑到「下一次 vblank」就返回，而启动 ROM
+   阶段 LCD 未开、永远没有 vblank，会导致每次只执行一条指令，PC 在 `$0000-$000A` 空转。
+2. 必须离屏渲染。Xvfb + Mesa 软件渲染没有 DRI3，`SDL_GL_SwapWindow` 会卡死在 `poll()`。
+
+运行方式与产物说明见 `build/review_sameboy/README.md`。
