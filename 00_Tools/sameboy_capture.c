@@ -393,6 +393,16 @@ int main(int argc, char **argv)
                 unsigned line = gb.current_lcd_line;
                 if (line != last_line || ff46 != last_ff46
                     || shadow_hash != last_shadow || oam_hash != last_oam) {
+                    if (oam_hash != last_oam && oam) {
+                        static uint8_t previous_oam[0xA0];
+                        for (size_t k = 0; k < 0xA0 && k < os; k++) {
+                            if (previous_oam[k] != oam[k])
+                                fprintf(trace, "%u %3u OAM[%02zX] %02X->%02X pc=%04X b%u\n",
+                                        i, line, k, previous_oam[k], oam[k],
+                                        gb.pc, gb.mbc_rom_bank);
+                            previous_oam[k] = oam[k];
+                        }
+                    }
                     fprintf(trace, "%u %3u %02X %08X %08X %04X %u\n",
                             i, line, ff46, shadow_hash, oam_hash, gb.pc,
                             gb.mbc_rom_bank);
