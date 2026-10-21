@@ -122,10 +122,10 @@ index b8e69cd..9b9cd9f 100644
  };
  
 diff --git a/SDL/main.c b/SDL/main.c
-index 29398b7..042504e 100644
+index 29398b7..6cbab51 100644
 --- a/SDL/main.c
 +++ b/SDL/main.c
-@@ -23,6 +23,48 @@ static uint32_t *active_pixel_buffer = pixel_buffer_1, *previous_pixel_buffer =
+@@ -23,6 +23,50 @@ static uint32_t *active_pixel_buffer = pixel_buffer_1, *previous_pixel_buffer =
  static bool underclock_down = false, rewind_down = false, do_rewind = false, rewind_paused = false, turbo_down = false;
  static double clock_mutliplier = 1.0;
  
@@ -136,10 +136,12 @@ index 29398b7..042504e 100644
 +#define AUDIO_SAMPLE_RATE 48000
 +static FILE *audio_file = NULL;
 +static unsigned long long audio_sample_count = 0;
++static bool audio_active = false;   /* false while the leading frames are skipped */
 +
 +static void audio_file_callback(GB_gameboy_t *gb, GB_sample_t *sample)
 +{
 +    (void) gb;
++    if (!audio_active) return;
 +    int16_t frame[2] = {sample->left, sample->right};
 +    fwrite(frame, sizeof(frame), 1, audio_file);
 +    audio_sample_count++;
@@ -174,7 +176,7 @@ index 29398b7..042504e 100644
  static char *filename = NULL;
  static typeof(free) *free_function = NULL;
  static char *battery_save_path_ptr;
-@@ -488,6 +530,93 @@ static void load_boot_rom(GB_gameboy_t *gb, GB_boot_rom_t type)
+@@ -488,6 +532,93 @@ static void load_boot_rom(GB_gameboy_t *gb, GB_boot_rom_t type)
      }
  }
  
@@ -268,7 +270,7 @@ index 29398b7..042504e 100644
  static void run(void)
  {
      SDL_ShowCursor(SDL_DISABLE);
-@@ -531,7 +660,13 @@ restart:
+@@ -531,7 +662,13 @@ restart:
          GB_set_rewind_length(&gb, configuration.rewind_length);
          GB_set_rtc_mode(&gb, configuration.rtc_mode);
          GB_set_update_input_hint_callback(&gb, handle_events);
@@ -283,11 +285,16 @@ index 29398b7..042504e 100644
      }
  
      bool error = false;
-@@ -592,7 +727,33 @@ restart:
+@@ -592,7 +729,38 @@ restart:
                  }
                  do_rewind = false;
              }
 -            GB_run(&gb);
++            if (audio_file) {
++                /* Skip the same leading frames the video skips, otherwise the
++                 * audio keeps the boot chime and everything is out of sync. */
++                audio_active = frame_index >= record_from_frame;
++            }
 +            if (capture_active) {
 +                apply_input_events(frame_index);
 +                capture_pending = frame_index >= record_from_frame;
@@ -318,7 +325,7 @@ index 29398b7..042504e 100644
          }
          
          /* These commands can't run in the handle_event function, because they're not safe in a vblank context. */
-@@ -638,8 +799,18 @@ int main(int argc, char **argv)
+@@ -638,8 +806,18 @@ int main(int argc, char **argv)
      
      bool fullscreen = get_arg_flag("--fullscreen", &argc, argv);
  
@@ -338,7 +345,7 @@ index 29398b7..042504e 100644
          exit(1);
      }
      
-@@ -687,6 +858,27 @@ int main(int argc, char **argv)
+@@ -687,6 +865,27 @@ int main(int argc, char **argv)
      }
      
      atexit(save_configuration);
