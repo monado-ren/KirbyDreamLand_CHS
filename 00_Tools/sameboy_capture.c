@@ -391,15 +391,26 @@ int main(int argc, char **argv)
                     oam_hash = (oam_hash ^ oam[k]) * 16777619u;
                 unsigned ff46 = gb.io_registers[0x46];
                 unsigned line = gb.current_lcd_line;
+                static unsigned last_steps = 0;
+                if (gb.dma_steps_left && !last_steps) {
+                    fprintf(trace, "%u DMA-start line=%u src=%04X pc=%04X b%u\n",
+                            i, line, gb.dma_current_src, gb.pc, gb.mbc_rom_bank);
+                }
+                last_steps = gb.dma_steps_left;
                 if (line != last_line || ff46 != last_ff46
                     || shadow_hash != last_shadow || oam_hash != last_oam) {
                     if (oam_hash != last_oam && oam) {
                         static uint8_t previous_oam[0xA0];
                         for (size_t k = 0; k < 0xA0 && k < os; k++) {
                             if (previous_oam[k] != oam[k])
-                                fprintf(trace, "%u %3u OAM[%02zX] %02X->%02X pc=%04X b%u\n",
+                                fprintf(trace, "%u %3u OAM[%02zX] %02X->%02X pc=%04X b%u "
+                                        "DE=%04X HL=%04X SP=%04X row=%02X\n",
                                         i, line, k, previous_oam[k], oam[k],
-                                        gb.pc, gb.mbc_rom_bank);
+                                        gb.pc, gb.mbc_rom_bank,
+                                        gb.registers[GB_REGISTER_DE],
+                                        gb.registers[GB_REGISTER_HL],
+                                        gb.registers[GB_REGISTER_SP],
+                                        gb.accessed_oam_row);
                             previous_oam[k] = oam[k];
                         }
                     }
