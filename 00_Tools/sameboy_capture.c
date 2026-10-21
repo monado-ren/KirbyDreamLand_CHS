@@ -241,6 +241,7 @@ int main(int argc, char **argv)
     const char *record_until_text = arg_value(argc, argv, "--record-until");
     const char *dump_path = arg_value(argc, argv, "--dump");
     const char *oam_log_path = arg_value(argc, argv, "--oam-log");
+    const char *trace_path = arg_value(argc, argv, "--trace");
 
     if (!rom_path || has_flag(argc, argv, "--help")) {
         fprintf(stderr,
@@ -249,7 +250,7 @@ int main(int argc, char **argv)
             "          [--boot dmg_boot.bin] [--keys F:key+key,...] [--keys-hold N]\n"
             "          [--input F:p|r:key+key,...] [--record PATH|-]\n"
             "          [--record-from F] [--record-until F] [--dump PATH]\n"
-            "          [--oam-log PATH]\n",
+            "          [--oam-log PATH] [--trace PATH]\n",
             argv[0]);
         return 1;
     }
@@ -332,6 +333,15 @@ int main(int argc, char **argv)
     static input_event_t events[256];
     unsigned event_count = parse_events(arg_value(argc, argv, "--input"), events, 256);
 
+    FILE *trace = NULL;
+    if (trace_path) {
+        trace = fopen(trace_path, "w");
+        if (!trace) {
+            fprintf(stderr, "cannot open %s for trace\n", trace_path);
+            GB_free(&gb); return 1;
+        }
+    }
+
     FILE *oam_log = NULL;
     if (oam_log_path) {
         oam_log = fopen(oam_log_path, "wb");
@@ -364,7 +374,36 @@ int main(int argc, char **argv)
             for (unsigned k = 0; k < steps[s].count; k++)
                 GB_set_key_state(&gb, steps[s].keys[k], false);
         }
-        GB_run_frame(&gb);
+        if (trace && i >= record_from && i < record_until) {
+            /* Step instruction by instruction so a mid-frame shadow update can be
+             * told apart from a VBlank DMA.  Only changes are logged. */
+            static unsigned last_line = 0xFFFF, last_ff46 = 0xFFFF;
+            static uint32_t last_shadow = 0, last_oam = 0;
+            while (true) {
+                GB_run(&gb);
+                size_t ws = 0, os = 0;
+                uint8_t *wram = GB_get_direct_access(&gb, GB_DIRECT_ACCESS_RAM, &ws, NULL);
+                uint8_t *oam = GB_get_direct_access(&gb, GB_DIRECT_ACCESS_OAM, &os, NULL);
+                uint32_t shadow_hash = 2166136261u, oam_hash = 2166136261u;
+                for (size_t k = 0; k < 0xA0 && wram && k < ws; k++)
+                    shadow_hash = (shadow_hash ^ wram[k]) * 16777619u;
+                for (size_t k = 0; k < os; k++)
+                    oam_hash = (oam_hash ^ oam[k]) * 16777619u;
+                unsigned ff46 = gb.io_registers[0x46];
+                unsigned line = gb.current_lcd_line;
+                if (line != last_line || ff46 != last_ff46
+                    || shadow_hash != last_shadow || oam_hash != last_oam) {
+                    fprintf(trace, "%u %3u %02X %08X %08X %04X %u\n",
+                            i, line, ff46, shadow_hash, oam_hash, gb.pc,
+                            gb.mbc_rom_bank);
+                    last_line = line; last_ff46 = ff46;
+                    last_shadow = shadow_hash; last_oam = oam_hash;
+                }
+                if (gb.vblank_just_occured) break;
+            }
+        } else {
+            GB_run_frame(&gb);
+        }
         if (oam_log && i >= record_from && i < record_until) {
             size_t oam_size = 0;
             uint8_t *oam = GB_get_direct_access(&gb, GB_DIRECT_ACCESS_OAM, &oam_size, NULL);
@@ -385,6 +424,7 @@ int main(int argc, char **argv)
         if (record != stdout) fclose(record);
     }
     if (oam_log) fclose(oam_log);
+    if (trace) fclose(trace);
 
     if (shot_path && !write_png(shot_path, pixels, 160, 144)) {
         GB_free(&gb); return 1;
