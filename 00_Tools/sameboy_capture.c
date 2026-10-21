@@ -15,6 +15,8 @@
  *   sameboy_capture --rom R [--state S] [--frames N] [--shot P]
  *                   [--breakpoint ADDR] [--save-state P] [--model dmg|cgb]
  *                   [--boot dmg_boot.bin] [--keys F:key+key,...] [--keys-hold N]
+ *                   [--input SCRIPT] [--record PATH] [--record-from F]
+ *                   [--record-until F]
  *
  * --boot is required in practice.  SameBoy has no built-in boot ROM: without one
  * the CPU never leaves the boot area, the LCD stays off and no frame is ever
@@ -22,6 +24,15 @@
  * 256 bytes); the checksum used here is in docs/SAMEBOY_CAPTURE.md.
  *
  * --keys drives input without a .dem file, e.g. `--keys 240:start`.
+ *
+ * --input is the exact-frame form the recorded sessions need:
+ *   "232:p:up+select+a,236:r:up+select+a,267:p:start,277:r:start"
+ * Each event is `<frame>:<p|r>:<key>[+<key>...]` and is applied *before* that
+ * frame runs, so frame F sees the new key state.
+ *
+ * --record streams raw RGB24 frames (160x144) to PATH, or to stdout when PATH is
+ * `-`, so a pipe can feed ffmpeg without touching the disk.  --record-from and
+ * --record-until bound the range (default 0 .. --frames).
  *
  * Exit codes: 0 done, 1 usage/IO error, 2 breakpoint reached before --frames.
  */
@@ -104,10 +115,35 @@ static bool write_png(const char *path, const uint32_t *source,
     return true;
 }
 
+/* One raw RGB24 frame, 160x144, written straight to the recording stream. */
+static bool write_frame(FILE *stream)
+{
+    static uint8_t row[160 * 3];
+    for (unsigned y = 0; y < 144; y++) {
+        for (unsigned x = 0; x < 160; x++) {
+            uint32_t p = pixels[y * 160 + x];
+            row[x * 3 + 0] = (uint8_t) ((p >> 16) & 0xFF);
+            row[x * 3 + 1] = (uint8_t) ((p >> 8) & 0xFF);
+            row[x * 3 + 2] = (uint8_t) (p & 0xFF);
+        }
+        if (fwrite(row, 1, sizeof(row), stream) != sizeof(row)) return false;
+    }
+    return true;
+}
+
 /* --keys takes a tiny script: comma-separated "<frame>:<key>[+<key>...]".
  * At each listed frame the keys are pressed for --keys-hold frames (default 8).
  * This mirrors the button demos the original BGB driver fed via -demoplay. */
 typedef struct { unsigned frame; GB_key_t keys[4]; unsigned count; } key_step_t;
+
+/* --input takes absolute press/release events:
+ * "<frame>:<p|r>:<key>[+<key>...]". */
+typedef struct {
+    unsigned frame;
+    bool press;
+    GB_key_t keys[4];
+    unsigned count;
+} input_event_t;
 
 static GB_key_t key_from_name(const char *name)
 {
@@ -152,6 +188,36 @@ static uint8_t *read_file(const char *path, size_t *size)
     return buffer;
 }
 
+static unsigned parse_events(const char *script, input_event_t *events,
+                             unsigned capacity)
+{
+    unsigned count = 0;
+    if (!script) return 0;
+    char *copy = strdup(script);
+    for (char *entry = strtok(copy, ","); entry && count < capacity;
+         entry = strtok(NULL, ",")) {
+        char *first = strchr(entry, ':');
+        if (!first) continue;
+        *first = 0;
+        char *second = strchr(first + 1, ':');
+        if (!second) continue;
+        *second = 0;
+        input_event_t *event = &events[count];
+        event->frame = (unsigned) strtoul(entry, NULL, 0);
+        event->press = strcmp(first + 1, "p") == 0;
+        event->count = 0;
+        char *key_text = strtok(second + 1, "+");
+        while (key_text && event->count < 4) {
+            GB_key_t key = key_from_name(key_text);
+            if (key != GB_KEY_MAX) event->keys[event->count++] = key;
+            key_text = strtok(NULL, "+");
+        }
+        if (event->count) count++;
+    }
+    free(copy);
+    return count;
+}
+
 int main(int argc, char **argv)
 {
     const char *rom_path = arg_value(argc, argv, "--rom");
@@ -162,17 +228,27 @@ int main(int argc, char **argv)
     const char *frames_text = arg_value(argc, argv, "--frames");
     const char *model_text = arg_value(argc, argv, "--model");
     const char *boot_path = arg_value(argc, argv, "--boot");
+    const char *record_path = arg_value(argc, argv, "--record");
+    const char *record_from_text = arg_value(argc, argv, "--record-from");
+    const char *record_until_text = arg_value(argc, argv, "--record-until");
 
     if (!rom_path || has_flag(argc, argv, "--help")) {
         fprintf(stderr,
             "Usage: %s --rom R [--state S] [--frames N] [--shot P]\n"
             "          [--breakpoint ADDR] [--save-state P] [--model dmg|cgb]\n"
-            "          [--boot dmg_boot.bin] [--keys F:key+key,...] [--keys-hold N]\n",
+            "          [--boot dmg_boot.bin] [--keys F:key+key,...] [--keys-hold N]\n"
+            "          [--input F:p|r:key+key,...] [--record PATH|-]\n"
+            "          [--record-from F] [--record-until F]\n",
             argv[0]);
         return 1;
     }
 
     unsigned frames = frames_text ? (unsigned) strtoul(frames_text, NULL, 0) : 0;
+    unsigned record_from = record_from_text
+        ? (unsigned) strtoul(record_from_text, NULL, 0) : 0;
+    unsigned record_until = record_until_text
+        ? (unsigned) strtoul(record_until_text, NULL, 0) : frames;
+    if (record_until > frames) record_until = frames;
     GB_model_t model = GB_MODEL_DMG_B;
     if (model_text && strcmp(model_text, "cgb") == 0) model = GB_MODEL_CGB_E;
 
@@ -242,7 +318,24 @@ int main(int argc, char **argv)
         free(copy);
     }
 
+    static input_event_t events[256];
+    unsigned event_count = parse_events(arg_value(argc, argv, "--input"), events, 256);
+
+    FILE *record = NULL;
+    if (record_path) {
+        record = strcmp(record_path, "-") == 0 ? stdout : fopen(record_path, "wb");
+        if (!record) {
+            fprintf(stderr, "cannot open %s for recording\n", record_path);
+            GB_free(&gb); return 1;
+        }
+    }
+
     for (unsigned i = 0; i < frames && !breakpoint_hit; i++) {
+        for (unsigned s = 0; s < event_count; s++) {
+            if (events[s].frame != i) continue;
+            for (unsigned k = 0; k < events[s].count; k++)
+                GB_set_key_state(&gb, events[s].keys[k], events[s].press);
+        }
         for (unsigned s = 0; s < step_count; s++) {
             if (steps[s].frame != i) continue;
             for (unsigned k = 0; k < steps[s].count; k++)
@@ -252,6 +345,16 @@ int main(int argc, char **argv)
                 GB_set_key_state(&gb, steps[s].keys[k], false);
         }
         GB_run_frame(&gb);
+        if (record && i >= record_from && i < record_until && !write_frame(record)) {
+            fprintf(stderr, "cannot write recorded frame %u\n", i);
+            if (record != stdout) fclose(record);
+            GB_free(&gb); return 1;
+        }
+    }
+
+    if (record) {
+        fflush(record);
+        if (record != stdout) fclose(record);
     }
 
     if (shot_path && !write_png(shot_path, pixels, 160, 144)) {
