@@ -406,13 +406,15 @@ int main(int argc, char **argv)
     }
 
     if (dump_path) {
-        size_t vram_size = 0, oam_size = 0;
+        size_t vram_size = 0, oam_size = 0, ram_size = 0;
         uint8_t *vram = GB_get_direct_access(&gb, GB_DIRECT_ACCESS_VRAM, &vram_size, NULL);
         uint8_t *oam = GB_get_direct_access(&gb, GB_DIRECT_ACCESS_OAM, &oam_size, NULL);
+        uint8_t *ram = GB_get_direct_access(&gb, GB_DIRECT_ACCESS_RAM, &ram_size, NULL);
         FILE *dump = fopen(dump_path, "wb");
-        if (!dump || !vram || !oam
+        if (!dump || !vram || !oam || !ram
             || fwrite(vram, 1, vram_size, dump) != vram_size
             || fwrite(oam, 1, oam_size, dump) != oam_size
+            || fwrite(ram, 1, ram_size, dump) != ram_size
             || fwrite(gb.io_registers, 1, 0x80, dump) != 0x80) {
             fprintf(stderr, "cannot write dump: %s\n", dump_path);
             if (dump) fclose(dump);
