@@ -122,10 +122,18 @@ index b8e69cd..9b9cd9f 100644
  };
  
 diff --git a/SDL/main.c b/SDL/main.c
-index 29398b7..77809a5 100644
+index 29398b7..59f1a98 100644
 --- a/SDL/main.c
 +++ b/SDL/main.c
-@@ -488,6 +488,89 @@ static void load_boot_rom(GB_gameboy_t *gb, GB_boot_rom_t type)
+@@ -22,6 +22,7 @@ static uint32_t pixel_buffer_1[256 * 224], pixel_buffer_2[256 * 224];
+ static uint32_t *active_pixel_buffer = pixel_buffer_1, *previous_pixel_buffer = pixel_buffer_2;
+ static bool underclock_down = false, rewind_down = false, do_rewind = false, rewind_paused = false, turbo_down = false;
+ static double clock_mutliplier = 1.0;
++static bool boot_complete = false;   /* set once the LCD produces vblanks */
+ 
+ static char *filename = NULL;
+ static typeof(free) *free_function = NULL;
+@@ -488,6 +489,89 @@ static void load_boot_rom(GB_gameboy_t *gb, GB_boot_rom_t type)
      }
  }
  
@@ -215,7 +223,7 @@ index 29398b7..77809a5 100644
  static void run(void)
  {
      SDL_ShowCursor(SDL_DISABLE);
-@@ -592,7 +675,31 @@ restart:
+@@ -592,7 +676,33 @@ restart:
                  }
                  do_rewind = false;
              }
@@ -224,9 +232,11 @@ index 29398b7..77809a5 100644
 +                apply_input_events(frame_index);
 +                capture_pending = frame_index >= record_from_frame;
 +            }
-+            /* In capture mode run a whole frame unconditionally: GB_run() stops at
-+             * the next vblank, which never comes while the boot ROM has the LCD
-+             * off, so the run would crawl. */
++            /* GB_run() stops at the next vblank, which never comes while the boot
++             * ROM has the LCD off, so the boot phase needs GB_run_frame().
++             * GB_run_frame() enables turbo mode, and turbo skips APU emulation -
++             * with it every game sound hangs, and games that wait for a jingle to
++             * finish (e.g. after a title-screen password) stop reading input. */
 +            if (capture_active) {
 +                GB_run_frame(&gb);
 +            }
@@ -248,7 +258,7 @@ index 29398b7..77809a5 100644
          }
          
          /* These commands can't run in the handle_event function, because they're not safe in a vblank context. */
-@@ -638,8 +745,16 @@ int main(int argc, char **argv)
+@@ -638,8 +748,16 @@ int main(int argc, char **argv)
      
      bool fullscreen = get_arg_flag("--fullscreen", &argc, argv);
  
@@ -266,7 +276,7 @@ index 29398b7..77809a5 100644
          exit(1);
      }
      
-@@ -687,6 +802,18 @@ int main(int argc, char **argv)
+@@ -687,6 +805,18 @@ int main(int argc, char **argv)
      }
      
      atexit(save_configuration);
