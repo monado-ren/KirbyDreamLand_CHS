@@ -122,7 +122,7 @@ index b8e69cd..9b9cd9f 100644
  };
  
 diff --git a/SDL/main.c b/SDL/main.c
-index 29398b7..4bc45d8 100644
+index 29398b7..042504e 100644
 --- a/SDL/main.c
 +++ b/SDL/main.c
 @@ -23,6 +23,48 @@ static uint32_t *active_pixel_buffer = pixel_buffer_1, *previous_pixel_buffer =
@@ -174,7 +174,7 @@ index 29398b7..4bc45d8 100644
  static char *filename = NULL;
  static typeof(free) *free_function = NULL;
  static char *battery_save_path_ptr;
-@@ -488,6 +530,89 @@ static void load_boot_rom(GB_gameboy_t *gb, GB_boot_rom_t type)
+@@ -488,6 +530,93 @@ static void load_boot_rom(GB_gameboy_t *gb, GB_boot_rom_t type)
      }
  }
  
@@ -229,8 +229,11 @@ index 29398b7..4bc45d8 100644
 +static void parse_input_script(const char *script)
 +{
 +    char *copy = strdup(script);
-+    for (char *entry = strtok(copy, ","); entry && input_event_count < 512;
-+         entry = strtok(NULL, ",")) {
++    /* strtok_r, not strtok: the key list is split inside the event loop and
++     * plain strtok() would share its state and corrupt the outer split. */
++    char *outer_save = NULL;
++    for (char *entry = strtok_r(copy, ",", &outer_save); entry && input_event_count < 512;
++         entry = strtok_r(NULL, ",", &outer_save)) {
 +        char *first = strchr(entry, ':');
 +        if (!first) continue;
 +        *first = 0;
@@ -241,11 +244,12 @@ index 29398b7..4bc45d8 100644
 +        event->frame = (unsigned) strtoul(entry, NULL, 0);
 +        event->press = strcmp(first + 1, "p") == 0;
 +        event->count = 0;
-+        char *key_text = strtok(second + 1, "+");
++        char *inner_save = NULL;
++        char *key_text = strtok_r(second + 1, "+", &inner_save);
 +        while (key_text && event->count < 4) {
 +            GB_key_t key = key_from_name(key_text);
 +            if (key != GB_KEY_MAX) event->keys[event->count++] = key;
-+            key_text = strtok(NULL, "+");
++            key_text = strtok_r(NULL, "+", &inner_save);
 +        }
 +        if (event->count) input_event_count++;
 +    }
@@ -264,7 +268,7 @@ index 29398b7..4bc45d8 100644
  static void run(void)
  {
      SDL_ShowCursor(SDL_DISABLE);
-@@ -531,7 +656,13 @@ restart:
+@@ -531,7 +660,13 @@ restart:
          GB_set_rewind_length(&gb, configuration.rewind_length);
          GB_set_rtc_mode(&gb, configuration.rtc_mode);
          GB_set_update_input_hint_callback(&gb, handle_events);
@@ -279,7 +283,7 @@ index 29398b7..4bc45d8 100644
      }
  
      bool error = false;
-@@ -592,7 +723,33 @@ restart:
+@@ -592,7 +727,33 @@ restart:
                  }
                  do_rewind = false;
              }
@@ -314,7 +318,7 @@ index 29398b7..4bc45d8 100644
          }
          
          /* These commands can't run in the handle_event function, because they're not safe in a vblank context. */
-@@ -638,8 +795,18 @@ int main(int argc, char **argv)
+@@ -638,8 +799,18 @@ int main(int argc, char **argv)
      
      bool fullscreen = get_arg_flag("--fullscreen", &argc, argv);
  
@@ -334,7 +338,7 @@ index 29398b7..4bc45d8 100644
          exit(1);
      }
      
-@@ -687,6 +854,27 @@ int main(int argc, char **argv)
+@@ -687,6 +858,27 @@ int main(int argc, char **argv)
      }
      
      atexit(save_configuration);

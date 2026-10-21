@@ -16,7 +16,7 @@
  *                   [--breakpoint ADDR] [--save-state P] [--model dmg|cgb]
  *                   [--boot dmg_boot.bin] [--keys F:key+key,...] [--keys-hold N]
  *                   [--input SCRIPT] [--record PATH] [--record-from F]
- *                   [--record-until F]
+ *                   [--record-until F] [--dump PATH]
  *
  * --boot is required in practice.  SameBoy has no built-in boot ROM: without one
  * the CPU never leaves the boot area, the LCD stays off and no frame is ever
@@ -33,6 +33,9 @@
  * --record streams raw RGB24 frames (160x144) to PATH, or to stdout when PATH is
  * `-`, so a pipe can feed ffmpeg without touching the disk.  --record-from and
  * --record-until bound the range (default 0 .. --frames).
+ *
+ * --dump writes the final machine state as raw VRAM (0x2000) + OAM (0xA0) +
+ * I/O registers (0x80) so two emulators can be compared at the same frame.
  *
  * Exit codes: 0 done, 1 usage/IO error, 2 breakpoint reached before --frames.
  */
@@ -194,8 +197,12 @@ static unsigned parse_events(const char *script, input_event_t *events,
     unsigned count = 0;
     if (!script) return 0;
     char *copy = strdup(script);
-    for (char *entry = strtok(copy, ","); entry && count < capacity;
-         entry = strtok(NULL, ",")) {
+    /* strtok_r, not strtok: the key list is split inside the event loop, and
+     * plain strtok() shares one parse position, which truncated the event list
+     * after the first entry and silently dropped every key release. */
+    char *outer_save = NULL;
+    for (char *entry = strtok_r(copy, ",", &outer_save); entry && count < capacity;
+         entry = strtok_r(NULL, ",", &outer_save)) {
         char *first = strchr(entry, ':');
         if (!first) continue;
         *first = 0;
@@ -206,11 +213,12 @@ static unsigned parse_events(const char *script, input_event_t *events,
         event->frame = (unsigned) strtoul(entry, NULL, 0);
         event->press = strcmp(first + 1, "p") == 0;
         event->count = 0;
-        char *key_text = strtok(second + 1, "+");
+        char *inner_save = NULL;
+        char *key_text = strtok_r(second + 1, "+", &inner_save);
         while (key_text && event->count < 4) {
             GB_key_t key = key_from_name(key_text);
             if (key != GB_KEY_MAX) event->keys[event->count++] = key;
-            key_text = strtok(NULL, "+");
+            key_text = strtok_r(NULL, "+", &inner_save);
         }
         if (event->count) count++;
     }
@@ -231,6 +239,8 @@ int main(int argc, char **argv)
     const char *record_path = arg_value(argc, argv, "--record");
     const char *record_from_text = arg_value(argc, argv, "--record-from");
     const char *record_until_text = arg_value(argc, argv, "--record-until");
+    const char *dump_path = arg_value(argc, argv, "--dump");
+    const char *oam_log_path = arg_value(argc, argv, "--oam-log");
 
     if (!rom_path || has_flag(argc, argv, "--help")) {
         fprintf(stderr,
@@ -238,7 +248,8 @@ int main(int argc, char **argv)
             "          [--breakpoint ADDR] [--save-state P] [--model dmg|cgb]\n"
             "          [--boot dmg_boot.bin] [--keys F:key+key,...] [--keys-hold N]\n"
             "          [--input F:p|r:key+key,...] [--record PATH|-]\n"
-            "          [--record-from F] [--record-until F]\n",
+            "          [--record-from F] [--record-until F] [--dump PATH]\n"
+            "          [--oam-log PATH]\n",
             argv[0]);
         return 1;
     }
@@ -321,6 +332,15 @@ int main(int argc, char **argv)
     static input_event_t events[256];
     unsigned event_count = parse_events(arg_value(argc, argv, "--input"), events, 256);
 
+    FILE *oam_log = NULL;
+    if (oam_log_path) {
+        oam_log = fopen(oam_log_path, "wb");
+        if (!oam_log) {
+            fprintf(stderr, "cannot open %s for OAM log\n", oam_log_path);
+            GB_free(&gb); return 1;
+        }
+    }
+
     FILE *record = NULL;
     if (record_path) {
         record = strcmp(record_path, "-") == 0 ? stdout : fopen(record_path, "wb");
@@ -345,6 +365,14 @@ int main(int argc, char **argv)
                 GB_set_key_state(&gb, steps[s].keys[k], false);
         }
         GB_run_frame(&gb);
+        if (oam_log && i >= record_from && i < record_until) {
+            size_t oam_size = 0;
+            uint8_t *oam = GB_get_direct_access(&gb, GB_DIRECT_ACCESS_OAM, &oam_size, NULL);
+            if (oam && fwrite(oam, 1, oam_size, oam_log) != oam_size) {
+                fprintf(stderr, "cannot write OAM log at frame %u\n", i);
+                fclose(oam_log); GB_free(&gb); return 1;
+            }
+        }
         if (record && i >= record_from && i < record_until && !write_frame(record)) {
             fprintf(stderr, "cannot write recorded frame %u\n", i);
             if (record != stdout) fclose(record);
@@ -356,6 +384,7 @@ int main(int argc, char **argv)
         fflush(record);
         if (record != stdout) fclose(record);
     }
+    if (oam_log) fclose(oam_log);
 
     if (shot_path && !write_png(shot_path, pixels, 160, 144)) {
         GB_free(&gb); return 1;
@@ -374,6 +403,22 @@ int main(int argc, char **argv)
             fprintf(stderr, "cannot write state: %s\n", save_path);
             GB_free(&gb); return 1;
         }
+    }
+
+    if (dump_path) {
+        size_t vram_size = 0, oam_size = 0;
+        uint8_t *vram = GB_get_direct_access(&gb, GB_DIRECT_ACCESS_VRAM, &vram_size, NULL);
+        uint8_t *oam = GB_get_direct_access(&gb, GB_DIRECT_ACCESS_OAM, &oam_size, NULL);
+        FILE *dump = fopen(dump_path, "wb");
+        if (!dump || !vram || !oam
+            || fwrite(vram, 1, vram_size, dump) != vram_size
+            || fwrite(oam, 1, oam_size, dump) != oam_size
+            || fwrite(gb.io_registers, 1, 0x80, dump) != 0x80) {
+            fprintf(stderr, "cannot write dump: %s\n", dump_path);
+            if (dump) fclose(dump);
+            GB_free(&gb); return 1;
+        }
+        fclose(dump);
     }
 
     size_t io_size = 0, vram_size = 0;
