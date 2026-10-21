@@ -5,7 +5,7 @@
 包由 `00_Tools/capture_pages.py` 从 `baserom.gb` 单独重建，不依赖外部模拟器存档。
 
 - 包内 ROM SHA-256：`bb754e254945009d2569ae47cd47c21c714cb59ad0cd005fbfa8348deb93f635`（与当前构建一致）
-- 模拟器：PyBoy；画面数：34；缺失画面：无
+- 模拟器：PyBoy；画面数：33；缺失画面：无
 - 原生重载校验：未记录；屏幕/内存/退出状态一致：未记录
 - 包内逐像素核验：不适用（PyBoy 截图直接取自模拟器帧缓冲，无需从 VRAM/OAM/IO 反推重建）
 - 页面覆盖：30/30 个活跃页面被此包覆盖；缺失：无
@@ -38,7 +38,6 @@
 | `hud_extra` | 游戏内 HUD（额外模式） | `rom_041103` | 0.000 | 1.000 | - | - | PASS |
 | `hud_normal` | 游戏内 HUD（普通模式） | `rom_041000` | 0.000 | 1.000 | - | - | PASS |
 | `main_menu` | 主界面（额外游戏） | `rom_070000` | 1.000 | 1.000 | bgmap | - | PASS |
-| `opening_decoration` | 开场装饰（与场景 1 介绍共用资源）（`stage_1_intro` 的别名，共用同一状态） | `rom_058000` | 0.000 | 1.000 | - | - | PASS |
 | `sound_test` | 声音测试 | `rom_0438f6` | 0.998 | 1.000 | bgmap | 1 | PASS_DYNAMIC |
 | `stage_1_intro` | 场景 1 介绍 | `rom_06c000` | 1.000 | 1.000 | bgmap | - | PASS |
 | `stage_2_intro` | 场景 2 介绍 | `rom_06c70b` | 1.000 | 1.000 | bgmap | - | PASS |
@@ -48,6 +47,7 @@
 | `stage_5_intro_scrolled` | 场景 5 介绍（滚动后） | - | - | - | - | - | NOT_LOCALIZED |
 | `title` | 标题 | `rom_070000` | 1.000 | 1.000 | bgmap | - | PASS |
 | `title_animation` | 标题（动画） | - | - | - | - | - | NOT_LOCALIZED |
+| `<shared:rom_058000>` | 共享图块流（由 `stage_1_intro` 的捕获覆盖） | `rom_058000` | 0.000 | 1.000 | - | - | PASS |
 
 ## 问题
 
@@ -60,6 +60,6 @@
 - `credits_bonus` 是未汉化的原版演职人员表滚动画面，不对应任何本地化页面，包内也标记为动态（非静态逐像素核验）。
 - `configuration` / `sound_test` 的地图差异是菜单光标/选项高亮在页面加载后写入 BG map 造成的动态格子，tile 块仍精确匹配，因此标为 `PASS_DYNAMIC`。
 - `hint_normal` 是普通模式通关后的提示页（提示如何进入额外模式），对应 `rom_055050`；`hint_extra` 是额外模式通关后的提示页（提示如何进入配置模式），对应 `rom_056110`。`change_surface.json` 的 purpose 已按此修正。
-- `title` 与 `main_menu` 都是 `rom_070000`；`opening_decoration` 是 `stage_1_intro` 的别名捕获，检查的是同一状态下的角标图块。
+- `title` 与 `main_menu` 都是 `rom_070000`；`intro_decoration`（`rom_058000`）是场景 1-4 介绍与 CONTINUE 共用的 0x8800 图块流，不是独立画面，因此不单独截图，而是用 `stage_1_intro` 的捕获（`<shared:rom_058000>` 行）核对。
 - sheet 页（HUD/角标/剧终牌）没有独立的 BG map 可比较，只看整块 tile 是否出现在 VRAM。
 - 本报告只核对包的外观数据与页面源；包由 `capture_pages.py` 重建，不随仓库分发任何模拟器存档或 ROM。

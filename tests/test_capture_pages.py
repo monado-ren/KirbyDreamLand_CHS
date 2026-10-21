@@ -6,7 +6,7 @@ the game *renders* them on screen.  Screens are matched by comparing captured
 BG-map cells against the page models, so a capture only passes when the live
 screen really is that page.
 
-The 34 screens split into two reachability classes, recorded in the manifest:
+The 33 screens split into two reachability classes, recorded in the manifest:
 
   natural  controller input from a cold boot (title, menu, configuration, HUD)
   fixture  the original project's technique -- patch a throwaway ROM copy or poke
@@ -60,9 +60,6 @@ EXPECTED = {
     # In-game HUDs: cold boot plus START (Extra mode needs the title password).
     'hud_normal': ('rom_041000', 0.98),
     'hud_extra': ('rom_041103', 0.98),
-    # intro_decoration is not an independent screen; it is the shared 0x8800 tile
-    # stream behind stages 1-4, captured from the stage_1_intro state.
-    'opening_decoration': ('rom_058000', 0.98),
     # The Extra-mode ending: credits, closing sign and the 14-page figure gallery.
     'ending_sign': ('rom_050000', 0.98),
     'gallery_01': ('rom_048462', 0.98),
@@ -125,10 +122,7 @@ class CapturePageTests(unittest.TestCase):
         entries = {item['screen']: item for item in self.manifest['screens']}
         for screen, (page, minimum) in sorted(EXPECTED.items()):
             with self.subTest(screen=screen):
-                # A screen may alias another capture when it has no state of its
-                # own (intro_decoration is shared with the stage 1 intro).
-                source = entries[screen].get('alias_of') or screen
-                directory = PACKAGE / 'captures' / source
+                directory = PACKAGE / 'captures' / screen
                 vram = (directory / 'vram.bin').read_bytes()
                 bgmap = (directory / 'bgmap.bin').read_bytes()
                 model = self.models[page]
@@ -156,7 +150,7 @@ class CapturePageTests(unittest.TestCase):
                 natural += 1
             else:
                 fixture += 1
-        self.assertEqual((natural, fixture), (7, 27))
+        self.assertEqual((natural, fixture), (7, 26))
 
     def test_fixtures_are_documented_with_their_mechanism(self):
         types = {item['type'] for item in self.manifest['fixtures']}

@@ -35,6 +35,13 @@ DYNAMIC_MAP_SCREENS = {'configuration', 'sound_test'}
 # emulator screenshot.
 RENDER_ONLY_PAGES = {}
 
+# Pages that are shared resources rather than screens of their own: the value is
+# the capture whose state already contains the page's tiles.  They are checked
+# against that capture instead of getting a duplicate entry in the manifest.
+SHARED_PAGES = {
+    'rom_058000': 'stage_1_intro',   # intro_decoration: stages 1-4 + CONTINUE
+}
+
 SCREEN_PAGES = {
     'title': 'rom_070000',
     'main_menu': 'rom_070000',
@@ -218,6 +225,33 @@ def audit(package):
         else:
             row['status'] = 'NOT_LOCALIZED'
         rows.append(row)
+    # Shared tile streams never get a screen of their own.  intro_decoration
+    # (rom_058000) is the 0x8800 tile set behind stages 1-4 and the CONTINUE page,
+    # so it is verified against the capture that already holds that state rather
+    # than being recorded a second time under its own name.
+    for page_id, screen_name in SHARED_PAGES.items():
+        model = models[page_id]
+        vram = (captures / screen_name / 'vram.bin').read_bytes()
+        tile_ratio, _offset = tile_match(vram, model, page_id)
+        ok = tile_ratio >= 0.999
+        rows.append({
+            'screen': '<shared:%s>' % page_id,
+            'capture_revision_matches': True,
+            'label': '共享图块流（由 `%s` 的捕获覆盖）' % screen_name,
+            'alias_of': None,
+            'shared_via': screen_name,
+            'expected_page': page_id,
+            'best_page': page_id,
+            'map_ratio': 0.0,
+            'tile_ratio': tile_ratio,
+            'map_source': None,
+            'tile_source': _offset,
+            'map_diffs': None,
+            'status': 'PASS' if ok else 'FAIL',
+        })
+        if not ok:
+            problems.append('%s: shared tile stream does not match %s (tile=%.3f)'
+                            % (screen_name, page_id, tile_ratio))
     active = [page_id for page_id in models]
     covered = {row['expected_page'] for row in rows
                if row['status'].startswith('PASS')}
@@ -303,8 +337,10 @@ def render_report(result):
     lines.append('- `hint_normal` 是普通模式通关后的提示页（提示如何进入额外模式），对应 '
                  '`rom_055050`；`hint_extra` 是额外模式通关后的提示页（提示如何进入配置模式），'
                  '对应 `rom_056110`。`change_surface.json` 的 purpose 已按此修正。')
-    lines.append('- `title` 与 `main_menu` 都是 `rom_070000`；`opening_decoration` 是 '
-                 '`stage_1_intro` 的别名捕获，检查的是同一状态下的角标图块。')
+    lines.append('- `title` 与 `main_menu` 都是 `rom_070000`；`intro_decoration`'
+                 '（`rom_058000`）是场景 1-4 介绍与 CONTINUE 共用的 0x8800 图块流，'
+                 '不是独立画面，因此不单独截图，而是用 `stage_1_intro` 的捕获'
+                 '（`<shared:rom_058000>` 行）核对。')
     lines.append('- sheet 页（HUD/角标/剧终牌）没有独立的 BG map 可比较，只看整块 tile 是否出现在 VRAM。')
     lines.append('- 本报告只核对包的外观数据与页面源；包由 `capture_pages.py` 重建，'
                  '不随仓库分发任何模拟器存档或 ROM。')
@@ -332,12 +368,16 @@ def main(argv=None):
     if args.write:
         DEFAULT_REPORT.write_text(render_report(result), encoding='utf-8')
         print('VISUAL_AUDIT_DOC=' + str(DEFAULT_REPORT))
-    passed = sum(1 for row in result['rows'] if row['status'] == 'PASS')
-    print('VISUAL_AUDIT=%s SCREENS=%d PASS=%d FAIL=%d NOT_LOCALIZED=%d COVERED=%d/%d'
+    capture_rows = [row for row in result['rows']
+                    if not row['screen'].startswith('<shared:')]
+    shared_rows = [row for row in result['rows']
+                   if row['screen'].startswith('<shared:')]
+    passed = sum(1 for row in capture_rows if row['status'] == 'PASS')
+    print('VISUAL_AUDIT=%s SCREENS=%d SHARED=%d PASS=%d FAIL=%d NOT_LOCALIZED=%d COVERED=%d/%d'
           % ('PASS' if not result['problems'] and not result['missing'] else 'FAIL',
-             len(result['rows']), passed,
-             sum(1 for row in result['rows'] if row['status'] == 'FAIL'),
-             sum(1 for row in result['rows'] if row['status'] == 'NOT_LOCALIZED'),
+             len(capture_rows), len(shared_rows), passed,
+             sum(1 for row in capture_rows if row['status'] == 'FAIL'),
+             sum(1 for row in capture_rows if row['status'] == 'NOT_LOCALIZED'),
              result['active'] - len(result['missing']), result['active']))
     for problem in result['problems']:
         print('PROBLEM=' + problem, file=sys.stderr)
