@@ -6,7 +6,7 @@ the game *renders* them on screen.  Screens are matched by comparing captured
 BG-map cells against the page models, so a capture only passes when the live
 screen really is that page.
 
-The 12 screens split into two reachability classes, recorded in the manifest:
+The 34 screens split into two reachability classes, recorded in the manifest:
 
   natural  controller input from a cold boot (title, menu, configuration, HUD)
   fixture  the original project's technique -- patch a throwaway ROM copy or poke
@@ -57,7 +57,33 @@ EXPECTED = {
     # Configuration).  Their map lives in the page, tiles in a separate resource.
     'hint_normal': ('rom_055050', 0.98),
     'hint_extra': ('rom_056110', 0.98),
+    # In-game HUDs: cold boot plus START (Extra mode needs the title password).
+    'hud_normal': ('rom_041000', 0.98),
+    'hud_extra': ('rom_041103', 0.98),
+    # intro_decoration is not an independent screen; it is the shared 0x8800 tile
+    # stream behind stages 1-4, captured from the stage_1_intro state.
+    'opening_decoration': ('rom_058000', 0.98),
+    # The Extra-mode ending: credits, closing sign and the 14-page figure gallery.
+    'ending_sign': ('rom_050000', 0.98),
+    'gallery_01': ('rom_048462', 0.98),
+    'gallery_02': ('rom_04c4f4', 0.98),
+    'gallery_03': ('rom_0742b3', 0.98),
+    'gallery_04': ('rom_04caf2', 0.98),
+    'gallery_05': ('rom_0496d4', 0.98),
+    'gallery_06': ('rom_049bf8', 0.98),
+    'gallery_07': ('rom_04cd98', 0.98),
+    'gallery_08': ('rom_04a3a1', 0.98),
+    'gallery_09': ('rom_04d0bb', 0.98),
+    'gallery_10': ('rom_04ab1b', 0.98),
+    'gallery_11': ('rom_04d586', 0.98),
+    'gallery_12': ('rom_04b4db', 0.98),
+    'gallery_13': ('rom_04b943', 0.98),
+    'gallery_14': ('rom_04d918', 0.98),
 }
+
+# The credits stay in English and scroll mid-frame, so there is no localized page
+# to compare against; the screen is captured for the record only.
+NO_PAGE = {'credits_bonus'}
 
 
 def page_models():
@@ -93,7 +119,7 @@ class CapturePageTests(unittest.TestCase):
 
     def test_every_expected_screen_was_captured(self):
         captured = {screen['screen'] for screen in self.manifest['screens']}
-        self.assertEqual(captured, set(EXPECTED))
+        self.assertEqual(captured, set(EXPECTED) | NO_PAGE)
 
     def test_each_screen_matches_its_page(self):
         for screen, (page, minimum) in sorted(EXPECTED.items()):
@@ -102,11 +128,20 @@ class CapturePageTests(unittest.TestCase):
                 vram = (directory / 'vram.bin').read_bytes()
                 bgmap = (directory / 'bgmap.bin').read_bytes()
                 model = self.models[page]
-                best = max(score(data, model, page)
-                           for data in (bgmap, vram[0x1800:0x1C00], vram[0x1C00:0x2000]))
-                self.assertGreaterEqual(best, minimum,
-                                        '%s does not render %s (best %.3f)'
-                                        % (screen, page, best))
+                if model['kind'] == 'sheet':
+                    # Sheet pages carry tiles only; the audit compares them the
+                    # same way (no BG map of their own to check).
+                    import audit_visual_regression as audit
+                    best, _offset = audit.tile_match(vram, model, page)
+                    self.assertGreaterEqual(best, minimum,
+                                            '%s does not load %s (best %.3f)'
+                                            % (screen, page, best))
+                else:
+                    best = max(score(data, model, page)
+                               for data in (bgmap, vram[0x1800:0x1C00], vram[0x1C00:0x2000]))
+                    self.assertGreaterEqual(best, minimum,
+                                            '%s does not render %s (best %.3f)'
+                                            % (screen, page, best))
 
     def test_reachability_is_labelled_on_every_capture(self):
         natural = fixture = 0
@@ -117,7 +152,7 @@ class CapturePageTests(unittest.TestCase):
                 natural += 1
             else:
                 fixture += 1
-        self.assertEqual((natural, fixture), (5, 10))
+        self.assertEqual((natural, fixture), (7, 27))
 
     def test_fixtures_are_documented_with_their_mechanism(self):
         types = {item['type'] for item in self.manifest['fixtures']}

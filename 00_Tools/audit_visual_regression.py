@@ -1,14 +1,14 @@
 # SPDX-License-Identifier: MIT
-"""Validate an external BGB visual-regression capture package against page sources.
+"""Validate a visual-regression capture package against page sources.
 
-The package contains, for each screen, a native BGB state plus the live VRAM
-(0x8000-0x9FFF), BG map (0x9800-0x9BFF), OAM and I/O registers, and a 160x144
-screenshot.  This tool checks the capture metadata, maps each screen to the
-localized page it should exercise, and compares the captured map/tile bytes
-with 03_Image/pages + 03_Image/graphics.
+The package is produced by `capture_pages.py` from `baserom.gb` alone: for each
+screen it records the live VRAM (0x8000-0x9FFF), BG map (0x9800-0x9BFF), OAM and
+I/O registers, plus a 160x144 screenshot.  This tool checks the capture metadata,
+maps each screen to the localized page it should exercise, and compares the
+captured map/tile bytes with 03_Image/pages + 03_Image/graphics.
 
-The package itself is not committed; use --package DIR pointing at an extracted
-package (or the zip contents).
+The package itself is not committed; `capture_pages.py --out` regenerates it, and
+`--package DIR` audits one that already exists.
 
 Usage:
     PYTHONPATH=build/pylibs python 00_Tools/audit_visual_regression.py \
@@ -136,7 +136,11 @@ def audit(package):
     spec = _load(common.ROOT / '06_ProgramFix' / 'change_surface.json')
     models, _roles = analyze_playthrough.page_models(manifest, spec)
     summary = _load(package / 'CAPTURE_MANIFEST.json')
-    pixel = _load(package / 'CAPTURE_PIXEL_VERIFICATION.json')
+    # The PyBoy package derives screenshots straight from the emulated
+    # framebuffer, so the BGB-era software pixel-reconstruction report is
+    # optional; a package without one is audited normally.
+    pixel_path = package / 'CAPTURE_PIXEL_VERIFICATION.json'
+    pixel = _load(pixel_path) if pixel_path.exists() else None
     expected_sha = hashlib.sha256(
         (common.ROOT / 'KirbyDreamLand_CHS-Monado.gb').read_bytes()).hexdigest()
     rows = []
@@ -224,8 +228,10 @@ def audit(package):
 
 
 def render_report(result):
-    lines = ['# 外部 BGB 视觉回归包 → 页面源核对', '']
+    lines = ['# 视觉回归包 → 页面源核对', '']
     lines.append('由 `PYTHONPATH=build/pylibs python 00_Tools/audit_visual_regression.py --write` 生成。')
+    lines.append('')
+    lines.append('包由 `00_Tools/capture_pages.py` 从 `baserom.gb` 单独重建，不依赖外部模拟器存档。')
     lines.append('')
     summary = result['summary']
     pixel = result['pixel']
@@ -233,15 +239,18 @@ def render_report(result):
     lines.append('- 模拟器：%s；画面数：%d；缺失画面：%s'
                  % (summary['emulator'], summary['count'],
                     summary.get('missing') or '无'))
-    # The package may be a union: the original BGB capture set plus screens the
-    # PyBoy tool regenerates.  Only the BGB-era manifest recorded the reload and
-    # memory-state checks, so report them as unrecorded rather than failing.
+    # The BGB-era manifest recorded reload and memory-state checks.  A PyBoy
+    # package has neither, so report them as unrecorded rather than failing.
     lines.append('- 原生重载校验：%s；屏幕/内存/退出状态一致：%s'
                  % (summary.get('native_reload_verified', '未记录'),
                     summary.get('screen_capture_memory_state_same_exit', '未记录')))
-    lines.append('- 包内逐像素核验：%s（%d 个静态画面，%d 像素，差异 %d；%d 个动态附加画面排除）'
-                 % (pixel['status'], pixel['static_captures'], pixel['pixels_compared'],
-                    pixel['changed_pixels'], pixel['raster_bonus_excluded']))
+    if pixel:
+        lines.append('- 包内逐像素核验：%s（%d 个静态画面，%d 像素，差异 %d；%d 个动态附加画面排除）'
+                     % (pixel['status'], pixel['static_captures'], pixel['pixels_compared'],
+                        pixel['changed_pixels'], pixel['raster_bonus_excluded']))
+    else:
+        lines.append('- 包内逐像素核验：不适用（PyBoy 截图直接取自模拟器帧缓冲，'
+                     '无需从 VRAM/OAM/IO 反推重建）')
     lines.append('- 页面覆盖：%d/%d 个活跃页面被此包覆盖；缺失：%s'
                  % (result['active'] - len(result['missing']), result['active'],
                     ', '.join(result['missing']) or '无'))
@@ -284,7 +293,8 @@ def render_report(result):
     lines.append('- `title` 与 `main_menu` 都是 `rom_070000`；`opening_decoration` 是 '
                  '`stage_1_intro` 的别名捕获，检查的是同一状态下的角标图块。')
     lines.append('- sheet 页（HUD/角标/剧终牌）没有独立的 BG map 可比较，只看整块 tile 是否出现在 VRAM。')
-    lines.append('- 本报告只核对包的外观数据与页面源；BGB 原生 `state.sna` 不随仓库分发。')
+    lines.append('- 本报告只核对包的外观数据与页面源；包由 `capture_pages.py` 重建，'
+                 '不随仓库分发任何模拟器存档或 ROM。')
     return '\n'.join(lines) + '\n'
 
 

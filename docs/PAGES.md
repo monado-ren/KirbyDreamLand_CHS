@@ -1,6 +1,6 @@
 # 可读页面索引（03_Image/pages + 03_Image/edits）
 
-运行时页面核对见 [`VISUAL_REGRESSION_AUDIT.md`](VISUAL_REGRESSION_AUDIT.md)（外部 BGB 视觉回归包，30/30 活跃页面覆盖）。
+运行时页面核对见 [`VISUAL_REGRESSION_AUDIT.md`](VISUAL_REGRESSION_AUDIT.md)（回归包由 `capture_pages.py` 从 `baserom.gb` 重建，30/30 活跃页面覆盖）。
 
 `03_Image/pages/` 与 `03_Image/edits/` 下共有 **48 个页面**，分两种存储方式：
 
