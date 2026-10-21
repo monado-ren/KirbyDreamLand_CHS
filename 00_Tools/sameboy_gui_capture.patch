@@ -122,18 +122,59 @@ index b8e69cd..9b9cd9f 100644
  };
  
 diff --git a/SDL/main.c b/SDL/main.c
-index 29398b7..59f1a98 100644
+index 29398b7..4bc45d8 100644
 --- a/SDL/main.c
 +++ b/SDL/main.c
-@@ -22,6 +22,7 @@ static uint32_t pixel_buffer_1[256 * 224], pixel_buffer_2[256 * 224];
- static uint32_t *active_pixel_buffer = pixel_buffer_1, *previous_pixel_buffer = pixel_buffer_2;
+@@ -23,6 +23,48 @@ static uint32_t *active_pixel_buffer = pixel_buffer_1, *previous_pixel_buffer =
  static bool underclock_down = false, rewind_down = false, do_rewind = false, rewind_paused = false, turbo_down = false;
  static double clock_mutliplier = 1.0;
-+static bool boot_complete = false;   /* set once the LCD produces vblanks */
  
++/* ---- Internal audio capture -------------------------------------------
++ * The APU already produces stereo samples for the SDL audio queue; with
++ * --audio the same samples are written to a 16-bit stereo WAV instead, so the
++ * recording keeps the emulated sound and not the host's audio output. */
++#define AUDIO_SAMPLE_RATE 48000
++static FILE *audio_file = NULL;
++static unsigned long long audio_sample_count = 0;
++
++static void audio_file_callback(GB_gameboy_t *gb, GB_sample_t *sample)
++{
++    (void) gb;
++    int16_t frame[2] = {sample->left, sample->right};
++    fwrite(frame, sizeof(frame), 1, audio_file);
++    audio_sample_count++;
++}
++
++static void audio_file_close(void)
++{
++    if (!audio_file) return;
++    unsigned data_size = (unsigned) (audio_sample_count * 4);
++    unsigned riff_size = 36 + data_size;
++    unsigned char header[44] = {
++        'R','I','F','F',
++        riff_size & 0xFF, (riff_size >> 8) & 0xFF, (riff_size >> 16) & 0xFF, (riff_size >> 24) & 0xFF,
++        'W','A','V','E','f','m','t',' ',
++        16, 0, 0, 0,
++        1, 0, 2, 0,
++        AUDIO_SAMPLE_RATE & 0xFF, (AUDIO_SAMPLE_RATE >> 8) & 0xFF, (AUDIO_SAMPLE_RATE >> 16) & 0xFF, (AUDIO_SAMPLE_RATE >> 24) & 0xFF,
++        (AUDIO_SAMPLE_RATE * 4) & 0xFF, ((AUDIO_SAMPLE_RATE * 4) >> 8) & 0xFF, ((AUDIO_SAMPLE_RATE * 4) >> 16) & 0xFF, ((AUDIO_SAMPLE_RATE * 4) >> 24) & 0xFF,
++        4, 0,
++        16, 0,
++        'd','a','t','a',
++        data_size & 0xFF, (data_size >> 8) & 0xFF, (data_size >> 16) & 0xFF, (data_size >> 24) & 0xFF,
++    };
++    fseek(audio_file, 0, SEEK_SET);
++    fwrite(header, 1, sizeof(header), audio_file);
++    fclose(audio_file);
++    audio_file = NULL;
++    fprintf(stderr, "audio: %llu samples\n", audio_sample_count);
++}
++static bool boot_complete = false;   /* set once the LCD produces vblanks */
++
  static char *filename = NULL;
  static typeof(free) *free_function = NULL;
-@@ -488,6 +489,89 @@ static void load_boot_rom(GB_gameboy_t *gb, GB_boot_rom_t type)
+ static char *battery_save_path_ptr;
+@@ -488,6 +530,89 @@ static void load_boot_rom(GB_gameboy_t *gb, GB_boot_rom_t type)
      }
  }
  
@@ -223,7 +264,22 @@ index 29398b7..59f1a98 100644
  static void run(void)
  {
      SDL_ShowCursor(SDL_DISABLE);
-@@ -592,7 +676,33 @@ restart:
+@@ -531,7 +656,13 @@ restart:
+         GB_set_rewind_length(&gb, configuration.rewind_length);
+         GB_set_rtc_mode(&gb, configuration.rtc_mode);
+         GB_set_update_input_hint_callback(&gb, handle_events);
+-        GB_apu_set_sample_callback(&gb, gb_audio_callback);
++        if (audio_file) {
++            GB_set_sample_rate(&gb, AUDIO_SAMPLE_RATE);
++            GB_apu_set_sample_callback(&gb, audio_file_callback);
++        }
++        else {
++            GB_apu_set_sample_callback(&gb, gb_audio_callback);
++        }
+     }
+ 
+     bool error = false;
+@@ -592,7 +723,33 @@ restart:
                  }
                  do_rewind = false;
              }
@@ -258,7 +314,7 @@ index 29398b7..59f1a98 100644
          }
          
          /* These commands can't run in the handle_event function, because they're not safe in a vblank context. */
-@@ -638,8 +748,16 @@ int main(int argc, char **argv)
+@@ -638,8 +795,18 @@ int main(int argc, char **argv)
      
      bool fullscreen = get_arg_flag("--fullscreen", &argc, argv);
  
@@ -268,15 +324,17 @@ index 29398b7..59f1a98 100644
 +    get_arg_value("--frames", &argc, argv, &frames_text);
 +    get_arg_value("--record", &argc, argv, &record_text);
 +    get_arg_value("--record-from", &argc, argv, &record_from_text);
++    const char *audio_text = NULL;
++    get_arg_value("--audio", &argc, argv, &audio_text);
 +
      if (argc > 2) {
 -        fprintf(stderr, "Usage: %s [--fullscreen] [rom]\n", argv[0]);
 +        fprintf(stderr, "Usage: %s [--fullscreen] [--keys SCRIPT] [--frames N] "
-+                        "[--record PATH] [--record-from F] [rom]\n", argv[0]);
++                        "[--record PATH] [--record-from F] [--audio PATH] [rom]\n", argv[0]);
          exit(1);
      }
      
-@@ -687,6 +805,18 @@ int main(int argc, char **argv)
+@@ -687,6 +854,27 @@ int main(int argc, char **argv)
      }
      
      atexit(save_configuration);
@@ -292,6 +350,15 @@ index 29398b7..59f1a98 100644
 +        }
 +    }
 +    capture_active = capture_stream != NULL || input_event_count > 0 || frame_limit > 0;
++    if (audio_text) {
++        audio_file = fopen(audio_text, "wb");
++        if (!audio_file) {
++            fprintf(stderr, "cannot open %s for audio\n", audio_text);
++            exit(1);
++        }
++        fwrite("\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0", 1, 44, audio_file);
++        atexit(audio_file_close);
++    }
      
      SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
      SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 2);
