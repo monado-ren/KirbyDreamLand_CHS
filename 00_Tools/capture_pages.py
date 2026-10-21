@@ -224,6 +224,36 @@ def tap(boy, button, frames=2, settle=30):
         boy.tick()
 
 
+def render_overview(package, screens):
+    """Compose a labelled contact sheet of every capture into the package."""
+    from PIL import Image, ImageDraw, ImageFont
+    font = ImageFont.load_default()
+    zoom, cols, pad, label = 2, 6, 8, 16
+    cell_w, cell_h = 160 * zoom, 144 * zoom
+    rows = (len(screens) + cols - 1) // cols
+    sheet = Image.new('RGB',
+                      (cols * (cell_w + pad) + pad,
+                       rows * (cell_h + label + pad) + pad + 26), 'white')
+    draw = ImageDraw.Draw(sheet)
+    natural = sum(1 for s in screens if s['reachability'] == 'natural')
+    draw.text((pad, 6), 'visual regression %d screens (natural=%d / fixture=%d)'
+              % (len(screens), natural, len(screens) - natural),
+              fill='black', font=font)
+    for index, screen in enumerate(screens):
+        row, col = divmod(index, cols)
+        x = pad + col * (cell_w + pad)
+        y = 26 + pad + row * (cell_h + label + pad)
+        image = Image.open(package / 'captures' / screen['screen'] / 'screen.png')
+        sheet.paste(image.convert('RGB').resize((cell_w, cell_h), Image.NEAREST), (x, y))
+        draw.rectangle([x, y, x + cell_w - 1, y + cell_h - 1], outline=(170, 170, 170))
+        draw.text((x + 2, y + cell_h + 3),
+                  '%02d [%s] %s' % (index + 1,
+                                    'N' if screen['reachability'] == 'natural' else 'F',
+                                    screen['screen']),
+                  fill='black', font=font)
+    sheet.save(package / 'CAPTURE_OVERVIEW.png')
+
+
 def run(rom, package):
     capture = Capture(rom, package)
     capture.package = Path(package)
@@ -582,6 +612,7 @@ def run(rom, package):
     }
     (capture.package / 'CAPTURE_MANIFEST.json').write_text(
         json.dumps(manifest, ensure_ascii=False, indent=2) + '\n', encoding='utf-8')
+    render_overview(capture.package, capture.screens)
     natural = sum(1 for s in capture.screens if s['reachability'] == 'natural')
     fixture = len(capture.screens) - natural
     print('CAPTURES=%d NATURAL=%d FIXTURE=%d ROM_SHA256=%s'
