@@ -8,8 +8,12 @@ Pipeline
 2. Run SameBoy's SDL frontend once per run, recording raw frames through a FIFO
    into ffmpeg and the APU samples into a WAV, then mux them together.
 3. Concatenate the runs in story order.
-4. Composite the result onto ``build/review_sameboy/bg.png`` at its native
-   resolution, centred, with a pure black shadow (0 deg, 0 distance, 50 blur).
+4. Composite each segment onto its release artwork from ``03_Image/release``
+   (the game area is the centred 960x864 window) inside the same encode, so the
+   picture is compressed exactly once.
+5. Prefix the first segment with a 2 s hold of ``kirby_chs_release.png`` that
+   cross-fades into run 01, and delay that segment's audio by 2 s to match,
+   then concatenate the segments without re-encoding.
 
 The frontend must be the patched one from ``00_Tools/sameboy_gui_capture.patch``
 (``--keys`` / ``--frames`` / ``--record`` / ``--record-from`` / ``--audio``).
@@ -57,6 +61,23 @@ RUNS = [
     ("11_hint_extra", "hint_extra", 6929, 16123, "232:p:start,244:r:start"),
     ("12_ending_extra", "ending_extra", 232, 13984, "232:p:start,242:r:start"),
 ]
+# 每段用的发布版背景（03_Image/release/），游戏区固定为居中的 960x864
+RELEASE_BG = {
+    "01_title_menu_config_sound": "01标题界面 & 配置模式.png",
+    "04_stage_1_intro": "04-08各场景 开场动画.png",
+    "05_stage_2_intro": "04-08各场景 开场动画.png",
+    "06_stage_3_intro": "04-08各场景 开场动画.png",
+    "07_stage_4_intro": "04-08各场景 开场动画.png",
+    "08_stage_5_intro": "04-08各场景 开场动画.png",
+    "09_game_over_continue": "09游戏结束.png",
+    "10_hint_normal": "10剧终 额外模式提示.png",
+    "11_hint_extra": "11敌人图鉴 配置模式提示.png",
+}
+RELEASE_CARD = "kirby_chs_release.png"
+GAME_ORIGIN = (480, 108)      # 背景上游戏窗口的位置（960x864）
+INTRO_SECONDS = 2.0           # 发布图静止展示时长
+FADE_SECONDS = 0.5            # 淡入第一段
+
 COMBINED_ORDER = [
     "01_title_menu_config_sound", "04_stage_1_intro", "05_stage_2_intro",
     "06_stage_3_intro", "07_stage_4_intro", "08_stage_5_intro",
@@ -96,7 +117,7 @@ def build_fixture_roms(rom_bytes, out_dir):
     return roms
 
 
-def record(name, rom, start, end, keys, args, out_dir, overlay=None):
+def record(name, rom, start, end, keys, args, out_dir, bg_path=None, card=None):
     mp4 = out_dir / f"{name}.mp4"
     vid = out_dir / f"{name}.video.mp4"
     wav = Path(f"/tmp/{name}.wav")
@@ -109,21 +130,43 @@ def record(name, rom, start, end, keys, args, out_dir, overlay=None):
     capture = [args.sameboy, "--frames", str(end), "--record", str(fifo),
                "--record-from", str(start), "--keys", keys,
                "--audio", str(wav), str(rom)]
-    if overlay:
-        bg_file, bx, by = overlay
-        # Single encode: the background is composited into the same pass that
-        # turns the raw frames into H.264, so nothing has to be re-encoded later.
-        encode = ["ffmpeg", "-y", "-loglevel", "error", "-f", "rawvideo",
-                  "-pix_fmt", "rgb24", "-s", "960x864", "-r", FPS, "-i", "-",
-                  "-loop", "1", "-i", str(bg_file), "-filter_complex",
-                  f"[1:v][0:v]overlay={bx}:{by}:shortest=1,format=yuv420p[v]",
-                  "-map", "[v]", "-r", FPS, "-c:v", "libx264", "-preset",
-                  "veryfast", "-crf", "20", "-pix_fmt", "yuv420p", str(vid)]
+
+    x, y = GAME_ORIGIN
+    inputs, graph, audio_delay = [], [], 0
+    if card:
+        # 片头：发布图静止 2 秒，再用 0.5 秒淡入第一段
+        inputs += ["-loop", "1", "-framerate", FPS, "-t",
+                   str(INTRO_SECONDS + FADE_SECONDS), "-i", str(card)]
+    inputs += ["-f", "rawvideo", "-pix_fmt", "rgb24", "-s", "960x864",
+               "-r", FPS, "-i", "-"]
+    if bg_path:
+        inputs += ["-loop", "1", "-framerate", FPS, "-i", str(bg_path)]
+
+    # 输入顺序：有片头时 [0]=发布图 [1]=原始帧 [2]=背景；没有片头时 [0]=原始帧 [1]=背景
+    game_idx = 1 if card else 0
+    if bg_path:
+        bg_idx = game_idx + 1
+        graph.append(f"[{bg_idx}:v]format=rgb24[bg]")
+        graph.append(f"[bg][{game_idx}:v]overlay={x}:{y}:shortest=1,"
+                     f"setsar=1,format=rgb24[game]")
     else:
-        encode = ["ffmpeg", "-y", "-loglevel", "error", "-f", "rawvideo",
-                  "-pix_fmt", "rgb24", "-s", "960x864", "-r", FPS, "-i", "-",
-                  "-c:v", "libx264", "-preset", "veryfast", "-crf", "20",
-                  "-pix_fmt", "yuv420p", str(vid)]
+        graph.append(f"[{game_idx}:v]setsar=1,format=rgb24[game]")
+    if card:
+        graph.append("[0:v]format=rgb24,fps=" + FPS + ",setsar=1[card]")
+        graph.append("[card][game]xfade=transition=fade:duration="
+                     + str(FADE_SECONDS) + ":offset=" + str(INTRO_SECONDS)
+                     + "[x]")
+        graph.append("[x]format=yuv420p[v]")
+        # xfade 从 offset 就开始叠化，游戏第 0 帧出现在 offset 处，
+        # 所以音轨只延后 INTRO_SECONDS，不含淡入时长。
+        audio_delay = int(round(INTRO_SECONDS * 1000))
+    else:
+        graph.append("[game]format=yuv420p[v]")
+
+    encode = ["ffmpeg", "-y", "-loglevel", "error", *inputs,
+              "-filter_complex", ";".join(graph), "-map", "[v]",
+              "-r", FPS, "-c:v", "libx264", "-preset", "veryfast",
+              "-crf", "20", "-pix_fmt", "yuv420p", str(vid)]
 
     proc = subprocess.Popen(capture, stdout=subprocess.DEVNULL,
                             stderr=subprocess.DEVNULL, env=env,
@@ -135,9 +178,15 @@ def record(name, rom, start, end, keys, args, out_dir, overlay=None):
     proc.wait()
     fifo.unlink()
 
-    subprocess.run(["ffmpeg", "-y", "-loglevel", "error", "-i", str(vid),
-                    "-i", str(wav), "-c:v", "copy", "-c:a", "aac",
-                    "-b:a", "128k", "-shortest", str(mp4)], check=True)
+    mux = ["ffmpeg", "-y", "-loglevel", "error", "-i", str(vid),
+           "-i", str(wav), "-c:v", "copy"]
+    if audio_delay:
+        # 片头没有声音，第一段的音轨要整体后移
+        mux += ["-af", f"adelay={audio_delay}|{audio_delay}", "-c:a", "aac"]
+    else:
+        mux += ["-c:a", "aac"]
+    mux += ["-b:a", "128k", "-shortest", str(mp4)]
+    subprocess.run(mux, check=True)
     vid.unlink(missing_ok=True)
     wav.unlink(missing_ok=True)
     return mp4
@@ -151,38 +200,6 @@ def concat(paths, out_path):
                    check=True)
 
 
-def build_background(bg_path, video_size, blur, out_path):
-    """bg.png with a pure black, zero-offset shadow behind the video rectangle."""
-    bg = Image.open(bg_path).convert("RGBA")
-    width, height = bg.size
-    vw, vh = video_size
-    x, y = (width - vw) // 2, (height - vh) // 2
-    shadow = Image.new("RGBA", bg.size, (0, 0, 0, 0))
-    ImageDraw.Draw(shadow).rectangle([x, y, x + vw - 1, y + vh - 1],
-                                     fill=(0, 0, 0, 255))
-    shadow = shadow.filter(ImageFilter.GaussianBlur(blur))
-    Image.alpha_composite(bg, shadow).convert("RGB").save(out_path)
-    return x, y
-
-
-def composite(bg_path, video, out_path, blur):
-    probe = subprocess.run(["ffprobe", "-v", "error", "-select_streams", "v",
-                            "-show_entries", "stream=width,height", "-of",
-                            "csv=p=0:s=x", str(video)],
-                           capture_output=True, text=True, check=True)
-    vw, vh = (int(v) for v in probe.stdout.strip().split("x"))
-    bg_file = Path("/tmp/review_bg_shadow.png")
-    x, y = build_background(bg_path, (vw, vh), blur, bg_file)
-    subprocess.run(
-        ["ffmpeg", "-y", "-loglevel", "error", "-loop", "1", "-i", str(bg_file),
-         "-i", str(video), "-filter_complex",
-         f"[0:v][1:v]overlay={x}:{y}:shortest=1,format=yuv420p[v]",
-         "-map", "[v]", "-map", "1:a", "-r", FPS, "-c:v", "libx264",
-         "-preset", "veryfast", "-crf", "20", "-c:a", "copy",
-         "-movflags", "+faststart", str(out_path)],
-        check=True)
-
-
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--sameboy", default="/tmp/sb_run/sameboy")
@@ -190,56 +207,47 @@ def main():
     parser.add_argument("--rom", default="KirbyDreamLand_CHS-Monado.gb")
     parser.add_argument("--out", default="build/review_sameboy")
     parser.add_argument("--rom-dir", default="/tmp/sb_roms")
-    parser.add_argument("--bg", default="build/review_sameboy/bg.png")
-    parser.add_argument("--shadow-blur", type=float, default=50.0)
+    parser.add_argument("--release-dir", default="03_Image/release")
     parser.add_argument("--only", nargs="*")
-    parser.add_argument("--skip-composite", action="store_true")
-    parser.add_argument("--clean-segments", action="store_true",
-                        help="keep segments at 960x864 and composite afterwards "
-                             "(two encodes); default is a single encode")
+    parser.add_argument("--all-segments", action="store_true",
+                        help="also record 02/03/12, which are not part of the "
+                             "concatenated release video")
     args = parser.parse_args()
     # The emulator runs with cwd next to its own binary, so every path handed to
     # it (and to ffmpeg) has to be absolute.
     args.rom = str(Path(args.rom).resolve())
     args.boot = str(Path(args.boot).resolve())
     args.sameboy = str(Path(args.sameboy).resolve())
-    args.bg = str(Path(args.bg).resolve())
+    args.release_dir = str(Path(args.release_dir).resolve())
 
     out_dir = Path(args.out)
     out_dir.mkdir(parents=True, exist_ok=True)
     roms = build_fixture_roms(Path(args.rom).read_bytes(), Path(args.rom_dir))
     roms["base"] = Path(args.rom).resolve()
 
-    overlay = None
-    if not args.clean_segments:
-        bg_file = Path("/tmp/review_bg_shadow.png")
-        bx, by = build_background(Path(args.bg), (960, 864), args.shadow_blur, bg_file)
-        overlay = (bg_file, bx, by)
+    release_dir = Path(args.release_dir)
+    card = (release_dir / RELEASE_CARD).resolve() if RELEASE_CARD else None
+    if card and not card.exists():
+        card = None
 
     produced = {}
     for name, rom_key, start, end, keys in RUNS:
         if args.only and not any(o in name for o in args.only):
             continue
+        if not args.all_segments and name not in RELEASE_BG:
+            continue
         print(f"{name}: {start}..{end - 1}", flush=True)
+        bg = (release_dir / RELEASE_BG[name]).resolve() if name in RELEASE_BG else None
+        head = card if (card and name == COMBINED_ORDER[0]) else None
         produced[name] = record(name, roms[rom_key], start, end, keys, args,
-                                out_dir, overlay)
+                                out_dir, bg, head)
 
     order = [n for n in COMBINED_ORDER if (out_dir / f"{n}.mp4").exists()]
     if len(order) == len(COMBINED_ORDER):
-        if overlay:
-            # Already composited; the concat is the final cut, no re-encode.
-            final = out_dir / "ALL_COMBINED_BG.mp4"
-            concat([out_dir / f"{n}.mp4" for n in order], final)
-            print(f"concat (no re-encode): {len(order)} segments -> {final}",
-                  flush=True)
-        else:
-            combined = out_dir / "ALL_COMBINED.mp4"
-            concat([out_dir / f"{n}.mp4" for n in order], combined)
-            print(f"concat: {len(order)} segments -> {combined}", flush=True)
-            if not args.skip_composite:
-                final = out_dir / "ALL_COMBINED_BG.mp4"
-                composite(Path(args.bg), combined, final, args.shadow_blur)
-                print(f"composite: {final}", flush=True)
+        final = out_dir / "ALL_COMBINED_RELEASE.mp4"
+        concat([out_dir / f"{n}.mp4" for n in order], final)
+        print(f"concat (no re-encode): {len(order)} segments -> {final}",
+              flush=True)
 
 
 if __name__ == "__main__":
