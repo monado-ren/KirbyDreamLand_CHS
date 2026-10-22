@@ -144,7 +144,7 @@ def audit(package):
     models, _roles = analyze_playthrough.page_models(manifest, spec)
     summary = _load(package / 'CAPTURE_MANIFEST.json')
     # The PyBoy package derives screenshots straight from the emulated
-    # framebuffer, so the BGB-era software pixel-reconstruction report is
+    # framebuffer, so the legacy software pixel-reconstruction report is
     # optional; a package without one is audited normally.
     pixel_path = package / 'CAPTURE_PIXEL_VERIFICATION.json'
     pixel = _load(pixel_path) if pixel_path.exists() else None
@@ -283,7 +283,7 @@ def render_report(result):
     lines.append('- 模拟器：%s；画面数：%d；缺失画面：%s'
                  % (summary['emulator'], summary['count'],
                     summary.get('missing') or '无'))
-    # The BGB-era manifest recorded reload and memory-state checks.  A PyBoy
+    # The legacy manifest recorded reload and memory-state checks.  A PyBoy
     # package has neither, so report them as unrecorded rather than failing.
     lines.append('- 原生重载校验：%s；屏幕/内存/退出状态一致：%s'
                  % (summary.get('native_reload_verified', '未记录'),

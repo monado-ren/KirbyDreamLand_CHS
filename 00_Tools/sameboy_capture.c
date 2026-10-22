@@ -1,15 +1,9 @@
 /*
  * sameboy_capture - headless capture driver built on SameBoy's core.
  *
- * The original workspace drove BGB from a command line:
- *
- *   bgb64.exe -rom R -state IN.sna -demoplay IN.dem \
- *             -br 'ADDR/ROMBANK=N' -stateonexit OUT.sna -screenonexit OUT.png
- *
  * SameBoy's SDL frontend only accepts `[--fullscreen] [rom]`, so this program
- * links Core/ directly and offers the same capabilities.  A BGB `.sna` is a BESS
- * file, and SameBoy's core both reads and writes BESS, so states move between
- * the two emulators unchanged.
+ * links Core/ directly and adds state loading, breakpoints, key scripting and
+ * frame capture on top of it.
  *
  * Usage:
  *   sameboy_capture --rom R [--state S] [--frames N] [--shot P]
@@ -136,7 +130,7 @@ static bool write_frame(FILE *stream)
 
 /* --keys takes a tiny script: comma-separated "<frame>:<key>[+<key>...]".
  * At each listed frame the keys are pressed for --keys-hold frames (default 8).
- * This mirrors the button demos the original BGB driver fed via -demoplay. */
+ * This mirrors the button demos the original driver fed via a demo file. */
 typedef struct { unsigned frame; GB_key_t keys[4]; unsigned count; } key_step_t;
 
 /* --input takes absolute press/release events:

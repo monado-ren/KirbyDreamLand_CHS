@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "release": "v0.5.3",
+  "release": "v1.0.0",
   "edition": "Monado",
   "baseline_name": "Hoshi no Kirby (Japan) (Rev 1)",
   "default_input": "baserom.gb",

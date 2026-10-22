@@ -41,7 +41,7 @@ GB_LOGO = bytes.fromhex(
     'ce ed 66 66 cc 0d 00 0b 03 73 00 83 00 0c 00 0d '
     '00 08 11 1f 88 89 00 0e dc cc 6e e6 dd dd d9 99 '
     'bb bb 67 63 6e 0e ec cc dd dc 99 9f bb b9 33 3e')
-PRIVATE_IMPORT = re.compile(r'^(?:localize_jp|probe_jp|capture_runtime|bgb_state|rom_project|make_bgb|migrate_jp)')
+PRIVATE_IMPORT = re.compile(r'^(?:localize_jp|probe_jp|capture_runtime|rom_project|migrate_jp)')
 
 
 def read_ignore(root: Path) -> list[str]:

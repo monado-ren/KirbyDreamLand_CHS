@@ -1,5 +1,5 @@
 # SPDX-License-Identifier: MIT
-"""Pure matching helpers for the external BGB visual-regression audit."""
+"""Pure matching helpers for the external visual-regression audit."""
 from pathlib import Path
 import sys
 import unittest

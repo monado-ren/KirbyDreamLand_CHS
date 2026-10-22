@@ -53,7 +53,7 @@ class VersionLineageTests(unittest.TestCase):
 
     def test_manifest_release_matches_the_documented_target(self):
         manifest = common.load_manifest()
-        self.assertEqual(manifest['release'], 'v0.5.3')
+        self.assertEqual(manifest['release'], 'v1.0.0')
         self.assertEqual(manifest['target']['sha256'], JP_TARGET_SHA)
 
     def test_base_rom_is_the_japanese_revision(self):

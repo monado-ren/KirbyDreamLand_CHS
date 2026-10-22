@@ -1,15 +1,8 @@
-# SameBoy 无头捕获
+# SameBoy 捕获
 
-原工作区用 BGB 的命令行驱动截图：
-
-```
-bgb64.exe -rom R -state IN.sna -demoplay IN.dem \
-          -br 'ADDR/ROMBANK=N' -stateonexit OUT.sna -screenonexit OUT.png
-```
-
-BGB 是 Windows 程序，本机没有 wine。SameBoy 是 MIT 许可、可在 Linux 原生构建，
-但它的 SDL 前端只接受 `[--fullscreen] [rom]`，没有状态装载、断点或按键脚本。
-`00_Tools/sameboy_capture.c` 直接链接 SameBoy 的 `Core/`，把上面那套能力补齐。
+SameBoy 是 MIT 许可、可在 Linux 原生构建，但它的 SDL 前端只接受 `[--fullscreen] [rom]`，
+没有状态装载、断点或按键脚本。`00_Tools/sameboy_capture.c` 直接链接 SameBoy 的 `Core/`，
+把这套能力补齐：状态装载、断点、按键脚本、逐帧录制。
 
 ## 构建
 
@@ -57,22 +50,23 @@ SameBoy **不带内置启动 ROM**。缺了它 CPU 会停在启动区，LCD 不�
     --state in.sna --frames 600 --breakpoint 4b48 --save-state out.sna --shot out.png
 ```
 
-| 参数 | 对应 BGB | 说明 |
-| --- | --- | --- |
-| `--state` | `-state` | 载入 BESS 存档 |
-| `--save-state` | `-stateonexit` | 退出时导出状态 |
-| `--frames` | `-demoplay` | 跑多少帧 |
-| `--shot` | `-screenonexit` | 截图路径 |
-| `--breakpoint` | `-br` | PC 断点，命中后提前结束（退出码 2） |
-| `--keys` | `.dem` | 按键脚本，如 `240:start`、`300:a+start` |
-| `--boot` | （BGB 内置） | 启动 ROM |
+| 参数 | 说明 |
+| --- | --- |
+| `--state` | 载入 BESS 存档 |
+| `--save-state` | 退出时导出状态 |
+| `--frames` | 跑多少帧 |
+| `--shot` | 截图路径 |
+| `--breakpoint` | PC 断点，命中后提前结束（退出码 2） |
+| `--keys` | 按键脚本，如 `240:start`、`300:a+start` |
+| `--input` | 绝对帧号的按下/释放脚本，如 `232:p:start,242:r:start` |
+| `--record` | 逐帧原始 RGB24 写出（`-` 表示 stdout） |
+| `--palette` | `grey` / `lime` / `olive` / `teal` |
+| `--boot` | 启动 ROM（必需） |
 
-## 与 BGB 存档互通
+## 状态格式（BESS）
 
-BGB 的 `.sna` 就是 **BESS** 文件（规范见 SameBoy 仓库的 `BESS.md`），
-SameBoy 的 Core 既读也写这个格式，所以两边的状态可以直接互相装载，无需转换。
-`00_Tools/bgb_state.py` 是不依赖模拟器的纯 Python BESS 解析器，用于在脚本里
-直接读 VRAM/WRAM/IO。
+`--state` / `--save-state` 用的是 **BESS** 格式（规范见 SameBoy 仓库的 `BESS.md`），
+SameBoy 的 Core 既读也写，工具里的状态文件就是这个格式。
 
 CORE 块关键偏移（`0x8800` 项目里踩过坑：`0x98` 是 RAM 大小，VRAM 指针在 `0xA4`）：
 
