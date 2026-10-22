@@ -184,11 +184,14 @@ def record(name, rom, start, end, keys, args, out_dir, bg_path=None, card=None):
 
     mux = ["ffmpeg", "-y", "-loglevel", "error", "-i", str(vid),
            "-i", str(wav), "-c:v", "copy"]
+    # apad + -shortest: pad the audio with silence instead of letting
+    # -shortest chop the last few video frames off when the capture is a
+    # fraction of a frame shorter than the picture.
     if audio_delay:
         # 片头没有声音，第一段的音轨要整体后移
-        mux += ["-af", f"adelay={audio_delay}|{audio_delay}", "-c:a", "aac"]
+        mux += ["-af", f"adelay={audio_delay}|{audio_delay},apad", "-c:a", "aac"]
     else:
-        mux += ["-c:a", "aac"]
+        mux += ["-af", "apad", "-c:a", "aac"]
     mux += ["-b:a", "128k", "-shortest", str(mp4)]
     subprocess.run(mux, check=True)
     vid.unlink(missing_ok=True)

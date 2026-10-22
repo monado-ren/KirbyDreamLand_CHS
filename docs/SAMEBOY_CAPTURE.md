@@ -6,16 +6,56 @@ SameBoy 是 MIT 许可、可在 Linux 原生构建，但它的 SDL 前端只接�
 
 ## 构建
 
-```bash
-git clone --branch bess https://github.com/LIJI32/SameBoy.git /tmp/sb
-cd /tmp/sb
-# rgbds 必须在 PATH 上；SDL 前端与 Core 共用一份源码
-CONF=release make -j4 sdl
+当前对齐的是 **SameBoy v1.0.4**（`git clone --branch v1.0.4`）。
+`make sdl` 在本机跑不通（缺 rgbds、且 boot ROM 汇编对新版 rgblink 有兼容问题），
+所以按下面的方式手动构建。
 
-gcc -O2 -DGB_INTERNAL -I. -o /tmp/sameboy_capture \
+```bash
+# 1. 源码
+git clone --depth 1 --branch v1.0.4 https://github.com/LIJI32/SameBoy.git /tmp/sb
+
+# 2. rgbds（用官方预编译包，BootROMs 需要 rgbasm/rgblink）
+curl -sSL -o /tmp/rgbds.tar.xz \
+  https://github.com/gbdev/rgbds/releases/download/v1.0.4/rgbds-linux-x86_64.tar.xz
+tar xf /tmp/rgbds.tar.xz -C /tmp && export PATH=/tmp:$PATH
+
+# 3. 启动 ROM（新版 rgbds 要求 ldh 写完整地址）
+cd /tmp/sb/BootROMs
+sed -E 's/ldh \[\$([0-9a-fA-F]{2})\]/ldh [$FF\1]/g; \
+        s/ldi \[hl\]/ld [hl+]/g; s/ldd \[hl\]/ld [hl-]/g' \
+    dmg_boot.asm > /tmp/dmg_boot.asm
+rgbasm -o /tmp/dmg_boot.o /tmp/dmg_boot.asm
+rgblink -o /tmp/dmg_boot.bin /tmp/dmg_boot.o   # 取前 256 字节
+
+# 4. 无头工具
+gcc -O2 -DGB_INTERNAL -DGB_VERSION='"1.0.4"' -I. -o /tmp/sameboy_capture \
     "$REPO/00_Tools/sameboy_capture.c" Core/*.c \
     $(pkg-config --cflags --libs libpng) -lm
 ```
+
+### v1.0 的 API 差异（踩过的坑）
+
+- `GB_run()` 在 v1.0 里只推进**一个 CPU step**（0.14 是跑到下一个 VBlank）。
+  要一帧一帧跑且保留渲染，必须自己循环到 `vblank_just_occured`；
+  直接用 `GB_run_frame()` 会开 turbo，而 turbo 会跳过渲染，录到的是旧画面。
+- `GB_set_vblank_callback` 的回调签名多了 `GB_vblank_type_t`。
+- `GB_log_attributes` 改名 `GB_log_attributes_t`，`dma_steps_left` 改名 `hdma_steps_left`。
+
+## 图形界面前端
+
+录像走的是 SDL 前端而不是无头工具：只有前端会跑 `Shaders/MonoLCD.fsh`，
+也只有它能把 shader 输出读回来。`00_Tools/sameboy_gui_capture.patch`
+（对 **v1.0.4** 生成，`git apply` 可直接打）给前端加了三样东西：
+
+- `SDL/configuration.c`：默认 `filter = "MonoLCD"`、`default_scale = 6`
+- `SDL/gui.c`：`capture_pending` 时把 shader 渲染到离屏 FBO 再 `glReadPixels`，
+  写出 RGB24；不调用 `SDL_GL_SwapWindow`，所以在 Xvfb/llvmpipe 里不会死锁
+- `SDL/main.c`：`--keys` / `--frames` / `--record` / `--record-from` / `--audio`
+
+前端计帧在 VBlank 回调里，且**只对真正渲染的帧计数**：
+REPEAT 帧不出新画面，`render_texture(NULL, NULL)` 这类空闲重绘也不能占用录制槽位，
+否则每段会少几帧。`--audio` 用 `GB_apu_set_sample_callback` 直接写 48 kHz WAV，
+门控放在 VBlank 里且要**多看一帧**（采样是在一帧运行期间产生的）。
 
 ## 启动 ROM（必需）
 

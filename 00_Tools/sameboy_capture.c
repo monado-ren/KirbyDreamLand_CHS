@@ -64,6 +64,17 @@ static void noop_log(GB_gameboy_t *gameboy, const char *string,
     (void) attributes;
 }
 
+/* Run exactly one visible frame without turbo mode.  SameBoy 1.0's GB_run()
+ * advances a single CPU step, and GB_run_frame() enables turbo, which skips
+ * rendering -- so the recorded pixels would go stale.  Looping until the
+ * VBlank flag is set is what SameBoy 0.14's GB_run() used to do. */
+static void run_one_frame(GB_gameboy_t *gameboy)
+{
+    do {
+        GB_run(gameboy);
+    } while (!gameboy->vblank_just_occured);
+}
+
 /* Checked once per frame; the original chain only ever stopped between frames. */
 static void vblank(GB_gameboy_t *gameboy)
 {
@@ -364,7 +375,7 @@ int main(int argc, char **argv)
             if (steps[s].frame != i) continue;
             for (unsigned k = 0; k < steps[s].count; k++)
                 GB_set_key_state(&gb, steps[s].keys[k], true);
-            for (unsigned hold = 0; hold < keys_hold; hold++) GB_run_frame(&gb);
+            for (unsigned hold = 0; hold < keys_hold; hold++) run_one_frame(&gb);
             for (unsigned k = 0; k < steps[s].count; k++)
                 GB_set_key_state(&gb, steps[s].keys[k], false);
         }
@@ -386,11 +397,11 @@ int main(int argc, char **argv)
                 unsigned ff46 = gb.io_registers[0x46];
                 unsigned line = gb.current_lcd_line;
                 static unsigned last_steps = 0;
-                if (gb.dma_steps_left && !last_steps) {
+                if (gb.hdma_steps_left && !last_steps) {
                     fprintf(trace, "%u DMA-start line=%u src=%04X pc=%04X b%u\n",
                             i, line, gb.dma_current_src, gb.pc, gb.mbc_rom_bank);
                 }
-                last_steps = gb.dma_steps_left;
+                last_steps = gb.hdma_steps_left;
                 if (line != last_line || ff46 != last_ff46
                     || shadow_hash != last_shadow || oam_hash != last_oam) {
                     if (oam_hash != last_oam && oam) {
@@ -417,7 +428,7 @@ int main(int argc, char **argv)
                 if (gb.vblank_just_occured) break;
             }
         } else {
-            GB_run_frame(&gb);
+            run_one_frame(&gb);
         }
         if (oam_log && i >= record_from && i < record_until) {
             size_t oam_size = 0;

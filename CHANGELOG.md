@@ -3,6 +3,25 @@
 > 本仓库与原开发工作区并行编号，`v0.5.2` 在两处含义不同；
 > 见 [版本谱系与并行编号](docs/VERSION_LINEAGE.md)。
 
+## v1.0.1 录像与捕获工具链升级到 SameBoy 1.0.4
+
+只动工具链，**ROM 与补丁哈希不变**（`bb754e25…` / `7a47e929…`）。
+
+- `00_Tools/sameboy_gui_capture.patch` 重制为对 **SameBoy v1.0.4** 生成，
+  `git apply` 可直接打；`SDL/configuration.c`、`SDL/gui.c`、`SDL/main.c` 三处。
+- `00_Tools/sameboy_capture.c` 适配 v1.0 的 API：`GB_run()` 现在只推进一个 CPU step，
+  改为循环到 `vblank_just_occured` 的自建 `run_one_frame()`（不能用 `GB_run_frame()`，
+  它会开 turbo 跳过渲染）；同时跟进回调签名与 `hdma_steps_left` 等改名。
+- 录像流程修正三处计帧/音频问题：
+  - REPEAT 帧不出新画面，不占录制槽位；
+  - `render_texture(NULL, NULL)` 的空闲重绘不再偷走 `capture_pending`；
+  - 音频门控多看一帧（采样是在一帧运行期间产生的），混流加 `apad` 兜底，
+    避免 `-shortest` 把末尾几帧画面截掉。
+- `docs/SAMEBOY_CAPTURE.md` 按 v1.0.4 重写构建步骤，并记录上述 API 差异。
+
+实测：成片 17299 帧 / 289.653s（与 0.14.2 版完全一致），音频 289.641s，
+片头 0–2.00s 静音、2.00s 起有声；分片码流在成片中逐字节原样出现（单次编码）。
+
 ## v1.0.0 首个公开发布
 
 把工程从「开发工作区」收束成可对外发布的形态。**ROM 内容与 v0.5.3 完全一致**
