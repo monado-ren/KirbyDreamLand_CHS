@@ -15,6 +15,10 @@ Pipeline
    cross-fades into run 01, and delay that segment's audio by 2 s to match,
    then concatenate the segments without re-encoding.
 
+The DMG picture is compressed exactly once: SameBoy hands out raw RGB24, the
+background is composited losslessly in the same filter graph, and every step
+after the libx264 pass (mux, concat) is ``-c copy``.
+
 The frontend must be the patched one from ``00_Tools/sameboy_gui_capture.patch``
 (``--keys`` / ``--frames`` / ``--record`` / ``--record-from`` / ``--audio``).
 
@@ -166,7 +170,7 @@ def record(name, rom, start, end, keys, args, out_dir, bg_path=None, card=None):
     encode = ["ffmpeg", "-y", "-loglevel", "error", *inputs,
               "-filter_complex", ";".join(graph), "-map", "[v]",
               "-r", FPS, "-c:v", "libx264", "-preset", "veryfast",
-              "-crf", "20", "-pix_fmt", "yuv420p", str(vid)]
+              "-crf", "18", "-pix_fmt", "yuv420p", str(vid)]
 
     proc = subprocess.Popen(capture, stdout=subprocess.DEVNULL,
                             stderr=subprocess.DEVNULL, env=env,
